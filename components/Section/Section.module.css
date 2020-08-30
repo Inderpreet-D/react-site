@@ -2,10 +2,9 @@
     width: var(--box-width);
     margin: 10px auto 0 auto;
     box-shadow: var(--box-shadow);
-    border: var(--box-border);
-    padding: 10px;
     box-sizing: border-box;
     background-color: var(--container-bg);
+    padding: 10px;
 }
 
 .Section button {
@@ -20,9 +19,27 @@
     margin-right: 15px;
 }
 
+.Section button:hover {
+    background-color: red;
+    cursor: pointer;
+}
+
+.TopBar {
+    padding: 10px;
+}
+
+.TopBar:hover {
+    cursor: pointer;
+}
+
 .SectionTitle {
     font-weight: bold;
     font-size: large;
+}
+
+.SectionTitle:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .SectionData {

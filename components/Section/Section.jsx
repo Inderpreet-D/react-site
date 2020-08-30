@@ -11,8 +11,12 @@ const Section = (props) => {
 
     return (
         <div className={styles.Section}>
-            <button onClick={toggleData}>&gt;</button>
-            <span className={styles.SectionTitle}>{props.title}</span>
+            <div className={styles.TopBar} onClick={toggleData}>
+                <button onClick={toggleData}>&gt;</button>
+                <span className={styles.SectionTitle} onClick={toggleData}>
+                    {props.title}
+                </span>
+            </div>
             {showData ? (
                 <div className={styles.SectionData}>{props.children}</div>
             ) : null}

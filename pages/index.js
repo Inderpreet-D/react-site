@@ -6,6 +6,7 @@ import Toolbar from "../components/Navigation/Toolbar";
 import LanguagesSection from "../containers/Home/Languages";
 import TechnologiesSection from "../containers/Home/Technologies";
 import EducationSection from "../containers/Home/Education";
+import ExperienceSection from "../containers/Home/Experience";
 
 const Home = () => {
     return (
@@ -20,6 +21,7 @@ const Home = () => {
             <LanguagesSection />
             <TechnologiesSection />
             <EducationSection />
+            <ExperienceSection />
         </Fragment>
     );
 };
