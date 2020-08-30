@@ -1,0 +1,30 @@
+.Section {
+    width: var(--box-width);
+    margin: 10px auto 0 auto;
+    box-shadow: var(--box-shadow);
+    border: var(--box-border);
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--container-bg);
+}
+
+.Section button {
+    border: 1px solid #ccc;
+    color: pink;
+    background-color: hotpink;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: large;
+    margin-right: 15px;
+}
+
+.SectionTitle {
+    font-weight: bold;
+    font-size: large;
+}
+
+.SectionData {
+    margin-top: 20px;
+}

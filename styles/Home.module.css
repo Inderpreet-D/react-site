@@ -1,6 +1,6 @@
 .Home {
-    margin: 76px auto;
-    width: 30%;
+    margin: 76px auto 20px auto;
+    width: var(--box-width);
     text-align: center;
     box-shadow: var(--box-shadow);
     border: var(--box-border);

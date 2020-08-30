@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap);
-
 :root {
     --toolbar-color: rgb(0, 0, 0);
     --nav-item-bg: rgba(117, 117, 117, 0.596);
@@ -7,6 +6,7 @@
     --box-shadow: 3px 3px 4px 1px rgb(65, 60, 60);
     --box-border: 1px solid #eee;
     --container-bg: white;
+    --box-width: 70%;
 }
 
 body {
