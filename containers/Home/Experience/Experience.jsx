@@ -47,13 +47,13 @@ const Experience = (props) => {
     ];
 
     const output = [];
-    let key = 3;
+    let key = 0;
     for (const date of jobs) {
         output.push(date);
-        if (key - 3 !== jobs.length - 1) {
-            output.push(<hr key={key} />);
-            key++;
+        if (key !== jobs.length - 1) {
+            output.push(<hr key={key + jobs.length} />);
         }
+        key++;
     }
 
     return <Section title="Experience">{output}</Section>;

@@ -7,6 +7,7 @@ import LanguagesSection from "../containers/Home/Languages";
 import TechnologiesSection from "../containers/Home/Technologies";
 import EducationSection from "../containers/Home/Education";
 import ExperienceSection from "../containers/Home/Experience";
+import PublicationSection from "../containers/Home/Publications";
 
 const Home = () => {
     return (
@@ -22,6 +23,7 @@ const Home = () => {
             <TechnologiesSection />
             <EducationSection />
             <ExperienceSection />
+            <PublicationSection />
         </Fragment>
     );
 };
