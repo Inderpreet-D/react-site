@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import Head from "next/head";
 
-import styles from "../styles/Home.module.css";
 import Toolbar from "../components/Navigation/Toolbar";
 import LanguagesSection from "../containers/Home/Languages";
 import TechnologiesSection from "../containers/Home/Technologies";
@@ -16,7 +15,7 @@ const Home = () => {
                 <title>Home</title>
             </Head>
             <Toolbar />
-            <div className={styles.Home}>
+            <div className="BorderedBox">
                 <h1>Inderpreet Dhillon</h1>
             </div>
             <LanguagesSection />

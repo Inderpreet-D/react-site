@@ -15,3 +15,14 @@ body {
     font-family: "Open Sans", sans-serif;
     background-color: rgb(194, 200, 255);
 }
+
+.BorderedBox {
+    margin: 76px auto 20px auto;
+    width: var(--box-width);
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    border: var(--box-border);
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--container-bg);
+}
