@@ -1,8 +1,8 @@
 .Card {
-    height: 300px;
+    height: auto;
     border: var(--box-border);
     box-shadow: 1px 1px 0 2px rgb(207, 207, 207);
-    margin: 5px 15px;
+    margin: 5px 15px 25px 15px;
     flex: 0 0 30%;
     box-sizing: border-box;
     position: relative;
@@ -19,22 +19,22 @@
     text-align: center;
 }
 
-.Image {
-    text-align: center;
-    width: 90%;
-    max-height: 50%;
-    height: auto;
-    margin: 5px 5px;
-}
-
-.DescriptionBlock {
-    position: absolute;
-    bottom: 10px;
-}
-
 .Description {
+    margin-top: 10px;
     text-align: left;
     padding: 10px;
     font-style: italic;
     box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.LinkBlock {
+    margin-top: 30px;
+}
+
+.Link {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 5px;
 }
