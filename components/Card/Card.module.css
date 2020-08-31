@@ -1,0 +1,40 @@
+.Card {
+    height: 300px;
+    border: var(--box-border);
+    box-shadow: 1px 1px 0 2px rgb(207, 207, 207);
+    margin: 5px 15px;
+    flex: 0 0 30%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.Card:hover {
+    border: 1px solid gold;
+    background-color: #eee;
+}
+
+.Title {
+    text-decoration: underline;
+    font-weight: bold;
+    text-align: center;
+}
+
+.Image {
+    text-align: center;
+    width: 90%;
+    max-height: 50%;
+    height: auto;
+    margin: 5px 5px;
+}
+
+.DescriptionBlock {
+    position: absolute;
+    bottom: 10px;
+}
+
+.Description {
+    text-align: left;
+    padding: 10px;
+    font-style: italic;
+    box-sizing: border-box;
+}
