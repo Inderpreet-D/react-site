@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const http = require("http");
 const express = require("express");
+const socketIO = require("socket.io");
 const { urlencoded } = require("body-parser");
 const cors = require("cors");
 const twilio = require("twilio");
@@ -26,29 +27,43 @@ app.use(urlencoded({ extended: false }));
 // Block browser from restricting data
 app.use(cors());
 
+// Init socket io
+const server = http.createServer(app);
+const io = socketIO(server);
+
 // Default route
 app.get("/", (req, res) => {
     res.send("Welcome to the Express Server");
 });
 
-// Web client sends messages to this endpoint
-app.get("/send-text", (req, res) => {
-    const { message } = req.query;
-    allMessages.push({ name: "Inderpreet", message: message });
+// Socket IO event handler
+io.on("connect", (socket) => {
+    // Retrieve all messages
+    socket.emit("messages", { messages: allMessages });
 
-    // Send text to all registered users with one second delay
-    Object.keys(users).forEach((number, idx) => {
-        setTimeout(() => {
-            client.messages
-                .create({
-                    body: message,
-                    to: number,
-                    from: PHONE_NUMBER,
-                })
-                .then((msg) => {
-                    console.log(`Sent ${msg.body} to ${users[number]}`);
-                });
-        }, idx * 1000);
+    // Get message from client
+    socket.on("send-message", (data) => {
+        const message = { name: "Inderpreet", message: data };
+        allMessages.push(message);
+        socket.emit("new-message", message);
+
+        Object.keys(users).forEach((number, idx) => {
+            setTimeout(() => {
+                client.messages
+                    .create({
+                        body: data,
+                        to: number,
+                        from: PHONE_NUMBER,
+                    })
+                    .then((msg) => {
+                        console.log(`Sent ${msg.body} to ${users[number]}`);
+                    });
+            }, idx * 1000);
+        });
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Disconnect");
     });
 });
 
@@ -58,7 +73,10 @@ app.post("/sms", (req, res) => {
     const message = req.body.Body;
 
     if (sender in users) {
-        allMessages.push({ name: users[sender], message: message });
+        // Store message and send to client
+        const msg = { name: users[sender], message: message };
+        allMessages.push(msg);
+        io.emit("new-message", msg);
         console.log(`${users[sender]} said: ${message}`);
     } else {
         // User registration on first message
@@ -77,10 +95,5 @@ app.post("/sms", (req, res) => {
     }
 });
 
-// Retrieve all messages
-app.get("/messages", (req, res) => {
-    res.send(allMessages);
-});
-
 // Start sever
-http.createServer(app).listen(4000, () => console.log("Running on Port 4000"));
+server.listen(4000, () => console.log("Running on Port 4000"));

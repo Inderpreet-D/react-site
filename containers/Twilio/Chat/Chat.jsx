@@ -2,26 +2,29 @@ import { Fragment, useState, useEffect } from "react";
 
 import styles from "./Chat.module.css";
 import Message from "./Message";
+import { socket } from "./socket";
+
+const MY_NAME = "Inderpreet";
+const PHONE_NUMBER = "+1 (205) 896 - 2409";
 
 const Chat = (props) => {
-    const myName = "Inderpreet";
-    const number = "+1 (205) 896 - 2409";
-
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        const messageFetcher = setInterval(() => {
-            fetch("http://localhost:4000/messages")
-                .then((res) => res.json())
-                .then((json) => {
-                    setMessages(json);
-                })
-                .catch((err) => console.log(err));
-        }, 1000);
+        const onMessage = (data) => {
+            setMessages(data.messages);
+        };
+        socket.on("messages", onMessage);
+
+        const onNewMessage = (data) => {
+            setMessages((messages) => messages.concat(data));
+        };
+        socket.on("new-message", onNewMessage);
 
         return () => {
-            clearInterval(messageFetcher);
+            socket.off("messages", onMessage);
+            socket.off("new-message", onNewMessage);
         };
     }, []);
 
@@ -29,9 +32,7 @@ const Chat = (props) => {
         event.preventDefault();
 
         if (message.length > 0) {
-            fetch(
-                `http://localhost:4000/send-text?message=${message}`
-            ).catch((err) => console.log(err));
+            socket.emit("send-message", message);
             setMessage("");
         }
     };
@@ -41,7 +42,7 @@ const Chat = (props) => {
             key={idx}
             name={message.name}
             message={message.message}
-            isMine={message.name === myName}
+            isMine={message.name === MY_NAME}
         />
     ));
 
@@ -51,7 +52,7 @@ const Chat = (props) => {
         <Fragment>
             <div className="BorderedBox">Twilio Test App</div>
             <div className={boxClass}>
-                Text your name to <b>{number}</b> to start
+                Text your name to <b>{PHONE_NUMBER}</b> to start
             </div>
             <div className={boxClass}>
                 <div className={styles.MessageArea}>{allMessages}</div>
