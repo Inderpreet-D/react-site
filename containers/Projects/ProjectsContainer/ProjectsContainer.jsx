@@ -40,14 +40,14 @@ Makes use of NodeJS as a backend and uses Google’s Firebase realtime database;
             key={key++}
             title="ART 321 Site"
             description="My website for a Net Art course I took in University."
-            href="/art321"
+            href="http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/ART321/index.html"
             hrefTitle="View ART 321"
         />,
         <Card
             key={key++}
             title="SENG 513 Site"
             description="Projects for a course in web applications."
-            href="/seng513"
+            href="http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/SENG513/index.html"
             hrefTitle="View SENG 513"
         />,
         <Card
