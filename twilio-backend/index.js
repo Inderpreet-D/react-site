@@ -1,5 +1,5 @@
 // To route the number to this pc use the following command
-// twilio phone-numbers:update "+12058962409" --sms-url="http://localhost:4000/sms"58962409" --sms-url="http://localhost:4000/sms"
+// twilio phone-numbers:update "+12058962409" --sms-url="http://localhost:4000/sms"
 
 require("dotenv").config();
 
