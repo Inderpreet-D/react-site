@@ -92,6 +92,8 @@ app.post("/sms", (req, res) => {
             .then((msg) =>
                 console.log(`Added user: ${message} - ${sender}\n\t${msg.body}`)
             );
+
+        io.emit("join", { name: message, isJoin: true });
     }
 });
 

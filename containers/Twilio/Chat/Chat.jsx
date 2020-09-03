@@ -22,9 +22,15 @@ const Chat = (props) => {
         };
         socket.on("new-message", onNewMessage);
 
+        const onJoin = (data) => {
+            setMessages((messages) => messages.concat(data));
+        };
+        socket.on("join", onJoin);
+
         return () => {
             socket.off("messages", onMessage);
             socket.off("new-message", onNewMessage);
+            socket.off("join", onJoin);
         };
     }, []);
 
@@ -43,6 +49,7 @@ const Chat = (props) => {
             name={message.name}
             message={message.message}
             isMine={message.name === MY_NAME}
+            isJoin={message.isJoin}
         />
     ));
 
