@@ -10,7 +10,7 @@ const Twilio = (props) => {
             <Head>
                 <title>Twilio Test App</title>
             </Head>
-            <Toolbar />
+            {/* <Toolbar /> */}
             <TwilioChat />
         </Fragment>
     );
