@@ -1,0 +1,66 @@
+.Buttons>* {
+    outline: none;
+    font-size: x-large;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    border: 3px solid black;
+}
+
+.Submit {
+    background-color: darkcyan;
+}
+
+.Submit:hover {
+    background-color: rgb(21, 184, 184);
+}
+
+.Create {
+    background-color: red;
+}
+
+.Create:hover {
+    background-color: rgb(255, 103, 103);
+}
+
+.Active {
+    text-decoration: underline;
+}
+
+.Join {
+    background-color: green;
+}
+
+.Join:hover {
+    background-color: rgb(93, 163, 93);
+}
+
+.Input {
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: white;
+    font: inherit;
+    padding: 6px 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 5px auto;
+}
+
+.Input:focus {
+    outline: none;
+    background-color: #ccc;
+}
+
+.Form {
+    margin: 10px auto 5px auto;
+    text-align: left;
+    width: 50%;
+}
+
+.Label {
+    display: block;
+}
+
+.Label>span {
+    margin-right: 10px;
+}
