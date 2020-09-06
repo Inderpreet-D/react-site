@@ -3,7 +3,7 @@ import React from "react";
 import Section from "../../../components/Section";
 import Article from "../../../components/Section/ArticleSection";
 
-const Publications = (props) => {
+const Publications = ({ expanded, clickHandler }) => {
     const articles = [
         <Article
             key={0}
@@ -49,7 +49,14 @@ use and development"
         key++;
     }
 
-    return <Section title="Publications">{output}</Section>;
+    return (
+        <Section
+            title="Publications"
+            data={output}
+            expanded={expanded}
+            clickHandler={clickHandler}
+        />
+    );
 };
 
 export default Publications;

@@ -1,23 +1,30 @@
-import { Fragment } from "react";
+import { AccordionDetails, Grid } from "@material-ui/core";
 
 import styles from "./DateSection.module.css";
 
 const DateSection = (props) => (
-    <Fragment>
-        <div className={styles.Place}>
-            <span className={styles.LeftSpan}>{props.work}</span>
-            <span className={styles.RightSpan}>{props.place}</span>
-        </div>
-        <div className={styles.Place}>
-            <span className={styles.LeftSpan}>{props.position}</span>
-            <span className={styles.RightSpan}>{props.date}</span>
-        </div>
-        <ul className={styles.Points}>
+    <AccordionDetails>
+        <Grid container spacing={3}>
+            <Grid item xs={6} className={styles.LeftSpan}>
+                {props.work}
+            </Grid>
+            <Grid item xs={6} className={styles.RightSpan}>
+                {props.place}
+            </Grid>
+            <Grid item xs={9} className={styles.LeftSpan}>
+                {props.position}
+            </Grid>
+            <Grid item xs={3} className={styles.RightSpan}>
+                {props.date}
+            </Grid>
             {props.points.map((point, idx) => (
-                <li key={idx}>{point}</li>
+                <Grid key={idx} item xs={12} className={styles.Points}>
+                    &#10148;{"  "}
+                    {point}
+                </Grid>
             ))}
-        </ul>
-    </Fragment>
+        </Grid>
+    </AccordionDetails>
 );
 
 export default DateSection;

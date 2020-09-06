@@ -1,28 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap);
-:root {
-    --toolbar-color: rgb(0, 0, 0);
-    --nav-item-bg: rgba(117, 117, 117, 0.596);
-    --nav-item-underline: rgb(62, 204, 255);
-    --box-shadow: 3px 3px 4px 1px rgb(65, 60, 60);
-    --box-border: 1px solid #eee;
-    --container-bg: white;
-    --box-width: 70%;
-}
-
 body {
     margin: 0;
     padding: 0;
-    font-family: "Open Sans", sans-serif;
-    background-color: rgb(194, 200, 255);
-}
-
-.BorderedBox {
-    margin: 76px auto 20px auto;
-    width: var(--box-width);
-    text-align: center;
-    box-shadow: var(--box-shadow);
-    border: var(--box-border);
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: var(--container-bg);
 }

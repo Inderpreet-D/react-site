@@ -3,7 +3,7 @@ import React from "react";
 import Section from "../../../components/Section";
 import DateSection from "../../../components/Section/DateSection";
 
-const Experience = (props) => {
+const Experience = ({ expanded, clickHandler }) => {
     const jobs = [
         <DateSection
             key={0}
@@ -56,7 +56,14 @@ const Experience = (props) => {
         key++;
     }
 
-    return <Section title="Experience">{output}</Section>;
+    return (
+        <Section
+            title="Experience"
+            data={output}
+            expanded={expanded}
+            clickHandler={clickHandler}
+        />
+    );
 };
 
 export default Experience;

@@ -1,9 +1,7 @@
-import React from "react";
-
 import Section from "../../../components/Section";
-import SectionData from "../../../components/Section/SectionData";
+import DataSection from "../../../components/Section/DataSection";
 
-const Technologies = (props) => {
+const Technologies = ({ expanded, clickHandler }) => {
     const experience = {
         Android: "5 Years",
         Latex: "5 Years",
@@ -17,10 +15,17 @@ const Technologies = (props) => {
     };
 
     let data = Object.keys(experience).map((key) => (
-        <SectionData key={key} title={key} data={experience[key]} />
+        <DataSection key={key} title={key} value={experience[key]} />
     ));
 
-    return <Section title="Technologies">{data}</Section>;
+    return (
+        <Section
+            title="Technologies"
+            data={data}
+            expanded={expanded}
+            clickHandler={clickHandler}
+        />
+    );
 };
 
 export default Technologies;

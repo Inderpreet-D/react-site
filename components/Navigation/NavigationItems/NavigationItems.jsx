@@ -1,16 +1,15 @@
-import React from "react";
+import { Tabs } from "@material-ui/core";
 
-import styles from "./NavigationItems.module.css";
 import NavigationItem from "./NavigationItem";
 
 const NavigationItems = (props) => {
     return (
-        <ul className={styles.NavigationItems}>
+        <Tabs value={false}>
             <NavigationItem link="/">Home</NavigationItem>
             <NavigationItem link="/projects">Projects</NavigationItem>
             <NavigationItem link="/twilio">Twilio Test</NavigationItem>
             <NavigationItem link="/treachery">MTG Treachery</NavigationItem>
-        </ul>
+        </Tabs>
     );
 };
 

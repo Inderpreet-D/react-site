@@ -1,9 +1,7 @@
-import React from "react";
-
 import Section from "../../../components/Section";
-import SectionData from "../../../components/Section/SectionData";
+import DataSection from "../../../components/Section/DataSection";
 
-const Languages = (props) => {
+const Languages = ({ expanded, clickHandler }) => {
     const experience = {
         Python: "10 Years",
         Java: "8 Years",
@@ -17,10 +15,17 @@ const Languages = (props) => {
     };
 
     let data = Object.keys(experience).map((key) => (
-        <SectionData key={key} title={key} data={experience[key]} />
+        <DataSection key={key} title={key} value={experience[key]} />
     ));
 
-    return <Section title="Languages">{data}</Section>;
+    return (
+        <Section
+            title="Languages"
+            data={data}
+            expanded={expanded}
+            clickHandler={clickHandler}
+        />
+    );
 };
 
 export default Languages;
