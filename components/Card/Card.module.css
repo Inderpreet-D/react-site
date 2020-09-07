@@ -1,40 +1,14 @@
-.Card {
-    height: auto;
-    border: var(--box-border);
-    box-shadow: 1px 1px 0 2px rgb(207, 207, 207);
-    margin: 5px 15px 25px 15px;
-    flex: 0 0 30%;
-    box-sizing: border-box;
-    position: relative;
-}
-
-.Card:hover {
-    border: 1px solid gold;
-    background-color: #eee;
-}
-
 .Title {
     text-decoration: underline;
-    font-weight: bold;
+    font-size: 14px;
     text-align: center;
 }
 
 .Description {
-    margin-top: 10px;
-    text-align: left;
-    padding: 10px;
     font-style: italic;
     box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-.LinkBlock {
-    margin-top: 30px;
 }
 
 .Link {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 5px;
+    color: rgb(42, 195, 255);
 }

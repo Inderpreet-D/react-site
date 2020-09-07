@@ -2,6 +2,7 @@ import React from "react";
 
 import styles from "./ProjectsContainer.module.css";
 import Card from "../../../components/Card";
+import { Grid } from "@material-ui/core";
 
 const ProjectsContainer = (props) => {
     let key = 0;
@@ -73,7 +74,11 @@ Makes use of NodeJS as a backend and uses Google’s Firebase realtime database;
         />,
     ];
 
-    return <div className={styles.Grid + " BorderedBox"}>{cards}</div>;
+    return (
+        <Grid container spacing={2} className={styles.Grid}>
+            {cards}
+        </Grid>
+    );
 };
 
 export default ProjectsContainer;

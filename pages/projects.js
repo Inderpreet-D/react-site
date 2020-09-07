@@ -11,7 +11,7 @@ const Projects = () => {
                 <title>Projects</title>
             </Head>
             <Toolbar />
-            <div className="BorderedBox">
+            <div style={{ textAlign: "center" }}>
                 <h1>My Projects</h1>
             </div>
             <ProjectsSection />
