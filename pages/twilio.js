@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Head from "next/head";
 
 import Toolbar from "../components/Navigation/Toolbar";
+import Footer from "../components/Footer";
 import TwilioChat from "../containers/Twilio/Chat";
 
 const Twilio = (props) => {
@@ -12,6 +13,7 @@ const Twilio = (props) => {
             </Head>
             {/* <Toolbar /> */}
             <TwilioChat />
+            {/* <Footer /> */}
         </Fragment>
     );
 };
