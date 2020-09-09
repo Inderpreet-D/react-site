@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Paper, Button, makeStyles } from "@material-ui/core";
+import { Fragment, useState } from "react";
+import { Button } from "@material-ui/core";
 
 import JoinRoomForm from "./JoinRoomForm";
 import CreateRoomForm from "./CreateRoomForm";
@@ -7,20 +7,7 @@ import CreateRoomForm from "./CreateRoomForm";
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        "& > *": {
-            margin: theme.spacing(1),
-        },
-        margin: "0 auto",
-        width: "50%",
-        textAlign: "center",
-    },
-}));
-
-const Main = ({ onJoin, onCreate }) => {
-    const classes = useStyles();
-
+const Main = ({ onJoin, onCreate, forwardClasses }) => {
     const [isJoining, setIsJoining] = useState(true);
     const [roomCode, setRoomCode] = useState("");
 
@@ -77,7 +64,7 @@ const Main = ({ onJoin, onCreate }) => {
     };
 
     return (
-        <Paper variant="outlined" className={classes.root}>
+        <Fragment>
             <Button
                 disabled={isJoining}
                 {...buttonProps}
@@ -95,7 +82,7 @@ const Main = ({ onJoin, onCreate }) => {
 
             <form
                 onSubmit={submitForm}
-                className={classes.root}
+                className={forwardClasses.root}
                 style={{ width: "100%" }}
             >
                 {form}
@@ -104,7 +91,7 @@ const Main = ({ onJoin, onCreate }) => {
                     {isJoining ? "Join" : "Create"}
                 </Button>
             </form>
-        </Paper>
+        </Fragment>
     );
 };
 
