@@ -4,9 +4,12 @@
     top: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    box-shadow: var(--box-shadow);
-    border: var(--box-border);
-    padding: 20px 40px;
-    box-sizing: border-box;
-    background-color: var(--container-bg);
+}
+
+.Error>* {
+    padding: 20px;
+}
+
+.Link {
+    color: rgb(62, 204, 255)
 }
