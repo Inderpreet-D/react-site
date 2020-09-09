@@ -1,8 +1,7 @@
-import { Fragment, useState } from "react";
-import Head from "next/head";
+import { useState } from "react";
 
-import Toolbar from "../components/Navigation/Toolbar";
 import styles from "../styles/Secret.module.css";
+import Page from "../components/Page";
 import { part1, part2, part3, decode } from "../secret-helper";
 
 const Secret = () => {
@@ -10,11 +9,7 @@ const Secret = () => {
     const nextClasses = [styles.BorderedBox, styles.BorderedNext].join(" ");
 
     return (
-        <Fragment>
-            <Head>
-                <title>Secret</title>
-            </Head>
-            <Toolbar />
+        <Page title="Secret">
             <div className={styles.BorderedBox}>
                 <p className={styles.TopText}>{decode(userInput, part1)}</p>
             </div>
@@ -37,7 +32,7 @@ const Secret = () => {
                     />
                 </form>
             </div>
-        </Fragment>
+        </Page>
     );
 };
 

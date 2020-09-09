@@ -1,8 +1,6 @@
-import { Fragment, useState } from "react";
-import Head from "next/head";
+import { useState } from "react";
 
-import Toolbar from "../components/Navigation/Toolbar";
-import Footer from "../components/Footer";
+import Page from "../components/Page";
 import LanguagesSection from "../containers/Home/Languages";
 import TechnologiesSection from "../containers/Home/Technologies";
 import EducationSection from "../containers/Home/Education";
@@ -21,11 +19,7 @@ const Home = () => {
     };
 
     return (
-        <Fragment>
-            <Head>
-                <title>Home</title>
-            </Head>
-            <Toolbar />
+        <Page title="Home">
             <div style={{ textAlign: "center" }}>
                 <h1>Inderpreet Dhillon</h1>
             </div>
@@ -49,8 +43,7 @@ const Home = () => {
                 expanded={exIdx === 4}
                 clickHandler={() => clickHandler(4)}
             />
-            <Footer />
-        </Fragment>
+        </Page>
     );
 };
 
