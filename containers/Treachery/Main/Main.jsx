@@ -1,11 +1,26 @@
-import React, { useState, useCallback, Fragment } from "react";
+import React, { useState } from "react";
+import { Paper, Button, makeStyles } from "@material-ui/core";
 
-import styles from "./Main.module.css";
+import JoinRoomForm from "./JoinRoomForm";
+import CreateRoomForm from "./CreateRoomForm";
 
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
-const Main = ({ createHandler, joinHandler }) => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        "& > *": {
+            margin: theme.spacing(1),
+        },
+        margin: "0 auto",
+        width: "50%",
+        textAlign: "center",
+    },
+}));
+
+const Main = ({ onJoin, onCreate }) => {
+    const classes = useStyles();
+
     const [isJoining, setIsJoining] = useState(true);
     const [roomCode, setRoomCode] = useState("");
 
@@ -14,13 +29,21 @@ const Main = ({ createHandler, joinHandler }) => {
         playerOptions[0]
     );
 
+    const onPlayerNumSelectedHandler = (event) => {
+        setSelectedPlayerNum(event.target.value);
+    };
+
+    const onRaritySelectedHandler = (event) => {
+        setSelectedRarity(event.target.value);
+    };
+
     const submitForm = (event) => {
         event.preventDefault();
 
         if (isJoining) {
-            joinHandler();
+            onJoin(roomCode);
         } else {
-            createHandler();
+            onCreate(selectedPlayerNum, selectedRarity);
         }
     };
 
@@ -33,85 +56,55 @@ const Main = ({ createHandler, joinHandler }) => {
         }
     };
 
-    let form = (
-        <input
-            className={styles.Input}
-            value={roomCode}
-            onChange={formChangeHandler}
-            placeholder="Enter 4-Letter Room Code"
-            pattern="[a-zA-Z]{4}"
-            required
-        />
-    );
+    let form = <JoinRoomForm value={roomCode} formChange={formChangeHandler} />;
+
     if (!isJoining) {
         form = (
-            <Fragment>
-                <label className={styles.Label}>
-                    <span>Number of Players</span>
-                    <select
-                        className={styles.Input}
-                        value={selectedPlayerNum}
-                        onChange={(event) =>
-                            setSelectedPlayerNum(event.target.value)
-                        }
-                    >
-                        {playerOptions.map((option) => (
-                            <option key={option} value={option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label className={styles.Label}>
-                    <span>Rarity</span>
-                    <select
-                        className={styles.Input}
-                        value={selectedRarity}
-                        onChange={(event) =>
-                            setSelectedRarity(event.target.value)
-                        }
-                    >
-                        {rarityOptions.map((option) => (
-                            <option key={option} value={option}>
-                                {option}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-            </Fragment>
+            <CreateRoomForm
+                selectedPlayerNum={selectedPlayerNum}
+                onPlayerNumSelected={onPlayerNumSelectedHandler}
+                selectedRarity={selectedRarity}
+                onRaritySelected={onRaritySelectedHandler}
+                playerOptions={playerOptions}
+                rarityOptions={rarityOptions}
+            />
         );
     }
 
-    const createButtonStyles = [styles.Create, isJoining ? "" : styles.Active];
-    const joinButtonStyles = [styles.Join, isJoining ? styles.Active : ""];
+    const buttonProps = {
+        variant: "contained",
+        color: "secondary",
+    };
 
     return (
-        <div className="BorderedBox">
-            <h1>MTG Treachery</h1>
-            <hr />
+        <Paper variant="outlined" className={classes.root}>
+            <Button
+                disabled={isJoining}
+                {...buttonProps}
+                onClick={() => setIsJoining(true)}
+            >
+                Join Room
+            </Button>
+            <Button
+                disabled={!isJoining}
+                {...buttonProps}
+                onClick={() => setIsJoining(false)}
+            >
+                Create Room
+            </Button>
 
-            <div className={styles.Buttons}>
-                <button
-                    className={createButtonStyles.join(" ")}
-                    onClick={() => setIsJoining(false)}
-                >
-                    Create
-                </button>
-                <button
-                    className={joinButtonStyles.join(" ")}
-                    onClick={() => setIsJoining(true)}
-                >
-                    Join
-                </button>
-            </div>
-
-            <form onSubmit={submitForm}>
-                <div className={styles.Form}>{form}</div>
-                <div className={styles.Buttons}>
-                    <button className={styles.Submit}>Submit</button>
-                </div>
+            <form
+                onSubmit={submitForm}
+                className={classes.root}
+                style={{ width: "100%" }}
+            >
+                {form}
+                <br />
+                <Button {...buttonProps} type="submit">
+                    {isJoining ? "Join" : "Create"}
+                </Button>
             </form>
-        </div>
+        </Paper>
     );
 };
 
