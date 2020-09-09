@@ -1,4 +1,3 @@
-import React from "react";
 import { AppBar } from "@material-ui/core";
 
 import NavigationItems from "../NavigationItems";
