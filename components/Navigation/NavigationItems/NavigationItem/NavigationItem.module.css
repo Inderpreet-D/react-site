@@ -2,6 +2,7 @@
     box-sizing: border-box;
     display: block;
     width: auto;
+    height: 50px;
 }
 
 .NavigationItem a {
@@ -13,9 +14,7 @@
     display: block;
 }
 
-.NavigationItem a:hover,
-.NavigationItem a:active,
-.NavigationItem a.active {
+.NavigationItem a:hover, .NavigationItem a:active, .NavigationItem a.active {
     color: rgb(62, 204, 255);
     background-color: rgba(117, 117, 117, 0.596);
     border-bottom: 4px solid rgb(62, 204, 255);
