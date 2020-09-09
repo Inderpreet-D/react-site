@@ -1,4 +1,4 @@
-import React from "react";
+import { Fragment, useEffect } from "react";
 import Head from "next/head";
 import { ThemeProvider, CssBaseline, createMuiTheme } from "@material-ui/core";
 
@@ -9,7 +9,7 @@ const theme = createMuiTheme({ palette: { type: "dark" } });
 export default function MyApp(props) {
     const { Component, pageProps } = props;
 
-    React.useEffect(() => {
+    useEffect(() => {
         // Remove the server-side injected CSS.
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {
@@ -18,7 +18,7 @@ export default function MyApp(props) {
     }, []);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <Head>
                 <meta
                     name="viewport"
@@ -30,6 +30,6 @@ export default function MyApp(props) {
                 <CssBaseline />
                 <Component {...pageProps} />
             </ThemeProvider>
-        </React.Fragment>
+        </Fragment>
     );
 }
