@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Paper, Button, makeStyles } from "@material-ui/core";
 
 import JoinRoomForm from "./JoinRoomForm";

@@ -1,5 +1,3 @@
-import React from "react";
-
 import Section from "../../../components/Section";
 import DateSection from "../../../components/Section/DateSection";
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 import styles from "./ProjectsContainer.module.css";
 import Card from "../../../components/Card";
 import { Grid } from "@material-ui/core";

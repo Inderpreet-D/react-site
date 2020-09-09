@@ -1,5 +1,3 @@
-import React from "react";
-
 const Room = ({ roomCode, numPlayers, roomSize }) => {
     return (
         <div className="BorderedBox">
