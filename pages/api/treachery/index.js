@@ -1,16 +1,9 @@
-import rooms from "./state";
-
-export default (req, res) => {
-    const { roomCode } = req.query;
-    console.log("Requested room", roomCode);
+export const send = (res, data) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-    res.send(JSON.stringify({ name: "Treachery MTG Endpoint" }));
+    res.send(JSON.stringify(data));
+};
 
-    // state.counter++;
-    // res.statusCode = 200;
-    // res.setHeader("Content-Type", "application/json");
-    // res.send(
-    //     JSON.stringify({ name: "Treachery MTG Endpoint", count: state.counter })
-    // );
+export default (req, res) => {
+    send(res, { name: "Treachery MTG Echo Endpoint", ...req.query });
 };
