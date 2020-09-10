@@ -36,7 +36,7 @@ const Treachery = () => {
 
     const onJoinHandler = (roomCode) => {
         console.log(`Trying to join ${roomCode}`);
-        axios.get(`/api/treachery?roomCode=${roomCode}`).then((res) => {
+        axios.get(`/api/treachery/create?roomCode=${roomCode}`).then((res) => {
             console.log(res.data);
         });
     };
