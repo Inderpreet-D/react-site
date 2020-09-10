@@ -4,7 +4,7 @@ import TwilioChat from "../containers/Twilio/Chat";
 const Twilio = (props) => {
     return (
         // <Page title="Twilio Test App">
-        <TwilioChat />
+        // <TwilioChat />
         // </Page>
     );
 };
