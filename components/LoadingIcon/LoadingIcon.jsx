@@ -4,11 +4,11 @@ import styles from "./LoadingIcon.module.css";
 
 const LoadingIcon = () => {
     const [colors, setColors] = useState([
-        "rgb(0, 115, 62)",
-        "rgb(14, 104, 171)",
-        "rgb(211, 32, 42)",
-        "rgb(249, 250, 244)",
-        "rgb(166, 159, 157)",
+        "rgb(0, 115, 62)", // Green
+        "rgb(211, 32, 42)", // Red
+        "rgb(21, 11, 0)", // Black
+        "rgb(14, 104, 171)", // Blue
+        "rgb(249, 250, 244)", // White
     ]);
 
     setTimeout(() => {
