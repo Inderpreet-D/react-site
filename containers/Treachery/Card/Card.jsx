@@ -1,17 +1,18 @@
 import { Fragment } from "react";
 
 import styles from "./Card.module.css";
+import { Paper } from "@material-ui/core";
 
-const Card = ({ role, imgSrc }) => {
+const Card = ({ role, imgSrc, winCondition }) => {
     return (
         <Fragment>
-            <div className="BorderedBox">
-                <h1>Your Role is {role}</h1>
+            <h1>Your Role is {role}</h1>
+            <div className={styles.Card}>
+                <img src={imgSrc} />
             </div>
-            <div className="BorderedBox">
-                <img className={styles.Card} src="/favicon.ico" />
-                {imgSrc}
-            </div>
+            <Paper elevation={10}>
+                <h3>{winCondition}</h3>
+            </Paper>
         </Fragment>
     );
 };
