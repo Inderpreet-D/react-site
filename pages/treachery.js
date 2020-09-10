@@ -6,6 +6,7 @@ import Page from "../components/Page";
 import Main from "../containers/Treachery/Main";
 import Room from "../containers/Treachery/Room";
 import Card from "../containers/Treachery/Card";
+import LoadingIcon from "../components/LoadingIcon";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,13 +37,21 @@ const Treachery = () => {
 
     const onJoinHandler = (roomCode) => {
         console.log(`Trying to join ${roomCode}`);
-        axios.get(`/api/treachery/create?roomCode=${roomCode}`).then((res) => {
+        axios.get("/api/treachery").then((res) => {
             console.log(res.data);
         });
     };
 
     const onCreateHandler = (numPlayers, rarity) => {
-        console.log(`Building room for ${numPlayers} with rarity of ${rarity}`);
+        setState(-1);
+        axios
+            .get(
+                `/api/treachery/create?numPlayers=${numPlayers}&rarity=${rarity}`
+            )
+            .then((res) => {
+                console.log(res.data);
+                setState(STATES.Main);
+            });
     };
 
     let page;
@@ -71,7 +80,7 @@ const Treachery = () => {
             );
             break;
         default:
-            page = <h1>Something went wrong!</h1>;
+            page = <LoadingIcon />;
     }
 
     return (
