@@ -1,0 +1,29 @@
+{
+  "OCSF": {
+    "numPlayers": 4,
+    "currentPlayers": 4,
+    "cards": [
+      "/treachery/Traitor/Uncommon/The Banisher.jpg",
+      "/treachery/Leader/Uncommon/The Old Ruler.jpg",
+      "/treachery/Assassin/Uncommon/The Beastmaster.jpg",
+      "/treachery/Assassin/Uncommon/The Pyromancer.jpg"
+    ],
+    "ids": { "OIZI": 0, "GNSW": 1, "RAVK": 2, "KJLS": 3 },
+    "nextIDX": 4
+  },
+  "JYEZ": {
+    "numPlayers": 7,
+    "currentPlayers": 1,
+    "cards": [
+      "/treachery/Assassin/Mythic/The Depths Caller.jpg",
+      "/treachery/Leader/Mythic/The Gathering.jpg",
+      "/treachery/Assassin/Mythic/The Shapeshifting Slayer.jpg",
+      "/treachery/Traitor/Mythic/The Ferryman.jpg",
+      "/treachery/Guardian/Mythic/The Great Martyr.jpg",
+      "/treachery/Guardian/Mythic/The Oracle.jpg",
+      "/treachery/Assassin/Mythic/The Bio-Engineer.jpg"
+    ],
+    "ids": { "QDBK": 0 },
+    "nextIDX": 1
+  }
+}
