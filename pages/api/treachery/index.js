@@ -76,7 +76,6 @@ export default (req, res) => {
     result = rooms;
   } else if (action === "create") {
     result = handleRoomCreation(payload, rooms);
-    console.log("Created", rooms);
   } else if (action === "join") {
     result = handleRoomJoin(payload, rooms);
   } else if (action === "room") {
