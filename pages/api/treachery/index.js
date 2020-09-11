@@ -1,22 +1,10 @@
-import fs from "fs";
-
 import * as helpers from "./helper";
-
-const ROOM_PATH = "public/treacheryRooms.json";
-
-const readRooms = () => {
-  return JSON.parse(fs.readFileSync(ROOM_PATH));
-};
-
-const writeRooms = (rooms) => {
-  fs.writeFileSync(ROOM_PATH, JSON.stringify(rooms));
-};
 
 const handleRoomCreation = (payload, rooms) => {
   const { numPlayers, rarity } = payload;
 
-  const roomCode = helpers.getUniqueRoomCode(rooms);
-  const id = helpers.getUniqueRoomCode({});
+  const roomCode = helpers.generateUniqueCode(rooms);
+  const id = helpers.generateUniqueCode({});
 
   rooms[roomCode] = {
     numPlayers: +numPlayers,
@@ -26,7 +14,7 @@ const handleRoomCreation = (payload, rooms) => {
     nextIDX: 1,
   };
 
-  writeRooms(rooms);
+  helpers.writeRooms(rooms);
 
   return { roomCode: roomCode, id: id };
 };
@@ -40,11 +28,11 @@ const handleRoomJoin = (payload, rooms) => {
 
   const ids = rooms[roomCode].ids;
   if (!id) {
-    const newId = helpers.getUniqueRoomCode(ids);
+    const newId = helpers.generateUniqueCode(ids);
     rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX;
     rooms[roomCode].nextIDX++;
     rooms[roomCode].currentPlayers++;
-    writeRooms(rooms);
+    helpers.writeRooms(rooms);
     return {
       roomCode: roomCode,
       id: newId,
@@ -69,7 +57,7 @@ const handleRoomPing = (payload, rooms) => {
 
 export default (req, res) => {
   const { action, ...payload } = req.query;
-  const rooms = readRooms();
+  const rooms = helpers.readRooms();
 
   let result;
   if (!action) {

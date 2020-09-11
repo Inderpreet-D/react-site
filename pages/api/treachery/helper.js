@@ -1,6 +1,15 @@
 import fs from "fs";
 
-const roles = JSON.parse(fs.readFileSync("public/treacheryRoles.json"));
+const ROLES = JSON.parse(fs.readFileSync("public/treacheryRoles.json"));
+const ROOM_PATH = "public/treacheryRooms.json";
+
+export const readRooms = () => {
+  return JSON.parse(fs.readFileSync(ROOM_PATH));
+};
+
+export const writeRooms = (rooms) => {
+  fs.writeFileSync(ROOM_PATH, JSON.stringify(rooms));
+};
 
 export const send = (res, data) => {
   res.statusCode = 200;
@@ -8,14 +17,14 @@ export const send = (res, data) => {
   res.send(JSON.stringify(data));
 };
 
-export const getUniqueRoomCode = (rooms) => {
+export const generateUniqueCode = (codeSet) => {
   let code = "";
   for (let i = 0; i < 4; i++) {
     code += String.fromCharCode(65 + Math.floor(Math.random() * 26));
   }
 
-  if (code in rooms) {
-    return getUniqueRoomCode(rooms);
+  if (code in codeSet) {
+    return generateUniqueCode(codeSet);
   } else {
     return code;
   }
@@ -23,7 +32,7 @@ export const getUniqueRoomCode = (rooms) => {
 
 const chooseN = (cardType, rarity, amount) => {
   const chosen = [];
-  const cards = roles[cardType][rarity];
+  const cards = ROLES[cardType][rarity];
   while (chosen.length != amount) {
     const item = `/treachery/${cardType}/${rarity}/${
       cards[Math.floor(Math.random() * cards.length)]
