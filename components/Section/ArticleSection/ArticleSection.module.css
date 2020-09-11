@@ -1,25 +1,25 @@
 .Title {
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .Title a {
-    color: rgb(87, 179, 255);
+  color: rgb(87, 179, 255);
 }
 
 .Authors {
-    text-align: center;
+  text-align: center;
 }
 
 .AuthorMe {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .Description {
-    margin: 10px 0 5px 0;
-    font-style: italic;
+  margin: 10px 0 5px 0;
+  font-style: italic;
 }
 
 .Link {
-    text-align: right;
+  text-align: right;
 }

@@ -1,80 +1,80 @@
 {
-    "Guardian": {
-        "Mythic": ["The Great Martyr.jpg", "The Oracle.jpg", "The Warlock.jpg"],
-        "Rare": [
-            "The Aetherist.jpg",
-            "The Augur.jpg",
-            "The Cryomancer.jpg",
-            "The Immortal.jpg",
-            "The Marshal.jpg",
-            "The Summoner.jpg",
-            "The Supplier.jpg"
-        ],
-        "Uncommon": [
-            "The Bodyguard.jpg",
-            "The Cathar.jpg",
-            "The Flickering Mage.jpg",
-            "The Golem.jpg",
-            "The Hieromancer.jpg",
-            "The Spellsnatcher.jpg"
-        ]
-    },
-    "Assassin": {
-        "Mythic": [
-            "The Bio-Engineer.jpg",
-            "The Depths Caller.jpg",
-            "The Shapeshifting Slayer.jpg"
-        ],
-        "Rare": [
-            "The Ambitious Queen.jpg",
-            "The Corpse Snatcher.jpg",
-            "The Madwoman.jpg",
-            "The Necromancer.jpg",
-            "The Rebel General.jpg",
-            "The War Shaman.jpg"
-        ],
-        "Uncommon": [
-            "The Beastmaster.jpg",
-            "The Demon.jpg",
-            "The Pyromancer.jpg",
-            "The Seer.jpg",
-            "The Sigil Mage.jpg",
-            "The Sorceress.jpg",
-            "The Witch.jpg"
-        ]
-    },
-    "Traitor": {
-        "Mythic": [
-            "The Ferryman.jpg",
-            "The Metamorph.jpg",
-            "The Puppet Master.jpg",
-            "The Wearer of Masks.jpg"
-        ],
-        "Rare": ["The Cleaner.jpg", "The Reflector.jpg", "The Time Bender.jpg"],
-        "Uncommon": [
-            "The Banisher.jpg",
-            "The Gatekeeper.jpg",
-            "The Grenadier.jpg",
-            "The Oneiromancer.jpg"
-        ]
-    },
-    "Leader": {
-        "Mythic": [
-            "His Beloved Majesty.jpg",
-            "The Corrupted Regent.jpg",
-            "The Gathering.jpg"
-        ],
-        "Rare": [
-            "The Chaos Bringer.jpg",
-            "The King over the Scrapyard.jpg",
-            "The Twin Princesses.jpg",
-            "The Void Tyrant.jpg"
-        ],
-        "Uncommon": [
-            "Her Seedborn Highness.jpg",
-            "The Blood Empress.jpg",
-            "The Old Ruler.jpg",
-            "The Queen of Light.jpg"
-        ]
-    }
+  "Guardian": {
+    "Mythic": ["The Great Martyr.jpg", "The Oracle.jpg", "The Warlock.jpg"],
+    "Rare": [
+      "The Aetherist.jpg",
+      "The Augur.jpg",
+      "The Cryomancer.jpg",
+      "The Immortal.jpg",
+      "The Marshal.jpg",
+      "The Summoner.jpg",
+      "The Supplier.jpg"
+    ],
+    "Uncommon": [
+      "The Bodyguard.jpg",
+      "The Cathar.jpg",
+      "The Flickering Mage.jpg",
+      "The Golem.jpg",
+      "The Hieromancer.jpg",
+      "The Spellsnatcher.jpg"
+    ]
+  },
+  "Assassin": {
+    "Mythic": [
+      "The Bio-Engineer.jpg",
+      "The Depths Caller.jpg",
+      "The Shapeshifting Slayer.jpg"
+    ],
+    "Rare": [
+      "The Ambitious Queen.jpg",
+      "The Corpse Snatcher.jpg",
+      "The Madwoman.jpg",
+      "The Necromancer.jpg",
+      "The Rebel General.jpg",
+      "The War Shaman.jpg"
+    ],
+    "Uncommon": [
+      "The Beastmaster.jpg",
+      "The Demon.jpg",
+      "The Pyromancer.jpg",
+      "The Seer.jpg",
+      "The Sigil Mage.jpg",
+      "The Sorceress.jpg",
+      "The Witch.jpg"
+    ]
+  },
+  "Traitor": {
+    "Mythic": [
+      "The Ferryman.jpg",
+      "The Metamorph.jpg",
+      "The Puppet Master.jpg",
+      "The Wearer of Masks.jpg"
+    ],
+    "Rare": ["The Cleaner.jpg", "The Reflector.jpg", "The Time Bender.jpg"],
+    "Uncommon": [
+      "The Banisher.jpg",
+      "The Gatekeeper.jpg",
+      "The Grenadier.jpg",
+      "The Oneiromancer.jpg"
+    ]
+  },
+  "Leader": {
+    "Mythic": [
+      "His Beloved Majesty.jpg",
+      "The Corrupted Regent.jpg",
+      "The Gathering.jpg"
+    ],
+    "Rare": [
+      "The Chaos Bringer.jpg",
+      "The King over the Scrapyard.jpg",
+      "The Twin Princesses.jpg",
+      "The Void Tyrant.jpg"
+    ],
+    "Uncommon": [
+      "Her Seedborn Highness.jpg",
+      "The Blood Empress.jpg",
+      "The Old Ruler.jpg",
+      "The Queen of Light.jpg"
+    ]
+  }
 }

@@ -33,68 +33,68 @@ const io = socketIO(server);
 
 // Default route
 app.get("/", (req, res) => {
-    res.send("Welcome to the Express Server");
+  res.send("Welcome to the Express Server");
 });
 
 // Socket IO event handler
 io.on("connect", (socket) => {
-    // Retrieve all messages
-    socket.emit("messages", { messages: allMessages });
+  // Retrieve all messages
+  socket.emit("messages", { messages: allMessages });
 
-    // Get message from client
-    socket.on("send-message", (data) => {
-        const message = { name: "Inderpreet", message: data };
-        allMessages.push(message);
-        socket.emit("new-message", message);
+  // Get message from client
+  socket.on("send-message", (data) => {
+    const message = { name: "Inderpreet", message: data };
+    allMessages.push(message);
+    socket.emit("new-message", message);
 
-        Object.keys(users).forEach((number, idx) => {
-            setTimeout(() => {
-                client.messages
-                    .create({
-                        body: data,
-                        to: number,
-                        from: PHONE_NUMBER,
-                    })
-                    .then((msg) => {
-                        console.log(`Sent ${msg.body} to ${users[number]}`);
-                    });
-            }, idx * 1000);
-        });
+    Object.keys(users).forEach((number, idx) => {
+      setTimeout(() => {
+        client.messages
+          .create({
+            body: data,
+            to: number,
+            from: PHONE_NUMBER,
+          })
+          .then((msg) => {
+            console.log(`Sent ${msg.body} to ${users[number]}`);
+          });
+      }, idx * 1000);
     });
+  });
 
-    socket.on("disconnect", () => {
-        console.log("Disconnect");
-    });
+  socket.on("disconnect", () => {
+    console.log("Disconnect");
+  });
 });
 
 // Listen to SMS messages
 app.post("/sms", (req, res) => {
-    const sender = req.body.From;
-    const message = req.body.Body;
+  const sender = req.body.From;
+  const message = req.body.Body;
 
-    if (sender in users) {
-        // Store message and send to client
-        const msg = { name: users[sender], message: message };
-        allMessages.push(msg);
-        io.emit("new-message", msg);
-        console.log(`${users[sender]} said: ${message}`);
-    } else {
-        // User registration on first message
-        users[sender] = message;
+  if (sender in users) {
+    // Store message and send to client
+    const msg = { name: users[sender], message: message };
+    allMessages.push(msg);
+    io.emit("new-message", msg);
+    console.log(`${users[sender]} said: ${message}`);
+  } else {
+    // User registration on first message
+    users[sender] = message;
 
-        // Notify of registration
-        client.messages
-            .create({
-                body: `Registered ${message}`,
-                to: sender,
-                from: PHONE_NUMBER,
-            })
-            .then((msg) =>
-                console.log(`Added user: ${message} - ${sender}\n\t${msg.body}`)
-            );
+    // Notify of registration
+    client.messages
+      .create({
+        body: `Registered ${message}`,
+        to: sender,
+        from: PHONE_NUMBER,
+      })
+      .then((msg) =>
+        console.log(`Added user: ${message} - ${sender}\n\t${msg.body}`)
+      );
 
-        io.emit("join", { name: message, isJoin: true });
-    }
+    io.emit("join", { name: message, isJoin: true });
+  }
 });
 
 // Start sever

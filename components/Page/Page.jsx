@@ -7,18 +7,18 @@ import Footer from "../Footer";
 import styles from "./Page.module.css";
 
 const Page = ({ children, title }) => (
-    <Fragment>
-        <Head>
-            <title>{title}</title>
-        </Head>
-        <Toolbar />
-        <div className={styles.Body}>{children}</div>
-        <Footer />
-    </Fragment>
+  <Fragment>
+    <Head>
+      <title>{title}</title>
+    </Head>
+    <Toolbar />
+    <div className={styles.Body}>{children}</div>
+    <Footer />
+  </Fragment>
 );
 
 Page.propTypes = {
-    title: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 export default Page;

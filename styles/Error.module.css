@@ -1,15 +1,15 @@
 .Error {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
-.Error>* {
-    padding: 20px;
+.Error > * {
+  padding: 20px;
 }
 
 .Link {
-    color: rgb(62, 204, 255)
+  color: rgb(62, 204, 255);
 }

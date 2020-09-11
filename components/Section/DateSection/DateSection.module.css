@@ -1,12 +1,12 @@
 .LeftSpan {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .RightSpan {
-    text-align: right;
-    font-style: italic;
+  text-align: right;
+  font-style: italic;
 }
 
 .Points {
-    margin-left: 20px;
+  margin-left: 20px;
 }

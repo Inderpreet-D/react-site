@@ -1,16 +1,16 @@
 .SectionData {
-    cursor: default;
+  cursor: default;
 }
 
 .SectionDataRight {
-    text-align: right;
-    padding-left: 20px;
-    transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
-    width: 20%;
-    opacity: 0;
+  text-align: right;
+  padding-left: 20px;
+  transition: all 2s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 20%;
+  opacity: 0;
 }
 
 .SectionData:hover > .SectionDataRight {
-    width: 100%;
-    opacity: 1;
+  width: 100%;
+  opacity: 1;
 }

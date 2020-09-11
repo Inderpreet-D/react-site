@@ -2,7 +2,7 @@
 // const endpoint = "http://localhost:4000";
 
 export const socket = {
-    on: () => {},
-    off: () => {},
-    emit: () => {},
+  on: () => {},
+  off: () => {},
+  emit: () => {},
 }; //io(endpoint);
