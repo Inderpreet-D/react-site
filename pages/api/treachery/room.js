@@ -1,8 +1,6 @@
-import { getRooms } from "./state";
-import { send } from "./index";
-
 export default (req, res) => {
     const { roomCode } = req.query;
-    const room = getRooms()[roomCode];
+    const room = rooms[roomCode] || {};
+    console.log(rooms);
     send(res, room);
 };

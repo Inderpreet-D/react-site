@@ -1,8 +1,5 @@
 import fs from "fs";
 
-import { addRoom, getRooms } from "./state";
-import { send } from "./index";
-
 const roles = JSON.parse(fs.readFileSync("public/treacheryRoles.json"));
 
 const getUniqueRoomCode = () => {
@@ -11,7 +8,7 @@ const getUniqueRoomCode = () => {
         code += String.fromCharCode(65 + Math.floor(Math.random() * 26));
     }
 
-    if (code in getRooms()) {
+    if (code in rooms) {
         return getUniqueRoomCode();
     } else {
         return code;
@@ -79,7 +76,7 @@ export default (req, res) => {
     } else {
         const roomCode = getUniqueRoomCode();
 
-        addRoom(roomCode, {
+        rooms.add(roomCode, {
             numPlayers: +numPlayers,
             currentPlayers: 1,
             cards: getCards(numPlayers, rarity),

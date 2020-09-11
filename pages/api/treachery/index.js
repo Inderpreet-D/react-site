@@ -1,5 +1,3 @@
-import { getRooms } from "./state";
-
 export const send = (res, data) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
@@ -7,5 +5,5 @@ export const send = (res, data) => {
 };
 
 export default (req, res) => {
-    send(res, { rooms: { ...getRooms() } });
+    send(res, { rooms: rooms });
 };
