@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 
@@ -52,6 +52,7 @@ const Treachery = () => {
   const [imgSrc, setImgSrc] = useState("/favicon.ico");
   const [winCondition, setWinCondition] = useState("");
   const [error, setError] = useState(null);
+  const [rejoinEnabled, setRejoinEnabled] = useState(false);
 
   const onJoinHandler = (roomCode) => {
     setState(STATES.Loading);
@@ -72,9 +73,11 @@ const Treachery = () => {
       } else {
         setRoomCode(roomCode);
         setState(STATES.Room);
-        window.sessionStorage.setItem("id", data.id);
         setNumPlayers(data.currentPlayers);
         setRoomSize(data.numPlayers);
+        storage.setItem("id", data.id);
+        storage.setItem("roomCode", data.roomCode);
+        setRejoinEnabled(true);
       }
     });
   };
@@ -93,7 +96,11 @@ const Treachery = () => {
           setState(STATES.Room);
           setNumPlayers(1);
           setRoomSize(numPlayers);
-          window.sessionStorage.setItem("id", data.id);
+
+          const storage = window.sessionStorage;
+          storage.setItem("id", data.id);
+          storage.setItem("roomCode", data.roomCode);
+          setRejoinEnabled(true);
         }
       }
     );
@@ -116,6 +123,10 @@ const Treachery = () => {
     };
   }, [state]);
 
+  useEffect(() => {
+    setRejoinEnabled(window.sessionStorage.getItem("id") !== null);
+  }, []);
+
   let page;
   if (state === STATES.Main) {
     page = (
@@ -123,6 +134,10 @@ const Treachery = () => {
         onJoin={onJoinHandler}
         onCreate={onCreateHandler}
         forwardClasses={classes}
+        showRejoin={rejoinEnabled}
+        onRejoin={() =>
+          onJoinHandler(window.sessionStorage.getItem("roomCode"))
+        }
       />
     );
   } else if (state === STATES.Room) {

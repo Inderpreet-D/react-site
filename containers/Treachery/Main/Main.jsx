@@ -7,7 +7,7 @@ import CreateRoomForm from "./CreateRoomForm";
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
-const Main = ({ onJoin, onCreate, forwardClasses }) => {
+const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
   const [isJoining, setIsJoining] = useState(true);
   const [roomCode, setRoomCode] = useState("");
 
@@ -77,6 +77,11 @@ const Main = ({ onJoin, onCreate, forwardClasses }) => {
       >
         Create Room
       </Button>
+      {showRejoin && (
+        <Button {...buttonProps} onClick={onRejoin}>
+          Rejoin Room
+        </Button>
+      )}
 
       <form
         onSubmit={submitForm}
