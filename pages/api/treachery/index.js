@@ -27,7 +27,7 @@ const handleRoomJoin = (payload, rooms) => {
   }
 
   const ids = rooms[roomCode].ids;
-  if (!id) {
+  if (!id || !(id in ids)) {
     const newId = helpers.generateUniqueCode(ids);
     rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX;
     rooms[roomCode].nextIDX++;
@@ -55,6 +55,14 @@ const handleRoomPing = (payload, rooms) => {
   return { numPlayers: numPlayers, currentPlayers: currentPlayers };
 };
 
+const handleCard = (payload, rooms) => {
+  const { roomCode, id } = payload;
+  const idx = rooms[roomCode].ids[id];
+  const cardPath = rooms[roomCode].cards[idx];
+  const parsed = helpers.parseCardData(cardPath);
+  return parsed;
+};
+
 export default (req, res) => {
   const { action, ...payload } = req.query;
   const rooms = helpers.readRooms();
@@ -68,6 +76,8 @@ export default (req, res) => {
     result = handleRoomJoin(payload, rooms);
   } else if (action === "room") {
     result = handleRoomPing(payload, rooms);
+  } else if (action === "card") {
+    result = handleCard(payload, rooms);
   }
 
   helpers.send(res, result);
