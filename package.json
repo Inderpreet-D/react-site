@@ -1,27 +1,27 @@
 {
-    "name": "react-site",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start -p $PORT",
-        "heroku-postbuild": "npm run build"
-    },
-    "dependencies": {
-        "@material-ui/core": "^4.11.0",
-        "@material-ui/icons": "^4.9.1",
-        "axios": "^0.20.0",
-        "cors": "^2.8.5",
-        "dotenv": "^8.2.0",
-        "express": "^4.17.1",
-        "fontsource-roboto": "^3.0.3",
-        "next": "9.5.2",
-        "prop-types": "^15.7.2",
-        "react": "16.13.1",
-        "react-dom": "16.13.1",
-        "socket.io": "^2.3.0",
-        "socket.io-client": "^2.3.0",
-        "twilio": "^3.49.0"
-    }
+  "name": "react-site",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "heroku-postbuild": "npm run build"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fontsource-roboto": "^3.0.3",
+    "next": "9.5.2",
+    "prop-types": "^15.7.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "twilio": "^3.49.0"
+  }
 }
