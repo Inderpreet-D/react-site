@@ -12,14 +12,14 @@ app
     const server = express();
 
     server.use((req, res, next) => {
-      const hostname =
-        req.hostname === "www.inderpreetd.ca" ? "inderpreetd.ca" : req.hostname;
+      // const hostname =
+        // req.hostname === "www.inderpreetd.ca" ? "inderpreetd.ca" : req.hostname;
 
       if (
         req.headers["x-forwarded-proto"] === "http" ||
-        req.hostname === "www.inderpreetd.ca"
+        // req.hostname === "www.inderpreetd.ca"
       ) {
-        res.redirect(301, `https://${hostname}${req.url}`);
+        res.redirect(301, `https://${req.hostname}${req.url}`);
         return;
       }
 
@@ -32,9 +32,9 @@ app
 
     server.get("*", (req, res) => handle(req, res));
 
-    server.listen(4242, (error) => {
+    server.listen(3000, (error) => {
       if (error) throw error;
-      console.error("Listening on port 4242");
+      console.error("Listening on port 3000");
     });
   })
   .catch((error) => {
