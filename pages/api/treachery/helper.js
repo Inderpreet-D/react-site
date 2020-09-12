@@ -1,6 +1,9 @@
 import fs from "fs";
 
 const ROLES = JSON.parse(fs.readFileSync("public/treacheryRoles.json"));
+const WIN_CONDITIONS = JSON.parse(
+  fs.readFileSync("public/treacheryWinConditions.json")
+);
 const ROOM_PATH = "public/treacheryRooms.json";
 
 export const readRooms = () => {
@@ -81,4 +84,11 @@ export const getCards = (numPlayers, rarity) => {
   }
 
   return shuffle(chosen);
+};
+
+export const parseCardData = (card) => {
+  const imgSrc = card;
+  const role = card.split("/")[2];
+  const winCondition = WIN_CONDITIONS[role];
+  return { imgSrc: imgSrc, role: role, winCondition: winCondition };
 };
