@@ -10,7 +10,11 @@ const Card = ({ role, imgSrc, winCondition }) => {
       <div className={styles.Card}>
         <img src={imgSrc} />
       </div>
-      <Paper elevation={10}>
+      <Paper
+        elevation={24}
+        className={styles.DescriptionPaper}
+        style={{ margin: "10px auto" }}
+      >
         <h3>{winCondition}</h3>
       </Paper>
     </Fragment>
