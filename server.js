@@ -13,10 +13,10 @@ app
 
     server.use((req, res, next) => {
       // const hostname =
-        // req.hostname === "www.inderpreetd.ca" ? "inderpreetd.ca" : req.hostname;
+      // req.hostname === "www.inderpreetd.ca" ? "inderpreetd.ca" : req.hostname;
 
       if (
-        req.headers["x-forwarded-proto"] === "http" ||
+        req.headers["x-forwarded-proto"] === "http" //||
         // req.hostname === "www.inderpreetd.ca"
       ) {
         res.redirect(301, `https://${req.hostname}${req.url}`);
