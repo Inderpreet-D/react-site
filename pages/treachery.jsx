@@ -113,11 +113,20 @@ const Treachery = () => {
           setNumPlayers(data.currentPlayers);
           setRoomSize(data.numPlayers);
           if (data.currentPlayers === data.numPlayers) {
+            api({
+              action: "card",
+              roomCode: roomCode,
+              id: window.sessionStorage.getItem("id"),
+            }).then((data) => {
+              setRole(data.role);
+              setImgSrc(data.imgSrc);
+              setWinCondition(data.winCondition);
+            });
             setState(STATES.Card);
           }
         });
       }
-    }, 5000);
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
