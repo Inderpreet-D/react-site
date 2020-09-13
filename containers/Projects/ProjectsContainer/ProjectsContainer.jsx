@@ -51,7 +51,7 @@ Makes use of NodeJS as a backend and uses Google’s Firebase realtime database;
     />,
     <Card
       key={key++}
-      title="Treacher App"
+      title="Treachery App"
       description="A web app, built in React, for randomly assigning and viewing roles in the Treachery variant of EDH."
       href="/treachery"
       hrefTitle="Go to Treachery"
