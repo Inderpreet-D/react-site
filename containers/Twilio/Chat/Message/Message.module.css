@@ -5,6 +5,7 @@
 }
 
 .YourMessage .Message {
+  color: black;
   padding: 10px;
   border: 2px solid green;
   border-top-left-radius: 10px;
@@ -20,6 +21,7 @@
 }
 
 .TheirMessage .Message {
+  color: black;
   padding: 10px;
   border: 2px solid red;
   border-top-left-radius: 10px;
