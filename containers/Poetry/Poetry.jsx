@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { Paper, Typography } from "@material-ui/core";
 import axios from "axios";
 import parse from "html-react-parser";
+
+import classes from "./Poetry.module.css";
 
 const Poetry = () => {
   const [poemName, setPoemName] = useState("");
   const [poemBody, setPoemBody] = useState("");
+  const [poemLink, setPoemLink] = useState("");
 
   useEffect(() => {
     axios
@@ -20,23 +24,34 @@ const Poetry = () => {
           return isPoem && hasText;
         });
         const poems = textPosts.map((listing) => {
-          console.log(listing);
           const poem = listing.data;
           const title = poem.title.substring(7);
-          return { name: title.trim(), body: unescape(poem.selftext_html) };
+          return {
+            name: title.trim(),
+            body: unescape(poem.selftext_html),
+            url: poem.url,
+          };
         });
         const idx = Math.floor(Math.random() * poems.length);
         const poem = poems[idx];
         setPoemName(poem.name);
         setPoemBody(poem.body);
+        setPoemLink(poem.url);
       });
   }, []);
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>{poemName}</h1>
-      <div dangerouslySetInnerHTML={{ __html: parse(poemBody) }}></div>
-    </div>
+    <Paper variant="outlined" className={classes.Paper}>
+      <Typography variant="h4" className={classes.Title}>
+        <a href={poemLink} target="_blank">
+          {poemName}
+        </a>
+      </Typography>
+      <Typography
+        variant="h6"
+        dangerouslySetInnerHTML={{ __html: parse(poemBody) }}
+      ></Typography>
+    </Paper>
   );
 };
 
