@@ -1,3 +1,4 @@
+import { Paper, TextField, Typography } from "@material-ui/core";
 import { useState, useEffect } from "react";
 
 import styles from "./Chat.module.css";
@@ -53,27 +54,26 @@ const Chat = () => {
     />
   ));
 
-  const boxClass = styles.MessageBox + " BorderedBox";
-
   return (
-    <div className={styles.Border}>
-      <div>Twilio Test App</div>
-      <div className={boxClass}>
+    <Paper variant="outlined" className={styles.TextArea}>
+      <Typography variant="h3">Twilio Test App</Typography>
+      <Typography variant="h6">
         Text your name to <b>{PHONE_NUMBER}</b> to start
-      </div>
-      <div className={boxClass}>
+      </Typography>
+      <div className={styles.TextArea}>
         <div className={styles.MessageArea}>{allMessages}</div>
-        <form onSubmit={sendMessage} className={styles.Input}>
-          <input
-            className={styles.InputElement}
+        <form onSubmit={sendMessage} className={styles.FormArea}>
+          <TextField
+            className={styles.InputField}
             type="text"
             placeholder="Message"
             value={message}
             onChange={(event) => setMessage(event.target.value)}
+            variant="filled"
           />
         </form>
       </div>
-    </div>
+    </Paper>
   );
 };
 
