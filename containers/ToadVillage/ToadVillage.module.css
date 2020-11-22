@@ -1,0 +1,38 @@
+.Paper {
+  width: 55%;
+  margin: 10px auto;
+}
+
+.Paper > * {
+  padding: 1.25rem;
+}
+
+.Title {
+  text-align: center;
+}
+
+.Title > a {
+  font-weight: bold;
+  color: rgb(68, 127, 255);
+}
+
+.Buttons {
+  text-align: center;
+}
+
+.TextField {
+  width: 100%;
+  margin-bottom: 2rem;
+  padding: 0 30%;
+}
+
+.TextField input {
+  text-align: center;
+}
+
+.Error {
+  margin-top: -2rem;
+  font-size: 2rem;
+  color: lightcoral;
+  text-align: center;
+}
