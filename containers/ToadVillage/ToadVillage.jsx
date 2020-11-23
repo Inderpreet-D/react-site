@@ -21,7 +21,7 @@ const Card = (props) => {
 };
 
 const randomName = () => {
-  const random = generate({ words: 4, alliterative: true }).raw;
+  const random = generate({ words: 4, alliterative: false }).raw;
   const upped = random.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
   return upped.join("");
 };
@@ -37,6 +37,10 @@ const ToadVillage = () => {
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
       console.log("New list", cardList);
+      // const cardNames = cardList.map((card) => card.name);
+      axios
+        .get(`/api/toadvillage?cards=${JSON.stringify(cardList)}`)
+        .then((res) => console.log("Found", res.data));
     }
   }, [cardList, showDialog]);
 
