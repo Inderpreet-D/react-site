@@ -36,3 +36,25 @@
   color: lightcoral;
   text-align: center;
 }
+
+.Header {
+  font-size: 2rem;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.CardBlock {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.Card {
+  border: 1px solid red;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.Card > img {
+  width: 100%;
+  height: auto;
+}

@@ -30,7 +30,7 @@ const ToadVillage = () => {
   const [showDialog, setShowDialog] = React.useState(false);
   const [cardList, setCardList] = React.useState([]);
   const [cardListString, setCardListString] = React.useState([]);
-  const [cardObjs, setCardObjs] = React.useState([]);
+  const [cardObjs, setCardObjs] = React.useState({});
   const [name, setName] = React.useState(randomName());
   const [error, setError] = React.useState("");
 
@@ -40,7 +40,10 @@ const ToadVillage = () => {
       // const cardNames = cardList.map((card) => card.name);
       axios
         .get(`/api/toadvillage?cards=${JSON.stringify(cardList)}`)
-        .then((res) => console.log("Found", res.data));
+        .then((res) => {
+          console.log("Found", res.data);
+          setCardObjs(res.data);
+        });
     }
   }, [cardList, showDialog]);
 
@@ -133,9 +136,11 @@ const ToadVillage = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Commanders */}
+      <div className={classes.Header}>Commander Options</div>
+      <div className={classes.CardBlock}></div>
 
-      {/* Rest */}
+      <div className={classes.Header}>Deck</div>
+      <div className={classes.CardBlock}></div>
     </Paper>
   );
 };

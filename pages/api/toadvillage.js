@@ -79,7 +79,14 @@ const isCommander = (deckIdentity, card) => {
 };
 
 const formatCard = (card) => {
-  const newCard = { ...card };
+  const image = card.image_uris || card.card_faces[0].image_uris;
+  const newCard = { name: card.name, image: image.normal };
+  if (card.card_faces) {
+    newCard.faces = card.card_faces.map(({ name, image_uris }) => ({
+      name,
+      image: image_uris.normal,
+    }));
+  }
   return newCard;
 };
 
@@ -110,9 +117,7 @@ export default async (req, res) => {
   const identity = getColorIdentity(matchedCards);
   const { commanders, others } = formatCards(matchedCards, identity);
 
-  // const card = cards.find((card) => card.name === cardNames[0]);
-  // const images = card.image_uris || card.card_faces[0].image_uris;
-  // console.log("Found", cardNames[0], images.large);
+  // TODO: Add token support
 
   const resData = { commanders, others };
   sendData(res, resData);
