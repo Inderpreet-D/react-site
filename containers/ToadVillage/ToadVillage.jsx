@@ -15,6 +15,7 @@ import axios from "axios";
 import generate from "project-name-generator";
 
 import MTGCard from "../../components/MTGCard";
+import LoadingIcon from "../../components/LoadingIcon";
 import classes from "./ToadVillage.module.css";
 
 const randomName = () => {
@@ -30,9 +31,11 @@ const ToadVillage = () => {
   const [cardObjs, setCardObjs] = React.useState({});
   const [name, setName] = React.useState(randomName());
   const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
+      setLoading(true);
       axios
         .get(`/api/toadvillage?cards=${JSON.stringify(cardList)}`)
         .then((res) => {
@@ -48,6 +51,7 @@ const ToadVillage = () => {
             setError(msg);
           }
           setCardObjs(data);
+          setLoading(false);
         });
     }
   }, [cardList, showDialog]);
@@ -215,6 +219,8 @@ const ToadVillage = () => {
           <Button onClick={handleClose}>Submit</Button>
         </DialogActions>
       </Dialog>
+
+      {loading && <LoadingIcon />}
 
       {cardObjs.commanders && cardObjs.others && (
         <>
