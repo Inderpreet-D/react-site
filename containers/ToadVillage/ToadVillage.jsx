@@ -53,6 +53,8 @@ const ToadVillage = () => {
           setCardObjs(data);
           setLoading(false);
         });
+    } else if (cardList.length === 0) {
+      setCardObjs({});
     }
   }, [cardList, showDialog]);
 
@@ -210,12 +212,20 @@ const ToadVillage = () => {
             onChange={handleSetCards}
             rowsMin={20}
             rowsMax={50}
-            style={{ width: "100%" }}
+            style={{ width: "100%", maxHeight: "70vh" }}
             value={cardListString}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              setCardList({});
+              setCardListString("");
+              handleClose();
+            }}
+          >
+            Cancel
+          </Button>
           <Button onClick={handleClose}>Submit</Button>
         </DialogActions>
       </Dialog>

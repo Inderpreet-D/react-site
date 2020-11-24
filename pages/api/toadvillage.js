@@ -25,7 +25,7 @@ const fetchCards = () => {
     lastMonth.setTime(lastMonth.getTime() - monthAgo);
 
     if (ALL_CARDS.lastUpdate > monthAgo) {
-      console.log("Old cards, refreshing");
+      console.log("[ToadVillage] Refreshing cards");
       axios.get("https://api.scryfall.com/bulk-data").then((bulk) => {
         const oracle = bulk.data.data.find((d) => d.type === "oracle_cards");
         setTimeout(() => {
@@ -39,7 +39,7 @@ const fetchCards = () => {
         }, 100);
       });
     } else {
-      console.log("Still fresh");
+      console.log("[ToadVillage] Cards still up to date");
       resolve(ALL_CARDS.cards);
     }
   });
