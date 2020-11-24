@@ -36,23 +36,21 @@ const ToadVillage = () => {
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
       setLoading(true);
-      axios
-        .get(`/api/toadvillage?cards=${JSON.stringify(cardList)}`)
-        .then((res) => {
-          const data = {
-            commanders: res.data.commanders,
-            others: res.data.others,
-          };
-          const unmatched = res.data.unmatched;
-          if (unmatched.length > 0) {
-            const msg = `Could not find the following card${
-              unmatched.length === 1 ? "" : "s"
-            }: ${unmatched.join(", ")}`;
-            setError(msg);
-          }
-          setCardObjs(data);
-          setLoading(false);
-        });
+      axios.post("/api/toadvillage", { cards: cardList }).then((res) => {
+        const data = {
+          commanders: res.data.commanders,
+          others: res.data.others,
+        };
+        const unmatched = res.data.unmatched;
+        if (unmatched.length > 0) {
+          const msg = `Could not find the following card${
+            unmatched.length === 1 ? "" : "s"
+          }: ${unmatched.join(", ")}`;
+          setError(msg);
+        }
+        setCardObjs(data);
+        setLoading(false);
+      });
     } else if (cardList.length === 0) {
       setCardObjs({});
     }
