@@ -41,6 +41,7 @@ const ToadVillage = () => {
         const data = {
           commanders: res.data.commanders,
           others: res.data.others,
+          tokens: res.data.tokens,
         };
         const unmatched = res.data.unmatched;
         if (unmatched.length > 0) {
@@ -116,7 +117,7 @@ const ToadVillage = () => {
       scaleZ: 1,
     };
 
-    if (list.length > 1) {
+    if (list.length >= 2) {
       return {
         Name: "DeckCustom",
         ContainedObjects: contained,
@@ -124,29 +125,36 @@ const ToadVillage = () => {
         CustomDeck: deck,
         Transform: deckTransform,
       };
-    } else {
+    } else if (list.length === 1) {
       return {
         Name: "Card",
-        Nickname: list[0].card.name,
+        Nickname: list[0].card?.name || list[0].name,
         CardID: 100,
         CustomDeck: deck,
         Transform: deckTransform,
       };
+    } else {
+      return null;
     }
   };
 
   const convertToTTS = () => {
     const hasFace = ({ card }) => card.faces?.length == 2;
-    const doubled = [
+    const flipCards = [
       ...cardObjs.others.filter(hasFace),
       ...cardObjs.commanders.filter(hasFace),
     ];
     const states = [
       listAsDeck(cardObjs.others, 0),
       listAsDeck(cardObjs.commanders, 1),
-      listAsDeck(doubled, 2, true),
     ];
-    const obj = { ObjectStates: states };
+    let nextNum = 2;
+    if (flipCards.length > 0) {
+      states.push(listAsDeck(flipCards, nextNum, true));
+      nextNum++;
+    }
+    states.push(listAsDeck(cardObjs.tokens, nextNum));
+    const obj = { ObjectStates: states.filter(Boolean) };
     return JSON.stringify(obj);
   };
 

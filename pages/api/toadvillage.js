@@ -3,6 +3,7 @@ import axios from "axios";
 const fetchCards = async (cards) => {
   const matchedCards = [];
   const unmatched = [];
+  const tokens = [];
 
   for (let { amount, name } of cards) {
     try {
@@ -19,12 +20,34 @@ const fetchCards = async (cards) => {
         }, 100);
       });
       matchedCards.push({ amount, card });
+      const tokenCards = card.all_parts?.filter(
+        ({ component }) => component === "token"
+      );
+      if (tokenCards) {
+        for (let { name, uri } of tokenCards) {
+          const token = await new Promise(async (resolve, reject) => {
+            setTimeout(async () => {
+              try {
+                const result = await axios.get(uri);
+                resolve(result.data);
+              } catch (err) {
+                reject(err);
+              }
+            }, 100);
+          });
+          tokens.push({
+            amount: 1,
+            card: { name, image: token.image_uris.normal },
+          });
+        }
+      }
     } catch (err) {
+      console.log("Error", err.message);
       unmatched.push(name);
     }
   }
 
-  return { matchedCards, unmatched };
+  return { matchedCards, unmatched, tokens };
 };
 
 const getColorIdentity = (cards) => {
@@ -88,15 +111,13 @@ const formatCards = (cards, identity) => {
 export default async (req, res) => {
   const { cards: cardNames } = req.body;
 
-  const { matchedCards, unmatched } = await fetchCards(cardNames);
+  const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
   const filteredMatches = matchedCards.filter(Boolean);
 
   const identity = getColorIdentity(filteredMatches);
   const { commanders, others } = formatCards(filteredMatches, identity);
 
-  // TODO: Add token support
-
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ commanders, others, unmatched }));
+  res.send(JSON.stringify({ commanders, others, unmatched, tokens }));
 };
