@@ -61,7 +61,7 @@ const ToadVillage = () => {
     setName(e.target.value);
   };
 
-  const listAsDeck = (list, idx) => {
+  const listAsDeck = (list, idx, hasFaces = false) => {
     const contained = [];
     const ids = [];
     const deck = {};
@@ -72,7 +72,7 @@ const ToadVillage = () => {
       posZ: 0,
       rotX: 0,
       rotY: 180,
-      rotZ: idx > 0 ? 180 : 0,
+      rotZ: idx === 0 ? 180 : 0,
       scaleX: 1,
       scaleY: 1,
       scaleZ: 1,
@@ -86,8 +86,10 @@ const ToadVillage = () => {
         Transform: cardTransform,
       });
       deck[deckId] = {
-        FaceURL: card.image,
-        BackURL: "https://i.redd.it/25zhw3vvkvn41.png",
+        FaceURL: hasFaces ? card.faces[0].image : card.image,
+        BackURL: hasFaces
+          ? card.faces[1].image
+          : "https://i.redd.it/25zhw3vvkvn41.png",
         NumHeight: 1,
         NumWidth: 1,
         BackIsHidden: true,
@@ -108,7 +110,7 @@ const ToadVillage = () => {
       posZ: 0,
       rotX: 0,
       rotY: 180,
-      rotZ: idx > 0 ? 180 : 0,
+      rotZ: idx === 0 ? 180 : 0,
       scaleX: 1,
       scaleY: 1,
       scaleZ: 1,
@@ -134,9 +136,15 @@ const ToadVillage = () => {
   };
 
   const convertToTTS = () => {
+    const hasFace = ({ card }) => card.faces?.length == 2;
+    const doubled = [
+      ...cardObjs.others.filter(hasFace),
+      ...cardObjs.commanders.filter(hasFace),
+    ];
     const states = [
       listAsDeck(cardObjs.others, 0),
       listAsDeck(cardObjs.commanders, 1),
+      listAsDeck(doubled, 2, true),
     ];
     const obj = { ObjectStates: states };
     return JSON.stringify(obj);
