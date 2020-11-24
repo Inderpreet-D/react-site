@@ -1,6 +1,6 @@
 // import fs from "fs";
-// import axios from "axios";
-const ALL_CARDS = require("../../public/scryfall.json");
+import axios from "axios";
+// const ALL_CARDS = require("../../public/scryfall.json");
 
 // const STORAGE_PATH = "public/scryfall.json";
 // let ALL_CARDS = {};
@@ -19,32 +19,32 @@ const sendData = (res, data) => {
   res.send(JSON.stringify(data));
 };
 
-const fetchCards = () => {
-  return new Promise((resolve, _reject) => {
-    // const lastMonth = new Date();
-    // const monthAgo = 24 * 60 * 60 * 1000 * 30;
-    // lastMonth.setTime(lastMonth.getTime() - monthAgo);
+// const fetchCards = () => {
+//   return new Promise((resolve, _reject) => {
+//     // const lastMonth = new Date();
+//     // const monthAgo = 24 * 60 * 60 * 1000 * 30;
+//     // lastMonth.setTime(lastMonth.getTime() - monthAgo);
 
-    // if (ALL_CARDS.lastUpdate > monthAgo) {
-    //   console.log("[ToadVillage] Refreshing cards");
-    //   axios.get("https://api.scryfall.com/bulk-data").then((bulk) => {
-    //     const oracle = bulk.data.data.find((d) => d.type === "oracle_cards");
-    //     setTimeout(() => {
-    //       axios.get(oracle.download_uri).then((cards) => {
-    //         ALL_CARDS = { lastUpdate: new Date(), cards: cards.data };
-    //         fs.writeFile(STORAGE_PATH, JSON.stringify(ALL_CARDS), (err) => {
-    //           if (err) throw err;
-    //         });
-    //         resolve(ALL_CARDS.cards);
-    //       });
-    //     }, 100);
-    //   });
-    // } else {
-    console.log("[ToadVillage] Cards still up to date");
-    resolve(ALL_CARDS.cards);
-    // }
-  });
-};
+//     // if (ALL_CARDS.lastUpdate > monthAgo) {
+//     //   console.log("[ToadVillage] Refreshing cards");
+//     //   axios.get("https://api.scryfall.com/bulk-data").then((bulk) => {
+//     //     const oracle = bulk.data.data.find((d) => d.type === "oracle_cards");
+//     //     setTimeout(() => {
+//     //       axios.get(oracle.download_uri).then((cards) => {
+//     //         ALL_CARDS = { lastUpdate: new Date(), cards: cards.data };
+//     //         fs.writeFile(STORAGE_PATH, JSON.stringify(ALL_CARDS), (err) => {
+//     //           if (err) throw err;
+//     //         });
+//     //         resolve(ALL_CARDS.cards);
+//     //       });
+//     //     }, 100);
+//     //   });
+//     // } else {
+//     console.log("[ToadVillage] Cards still up to date");
+//     resolve(ALL_CARDS.cards);
+//     // }
+//   });
+// };
 
 const matchCards = (names, cards) => {
   const unmatched = [];
@@ -114,10 +114,14 @@ const formatCards = (cards, identity) => {
   return { commanders, others };
 };
 
+const fetchCards = async (names) => {
+  return [];
+};
+
 export default async (req, res) => {
   const { cards: cardNames } = req.body;
 
-  const cards = await fetchCards();
+  const cards = await fetchCards(cardNames);
   const { matchedCards, unmatched } = matchCards(cardNames, cards);
   const filteredMatches = matchedCards.filter(Boolean);
 
