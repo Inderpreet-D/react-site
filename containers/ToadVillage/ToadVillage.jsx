@@ -108,7 +108,7 @@ const ToadVillage = () => {
       posZ: 0,
       rotX: 0,
       rotY: 180,
-      rotZ: 180,
+      rotZ: idx === 1 ? 0 : 180,
       scaleX: 1,
       scaleY: 1,
       scaleZ: 1,
