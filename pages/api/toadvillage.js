@@ -15,7 +15,7 @@ ALL_CARDS = JSON.parse(fs.readFileSync(STORAGE_PATH));
 const sendData = (res, data) => {
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.send(data);
+  res.send(JSON.stringify(data));
 };
 
 const fetchCards = () => {
