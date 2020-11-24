@@ -63,6 +63,10 @@ const ToadVillage = () => {
   };
 
   const listAsDeck = (list, idx, hasFaces = false) => {
+    if (!list) {
+      return null;
+    }
+
     const contained = [];
     const ids = [];
     const deck = {};
@@ -117,7 +121,7 @@ const ToadVillage = () => {
       scaleZ: 1,
     };
 
-    if (list.length >= 2) {
+    if (list.length > 1) {
       return {
         Name: "DeckCustom",
         ContainedObjects: contained,
@@ -125,7 +129,7 @@ const ToadVillage = () => {
         CustomDeck: deck,
         Transform: deckTransform,
       };
-    } else if (list.length === 1) {
+    } else {
       return {
         Name: "Card",
         Nickname: list[0].card?.name || list[0].name,
@@ -133,8 +137,6 @@ const ToadVillage = () => {
         CustomDeck: deck,
         Transform: deckTransform,
       };
-    } else {
-      return null;
     }
   };
 
