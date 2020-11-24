@@ -1,6 +1,6 @@
 // import fs from "fs";
 // import axios from "axios";
-const ALL_CARDS = require("./scryfall.json");
+const ALL_CARDS = require("../../public/scryfall.json");
 
 // const STORAGE_PATH = "public/scryfall.json";
 // let ALL_CARDS = {};
