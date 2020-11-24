@@ -72,7 +72,7 @@ const ToadVillage = () => {
       posZ: 0,
       rotX: 0,
       rotY: 180,
-      rotZ: list === cardObjs.commanders ? 0 : 180,
+      rotZ: list === cardObjs.commanders ? 180 : 0,
       scaleX: 1,
       scaleY: 1,
       scaleZ: 1,
