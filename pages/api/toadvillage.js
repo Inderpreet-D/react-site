@@ -3,14 +3,14 @@ import axios from "axios";
 
 const STORAGE_PATH = "public/scryfall.json";
 let ALL_CARDS = {};
-if (fs.existsSync(STORAGE_PATH)) {
-  ALL_CARDS = JSON.parse(fs.readFileSync(STORAGE_PATH));
-} else {
-  const dateOffset = 24 * 60 * 60 * 1000 * 90; // 3 months
-  const oldDate = new Date();
-  oldDate.setTime(oldDate.getTime() - dateOffset);
-  ALL_CARDS.lastUpdate = oldDate;
-}
+// if (fs.existsSync(STORAGE_PATH)) {
+ALL_CARDS = JSON.parse(fs.readFileSync(STORAGE_PATH));
+// } else {
+//   const dateOffset = 24 * 60 * 60 * 1000 * 90; // 3 months
+//   const oldDate = new Date();
+//   oldDate.setTime(oldDate.getTime() - dateOffset);
+//   ALL_CARDS.lastUpdate = oldDate;
+// }
 
 const sendData = (res, data) => {
   res.statusCode = 200;
@@ -20,28 +20,28 @@ const sendData = (res, data) => {
 
 const fetchCards = () => {
   return new Promise((resolve, _reject) => {
-    const lastMonth = new Date();
-    const monthAgo = 24 * 60 * 60 * 1000 * 30;
-    lastMonth.setTime(lastMonth.getTime() - monthAgo);
+    // const lastMonth = new Date();
+    // const monthAgo = 24 * 60 * 60 * 1000 * 30;
+    // lastMonth.setTime(lastMonth.getTime() - monthAgo);
 
-    if (ALL_CARDS.lastUpdate > monthAgo) {
-      console.log("[ToadVillage] Refreshing cards");
-      axios.get("https://api.scryfall.com/bulk-data").then((bulk) => {
-        const oracle = bulk.data.data.find((d) => d.type === "oracle_cards");
-        setTimeout(() => {
-          axios.get(oracle.download_uri).then((cards) => {
-            ALL_CARDS = { lastUpdate: new Date(), cards: cards.data };
-            fs.writeFile(STORAGE_PATH, JSON.stringify(ALL_CARDS), (err) => {
-              if (err) throw err;
-            });
-            resolve(ALL_CARDS.cards);
-          });
-        }, 100);
-      });
-    } else {
-      console.log("[ToadVillage] Cards still up to date");
-      resolve(ALL_CARDS.cards);
-    }
+    // if (ALL_CARDS.lastUpdate > monthAgo) {
+    //   console.log("[ToadVillage] Refreshing cards");
+    //   axios.get("https://api.scryfall.com/bulk-data").then((bulk) => {
+    //     const oracle = bulk.data.data.find((d) => d.type === "oracle_cards");
+    //     setTimeout(() => {
+    //       axios.get(oracle.download_uri).then((cards) => {
+    //         ALL_CARDS = { lastUpdate: new Date(), cards: cards.data };
+    //         fs.writeFile(STORAGE_PATH, JSON.stringify(ALL_CARDS), (err) => {
+    //           if (err) throw err;
+    //         });
+    //         resolve(ALL_CARDS.cards);
+    //       });
+    //     }, 100);
+    //   });
+    // } else {
+    console.log("[ToadVillage] Cards still up to date");
+    resolve(ALL_CARDS.cards);
+    // }
   });
 };
 
