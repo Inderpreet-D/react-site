@@ -46,10 +46,16 @@ const fetchCards = () => {
 };
 
 const matchCards = (names, cards) => {
-  return names.map(({ amount, name }) => {
+  const unmatched = [];
+  const matchedCards = names.map(({ amount, name }) => {
     const card = cards.find((card) => card.name === name);
-    return { amount, card };
+    if (card) {
+      return { amount, card };
+    } else {
+      unmatched.push(name);
+    }
   });
+  return { matchedCards, unmatched };
 };
 
 const getColorIdentity = (cards) => {
@@ -112,13 +118,14 @@ export default async (req, res) => {
   const cardNames = JSON.parse(names);
 
   const cards = await fetchCards();
-  const matchedCards = matchCards(cardNames, cards);
+  const { matchedCards, unmatched } = matchCards(cardNames, cards);
+  const filteredMatches = matchedCards.filter(Boolean);
 
-  const identity = getColorIdentity(matchedCards);
-  const { commanders, others } = formatCards(matchedCards, identity);
+  const identity = getColorIdentity(filteredMatches);
+  const { commanders, others } = formatCards(filteredMatches, identity);
 
   // TODO: Add token support
 
-  const resData = { commanders, others };
+  const resData = { commanders, others, unmatched };
   sendData(res, resData);
 };
