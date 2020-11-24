@@ -1,10 +1,11 @@
-import fs from "fs";
-import axios from "axios";
+// import fs from "fs";
+// import axios from "axios";
+import ALL_CARDS from "./scryfall.json";
 
-const STORAGE_PATH = "public/scryfall.json";
-let ALL_CARDS = {};
+// const STORAGE_PATH = "public/scryfall.json";
+// let ALL_CARDS = {};
 // if (fs.existsSync(STORAGE_PATH)) {
-ALL_CARDS = JSON.parse(fs.readFileSync(STORAGE_PATH));
+// ALL_CARDS = JSON.parse(fs.readFileSync(STORAGE_PATH));
 // } else {
 //   const dateOffset = 24 * 60 * 60 * 1000 * 90; // 3 months
 //   const oldDate = new Date();
