@@ -76,6 +76,9 @@ export default async (req, res) => {
   const { cards: cardNames } = req.body;
 
   console.log("In cards", cardNames);
+  const commanders = [];
+  const others = [];
+  const unmatched = [];
 
   // const cards = await fetchCards(cardNames);
   // const { matchedCards, unmatched } = matchCards(cardNames, cards);
