@@ -36,6 +36,7 @@ const ToadVillage = () => {
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
       setLoading(true);
+      setError("");
       axios.post("/api/toadvillage", { cards: cardList }).then((res) => {
         const data = {
           commanders: res.data.commanders,

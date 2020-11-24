@@ -1,15 +1,29 @@
 import axios from "axios";
 
-const matchCards = (names, cards) => {
+const fetchCards = async (cards) => {
+  const matchedCards = [];
   const unmatched = [];
-  const matchedCards = names.map(({ amount, name }) => {
-    const card = cards.find((card) => card.name === name);
-    if (card) {
-      return { amount, card };
-    } else {
+
+  for (let { amount, name } of cards) {
+    try {
+      const card = await new Promise(async (resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const result = await axios.get(
+              `https://api.scryfall.com/cards/search?q=!"${name}"`
+            );
+            resolve(result.data.data[0]);
+          } catch (err) {
+            reject(err);
+          }
+        }, 100);
+      });
+      matchedCards.push({ amount, card });
+    } catch (err) {
       unmatched.push(name);
     }
-  });
+  }
+
   return { matchedCards, unmatched };
 };
 
@@ -22,7 +36,10 @@ const getColorIdentity = (cards) => {
 };
 
 const isCommander = (deckIdentity, card) => {
-  if (!card.type_line.startsWith("Legendary Creature")) {
+  if (
+    !card.type_line.startsWith("Legendary Creature") &&
+    !card.type_line.startsWith("Legendary Planeswalker")
+  ) {
     return false;
   }
 
@@ -68,24 +85,14 @@ const formatCards = (cards, identity) => {
   return { commanders, others };
 };
 
-const fetchCards = async (names) => {
-  return [];
-};
-
 export default async (req, res) => {
   const { cards: cardNames } = req.body;
 
-  console.log("In cards", cardNames);
-  const commanders = [];
-  const others = [];
-  const unmatched = [];
+  const { matchedCards, unmatched } = await fetchCards(cardNames);
+  const filteredMatches = matchedCards.filter(Boolean);
 
-  // const cards = await fetchCards(cardNames);
-  // const { matchedCards, unmatched } = matchCards(cardNames, cards);
-  // const filteredMatches = matchedCards.filter(Boolean);
-
-  // const identity = getColorIdentity(filteredMatches);
-  // const { commanders, others } = formatCards(filteredMatches, identity);
+  const identity = getColorIdentity(filteredMatches);
+  const { commanders, others } = formatCards(filteredMatches, identity);
 
   // TODO: Add token support
 
