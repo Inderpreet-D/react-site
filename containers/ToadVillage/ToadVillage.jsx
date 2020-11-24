@@ -62,20 +62,107 @@ const ToadVillage = () => {
     setName(e.target.value);
   };
 
+  const listAsDeck = (list, idx) => {
+    const contained = [];
+    const ids = [];
+    const deck = {};
+    let deckId = 1;
+    const cardTransform = {
+      posX: 0,
+      posY: 0,
+      posZ: 0,
+      rotX: 0,
+      rotY: 180,
+      rotZ: 180,
+      scaleX: 1,
+      scaleY: 1,
+      scaleZ: 1,
+    };
+
+    const cardToTTS = (card, id) => {
+      contained.push({
+        CardID: id,
+        Name: "Card",
+        Nickname: card.name,
+        Transform: cardTransform,
+      });
+      deck[deckId] = {
+        FaceURL: card.image,
+        BackURL: "https://i.redd.it/25zhw3vvkvn41.png",
+        NumHeight: 1,
+        NumWidth: 1,
+        BackIsHidden: true,
+      };
+      deckId++;
+      ids.push(id);
+    };
+
+    list.forEach(({ amount, card }, idx) => {
+      for (let i = 0; i < amount; i++) {
+        cardToTTS(card, (idx + i + 1) * 100);
+      }
+    });
+
+    const deckTransform = {
+      posX: 2.2 * idx,
+      posY: 1,
+      posZ: 0,
+      rotX: 0,
+      rotY: 180,
+      rotZ: 180,
+      scaleX: 1,
+      scaleY: 1,
+      scaleZ: 1,
+    };
+
+    if (list.length > 1) {
+      return {
+        Name: "DeckCustom",
+        ContainedObjects: contained,
+        DeckIDs: ids,
+        CustomDeck: deck,
+        Transform: deckTransform,
+      };
+    } else {
+      return {
+        Name: "Card",
+        Nickname: list[0].card.name,
+        CardID: 100,
+        CustomDeck: deck,
+        Transform: deckTransform,
+      };
+    }
+  };
+
   const convertToTTS = () => {
-    return JSON.stringify({ a: "A val", b: "B val" });
+    const states = [
+      listAsDeck(cardObjs.others, 0),
+      listAsDeck(cardObjs.commanders, 1),
+    ];
+    const obj = { ObjectStates: states };
+    return JSON.stringify(obj);
   };
 
   const handleDownload = () => {
-    console.log("Downloading");
-    const el = document.createElement("a");
-    const file = new Blob([convertToTTS()], {
-      type: "text/plain;charset=utf-8",
-    });
-    el.href = URL.createObjectURL(file);
-    el.download = `${name}.json`;
-    document.body.appendChild(el);
-    el.click();
+    setError("");
+    if (cardObjs.commanders && cardObjs.others) {
+      if (cardObjs.commanders.length === 0) {
+        setError("You're missing a commander");
+      } else if (cardObjs.others.length === 0) {
+        setError("You're missing a deck");
+      } else {
+        const el = document.createElement("a");
+        const file = new Blob([convertToTTS()], {
+          type: "application/json",
+        });
+        el.href = URL.createObjectURL(file);
+        el.download = `${name}.json`;
+        document.body.appendChild(el);
+        el.click();
+      }
+    } else {
+      setError("You must build a deck before downloading");
+    }
   };
 
   const handleClose = () => {
