@@ -25,6 +25,7 @@ app
     });
 
     server.get("*", (req, res) => handle(req, res));
+    server.post("*", (req, res) => handle(req, res));
 
     server.listen(port, (error) => {
       if (error) throw error;
