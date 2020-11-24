@@ -114,6 +114,7 @@ const formatCards = (cards, identity) => {
 };
 
 export default async (req, res) => {
+  console.error("before", req.query);
   const { cards: names } = req.query;
   console.log("Received", names);
   const cardNames = JSON.parse(names);
