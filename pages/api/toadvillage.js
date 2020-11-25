@@ -42,7 +42,7 @@ const fetchCards = async (cards) => {
         }
       }
     } catch (err) {
-      console.log("Error", err.message);
+      console.log("Error: ", err.message);
       unmatched.push(name);
     }
   }
@@ -83,10 +83,13 @@ const formatCard = (card) => {
   const image = card.image_uris || card.card_faces[0].image_uris;
   const newCard = { name: card.name, image: image.normal };
   if (card.card_faces) {
-    newCard.faces = card.card_faces.map(({ name, image_uris }) => ({
-      name,
-      image: image_uris.normal,
-    }));
+    const imageFaces = card.card_faces.filter((face) => face.image_uris);
+    if (imageFaces.length === 2) {
+      newCard.faces = imageFaces.map(({ name, image_uris }) => ({
+        name,
+        image: image_uris.normal,
+      }));
+    }
   }
   return newCard;
 };
@@ -113,11 +116,14 @@ export default async (req, res) => {
 
   const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
   const filteredMatches = matchedCards.filter(Boolean);
+  const filteredUnmatches = unmatched.filter(Boolean);
 
   const identity = getColorIdentity(filteredMatches);
   const { commanders, others } = formatCards(filteredMatches, identity);
 
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.send(JSON.stringify({ commanders, others, unmatched, tokens }));
+  res.send(
+    JSON.stringify({ commanders, others, unmatched: filteredUnmatches, tokens })
+  );
 };
