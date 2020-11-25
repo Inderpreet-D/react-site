@@ -103,9 +103,11 @@ const ToadVillage = () => {
       ids.push(id);
     };
 
+    let currentID = 100;
     list.forEach(({ amount, card }, idx) => {
       for (let i = 0; i < amount; i++) {
-        cardToTTS(card, (idx + i + 1) * 100);
+        cardToTTS(card, currentID);
+        currentID += 100;
       }
     });
 
