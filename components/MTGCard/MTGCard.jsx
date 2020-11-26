@@ -3,7 +3,14 @@ import clsx from "clsx";
 
 import classes from "./MTGCard.module.css";
 
-const MTGCard = ({ amount, card, onClickMove, onClickAdd, onClickRemove }) => {
+const MTGCard = ({
+  amount,
+  isCommander,
+  card,
+  onClickMove,
+  onClickAdd,
+  onClickRemove,
+}) => {
   const [flipped, setFlipped] = React.useState(false);
 
   const { image, name, faces } = card;
@@ -11,16 +18,16 @@ const MTGCard = ({ amount, card, onClickMove, onClickAdd, onClickRemove }) => {
 
   const handleSub = () => {
     if (amount > 0) {
-      onClickRemove(name);
+      onClickRemove(name, isCommander);
     }
   };
 
   const handleMove = () => {
-    onClickMove(name);
+    onClickMove(name, isCommander);
   };
 
   const handleAdd = () => {
-    onClickAdd(name);
+    onClickAdd(name, isCommander);
   };
 
   const handleFlip = () => {

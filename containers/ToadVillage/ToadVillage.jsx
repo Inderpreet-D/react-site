@@ -16,6 +16,7 @@ import generate from "project-name-generator";
 
 import MTGCard from "../../components/MTGCard";
 import LoadingIcon from "../../components/LoadingIcon";
+import mtgDownload from "../../utilities/toad-helper";
 import classes from "./ToadVillage.module.css";
 
 const randomName = () => {
@@ -62,126 +63,11 @@ const ToadVillage = () => {
     setName(e.target.value);
   };
 
-  const listAsDeck = (list, idx, hasFaces = false) => {
-    if (!list) {
-      return null;
-    }
-
-    const contained = [];
-    const ids = [];
-    const deck = {};
-    let deckId = 1;
-    const cardTransform = {
-      posX: 0,
-      posY: 0,
-      posZ: 0,
-      rotX: 0,
-      rotY: 180,
-      rotZ: idx === 0 ? 180 : 0,
-      scaleX: 1,
-      scaleY: 1,
-      scaleZ: 1,
-    };
-
-    const cardToTTS = (card, id) => {
-      contained.push({
-        CardID: id,
-        Name: "Card",
-        Nickname: card.name,
-        Transform: cardTransform,
-      });
-      deck[deckId] = {
-        FaceURL: hasFaces ? card.faces[0].image : card.image,
-        BackURL: hasFaces
-          ? card.faces[1].image
-          : "https://i.redd.it/25zhw3vvkvn41.png",
-        NumHeight: 1,
-        NumWidth: 1,
-        BackIsHidden: true,
-      };
-      deckId++;
-      ids.push(id);
-    };
-
-    let currentID = 100;
-    list.forEach(({ amount, card }, idx) => {
-      for (let i = 0; i < amount; i++) {
-        cardToTTS(card, currentID);
-        currentID += 100;
-      }
-    });
-
-    const deckTransform = {
-      posX: 2.2 * idx,
-      posY: 1,
-      posZ: 0,
-      rotX: 0,
-      rotY: 180,
-      rotZ: idx === 0 ? 180 : 0,
-      scaleX: 1,
-      scaleY: 1,
-      scaleZ: 1,
-    };
-
-    if (list.length > 1) {
-      return {
-        Name: "DeckCustom",
-        ContainedObjects: contained,
-        DeckIDs: ids,
-        CustomDeck: deck,
-        Transform: deckTransform,
-      };
-    } else {
-      return {
-        Name: "Card",
-        Nickname: list[0].card?.name || list[0].name,
-        CardID: 100,
-        CustomDeck: deck,
-        Transform: deckTransform,
-      };
-    }
-  };
-
-  const convertToTTS = () => {
-    const hasFace = ({ card }) => card.faces?.length == 2;
-    const flipCards = [
-      ...cardObjs.others.filter(hasFace),
-      ...cardObjs.commanders.filter(hasFace),
-    ];
-    let nextNum = 1;
-    const states = [listAsDeck(cardObjs.others, 0)];
-    if (cardObjs.commanders.length > 0) {
-      listAsDeck(cardObjs.commanders, 1), nextNum++;
-    }
-    if (flipCards.length > 0) {
-      states.push(listAsDeck(flipCards, nextNum, true));
-      nextNum++;
-    }
-    states.push(listAsDeck(cardObjs.tokens, nextNum));
-    const obj = { ObjectStates: states.filter(Boolean) };
-    return JSON.stringify(obj);
-  };
-
   const handleDownload = () => {
     setError("");
-    if (cardObjs.others) {
-      // if (cardObjs.commanders.length === 0) {
-      //   setError("You're missing a commander");
-      // } else
-      if (cardObjs.others.length === 0) {
-        setError("You're missing a deck");
-      } else {
-        const el = document.createElement("a");
-        const file = new Blob([convertToTTS()], {
-          type: "application/json",
-        });
-        el.href = URL.createObjectURL(file);
-        el.download = `${name}.json`;
-        document.body.appendChild(el);
-        el.click();
-      }
-    } else {
-      setError("You must build a deck before downloading");
+    const errorMsg = mtgDownload(cardObjs, name);
+    if (errorMsg) {
+      setError(errorMsg);
     }
   };
 
@@ -210,25 +96,30 @@ const ToadVillage = () => {
     setCardListString(e.target.value);
   };
 
-  const findCard = (name) => {
-    const check = ({ card }) => card.name === name;
-    const cmd = cardObjs.commanders.find(check);
-
-    if (cmd) {
-      return { isCommander: true, cardObj: cmd };
-    } else {
-      return { isCommander: false, cardObj: cardObjs.others.find(check) };
-    }
-  };
-
   const nameSort = (c1, c2) => {
     const textA = c1.card.name;
     const textB = c2.card.name;
-    return textA < textB ? -1 : textA > textB ? 1 : 0;
+    if (textA < textB) {
+      return -1;
+    } else if (textA > textB) {
+      return 1;
+    } else {
+      return c1.amount - c2.amount;
+    }
   };
 
-  const handleMove = (name) => {
-    const { isCommander, cardObj } = findCard(name);
+  const findCard = (name, isCommander) => {
+    const check = ({ card }) => card.name === name;
+
+    if (isCommander) {
+      return cardObjs.commanders.find(check);
+    } else {
+      return cardObjs.others.find(check);
+    }
+  };
+
+  const handleMove = (name, isCommander) => {
+    const cardObj = findCard(name, isCommander);
 
     if (isCommander) {
       const commanders = cardObjs.commanders.filter((card) => card !== cardObj);
@@ -241,8 +132,8 @@ const ToadVillage = () => {
     }
   };
 
-  const handleCountChange = (name, increment) => {
-    const { isCommander, cardObj } = findCard(name);
+  const handleCountChange = (name, isCommander, increment) => {
+    const cardObj = findCard(name, isCommander);
 
     let list = cardObjs.others;
     if (isCommander) {
@@ -262,19 +153,26 @@ const ToadVillage = () => {
     }
   };
 
-  const handleAdd = (name) => {
-    handleCountChange(name, true);
+  const handleAdd = (name, isCommander) => {
+    handleCountChange(name, isCommander, true);
   };
 
-  const handleRemove = (name) => {
-    handleCountChange(name, false);
+  const handleRemove = (name, isCommander) => {
+    handleCountChange(name, isCommander, false);
   };
 
   let commanderCount = 0;
   let otherCount = 0;
+  let totalCount = 0;
 
-  cardObjs.commanders?.forEach(({ amount }) => (commanderCount += amount));
-  cardObjs.others?.forEach(({ amount }) => (otherCount += amount));
+  cardObjs.commanders?.forEach(({ amount }) => {
+    commanderCount += amount;
+    totalCount += amount;
+  });
+  cardObjs.others?.forEach(({ amount }) => {
+    otherCount += amount;
+    totalCount += amount;
+  });
 
   return (
     <Paper variant="outlined" className={classes.Paper}>
@@ -339,10 +237,11 @@ const ToadVillage = () => {
 
       {loading && <LoadingIcon />}
 
-      {cardObjs.commanders && cardObjs.others && (
+      {!loading && cardObjs.commanders && cardObjs.others && (
         <>
+          <div className={classes.Header}>Total Cards ({totalCount})</div>
           <div className={classes.Header}>
-            Commander Options ({commanderCount})
+            Commander Options / Sideboard ({commanderCount})
           </div>
           <div className={classes.CardBlock}>
             {cardObjs.commanders.map((card, i) => (
@@ -351,6 +250,7 @@ const ToadVillage = () => {
                 onClickMove={handleMove}
                 onClickAdd={handleAdd}
                 onClickRemove={handleRemove}
+                isCommander={true}
                 {...card}
               />
             ))}
@@ -363,6 +263,7 @@ const ToadVillage = () => {
                 onClickMove={handleMove}
                 onClickAdd={handleAdd}
                 onClickRemove={handleRemove}
+                isCommander={false}
                 {...card}
               />
             ))}

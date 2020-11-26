@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Paper, Typography, TextField, makeStyles } from "@material-ui/core";
 
 import Page from "../components/Page";
-import { part1, part2, part3, decode } from "../secret-helper";
+import { part1, part2, part3, decode } from "../utilities/secret-helper.js";
 
 const useStyles = makeStyles(() => ({
   root: {
