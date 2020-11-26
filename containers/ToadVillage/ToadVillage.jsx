@@ -148,11 +148,11 @@ const ToadVillage = () => {
       ...cardObjs.others.filter(hasFace),
       ...cardObjs.commanders.filter(hasFace),
     ];
-    const states = [
-      listAsDeck(cardObjs.others, 0),
-      listAsDeck(cardObjs.commanders, 1),
-    ];
-    let nextNum = 2;
+    let nextNum = 1;
+    const states = [listAsDeck(cardObjs.others, 0)];
+    if (cardObjs.commanders.length > 0) {
+      listAsDeck(cardObjs.commanders, 1), nextNum++;
+    }
     if (flipCards.length > 0) {
       states.push(listAsDeck(flipCards, nextNum, true));
       nextNum++;
@@ -164,10 +164,11 @@ const ToadVillage = () => {
 
   const handleDownload = () => {
     setError("");
-    if (cardObjs.commanders && cardObjs.others) {
-      if (cardObjs.commanders.length === 0) {
-        setError("You're missing a commander");
-      } else if (cardObjs.others.length === 0) {
+    if (cardObjs.others) {
+      // if (cardObjs.commanders.length === 0) {
+      //   setError("You're missing a commander");
+      // } else
+      if (cardObjs.others.length === 0) {
         setError("You're missing a deck");
       } else {
         const el = document.createElement("a");
