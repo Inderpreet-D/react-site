@@ -89,7 +89,7 @@ const convertToTTS = (cardObjs) => {
   [cardObjs.others, cardObjs.commanders, flipCards, cardObjs.tokens].forEach(
     (l, i) => {
       if (l?.length > 0) {
-        const deck = listAsDeck(l, nextNum);
+        const deck = listAsDeck(l, nextNum, l === flipCards);
         if (i !== 0) {
           const newDeck = { ...deck };
           if (newDeck.DeckIDs) {
