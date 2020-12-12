@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { Paper, TextField, makeStyles } from "@material-ui/core";
 
-import { part1, midParts, part3, decode } from "../utilities/secret-helper.js";
+import { part1, midParts, part3, decode } from "../utilities/secret-helper";
 
 const useStyles = makeStyles(() => ({
   root: {

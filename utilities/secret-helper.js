@@ -44,3 +44,23 @@ export const decode = (userInput, secret) => {
   }
   return decrypt(secret, key);
 };
+
+const encrypt = (secret, text) => {
+  const key = padKey(secret, text.length);
+  let s = [];
+
+  for (let i = 0; i < text.length; i++) {
+    s.push(key.charCodeAt(i) ^ text.charCodeAt(i));
+  }
+
+  return s.join(",");
+};
+
+export const encode = (userInput, plaintext) => {
+  const secret = userInput.toLowerCase().trim();
+  const text = plaintext.trim();
+  if (secret.length === 0 || text.length === 0) {
+    return plaintext;
+  }
+  return encrypt(secret, text);
+};
