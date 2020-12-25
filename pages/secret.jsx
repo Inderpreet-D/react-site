@@ -32,6 +32,11 @@ const useStyles = makeStyles(() => ({
     textAlign: "left",
     fontSize: "20px",
     flexShrink: "1",
+    "&:hover": {
+      backgroundColor: "#4e4e4e",
+    },
+  },
+  scrollable: {
     overflowY: "auto",
   },
   subtext: {
@@ -63,11 +68,13 @@ const Secret = () => {
             {decode(userInput, part1)}
           </div>
 
-          {midParts.map((part, i) => (
-            <div key={i} className={textClass(classes.text)}>
-              {decode(userInput, part)}
-            </div>
-          ))}
+          <div className={classes.scrollable}>
+            {midParts.map((part, i) => (
+              <div key={i} className={textClass(classes.text)}>
+                {decode(userInput, part)}
+              </div>
+            ))}
+          </div>
 
           <div className={textClass(classes.subtext)}>
             {decode(userInput, part3)}
