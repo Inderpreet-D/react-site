@@ -1,35 +1,23 @@
-import { Fragment, useEffect } from "react";
-import Head from "next/head";
-import { ThemeProvider, CssBaseline, createMuiTheme } from "@material-ui/core";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 
-import "../styles/globals.css";
+import theme from "../theme";
 
-const theme = createMuiTheme({ palette: { type: "dark" } });
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #3d3d3d;
+  }
+`;
 
-export default function MyApp(props) {
-  const { Component, pageProps } = props;
-
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  }, []);
-
+export default function MyApp({ Component, pageProps }) {
   return (
-    <Fragment>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
+    <>
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
         <Component {...pageProps} />
       </ThemeProvider>
-    </Fragment>
+    </>
   );
 }
