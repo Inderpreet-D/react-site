@@ -6,7 +6,7 @@ import Page from "../components/Page";
 import styles from "../styles/Error.module.css";
 
 const Test = styled.div`
-  background-color: ${(props) => props.theme.colors.primary};
+  border: ${({ theme }) => `0.125rem solid ${theme.foregroundDark}`};
   width: 40px;
   height: 200%;
 `;

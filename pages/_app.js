@@ -1,19 +1,21 @@
 import App from "next/app";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 
-import theme from "../theme";
+import theme from "../themes/lightblue";
+// import theme from "../themes/bluepurple";
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #3d3d3d;
+    background-color: ${theme.background};
+    color: ${theme.text};
   }
 `;
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
     if (Component.getInitialProps) {
