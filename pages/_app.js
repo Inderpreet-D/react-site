@@ -12,6 +12,12 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${theme.background};
     color: ${theme.text};
   }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
 `;
 
 export default class MyApp extends App {

@@ -1,6 +1,6 @@
 import { Tabs } from "@material-ui/core";
 
-import NavigationItem from "./NavigationItem";
+import NavigationItem from "../../atoms/NavigationItem";
 
 const NavigationItems = (props) => {
   return (

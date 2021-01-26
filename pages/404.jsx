@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Page from "../components/Page";
 
-const ErrorBox = styled.div`
+const StyledErrorBox = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -28,12 +28,12 @@ const StyledLink = styled.a`
 const Custom404 = () => {
   return (
     <Page title="404 - Page Not Found">
-      <ErrorBox>
+      <StyledErrorBox>
         <h1>Page Not Found</h1>
         <Link href="/" replace>
           <StyledLink>Go back home</StyledLink>
         </Link>
-      </ErrorBox>
+      </StyledErrorBox>
     </Page>
   );
 };
