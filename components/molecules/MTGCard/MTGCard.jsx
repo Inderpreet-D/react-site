@@ -29,8 +29,7 @@ const greyStyles = css`
 const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
-  border: 0.125rem solid;
-  border-color: ${({ theme }) => theme.foregroundDark};
+  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
   margin: 0.25rem;
   border-radius: 0.5rem;
   background-color: ${({ theme }) => theme.backgroundLight};
@@ -62,12 +61,12 @@ const StyledCardCount = styled.div`
   font-weight: bold;
   transition: opacity 0.5s;
   background-color: ${({ theme }) => theme.foreground};
-  border: 0.0625rem solid;
-  border-color: ${({ theme }) => theme.foregroundDark};
+  border: 0.0625rem solid ${({ theme }) => theme.foregroundDark};
   font-size: 3rem;
   line-height: 3rem;
   padding: 0.5rem;
   border-radius: 50%;
+
   ${({ noCards }) => noCards && noCardStyles};
 `;
 

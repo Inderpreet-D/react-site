@@ -1,11 +1,17 @@
-import { AppBar } from "@material-ui/core";
+import styled from "styled-components";
 
-import NavigationItems from "../NavigationItems";
+import NavigationItems from "../../molecules/NavigationItems";
 
-const Toolbar = (props) => (
-  <AppBar position="static">
+const StyledToolbar = styled.div`
+  display: flex;
+  /* flex: 1 0 auto; */
+  background-color: ${({ theme }) => theme.backgroundLight};
+`;
+
+const Toolbar = () => (
+  <StyledToolbar>
     <NavigationItems />
-  </AppBar>
+  </StyledToolbar>
 );
 
 export default Toolbar;

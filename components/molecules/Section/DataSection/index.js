@@ -1,3 +1,1 @@
-import DataSection from "./DataSection";
-
-export default DataSection;
+export { default } from "./DataSection";

@@ -1,20 +1,36 @@
-import { Fragment } from "react";
+import styled from "styled-components";
 import Head from "next/head";
 import PropTypes from "prop-types";
 
-import Toolbar from "../Navigation/Toolbar";
-import Footer from "../Footer";
-import styles from "./Page.module.css";
+import Toolbar from "../../organisms/Toolbar";
+import Footer from "../../atoms/Footer";
+
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const StyledChildren = styled.div`
+  flex-grow: 1;
+  overflow: auto;
+`;
 
 const Page = ({ children, title }) => (
-  <Fragment>
+  <>
     <Head>
       <title>{title}</title>
     </Head>
-    <Toolbar />
-    <div className={styles.Body}>{children}</div>
-    <Footer />
-  </Fragment>
+
+    <StyledWrapper>
+      <Toolbar />
+
+      <StyledChildren>{children}</StyledChildren>
+
+      <Footer />
+    </StyledWrapper>
+  </>
 );
 
 Page.propTypes = {

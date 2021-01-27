@@ -33,8 +33,8 @@ const StyledLoader = styled.div`
   box-sizing: border-box;
   border: 1rem solid;
   border-color: ${colors.slice(0, 4).join(" ")};
-  border-radius:50%;
-  background-color: ${colors[4]}
+  border-radius: 50%;
+  background-color: ${colors[4]};
   animation: ${spin} 2s linear infinite;
 `;
 

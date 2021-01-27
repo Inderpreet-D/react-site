@@ -1,0 +1,19 @@
+.theme {
+  /*background*/
+  color: #0b0c10;
+
+  /*backgroundLight*/
+  color: #1f2833;
+
+  /*accent*/
+  color: #c5c6c7;
+
+  /*foreground*/
+  color: #66fcf1;
+
+  /*foregroundDark*/
+  color: #45a29e;
+
+  /*text*/
+  color: white;
+}

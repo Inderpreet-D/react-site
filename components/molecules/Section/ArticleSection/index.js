@@ -1,3 +1,1 @@
-import ArticleSection from "./ArticleSection";
-
-export default ArticleSection;
+export { default } from "./ArticleSection";

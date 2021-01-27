@@ -16,7 +16,7 @@ import generate from "project-name-generator";
 
 import MTGCard from "../../components/MTGCard";
 import LoadingIcon from "../../components/LoadingIcon";
-import mtgDownload from "../../utilities/toad-helper";
+import mtgDownload from "../../../utilities/toad-helper";
 import classes from "./ToadVillage.module.css";
 
 const randomName = () => {

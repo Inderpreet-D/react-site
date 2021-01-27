@@ -1,17 +1,20 @@
-import { Tabs } from "@material-ui/core";
+import styled from "styled-components";
 
 import NavigationItem from "../../atoms/NavigationItem";
 
-const NavigationItems = (props) => {
+const StyledItems = styled.div`
+  display: flex;
+`;
+
+const NavigationItems = () => {
   return (
-    <Tabs value={false}>
+    <StyledItems>
       <NavigationItem link="/">Home</NavigationItem>
       <NavigationItem link="/projects">Projects</NavigationItem>
-      <NavigationItem link="/twilio">Twilio Test</NavigationItem>
       <NavigationItem link="/treachery">MTG Treachery</NavigationItem>
       <NavigationItem link="/poetry">Poetry</NavigationItem>
       <NavigationItem link="/toadvillage">ToadVillage</NavigationItem>
-    </Tabs>
+    </StyledItems>
   );
 };
 

@@ -1,3 +1,1 @@
-import DateSection from "./DateSection";
-
-export default DateSection;
+export { default } from "./DateSection";
