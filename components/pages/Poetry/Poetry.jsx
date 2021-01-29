@@ -3,29 +3,24 @@ import parse from "html-react-parser";
 import styled from "styled-components";
 
 import Page from "../../templates/Page";
+import Container from "../../atoms/Container";
 import LoadingIcon from "../../atoms/LoadingIcon";
 
-const StyledBox = styled.div`
+const StyledLink = styled.a`
   display: flex;
   justify-content: center;
-`;
-
-const StyledContainer = styled.div`
-  width: 55%;
-  padding: 1.25rem;
-  margin: 1rem 0;
-  border: ${({ theme }) => `0.125rem solid ${theme.foregroundDark}`};
-`;
-
-const StyledLink = styled.a`
-  text-align: center;
-  font-weight: bold;
-  font-size: 2rem;
   color: ${({ theme }) => theme.foreground};
+  font-size: 2.125rem;
+  font-weight: bold;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
 `;
 
 const StyledText = styled.div`
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
 `;
 
 const corsProxy = "https://cors-anywhere.herokuapp.com";
@@ -66,22 +61,20 @@ const Poetry = () => {
 
   return (
     <Page title="Poetry">
-      <StyledBox>
-        <StyledContainer>
-          {!loaded ? (
-            <LoadingIcon />
-          ) : (
-            <>
-              <StyledLink href={poem.url} target="_blank">
-                {poem.name}
-              </StyledLink>
-              <StyledText
-                dangerouslySetInnerHTML={{ __html: parse(poem.body) }}
-              />
-            </>
-          )}
-        </StyledContainer>
-      </StyledBox>
+      <Container>
+        {!loaded ? (
+          <LoadingIcon />
+        ) : (
+          <>
+            <StyledLink href={poem.url} target="_blank">
+              {poem.name}
+            </StyledLink>
+            <StyledText
+              dangerouslySetInnerHTML={{ __html: parse(poem.body) }}
+            />
+          </>
+        )}
+      </Container>
     </Page>
   );
 };
