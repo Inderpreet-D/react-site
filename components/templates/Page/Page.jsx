@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Head from "next/head";
 import PropTypes from "prop-types";
 
-import Toolbar from "../../organisms/Toolbar";
+import Header from "../../atoms/Header";
 import Footer from "../../atoms/Footer";
 
 const StyledWrapper = styled.div`
@@ -24,7 +24,7 @@ const Page = ({ children, title }) => (
     </Head>
 
     <StyledWrapper>
-      <Toolbar />
+      <Header />
 
       <StyledChildren>{children}</StyledChildren>
 

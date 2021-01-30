@@ -1,12 +1,12 @@
 import axios from "axios";
 import parse from "html-react-parser";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Page from "../../templates/Page";
 import Container from "../../atoms/Container";
 import LoadingIcon from "../../atoms/LoadingIcon";
 
-const StyledLink = styled.a`
+const titleStyles = css`
   display: flex;
   justify-content: center;
   color: ${({ theme }) => theme.foreground};
@@ -16,11 +16,19 @@ const StyledLink = styled.a`
   letter-spacing: 0.00735em;
 `;
 
+const StyledLink = styled.a`
+  ${titleStyles}
+`;
+
 const StyledText = styled.div`
   font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.6;
   letter-spacing: 0.0075em;
+`;
+
+const StyledError = styled.div`
+  ${titleStyles}
 `;
 
 const corsProxy = "https://cors-anywhere.herokuapp.com";
@@ -50,13 +58,23 @@ const pickRandomPoem = (res) => {
 const Poetry = () => {
   const [poem, setPoem] = React.useState(null);
   const [loaded, setLoaded] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
-    axios({ method: "GET", url: `${corsProxy}/${poetryURL}` }).then((res) => {
-      const { name, body, url } = pickRandomPoem(res);
-      setPoem({ name, body, url });
-      setLoaded(true);
-    });
+    axios({ method: "GET", url: `${corsProxy}/${poetryURL}` })
+      .then((res) => {
+        const { name, body, url } = pickRandomPoem(res);
+        if (name && body && url) {
+          setPoem({ name, body, url });
+        } else {
+          setError(true);
+        }
+        setLoaded(true);
+      })
+      .catch((err) => {
+        setError(true);
+        setLoaded(true);
+      });
   }, []);
 
   return (
@@ -64,6 +82,8 @@ const Poetry = () => {
       <Container>
         {!loaded ? (
           <LoadingIcon />
+        ) : error ? (
+          <StyledError>An error occurred, please try again later.</StyledError>
         ) : (
           <>
             <StyledLink href={poem.url} target="_blank">

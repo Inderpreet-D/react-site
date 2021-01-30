@@ -1,16 +1,15 @@
 import Link from "next/link";
 import styled from "styled-components";
 
+import Container from "../../atoms/Container";
 import Page from "../../templates/Page";
 
-const StyledErrorBox = styled.div`
+const StyledErrorBox = styled(Container)`
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${({ theme }) => theme.backgroundLight};
-  border: ${({ theme }) => `0.125rem solid ${theme.foregroundDark}`};
-  padding: 1.25rem;
+  width: max-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
