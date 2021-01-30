@@ -13,6 +13,7 @@ const StyledHeader = styled.div`
 
 const StyledItems = styled.div`
   display: flex;
+  overflow: auto;
 `;
 
 const Header = () => (

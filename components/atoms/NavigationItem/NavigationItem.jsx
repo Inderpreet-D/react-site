@@ -2,23 +2,23 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-const StyledItem = styled.div`
+const StyledHolder = styled.div`
+  height: 3.125rem;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+`;
+
+const StyledLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: 3.125rem;
-  box-sizing: border-box;
-  cursor: pointer;
-`;
-
-const StyledLink = styled.a`
-  text-decoration: none;
+  text-align: center;
+  padding: 0 0.25rem;
   height: 100%;
-  padding: 1rem 0.625rem;
   width: 100%;
   box-sizing: border-box;
-  display: block;
+  border-bottom: 0.25rem solid transparent;
 
   &:hover,
   &:active,
@@ -35,9 +35,9 @@ const NavigationItem = ({ link, children }) => {
 
   return (
     <Link href={link}>
-      <StyledItem>
+      <StyledHolder>
         <StyledLink className={activeClass}>{children}</StyledLink>
-      </StyledItem>
+      </StyledHolder>
     </Link>
   );
 };
