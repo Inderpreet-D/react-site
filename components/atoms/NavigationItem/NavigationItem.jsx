@@ -1,12 +1,19 @@
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useRouter } from "next/router";
+
+import breakpoints from "../../../breakpoints";
 
 const StyledHolder = styled.div`
   height: 3.125rem;
   width: 100%;
   cursor: pointer;
   user-select: none;
+`;
+
+const hoverCSS = css`
+  color: ${({ theme }) => theme.foreground};
+  background-color: ${({ theme }) => theme.backgroundLight};
 `;
 
 const StyledLink = styled.div`
@@ -18,14 +25,25 @@ const StyledLink = styled.div`
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 0.25rem solid transparent;
+  border: 0.25rem solid transparent;
 
-  &:hover,
-  &:active,
-  &.active {
-    color: ${({ theme }) => theme.foreground};
-    background-color: ${({ theme }) => theme.backgroundLight};
-    border-bottom: 0.25rem solid ${({ theme }) => theme.foregroundDark};
+  @media ${breakpoints.laptop}, ${breakpoints.desktop} {
+    &:hover,
+    &:active,
+    &.active {
+      ${hoverCSS}
+      border-bottom: 0.25rem solid ${({ theme }) => theme.foregroundDark};
+    }
+  }
+
+  @media ${breakpoints.mobile}, ${breakpoints.tablet} {
+    &:hover,
+    &:active,
+    &.active {
+      ${hoverCSS}
+      border-right: 0.25rem solid ${({ theme }) => theme.foregroundDark};
+      border-left: 0.25rem solid ${({ theme }) => theme.foregroundDark};
+    }
   }
 `;
 

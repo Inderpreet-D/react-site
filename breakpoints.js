@@ -1,6 +1,21 @@
-export default {
-  mobile: "(min-width: 20rem) and (max-width: 30rem)",
-  tablet: "(min-width: 30.0625rem) and (max-width: 48rem)",
-  laptop: "(min-width: 48.0625rem) and (max-width: 64rem)",
-  desktop: "(min-width: 64.0625rem)",
+export const size = {
+  mobile: ["20rem", "30rem"],
+  tablet: ["30.0625rem", "48rem"],
+  laptop: ["48.0625rem", "64rem"],
+  desktop: ["64.0625rem"],
 };
+
+const breakpoints = {
+  mobile: "",
+  tablet: "",
+  laptop: "",
+  desktop: "",
+};
+
+Object.keys(size).forEach((key) => {
+  breakpoints[key] = size[key]
+    .map((size, i) => `(${i === 0 ? "min" : "max"}-width: ${size})`)
+    .join(" and ");
+});
+
+export default breakpoints;
