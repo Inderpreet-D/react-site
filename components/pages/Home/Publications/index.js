@@ -1,3 +1,1 @@
-import Publications from "./Publications";
-
-export default Publications;
+export { default } from "./Publications";

@@ -1,5 +1,5 @@
-import Section from "../../../components/Section";
-import DateSection from "../../../components/Section/DateSection";
+import Section from "../../../molecules/Section";
+import DateSection from "../../../molecules/Section/DateSection";
 
 const Experience = ({ expanded, clickHandler }) => {
   const jobs = [

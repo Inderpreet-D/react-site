@@ -1,5 +1,5 @@
-import Section from "../../../components/Section";
-import Article from "../../../components/Section/ArticleSection";
+import Section from "../../../molecules/Section";
+import Article from "../../../molecules/Section/ArticleSection";
 
 const Publications = ({ expanded, clickHandler }) => {
   const articles = [

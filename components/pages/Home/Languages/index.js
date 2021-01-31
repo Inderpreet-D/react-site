@@ -1,3 +1,1 @@
-import Languages from "./Languages";
-
-export default Languages;
+export { default } from "./Languages";

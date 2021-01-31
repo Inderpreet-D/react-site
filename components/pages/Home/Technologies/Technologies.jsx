@@ -1,5 +1,5 @@
-import Section from "../../../components/Section";
-import DataSection from "../../../components/Section/DataSection";
+import Section from "../../../molecules/Section";
+import DataSection from "../../../molecules/Section/DataSection";
 
 const Technologies = ({ expanded, clickHandler }) => {
   const experience = {
