@@ -1,22 +1,27 @@
 import React from "react";
+import styled from "styled-components";
 
 import Page from "../../templates/Page";
-
 import Languages from "./Languages";
 import Technologies from "./Technologies";
 import Education from "./Education";
 import Experience from "./Experience";
 import Publications from "./Publications";
 
-const Home = () => {
-  const [exIdx, setExIdx] = React.useState(-1);
+const StyledHeader = styled.div`
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: ${({ theme }) => theme.foreground};
+`;
 
-  const handleClick = (newIdx) => () => {
-    if (newIdx === exIdx) {
-      setExIdx(-1);
-    } else {
-      setExIdx(newIdx);
-    }
+const Home = () => {
+  const [idx, setIdx] = React.useState(-1);
+
+  const handleClick = (num) => () => {
+    setIdx(num !== idx ? num : -1);
   };
 
   const sections = [
@@ -29,11 +34,10 @@ const Home = () => {
 
   return (
     <Page title="Home">
-      <div style={{ textAlign: "center" }}>
-        <h1>Inderpreet Dhillon</h1>
-      </div>
+      <StyledHeader>Inderpreet Dhillon</StyledHeader>
+
       {sections.map((Component, i) => (
-        <Component expanded={exIdx === i} clickHandler={handleClick(i)} />
+        <Component key={i} expanded={idx === i} clickHandler={handleClick(i)} />
       ))}
     </Page>
   );
