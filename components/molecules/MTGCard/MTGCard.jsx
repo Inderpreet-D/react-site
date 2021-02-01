@@ -35,23 +35,6 @@ const StyledCard = styled.div`
   background-color: ${({ theme }) => theme.backgroundLight};
 `;
 
-const StyledImageHolder = styled.div`
-  display: flex;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-
-  &:hover ${StyledCardCount} {
-    opacity: 0;
-  }
-`;
-
-const StyledCardImage = styled.img`
-  width: 95%;
-  margin: 0.3rem auto;
-  border-radius: 0.75rem;
-`;
-
 const StyledCardCount = styled.div`
   color: ${({ theme }) => theme.text};
   position: absolute;
@@ -68,6 +51,23 @@ const StyledCardCount = styled.div`
   border-radius: 50%;
 
   ${({ noCards }) => noCards && noCardStyles};
+`;
+
+const StyledImageHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+
+  &:hover ${StyledCardCount} {
+    opacity: 0;
+  }
+`;
+
+const StyledCardImage = styled.img`
+  width: 95%;
+  margin: 0.3rem auto;
+  border-radius: 0.75rem;
 `;
 
 const StyledCardActions = styled.div`

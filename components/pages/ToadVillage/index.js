@@ -1,3 +1,1 @@
-import ToadVillage from "./ToadVillage";
-
-export default ToadVillage;
+export { default } from "./ToadVillagePage";

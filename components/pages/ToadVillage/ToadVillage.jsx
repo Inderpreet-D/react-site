@@ -14,10 +14,11 @@ import {
 import axios from "axios";
 import generate from "project-name-generator";
 
-import MTGCard from "../../components/MTGCard";
-import LoadingIcon from "../../components/LoadingIcon";
-import mtgDownload from "../../../utilities/toad-helper";
+import MTGCard from "../../molecules/MTGCard";
+import LoadingIcon from "../../atoms/LoadingIcon";
+
 import classes from "./ToadVillage.module.css";
+import mtgDownload from "../../../utilities/toad-helper";
 
 const randomName = () => {
   const random = generate({ words: 4, alliterative: false }).raw;

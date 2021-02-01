@@ -1,6 +1,8 @@
-import styles from "./ProjectsContainer.module.css";
-import Card from "../../../components/Card";
 import { Grid } from "@material-ui/core";
+
+import Card from "../../../molecules/Card";
+
+import styles from "./ProjectsContainer.module.css";
 
 const ProjectsContainer = (props) => {
   let key = 0;

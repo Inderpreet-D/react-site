@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React from "react";
 import { Button } from "@material-ui/core";
 
 import JoinRoomForm from "./JoinRoomForm";
@@ -8,11 +8,13 @@ const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
 const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
-  const [isJoining, setIsJoining] = useState(true);
-  const [roomCode, setRoomCode] = useState("");
+  const [isJoining, setIsJoining] = React.useState(true);
+  const [roomCode, setRoomCode] = React.useState("");
 
-  const [selectedRarity, setSelectedRarity] = useState(rarityOptions[0]);
-  const [selectedPlayerNum, setSelectedPlayerNum] = useState(playerOptions[0]);
+  const [selectedRarity, setSelectedRarity] = React.useState(rarityOptions[0]);
+  const [selectedPlayerNum, setSelectedPlayerNum] = React.useState(
+    playerOptions[0]
+  );
 
   const onPlayerNumSelectedHandler = (event) => {
     setSelectedPlayerNum(event.target.value);
@@ -62,7 +64,7 @@ const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Button
         disabled={isJoining}
         {...buttonProps}
@@ -94,7 +96,7 @@ const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
           {isJoining ? "Join" : "Create"}
         </Button>
       </form>
-    </Fragment>
+    </>
   );
 };
 

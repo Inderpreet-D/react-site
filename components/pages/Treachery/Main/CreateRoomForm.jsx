@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { FormControl, InputLabel, Select, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +18,7 @@ const CreateRoomForm = ({
   const classes = useStyles();
 
   return (
-    <Fragment>
+    <>
       <FormControl
         variant="filled"
         className={classes.formControl}
@@ -62,7 +61,7 @@ const CreateRoomForm = ({
           ))}
         </Select>
       </FormControl>
-    </Fragment>
+    </>
   );
 };
 
