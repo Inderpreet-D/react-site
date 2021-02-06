@@ -1,4 +1,3 @@
-import React from "react";
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 
