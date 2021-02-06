@@ -1,6 +1,6 @@
-import axios from "axios";
 import parse from "html-react-parser";
 import styled, { css } from "styled-components";
+import axios from "axios";
 
 import Page from "../../templates/Page";
 import Container from "../../atoms/Container";
@@ -31,9 +31,6 @@ const StyledError = styled.div`
   ${titleStyles}
 `;
 
-const corsProxy = "https://cors-anywhere.herokuapp.com";
-const poetryURL = "https://www.reddit.com/r/poetry/hot.json";
-
 const pickRandomPoem = (res) => {
   const allPosts = res.data.data.children;
   const textPosts = allPosts.filter((listing) => {
@@ -61,7 +58,8 @@ const Poetry = () => {
   const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
-    axios({ method: "GET", url: `${corsProxy}/${poetryURL}` })
+    axios
+      .get("/api/reddit")
       .then((res) => {
         const { name, body, url } = pickRandomPoem(res);
         if (name && body && url) {
