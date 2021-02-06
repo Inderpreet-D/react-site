@@ -1,62 +1,43 @@
-import {
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-  Button,
-  Grid,
-} from "@material-ui/core";
-import PropTypes from "prop-types";
+import styled from "styled-components";
 
-import styles from "./Card.module.css";
-import Link from "next/link";
+import CardContent from "./CardContent";
+import CardTitle from "./CardTitle";
+import CardDescription from "./CardDescription";
+import CardActions from "./CardActions";
+import LinkButton from "../../atoms/LinkButton";
+import Spacer from "../../atoms/Spacer";
 
-const MyCard = (props) => {
-  let target = "_blank";
-  if (props.href.startsWith("/")) {
-    target = "";
-  }
+const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
+  border-radius: 1rem;
+  background-color: ${({ theme }) => theme.backgroundLight};
+`;
 
-  let width = 4;
-  if (props.width) {
-    width = props.width;
-  }
-
+const MyCard = ({
+  href,
+  hrefTitle,
+  title,
+  description,
+  actionProps = { alignRight: true },
+}) => {
   return (
-    <Grid item xs={width}>
-      <Card>
-        <CardContent>
-          <Typography variant="h4" className={styles.Title} gutterBottom>
-            {props.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            className={styles.Description}
-            component="p"
-          >
-            {props.description}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="medium">
-            <Link href={props.href}>
-              <a target={target} className={styles.Link}>
-                {props.hrefTitle}
-              </a>
-            </Link>
-          </Button>
-        </CardActions>
-      </Card>
-    </Grid>
-  );
-};
+    <StyledCard>
+      <CardContent>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
 
-MyCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
-  hrefTitle: PropTypes.string.isRequired,
-  width: PropTypes.number,
+      <Spacer />
+
+      <CardActions {...actionProps}>
+        <LinkButton href={href} title={hrefTitle} />
+      </CardActions>
+    </StyledCard>
+  );
 };
 
 export default MyCard;
