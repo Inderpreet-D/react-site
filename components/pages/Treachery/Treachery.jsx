@@ -1,7 +1,6 @@
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 
-import Page from "../../templates/Page";
 import LoadingIcon from "../../atoms/LoadingIcon";
 import Main from "./Main";
 import Room from "./Room";
@@ -159,7 +158,7 @@ const Treachery = () => {
   }
 
   return (
-    <Page title="Treachery">
+    <>
       <div style={{ textAlign: "center" }}>
         <h1>MTG Treachery</h1>
       </div>
@@ -171,7 +170,7 @@ const Treachery = () => {
         )}
         {page}
       </Paper>
-    </Page>
+    </>
   );
 };
 
