@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { TextareaAutosize } from "@material-ui/core";
 import axios from "axios";
 
 import Container from "../../atoms/Container";
@@ -8,6 +7,7 @@ import LoadingIcon from "../../atoms/LoadingIcon";
 import Dialog from "../../molecules/Dialog";
 import Button from "../../atoms/Button";
 import TextField from "../../atoms/TextField";
+import TextArea from "../../atoms/TextArea";
 
 import mtgDownload, { randomName } from "../../../utilities/toad-helper";
 
@@ -61,7 +61,7 @@ const StyledCardBlock = styled.div`
   width: 100%;
 `;
 
-const StyledTextArea = styled(TextareaAutosize)`
+const StyledTextArea = styled(TextArea)`
   width: 100%;
   max-height: 70vh;
 `;
@@ -293,9 +293,9 @@ const ToadVillage = () => {
         <StyledTextArea
           autoFocus
           onChange={handleSetCards}
-          rowsMin={20}
-          rowsMax={50}
           value={cardListString}
+          rows={20}
+          placeholder="Enter your cards, one per line, in the format of 'NUMBER NAME'"
         />
       </Dialog>
     </Container>

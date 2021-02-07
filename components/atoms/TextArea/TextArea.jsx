@@ -5,19 +5,19 @@ const resetStyles = css`
   margin: 0;
   text-decoration: none;
   font-family: inherit;
-  font-size: 1.25rem;
+  font-size: 1rem;
   appearance: none;
   outline: none;
   background-color: transparent;
   border: none;
   width: 100%;
+  resize: vertical;
   padding: 1rem;
   border-radius: 0.25rem;
   box-sizing: border-box;
-  text-align: center;
 `;
 
-const StyledInput = styled.input`
+const StyledArea = styled.textarea`
   ${resetStyles};
 
   border: 0.0625rem solid ${({ theme }) => theme.background};
@@ -30,12 +30,16 @@ const StyledInput = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.foreground};
   }
+
+  &::placeholder {
+    letter-spacing: 1px;
+  }
 `;
 
-const TextField = ({ className, ...props }) => (
+const TextArea = ({ className, ...props }) => (
   <div className={className}>
-    <StyledInput {...props} />
+    <StyledArea {...props} />
   </div>
 );
 
-export default TextField;
+export default TextArea;
