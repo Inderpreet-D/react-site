@@ -1,26 +1,21 @@
 import styled, { css } from "styled-components";
-import { FaSync } from "react-icons/fa";
+import { FaSync, FaPlus, FaMinus } from "react-icons/fa";
 
 const noCardStyles = css`
   color: red;
   border-color: red;
 `;
 
-const bigTextStyles = css`
-  font-size: large;
-  font-weight: bold;
-`;
-
 const greyStyles = css`
-  cursor: default;
-  color: grey;
-  background-color: lightgray;
-  border-color: darkgray;
+  cursor: not-allowed;
+  color: gray;
+  border-color: gray;
+  background-color: ${({ theme }) => theme.accent};
 
   &:hover {
-    color: grey;
-    background-color: lightgray;
-    border-color: darkgray;
+    color: gray;
+    border-color: gray;
+    background-color: ${({ theme }) => theme.accent};
     transform: scale(1);
   }
 `;
@@ -35,15 +30,15 @@ const StyledCard = styled.div`
 `;
 
 const StyledCardCount = styled.div`
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.foreground};
   position: absolute;
   top: 30%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   font-weight: bold;
-  transition: opacity 0.5s;
-  background-color: ${({ theme }) => theme.foreground};
-  border: 0.0625rem solid ${({ theme }) => theme.foregroundDark};
+  transition: opacity 1s ease-in-out;
+  background-color: ${({ theme }) => theme.backgroundLight};
+  border: 0.0625rem solid ${({ theme }) => theme.accent};
   font-size: 3rem;
   line-height: 3rem;
   padding: 0.5rem;
@@ -67,6 +62,14 @@ const StyledCardImage = styled.img`
   width: 95%;
   margin: 0.3rem auto;
   border-radius: 0.75rem;
+  box-sizing: border-box;
+  border: 1px solid ${({ theme }) => theme.background};
+  transition: transform 1s;
+
+  &:hover {
+    transform: scale(1.5);
+    z-index: 1;
+  }
 `;
 
 const StyledCardActions = styled.div`
@@ -79,10 +82,10 @@ const StyledCardActions = styled.div`
 
 const StyledButton = styled.div`
   outline: none;
-  background-color: transparent;
+  color: ${({ theme }) => theme.foreground};
+  background-color: ${({ theme }) => theme.background};
+  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
   border-radius: 0.25rem;
-  border: 0.125rem solid;
-  border-color: gold; // ${({ theme }) => theme.foregroundDark}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,16 +95,15 @@ const StyledButton = styled.div`
   max-width: 4rem;
   height: 2.5rem;
   user-select: none;
-  transition: all 1s;
+  transition: all 0.25s;
 
   &:hover {
-    border-color: rgb(145, 105, 0);
-    background-color: gold;
-    transform: scale(1.25);
-    color: black;
+    transform: scale(1.15);
+    color: ${({ theme }) => theme.background};
+    background-color: ${({ theme }) => theme.foregroundDark};
+    border-color: ${({ theme }) => theme.foreground};
   }
 
-  ${({ bigText }) => bigText && bigTextStyles};
   ${({ isGrey }) => isGrey && greyStyles}
 `;
 
@@ -144,15 +146,20 @@ const MTGCard = ({
       </StyledImageHolder>
 
       <StyledCardActions>
-        <StyledButton onClick={handleSub} isGrey={amount === 0} bigText>
-          -
+        <StyledButton onClick={handleSub} isGrey={amount === 0}>
+          <FaMinus />
         </StyledButton>
-        <StyledButton onClick={handleMove}>Move</StyledButton>
-        <StyledButton onClick={handleAdd} bigText>
-          +
+
+        <StyledButton onClick={handleMove} style={{ fontWeight: "bold" }}>
+          Move
         </StyledButton>
+
+        <StyledButton onClick={handleAdd}>
+          <FaPlus />
+        </StyledButton>
+
         {faces && (
-          <StyledButton onClick={handleFlip} bigText>
+          <StyledButton onClick={handleFlip}>
             <FaSync />
           </StyledButton>
         )}

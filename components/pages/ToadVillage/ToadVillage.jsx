@@ -1,29 +1,73 @@
-import {
-  Button,
-  ButtonGroup,
-  Paper,
-  TextField,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextareaAutosize,
-} from "@material-ui/core";
+import styled from "styled-components";
+import { Button, TextField, TextareaAutosize } from "@material-ui/core";
 import axios from "axios";
-import generate from "project-name-generator";
 
+import Container from "../../atoms/Container";
 import MTGCard from "../../molecules/MTGCard";
 import LoadingIcon from "../../atoms/LoadingIcon";
+import Dialog from "../../molecules/Dialog";
 
-import classes from "./ToadVillage.module.css";
-import mtgDownload from "../../../utilities/toad-helper";
+import mtgDownload, { randomName } from "../../../utilities/toad-helper";
 
-const randomName = () => {
-  const random = generate({ words: 4, alliterative: false }).raw;
-  const upped = random.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
-  return upped.join("");
-};
+const StyledTitle = styled.div`
+  text-align: center;
+  margin-bottom: 1.25rem;
+  font-size: 2.125rem;
+  font-weight: 400;
+  line-height: 1.235;
+  letter-spacing: 0.00735em;
+`;
+
+const StyledButton = styled(Button)``;
+
+const StyledButtonHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  & > ${StyledButton} {
+    margin: 0 0.5rem;
+  }
+`;
+
+const StyledError = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 2rem;
+  color: lightcoral;
+  margin-bottom: 1.25rem;
+`;
+
+const StyledTextFieldHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+`;
+
+const StyledTextField = styled(TextField)`
+  width: 70%;
+  & > input {
+    text-align: center;
+  }
+`;
+
+const StyledHeader = styled.div`
+  font-size: 1.75rem;
+  font-weight: 300;
+  text-decoration: underline;
+  margin: 1.25rem 0;
+`;
+
+const StyledCardBlock = styled.div`
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  padding: 0;
+  width: 100%;
+`;
+
+const StyledTextArea = styled(TextareaAutosize)`
+  width: 100%;
+  max-height: 70vh;
+`;
 
 const ToadVillage = () => {
   const [showDialog, setShowDialog] = React.useState(false);
@@ -73,6 +117,12 @@ const ToadVillage = () => {
 
   const handleClose = () => {
     setShowDialog(false);
+  };
+
+  const handleCancel = () => {
+    setCardList({});
+    setCardListString("");
+    handleClose();
   };
 
   const handleSetCards = (e) => {
@@ -175,75 +225,38 @@ const ToadVillage = () => {
   });
 
   return (
-    <Paper variant="outlined" className={classes.Paper}>
-      <Typography variant="h4" className={classes.Title}>
-        Toad Village
-      </Typography>
+    <Container>
+      <StyledTitle>Toad Village</StyledTitle>
 
-      <div className={classes.Buttons}>
-        <ButtonGroup>
-          <Button variant="outlined" onClick={() => setShowDialog(true)}>
-            Import Deck List
-          </Button>
-          <Button variant="outlined" onClick={handleDownload}>
-            Download
-          </Button>
-        </ButtonGroup>
-      </div>
+      <StyledButtonHolder>
+        <StyledButton variant="outlined" onClick={() => setShowDialog(true)}>
+          Import Deck List
+        </StyledButton>
+        <StyledButton variant="outlined" onClick={handleDownload}>
+          Download
+        </StyledButton>
+      </StyledButtonHolder>
 
-      {error && <div className={classes.Error}>{error}</div>}
+      {error && <StyledError>{error}</StyledError>}
 
-      <div className={classes.TextField}>
-        <TextField
+      <StyledTextFieldHolder>
+        <StyledTextField
           value={name}
           onChange={handleNameChange}
           variant="outlined"
-          fullWidth
         />
-      </div>
-
-      <Dialog
-        open={showDialog}
-        onClose={handleClose}
-        aria-labelledby="title"
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle id="title">Enter Decklist</DialogTitle>
-        <DialogContent>
-          <TextareaAutosize
-            autoFocus
-            margin="dense"
-            onChange={handleSetCards}
-            rowsMin={20}
-            rowsMax={50}
-            style={{ width: "100%", maxHeight: "70vh" }}
-            value={cardListString}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setCardList({});
-              setCardListString("");
-              handleClose();
-            }}
-          >
-            Cancel
-          </Button>
-          <Button onClick={handleClose}>Submit</Button>
-        </DialogActions>
-      </Dialog>
+      </StyledTextFieldHolder>
 
       {loading && <LoadingIcon />}
 
       {!loading && cardObjs.commanders && cardObjs.others && (
         <>
-          <div className={classes.Header}>Total Cards ({totalCount})</div>
-          <div className={classes.Header}>
+          <StyledHeader>Total Cards ({totalCount})</StyledHeader>
+          <StyledHeader>
             Commander Options / Sideboard ({commanderCount})
-          </div>
-          <div className={classes.CardBlock}>
+          </StyledHeader>
+
+          <StyledCardBlock>
             {cardObjs.commanders.map((card, i) => (
               <MTGCard
                 key={i}
@@ -254,9 +267,11 @@ const ToadVillage = () => {
                 {...card}
               />
             ))}
-          </div>
-          <div className={classes.Header}>Deck ({otherCount})</div>
-          <div className={classes.CardBlock}>
+          </StyledCardBlock>
+
+          <StyledHeader>Deck ({otherCount})</StyledHeader>
+
+          <StyledCardBlock>
             {cardObjs.others.map((card, i) => (
               <MTGCard
                 key={i}
@@ -267,10 +282,34 @@ const ToadVillage = () => {
                 {...card}
               />
             ))}
-          </div>
+          </StyledCardBlock>
         </>
       )}
-    </Paper>
+
+      <Dialog
+        open={showDialog}
+        onClose={handleClose}
+        title="Enter Decklist"
+        actions={
+          <StyledButtonHolder style={{ marginBottom: 0 }}>
+            <StyledButton variant="outlined" onClick={handleCancel}>
+              Cancel
+            </StyledButton>
+            <StyledButton variant="outlined" onClick={handleClose}>
+              Submit
+            </StyledButton>
+          </StyledButtonHolder>
+        }
+      >
+        <StyledTextArea
+          autoFocus
+          onChange={handleSetCards}
+          rowsMin={20}
+          rowsMax={50}
+          value={cardListString}
+        />
+      </Dialog>
+    </Container>
   );
 };
 

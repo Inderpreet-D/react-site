@@ -1,3 +1,5 @@
+import generate from "project-name-generator";
+
 const listAsDeck = (list, idx, hasFaces = false) => {
   if (!list) {
     return null;
@@ -127,6 +129,12 @@ const download = (cardObjs, name) => {
   } else {
     return "You must build a deck before downloading";
   }
+};
+
+export const randomName = () => {
+  const random = generate({ words: 4, alliterative: false }).raw;
+  const upped = random.map((val) => val.charAt(0).toUpperCase() + val.slice(1));
+  return upped.join("");
 };
 
 export default download;
