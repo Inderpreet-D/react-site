@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { Button, TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField, TextareaAutosize } from "@material-ui/core";
 import axios from "axios";
 
 import Container from "../../atoms/Container";
 import MTGCard from "../../molecules/MTGCard";
 import LoadingIcon from "../../atoms/LoadingIcon";
 import Dialog from "../../molecules/Dialog";
+import Button from "../../atoms/Button";
 
 import mtgDownload, { randomName } from "../../../utilities/toad-helper";
 
@@ -18,13 +19,11 @@ const StyledTitle = styled.div`
   letter-spacing: 0.00735em;
 `;
 
-const StyledButton = styled(Button)``;
-
 const StyledButtonHolder = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 1.25rem;
-  & > ${StyledButton} {
+  & > ${Button} {
     margin: 0 0.5rem;
   }
 `;
@@ -229,12 +228,8 @@ const ToadVillage = () => {
       <StyledTitle>Toad Village</StyledTitle>
 
       <StyledButtonHolder>
-        <StyledButton variant="outlined" onClick={() => setShowDialog(true)}>
-          Import Deck List
-        </StyledButton>
-        <StyledButton variant="outlined" onClick={handleDownload}>
-          Download
-        </StyledButton>
+        <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
+        <Button onClick={handleDownload}>Download</Button>
       </StyledButtonHolder>
 
       {error && <StyledError>{error}</StyledError>}
@@ -292,12 +287,8 @@ const ToadVillage = () => {
         title="Enter Decklist"
         actions={
           <StyledButtonHolder style={{ marginBottom: 0 }}>
-            <StyledButton variant="outlined" onClick={handleCancel}>
-              Cancel
-            </StyledButton>
-            <StyledButton variant="outlined" onClick={handleClose}>
-              Submit
-            </StyledButton>
+            <Button onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleClose}>Submit</Button>
           </StyledButtonHolder>
         }
       >
