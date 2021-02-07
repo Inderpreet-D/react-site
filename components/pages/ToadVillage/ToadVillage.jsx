@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextareaAutosize } from "@material-ui/core";
 import axios from "axios";
 
 import Container from "../../atoms/Container";
@@ -7,6 +7,7 @@ import MTGCard from "../../molecules/MTGCard";
 import LoadingIcon from "../../atoms/LoadingIcon";
 import Dialog from "../../molecules/Dialog";
 import Button from "../../atoms/Button";
+import TextField from "../../atoms/TextField";
 
 import mtgDownload, { randomName } from "../../../utilities/toad-helper";
 
@@ -44,9 +45,6 @@ const StyledTextFieldHolder = styled.div`
 
 const StyledTextField = styled(TextField)`
   width: 70%;
-  & > input {
-    text-align: center;
-  }
 `;
 
 const StyledHeader = styled.div`
@@ -238,7 +236,7 @@ const ToadVillage = () => {
         <StyledTextField
           value={name}
           onChange={handleNameChange}
-          variant="outlined"
+          placeholder="Enter your deck name"
         />
       </StyledTextFieldHolder>
 

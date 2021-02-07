@@ -17,7 +17,7 @@ const Button = styled.button`
 
   padding: 0.5rem 1rem;
   border-radius: 0.75rem;
-  border: 0.125rem solid ${({ theme }) => theme.foreground};
+  border: 0.0625rem solid ${({ theme }) => theme.foreground};
   color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.backgroundLight};
   transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
