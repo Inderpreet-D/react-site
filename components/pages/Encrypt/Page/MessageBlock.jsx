@@ -29,7 +29,7 @@ const StyledTextField = styled(TextField)`
 const StyledText = styled.div`
   margin-top: 1rem;
   font-size: 1.25rem;
-  font-family: "Courier New";
+  font-family: "Courier New", Courier, monospace;
   word-break: break-word;
 `;
 
