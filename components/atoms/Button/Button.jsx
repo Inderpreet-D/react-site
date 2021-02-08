@@ -12,7 +12,7 @@ const resetStyles = css`
   outline: none;
 `;
 
-const Button = styled.button`
+const StyledButton = styled.button`
   ${resetStyles};
 
   padding: 0.5rem 1rem;
@@ -40,5 +40,17 @@ const Button = styled.button`
     border-color: gray;
   }
 `;
+
+const Button = ({ onClick, ...props }) => {
+  const btnRef = React.useRef();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    btnRef.current?.blur();
+    onClick(e);
+  };
+
+  return <StyledButton onClick={handleClick} ref={btnRef} {...props} />;
+};
 
 export default Button;
