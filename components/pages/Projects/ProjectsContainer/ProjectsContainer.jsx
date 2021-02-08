@@ -3,14 +3,22 @@ import styled from "styled-components";
 import Card from "../../../molecules/Card";
 
 import projects from "../../../../public/projects.json";
+import breakpoints from "../../../../breakpoints";
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
   gap: 2rem;
   padding: 2rem;
   align-content: space-between;
-  height: calc(100% - 4rem);
+  grid-template-columns: auto auto auto;
+
+  @media ${breakpoints.mobile} {
+    grid-template-columns: auto;
+  }
+
+  @media ${breakpoints.tablet} {
+    grid-template-columns: auto auto;
+  }
 `;
 
 const ProjectsContainer = () => (
