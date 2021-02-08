@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import alpha from "color-alpha";
 
 import Container from "../../../atoms/Container";
 import TextField from "../../../atoms/TextField";
@@ -49,7 +50,7 @@ const StyledText = styled.div`
   transition: background-color 2s;
   ${textBlock};
   &:hover {
-    background-color: ${({ theme }) => theme.background};
+    background-color: ${({ theme }) => alpha(theme.background, 0.5)};
   }
 `;
 
