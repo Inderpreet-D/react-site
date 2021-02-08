@@ -1,1 +1,1 @@
-export { default } from "./ToadVillagePage";
+export { default } from "./ToadVillage";
