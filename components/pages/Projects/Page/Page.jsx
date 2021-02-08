@@ -21,7 +21,7 @@ const StyledGrid = styled.div`
   }
 `;
 
-const ProjectsContainer = () => (
+const Page = () => (
   <StyledGrid>
     {projects.map((data, i) => (
       <Card key={i} {...data} />
@@ -29,4 +29,4 @@ const ProjectsContainer = () => (
   </StyledGrid>
 );
 
-export default ProjectsContainer;
+export default Page;

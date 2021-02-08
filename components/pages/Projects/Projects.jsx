@@ -1,10 +1,10 @@
 import Page from "../../templates/Page";
-import ProjectsContainer from "./ProjectsContainer";
+import ProjectsPage from "./Page";
 
 const Projects = () => {
   return (
     <Page title="Projects">
-      <ProjectsContainer />
+      <ProjectsPage />
     </Page>
   );
 };
