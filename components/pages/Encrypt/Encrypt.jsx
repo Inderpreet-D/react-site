@@ -1,5 +1,7 @@
 import Head from "next/head";
-import { Button, makeStyles, Paper, TextField } from "@material-ui/core";
+import { makeStyles, Paper, TextField } from "@material-ui/core";
+import Page from "../../templates/Page";
+import Button from "../../atoms/Button";
 
 import { encode } from "../../../utilities/secret-helper";
 
@@ -69,7 +71,7 @@ const useEncryptStyles = makeStyles((theme) => ({
   controls: {
     width: "100%",
     textAlign: "center",
-    paddingTop: "20px",
+    padding: "1rem 0",
   },
   textfield: {
     width: "60%",
@@ -94,10 +96,7 @@ const Encrypt = () => {
   };
 
   return (
-    <>
-      <Head>
-        <title>Encrypt</title>
-      </Head>
+    <Page title="Encrypt" hideHeader hideFooter>
       <div className={classes.root}>
         <Paper variant="outlined" className={classes.paper}>
           <div className={classes.displays}>
@@ -126,7 +125,7 @@ const Encrypt = () => {
           </div>
         </Paper>
       </div>
-    </>
+    </Page>
   );
 };
 

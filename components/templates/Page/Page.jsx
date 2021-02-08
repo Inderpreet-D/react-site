@@ -17,18 +17,18 @@ const StyledChildren = styled.div`
   overflow: auto;
 `;
 
-const Page = ({ children, title }) => (
+const Page = ({ children, title, hideHeader, hideFooter }) => (
   <>
     <Head>
       <title>{title}</title>
     </Head>
 
     <StyledWrapper>
-      <Header />
+      {!hideHeader && <Header />}
 
       <StyledChildren>{children}</StyledChildren>
 
-      <Footer />
+      {!hideFooter && <Footer />}
     </StyledWrapper>
   </>
 );
