@@ -1,1 +1,1 @@
-export { default } from "./TreacheryPage";
+export { default } from "./Treachery";
