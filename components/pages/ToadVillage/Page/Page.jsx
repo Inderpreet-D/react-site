@@ -68,6 +68,18 @@ const StyledTextArea = styled(TextArea)`
   max-height: 70vh;
 `;
 
+const nameSort = (c1, c2) => {
+  const textA = c1.card.name;
+  const textB = c2.card.name;
+  if (textA < textB) {
+    return -1;
+  } else if (textA > textB) {
+    return 1;
+  } else {
+    return c1.amount - c2.amount;
+  }
+};
+
 const Page = () => {
   const [showDialog, setShowDialog] = React.useState(false);
   const [cardList, setCardList] = React.useState([]);
@@ -101,10 +113,6 @@ const Page = () => {
       setCardObjs({});
     }
   }, [cardList, showDialog]);
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
 
   const handleDownload = () => {
     setError("");
@@ -145,55 +153,34 @@ const Page = () => {
     setCardListString(e.target.value);
   };
 
-  const nameSort = (c1, c2) => {
-    const textA = c1.card.name;
-    const textB = c2.card.name;
-    if (textA < textB) {
-      return -1;
-    } else if (textA > textB) {
-      return 1;
-    } else {
-      return c1.amount - c2.amount;
-    }
-  };
-
   const findCard = (name, isCommander) => {
     const check = ({ card }) => card.name === name;
-
-    if (isCommander) {
-      return cardObjs.commanders.find(check);
-    } else {
-      return cardObjs.others.find(check);
-    }
+    const list = isCommander ? cardObjs.commanders : cardObjs.others;
+    return list.find(check);
   };
 
   const handleMove = (name, isCommander) => {
     const cardObj = findCard(name, isCommander);
 
+    let others = cardObjs.others.filter((card) => card !== cardObj);
+    let commanders = [...cardObjs.commanders, cardObj];
     if (isCommander) {
-      const commanders = cardObjs.commanders.filter((card) => card !== cardObj);
-      const others = [...cardObjs.others, cardObj].sort(nameSort);
-      setCardObjs({ commanders, others });
-    } else {
-      const others = cardObjs.others.filter((card) => card !== cardObj);
-      const commanders = [...cardObjs.commanders, cardObj].sort(nameSort);
-      setCardObjs({ commanders, others });
+      commanders = cardObjs.commanders.filter((card) => card !== cardObj);
+      others = [...cardObjs.others, cardObj];
     }
+
+    setCardObjs({ commanders, others });
   };
 
   const handleCountChange = (name, isCommander, increment) => {
     const cardObj = findCard(name, isCommander);
-
-    let list = cardObjs.others;
-    if (isCommander) {
-      list = cardObjs.commanders;
-    }
-
+    const list = isCommander ? cardObjs.commanders : cardObjs.others;
     const filtered = list.filter((card) => card !== cardObj);
+
     const newList = [
       ...filtered,
       { ...cardObj, amount: cardObj.amount + (increment ? 1 : -1) },
-    ].sort(nameSort);
+    ];
 
     if (isCommander) {
       setCardObjs({ ...cardObjs, commanders: newList });
@@ -202,26 +189,16 @@ const Page = () => {
     }
   };
 
-  const handleAdd = (name, isCommander) => {
+  const handleAdd = (name, isCommander) =>
     handleCountChange(name, isCommander, true);
-  };
 
-  const handleRemove = (name, isCommander) => {
+  const handleRemove = (name, isCommander) =>
     handleCountChange(name, isCommander, false);
-  };
 
-  let commanderCount = 0;
-  let otherCount = 0;
-  let totalCount = 0;
-
-  cardObjs.commanders?.forEach(({ amount }) => {
-    commanderCount += amount;
-    totalCount += amount;
-  });
-  cardObjs.others?.forEach(({ amount }) => {
-    otherCount += amount;
-    totalCount += amount;
-  });
+  const reduce = (t, { amount }) => t + amount;
+  const commanderCount = cardObjs.commanders?.reduce(reduce, 0);
+  const otherCount = cardObjs.others?.reduce(reduce, 0);
+  const totalCount = commanderCount + otherCount;
 
   return (
     <Container>
@@ -239,7 +216,7 @@ const Page = () => {
       <StyledTextFieldHolder>
         <StyledTextField
           value={name}
-          onChange={handleNameChange}
+          onChange={(e) => setName(e.target.value)}
           placeholder="Enter your deck name"
         />
       </StyledTextFieldHolder>
@@ -254,7 +231,7 @@ const Page = () => {
           </StyledHeader>
 
           <StyledCardBlock>
-            {cardObjs.commanders.map((card, i) => (
+            {cardObjs.commanders.sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={handleMove}
@@ -269,7 +246,7 @@ const Page = () => {
           <StyledHeader>Deck ({otherCount})</StyledHeader>
 
           <StyledCardBlock>
-            {cardObjs.others.map((card, i) => (
+            {cardObjs.others.sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={handleMove}
