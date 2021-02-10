@@ -1,21 +1,25 @@
 import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 
+import Container, {
+  ContainerTitle,
+  ContainerError,
+} from "../../../atoms/Container";
 import LoadingIcon from "../../../atoms/LoadingIcon";
 import Main from "../Main";
 import Room from "../Room";
 import Card from "../Card";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-    margin: "0 auto",
-    width: "50%",
-    textAlign: "center",
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     "& > *": {
+//       margin: theme.spacing(1),
+//     },
+//     margin: "0 auto",
+//     width: "50%",
+//     textAlign: "center",
+//   },
+// }));
 
 const STATE_MAIN = 0;
 const STATE_ROOM = 1;
@@ -44,8 +48,6 @@ const Page = () => {
   });
   const [cardState, setCardState] = React.useState({});
   const [error, setError] = React.useState(null);
-
-  const classes = useStyles();
 
   React.useEffect(() => {
     const roomFillInterval = setInterval(() => {
@@ -132,33 +134,22 @@ const Page = () => {
   };
 
   return (
-    <>
-      <div style={{ textAlign: "center" }}>
-        <h1>MTG Treachery</h1>
-      </div>
+    <Container>
+      <ContainerTitle>MTG Treachery</ContainerTitle>
 
-      <Paper variant="outlined" className={classes.root}>
-        {error && (
-          <div>
-            <h3 style={{ color: "red" }}>Error: {error}</h3>
-          </div>
-        )}
+      {error && <ContainerError>Error: {error}</ContainerError>}
 
-        {state === STATE_MAIN && (
-          <Main
-            onJoin={handleJoin}
-            onCreate={handleCreate}
-            forwardClasses={classes}
-            onRejoin={() =>
-              handleJoin(window.sessionStorage.getItem("roomCode"))
-            }
-          />
-        )}
-        {state === STATE_ROOM && <Room roomState={roomState} />}
-        {state === STATE_CARD && <Card cardState={cardState} />}
-        {state === STATE_LOAD && <LoadingIcon />}
-      </Paper>
-    </>
+      {state === STATE_MAIN && (
+        <Main
+          onJoin={handleJoin}
+          onCreate={handleCreate}
+          resetError={() => setError("")}
+        />
+      )}
+      {state === STATE_ROOM && <Room roomState={roomState} />}
+      {state === STATE_CARD && <Card cardState={cardState} />}
+      {state === STATE_LOAD && <LoadingIcon />}
+    </Container>
   );
 };
 

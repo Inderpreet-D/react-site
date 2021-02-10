@@ -45,12 +45,14 @@ const Button = ({ onClick, ...props }) => {
   const btnRef = React.useRef();
 
   const handleClick = (e) => {
-    e.preventDefault();
     btnRef.current?.blur();
-    onClick(e);
+    if (onClick) {
+      e.preventDefault();
+      onClick(e);
+    }
   };
 
   return <StyledButton onClick={handleClick} ref={btnRef} {...props} />;
 };
 
-export default Button;
+export default styled(Button)``;

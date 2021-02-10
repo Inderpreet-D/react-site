@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import axios from "axios";
 
-import Container from "../../../atoms/Container";
+import Container, {
+  ContainerTitle,
+  ContainerError,
+} from "../../../atoms/Container";
 import MTGCard from "../../../molecules/MTGCard";
 import LoadingIcon from "../../../atoms/LoadingIcon";
 import Dialog from "../../../molecules/Dialog";
@@ -11,32 +14,13 @@ import TextArea from "../../../atoms/TextArea";
 
 import mtgDownload, { randomName } from "../../../../utilities/toad-helper";
 
-const StyledTitle = styled.div`
-  text-align: center;
-  margin-bottom: 1.25rem;
-  font-size: 2.125rem;
-  font-weight: 400;
-  line-height: 1.235;
-  letter-spacing: 0.00735em;
-`;
-
-const StyledButton = styled(Button)``;
-
 const StyledButtonHolder = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 1.25rem;
-  & > ${StyledButton} {
+  & > ${Button} {
     margin: 0 0.5rem;
   }
-`;
-
-const StyledError = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 2rem;
-  color: lightcoral;
-  margin-bottom: 1.25rem;
 `;
 
 const StyledTextFieldHolder = styled.div`
@@ -140,7 +124,7 @@ const Page = () => {
       const split = card.split(" ");
       const amount = +split[0];
       if (isNaN(amount)) {
-        error = `Invalid Entry ${card} on line ${i + 1}`;
+        error = `Invalid entry '${card}' on line ${i + 1}`;
       }
       const name = split.slice(1).join(" ");
       return { amount, name };
@@ -202,16 +186,14 @@ const Page = () => {
 
   return (
     <Container>
-      <StyledTitle>Toad Village</StyledTitle>
+      <ContainerTitle>Toad Village</ContainerTitle>
 
       <StyledButtonHolder>
-        <StyledButton onClick={() => setShowDialog(true)}>
-          Import Deck List
-        </StyledButton>
-        <StyledButton onClick={handleDownload}>Download</StyledButton>
+        <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
+        <Button onClick={handleDownload}>Download</Button>
       </StyledButtonHolder>
 
-      {error && <StyledError>{error}</StyledError>}
+      {error && <ContainerError>{error}</ContainerError>}
 
       <StyledTextFieldHolder>
         <StyledTextField
@@ -266,8 +248,8 @@ const Page = () => {
         title="Enter Decklist"
         actions={
           <StyledButtonHolder style={{ marginBottom: 0 }}>
-            <StyledButton onClick={handleCancel}>Cancel</StyledButton>
-            <StyledButton onClick={handleClose}>Submit</StyledButton>
+            <Button onClick={handleCancel}>Cancel</Button>
+            <Button onClick={handleClose}>Submit</Button>
           </StyledButtonHolder>
         }
       >

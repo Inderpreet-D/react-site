@@ -30,6 +30,12 @@ const StyledInput = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.foreground};
   }
+
+  &:focus::placeholder {
+    line-height: 3.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.25rem;
+  }
 `;
 
 const TextField = ({ className, ...props }) => (

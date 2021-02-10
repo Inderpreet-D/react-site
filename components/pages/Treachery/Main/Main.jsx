@@ -1,12 +1,30 @@
-import { Button } from "@material-ui/core";
+import styled from "styled-components";
 
-import JoinRoomForm from "./JoinRoomForm";
-import CreateRoomForm from "./CreateRoomForm";
+import Button from "../../../atoms/Button";
+import { JoinRoomForm, CreateRoomForm } from "./Forms";
+
+const StyledButtonHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  & > ${Button} {
+    margin: 0 0.5rem;
+  }
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > ${Button} {
+    margin-left: 1rem;
+  }
+`;
 
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
-const Main = ({ onJoin, onCreate, forwardClasses, onRejoin }) => {
+const Main = ({ onJoin, onCreate, resetError }) => {
   const [isJoining, setIsJoining] = React.useState(true);
   const [roomCode, setRoomCode] = React.useState("");
   const [selectedRarity, setSelectedRarity] = React.useState(rarityOptions[0]);
@@ -19,12 +37,28 @@ const Main = ({ onJoin, onCreate, forwardClasses, onRejoin }) => {
     setCanRejoin(window.sessionStorage.getItem("id") !== null);
   }, []);
 
-  const onPlayerNumSelectedHandler = (event) => {
+  const handleSwitch = (val) => () => {
+    setIsJoining(val);
+    resetError();
+  };
+
+  const handleRejoin = () => {
+    onJoin(window.sessionStorage.getItem("roomCode"));
+  };
+
+  const handlePlayerNumSelected = (event) => {
     setSelectedPlayerNum(event.target.value);
   };
 
-  const onRaritySelectedHandler = (event) => {
+  const handleRaritySelected = (event) => {
     setSelectedRarity(event.target.value);
+  };
+
+  const handleCodeChange = (event) => {
+    const val = event.target.value.toUpperCase();
+    if (val.length <= 4) {
+      setRoomCode(val);
+    }
   };
 
   const submitForm = (event) => {
@@ -37,68 +71,36 @@ const Main = ({ onJoin, onCreate, forwardClasses, onRejoin }) => {
     }
   };
 
-  const formChangeHandler = (event) => {
-    const val = event.target.value.toUpperCase();
-    if (val.length <= 4) {
-      setRoomCode(val);
-    } else {
-      setRoomCode(roomCode);
-    }
-  };
-
-  let form = <JoinRoomForm value={roomCode} formChange={formChangeHandler} />;
-
-  if (!isJoining) {
-    form = (
-      <CreateRoomForm
-        selectedPlayerNum={selectedPlayerNum}
-        onPlayerNumSelected={onPlayerNumSelectedHandler}
-        selectedRarity={selectedRarity}
-        onRaritySelected={onRaritySelectedHandler}
-        playerOptions={playerOptions}
-        rarityOptions={rarityOptions}
-      />
-    );
-  }
-
-  const buttonProps = {
-    variant: "contained",
-    color: "secondary",
-  };
-
   return (
     <>
-      <Button
-        disabled={isJoining}
-        {...buttonProps}
-        onClick={() => setIsJoining(true)}
-      >
-        Join Room
-      </Button>
-      <Button
-        disabled={!isJoining}
-        {...buttonProps}
-        onClick={() => setIsJoining(false)}
-      >
-        Create Room
-      </Button>
-      {canRejoin && (
-        <Button {...buttonProps} onClick={onRejoin}>
-          Rejoin Room
+      <StyledButtonHolder>
+        <Button disabled={isJoining} onClick={handleSwitch(true)}>
+          Join Room
         </Button>
-      )}
+        <Button disabled={!isJoining} onClick={handleSwitch(false)}>
+          Create Room
+        </Button>
+        {canRejoin && <Button onClick={handleRejoin}>Rejoin Room</Button>}
+      </StyledButtonHolder>
 
-      <form
-        onSubmit={submitForm}
-        className={forwardClasses.root}
-        style={{ width: "100%" }}
-      >
-        {form}
-        <br />
-        <Button {...buttonProps} type="submit">
+      <StyledForm onSubmit={submitForm}>
+        {isJoining ? (
+          <JoinRoomForm value={roomCode} onChange={handleCodeChange} />
+        ) : (
+          <CreateRoomForm
+            selectedPlayerNum={selectedPlayerNum}
+            onPlayerNumSelected={handlePlayerNumSelected}
+            selectedRarity={selectedRarity}
+            onRaritySelected={handleRaritySelected}
+            playerOptions={playerOptions}
+            rarityOptions={rarityOptions}
+          />
+        )}
+
+        <Button type="submit" disabled={isJoining && roomCode.length !== 4}>
           {isJoining ? "Join" : "Create"}
         </Button>
-      </form>
+      </StyledForm>
     </>
   );
 };
