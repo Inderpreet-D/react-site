@@ -17,12 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const STATES = {
-  Main: 0,
-  Room: 1,
-  Card: 2,
-  Loading: 3,
-};
+const STATE_MAIN = 0;
+const STATE_ROOM = 1;
+const STATE_CARD = 2;
+const STATE_LOAD = 3;
 
 const api = (queryParams) => {
   const query = Object.keys(queryParams)
@@ -42,7 +40,7 @@ const api = (queryParams) => {
 
 const Page = () => {
   const classes = useStyles();
-  const [state, setState] = React.useState(STATES.Main);
+  const [state, setState] = React.useState(STATE_MAIN);
   const [roomCode, setRoomCode] = React.useState("");
   const [numPlayers, setNumPlayers] = React.useState(0);
   const [roomSize, setRoomSize] = React.useState(-1);
@@ -52,46 +50,82 @@ const Page = () => {
   const [error, setError] = React.useState(null);
   const [rejoinEnabled, setRejoinEnabled] = React.useState(false);
 
-  const onJoinHandler = (roomCode) => {
-    setState(STATES.Loading);
+  React.useEffect(() => {
+    setRejoinEnabled(window.sessionStorage.getItem("id") !== null);
+  }, []);
+
+  React.useEffect(() => {
+    const roomFillInterval = setInterval(() => {
+      if (state === STATE_ROOM) {
+        api({ action: "room", roomCode: roomCode }).then(
+          ({ currentPlayers, numPlayers }) => {
+            setRoomSize(numPlayers);
+            setNumPlayers(currentPlayers);
+
+            if (currentPlayers === numPlayers) {
+              api({
+                action: "card",
+                roomCode: roomCode,
+                id: window.sessionStorage.getItem("id"),
+              }).then(({ role, imgSrc, winCondition }) => {
+                setRole(role);
+                setImgSrc(imgSrc);
+                setWinCondition(winCondition);
+              });
+
+              setState(STATE_CARD);
+            }
+          }
+        );
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(roomFillInterval);
+    };
+  }, [state]);
+
+  const handleJoin = (roomCode) => {
+    setState(STATE_LOAD);
     setError(null);
 
     const query = { action: "join", roomCode: roomCode };
-    const storage = window.sessionStorage;
-    const id = storage.getItem("id");
+    const id = window.sessionStorage.getItem("id");
 
     if (id) {
       query.id = id;
     }
 
-    api(query).then((data) => {
-      if (data.error) {
-        setError(data.error);
-        setState(STATES.Main);
+    api(query).then(({ error, currentPlayers, numPlayers, id, roomCode }) => {
+      if (error) {
+        setError(error);
+        setState(STATE_MAIN);
       } else {
         setRoomCode(roomCode);
-        setState(STATES.Room);
-        setNumPlayers(data.currentPlayers);
-        setRoomSize(data.numPlayers);
-        storage.setItem("id", data.id);
-        storage.setItem("roomCode", data.roomCode);
+        setRoomSize(numPlayers);
+        setNumPlayers(currentPlayers);
+
+        setState(STATE_ROOM);
         setRejoinEnabled(true);
+
+        window.sessionStorage.setItem("id", id);
+        window.sessionStorage.setItem("roomCode", roomCode);
       }
     });
   };
 
-  const onCreateHandler = (numPlayers, rarity) => {
-    setState(STATES.Loading);
+  const handleCreate = (numPlayers, rarity) => {
+    setState(STATE_LOAD);
     setError(null);
 
     api({ action: "create", numPlayers: numPlayers, rarity: rarity }).then(
       (data) => {
         if (data.error) {
           setError(data.err);
-          setState(STATES.Main);
+          setState(STATE_MAIN);
         } else {
           setRoomCode(data.roomCode);
-          setState(STATES.Room);
+          setState(STATE_ROOM);
           setNumPlayers(1);
           setRoomSize(numPlayers);
 
@@ -104,71 +138,44 @@ const Page = () => {
     );
   };
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      if (state === STATES.Room) {
-        api({ action: "room", roomCode: roomCode }).then((data) => {
-          setNumPlayers(data.currentPlayers);
-          setRoomSize(data.numPlayers);
-          if (data.currentPlayers === data.numPlayers) {
-            api({
-              action: "card",
-              roomCode: roomCode,
-              id: window.sessionStorage.getItem("id"),
-            }).then((data) => {
-              setRole(data.role);
-              setImgSrc(data.imgSrc);
-              setWinCondition(data.winCondition);
-            });
-            setState(STATES.Card);
-          }
-        });
-      }
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [state]);
-
-  React.useEffect(() => {
-    setRejoinEnabled(window.sessionStorage.getItem("id") !== null);
-  }, []);
-
-  let page;
-  if (state === STATES.Main) {
-    page = (
-      <Main
-        onJoin={onJoinHandler}
-        onCreate={onCreateHandler}
-        forwardClasses={classes}
-        showRejoin={rejoinEnabled}
-        onRejoin={() =>
-          onJoinHandler(window.sessionStorage.getItem("roomCode"))
-        }
-      />
-    );
-  } else if (state === STATES.Room) {
-    page = (
-      <Room roomCode={roomCode} numPlayers={numPlayers} roomSize={roomSize} />
-    );
-  } else if (state === STATES.Card) {
-    page = <Card role={role} imgSrc={imgSrc} winCondition={winCondition} />;
-  } else {
-    page = <LoadingIcon />;
-  }
-
   return (
     <>
       <div style={{ textAlign: "center" }}>
         <h1>MTG Treachery</h1>
       </div>
+
       <Paper variant="outlined" className={classes.root}>
         {error && (
           <div>
             <h3 style={{ color: "red" }}>Error: {error}</h3>
           </div>
         )}
-        {page}
+
+        {state === STATE_MAIN && (
+          <Main
+            onJoin={handleJoin}
+            onCreate={handleCreate}
+            forwardClasses={classes}
+            showRejoin={rejoinEnabled}
+            onRejoin={() =>
+              handleJoin(window.sessionStorage.getItem("roomCode"))
+            }
+          />
+        )}
+
+        {state === STATE_ROOM && (
+          <Room
+            roomCode={roomCode}
+            numPlayers={numPlayers}
+            roomSize={roomSize}
+          />
+        )}
+
+        {state === STATE_CARD && (
+          <Card role={role} imgSrc={imgSrc} winCondition={winCondition} />
+        )}
+
+        {state === STATE_LOAD && <LoadingIcon />}
       </Paper>
     </>
   );
