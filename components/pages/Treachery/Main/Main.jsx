@@ -6,14 +6,18 @@ import CreateRoomForm from "./CreateRoomForm";
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];
 
-const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
+const Main = ({ onJoin, onCreate, forwardClasses, onRejoin }) => {
   const [isJoining, setIsJoining] = React.useState(true);
   const [roomCode, setRoomCode] = React.useState("");
-
   const [selectedRarity, setSelectedRarity] = React.useState(rarityOptions[0]);
   const [selectedPlayerNum, setSelectedPlayerNum] = React.useState(
     playerOptions[0]
   );
+  const [canRejoin, setCanRejoin] = React.useState(false);
+
+  React.useEffect(() => {
+    setCanRejoin(window.sessionStorage.getItem("id") !== null);
+  }, []);
 
   const onPlayerNumSelectedHandler = (event) => {
     setSelectedPlayerNum(event.target.value);
@@ -78,7 +82,7 @@ const Main = ({ onJoin, onCreate, forwardClasses, showRejoin, onRejoin }) => {
       >
         Create Room
       </Button>
-      {showRejoin && (
+      {canRejoin && (
         <Button {...buttonProps} onClick={onRejoin}>
           Rejoin Room
         </Button>

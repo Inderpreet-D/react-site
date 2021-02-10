@@ -24,59 +24,52 @@ const STATE_LOAD = 3;
 
 const api = (queryParams) => {
   const query = Object.keys(queryParams)
+    .filter((key) => queryParams[key])
     .map((param) => `${param}=${queryParams[param]}`)
     .join("&");
-  return new Promise((resolve, reject) => {
+  return new Promise((res, rej) => {
     axios
       .get(`/api/treachery?${query}`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject(err);
-      });
+      .then(({ data }) => res(data))
+      .catch(rej);
   });
 };
 
 const Page = () => {
-  const classes = useStyles();
   const [state, setState] = React.useState(STATE_MAIN);
-  const [roomCode, setRoomCode] = React.useState("");
-  const [numPlayers, setNumPlayers] = React.useState(0);
-  const [roomSize, setRoomSize] = React.useState(-1);
-  const [role, setRole] = React.useState("");
-  const [imgSrc, setImgSrc] = React.useState("/favicon.ico");
-  const [winCondition, setWinCondition] = React.useState("");
+  const [roomState, setRoomState] = React.useState({
+    roomCode: "",
+    numPlayers: 0,
+    roomSize: -1,
+  });
+  const [cardState, setCardState] = React.useState({});
   const [error, setError] = React.useState(null);
-  const [rejoinEnabled, setRejoinEnabled] = React.useState(false);
 
-  React.useEffect(() => {
-    setRejoinEnabled(window.sessionStorage.getItem("id") !== null);
-  }, []);
+  const classes = useStyles();
 
   React.useEffect(() => {
     const roomFillInterval = setInterval(() => {
       if (state === STATE_ROOM) {
-        api({ action: "room", roomCode: roomCode }).then(
-          ({ currentPlayers, numPlayers }) => {
-            setRoomSize(numPlayers);
-            setNumPlayers(currentPlayers);
+        api({ action: "room", roomCode: roomState.roomCode }).then((data) => {
+          const { currentPlayers, numPlayers } = data;
 
-            if (currentPlayers === numPlayers) {
-              api({
-                action: "card",
-                roomCode: roomCode,
-                id: window.sessionStorage.getItem("id"),
-              }).then(({ role, imgSrc, winCondition }) => {
-                setRole(role);
-                setImgSrc(imgSrc);
-                setWinCondition(winCondition);
-              });
+          setRoomState((state) => ({
+            ...state,
+            numPlayers: currentPlayers,
+            roomSize: numPlayers,
+          }));
 
+          if (currentPlayers === numPlayers) {
+            api({
+              action: "card",
+              roomCode: roomState.roomCode,
+              id: window.sessionStorage.getItem("id"),
+            }).then((res) => {
+              setCardState(res);
               setState(STATE_CARD);
-            }
+            });
           }
-        );
+        });
       }
     }, 1000);
 
@@ -85,57 +78,57 @@ const Page = () => {
     };
   }, [state]);
 
-  const handleJoin = (roomCode) => {
+  const startLoading = () => {
     setState(STATE_LOAD);
     setError(null);
+  };
 
-    const query = { action: "join", roomCode: roomCode };
+  const showError = (err) => {
+    setError(err);
+    setState(STATE_MAIN);
+  };
+
+  const showRoom = (id, roomCode) => {
+    setState(STATE_ROOM);
+
+    window.sessionStorage.setItem("id", id);
+    window.sessionStorage.setItem("roomCode", roomCode);
+  };
+
+  const handleJoin = (roomCode) => {
+    startLoading();
+
     const id = window.sessionStorage.getItem("id");
-
-    if (id) {
-      query.id = id;
-    }
+    const query = { action: "join", roomCode, id };
 
     api(query).then(({ error, currentPlayers, numPlayers, id, roomCode }) => {
       if (error) {
-        setError(error);
-        setState(STATE_MAIN);
+        showError(error);
       } else {
-        setRoomCode(roomCode);
-        setRoomSize(numPlayers);
-        setNumPlayers(currentPlayers);
+        setRoomState({
+          roomCode,
+          roomSize: numPlayers,
+          numPlayers: currentPlayers,
+        });
 
-        setState(STATE_ROOM);
-        setRejoinEnabled(true);
-
-        window.sessionStorage.setItem("id", id);
-        window.sessionStorage.setItem("roomCode", roomCode);
+        showRoom(id, roomCode);
       }
     });
   };
 
   const handleCreate = (numPlayers, rarity) => {
-    setState(STATE_LOAD);
-    setError(null);
+    startLoading();
 
-    api({ action: "create", numPlayers: numPlayers, rarity: rarity }).then(
-      (data) => {
-        if (data.error) {
-          setError(data.err);
-          setState(STATE_MAIN);
-        } else {
-          setRoomCode(data.roomCode);
-          setState(STATE_ROOM);
-          setNumPlayers(1);
-          setRoomSize(numPlayers);
+    const query = { action: "create", numPlayers, rarity };
 
-          const storage = window.sessionStorage;
-          storage.setItem("id", data.id);
-          storage.setItem("roomCode", data.roomCode);
-          setRejoinEnabled(true);
-        }
+    api(query).then(({ error, roomCode, id }) => {
+      if (error) {
+        showError(error);
+      } else {
+        setRoomState({ roomCode, roomSize: numPlayers, numPlayers: 1 });
+        showRoom(id, roomCode);
       }
-    );
+    });
   };
 
   return (
@@ -156,25 +149,13 @@ const Page = () => {
             onJoin={handleJoin}
             onCreate={handleCreate}
             forwardClasses={classes}
-            showRejoin={rejoinEnabled}
             onRejoin={() =>
               handleJoin(window.sessionStorage.getItem("roomCode"))
             }
           />
         )}
-
-        {state === STATE_ROOM && (
-          <Room
-            roomCode={roomCode}
-            numPlayers={numPlayers}
-            roomSize={roomSize}
-          />
-        )}
-
-        {state === STATE_CARD && (
-          <Card role={role} imgSrc={imgSrc} winCondition={winCondition} />
-        )}
-
+        {state === STATE_ROOM && <Room roomState={roomState} />}
+        {state === STATE_CARD && <Card cardState={cardState} />}
         {state === STATE_LOAD && <LoadingIcon />}
       </Paper>
     </>

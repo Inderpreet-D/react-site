@@ -1,6 +1,7 @@
 import LoadingIcon from "../../../atoms/LoadingIcon";
 
-const Room = ({ roomCode, numPlayers, roomSize }) => {
+const Room = ({ roomState }) => {
+  const { roomCode, numPlayers, roomSize } = roomState;
   return (
     <>
       <h1>Room Code: {roomCode}</h1>

@@ -2,7 +2,8 @@ import { Paper } from "@material-ui/core";
 
 import styles from "./Card.module.css";
 
-const Card = ({ role, imgSrc, winCondition }) => {
+const Card = ({ cardState }) => {
+  const { role, imgSrc, winCondition } = cardState;
   return (
     <>
       <h1>Your Role is {role}</h1>
