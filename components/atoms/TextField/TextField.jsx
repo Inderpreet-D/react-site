@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import alpha from "color-alpha";
 
 const StyledLabel = styled.label`
   position: absolute;
@@ -50,6 +51,7 @@ const StyledContainer = styled.div`
   &:focus-within > ${StyledLabel} {
     transform: scale(0.75);
     top: 0.25rem;
+    color: ${({ theme }) => alpha(theme.text, 0.5)};
   }
 
   &:focus-within > ${StyledInput} {
