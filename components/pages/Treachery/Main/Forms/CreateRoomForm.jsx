@@ -40,6 +40,7 @@ const CreateRoomForm = ({
           ))}
         </Select>
       </FormControl>
+
       <FormControl
         variant="filled"
         className={classes.formControl}

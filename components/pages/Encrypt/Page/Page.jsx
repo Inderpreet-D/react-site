@@ -19,6 +19,7 @@ const StyledHolder = styled.div`
   flex-direction: column;
   flex-grow: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   margin-bottom: 1rem;
 `;
 
