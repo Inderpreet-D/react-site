@@ -1,4 +1,5 @@
 import { FormControl, InputLabel, Select, makeStyles } from "@material-ui/core";
+import MySelect from "../../../../atoms/Select";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -19,6 +20,8 @@ const CreateRoomForm = ({
 
   return (
     <>
+      <MySelect />
+
       <FormControl
         variant="filled"
         className={classes.formControl}
