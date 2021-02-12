@@ -3,39 +3,50 @@ import alpha from "color-alpha";
 
 const StyledLabel = styled.label`
   position: absolute;
-  font-size: 1rem;
   top: 0.5rem;
   left: 0.5rem;
+
   transform-origin: top left;
-  transform: scale(1);
+
   transition: all 0.1s ease-in-out;
+
+  font-size: 1rem;
 `;
 
 const StyledInput = styled.input`
-  text-decoration: none;
-  font-family: inherit;
-  appearance: none;
-  outline: none;
-  background-color: transparent;
+  transform-origin: top left;
+
+  transition: all 0.1s ease-in-out;
+
+  margin: 1rem 0 0 0;
   border: none;
   box-sizing: border-box;
-  font-size: 1rem;
   width: calc(calc(1 / 1.75) * 100%);
   padding: 0rem;
+
+  outline: none;
+  appearance: none;
+
+  background-color: transparent;
+
+  font-size: 1rem;
+  font-family: inherit;
   text-align: center;
-  margin: 1rem 0 0 0;
-  transition: all 0.1s ease-in-out;
-  transform-origin: top left;
+  text-decoration: none;
+  color: ${({ theme }) => theme.foregroundDark};
 `;
 
 const StyledContainer = styled.div`
+  position: relative;
+  justify-content: center;
+
+  display: flex;
+
   border: 0.0625rem solid ${({ theme }) => theme.background};
-  padding: 1rem 0 0.25rem 0;
   border-radius: 0.25rem;
   box-sizing: border-box;
-  position: relative;
-  display: flex;
-  justify-content: center;
+  padding: 1rem 0 0.75rem 0;
+
   cursor: text;
 
   color: ${({ theme }) => theme.text};
@@ -49,14 +60,15 @@ const StyledContainer = styled.div`
   }
 
   &:focus-within > ${StyledLabel} {
-    transform: scale(0.75);
     top: 0.25rem;
+    transform: scale(0.75);
     color: ${({ theme }) => alpha(theme.text, 0.5)};
   }
 
   &:focus-within > ${StyledInput} {
     transform: scale(1.75);
     margin: 0.5rem 0 0.5rem -42.75%;
+    color: ${({ theme }) => theme.foreground};
   }
 `;
 
