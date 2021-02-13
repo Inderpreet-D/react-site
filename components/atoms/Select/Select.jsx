@@ -37,8 +37,9 @@ const StyledSelect = styled.select`
 `;
 
 const StyledOption = styled.option`
-  color: ${({ theme }) => theme.foregroundDark};
   background-color: ${({ theme }) => theme.backgroundLight};
+
+  color: ${({ theme }) => theme.foregroundDark};
 `;
 
 const StyledContainer = styled.div`

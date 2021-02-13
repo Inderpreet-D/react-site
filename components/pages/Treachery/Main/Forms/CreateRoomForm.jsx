@@ -1,17 +1,10 @@
 import styled from "styled-components";
-import { FormControl, InputLabel, Select, makeStyles } from "@material-ui/core";
 
-import MySelect from "../../../../atoms/Select";
+import Select from "../../../../atoms/Select";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: "20%",
-  },
-}));
-
-const StyledSelect = styled(MySelect)`
-  min-width: 20%;
+const StyledSelect = styled(Select)`
+  margin: 0.5rem;
+  width: 20%;
 `;
 
 const CreateRoomForm = ({
@@ -21,64 +14,24 @@ const CreateRoomForm = ({
   onRaritySelected,
   playerOptions,
   rarityOptions,
-}) => {
-  const classes = useStyles();
+}) => (
+  <>
+    <StyledSelect
+      id="player-select"
+      label="Number of Players"
+      options={playerOptions}
+      value={selectedPlayerNum}
+      onChange={onPlayerNumSelected}
+    />
 
-  return (
-    <>
-      <StyledSelect
-        id="player-select"
-        label="Number of Players"
-        options={playerOptions}
-        value={selectedPlayerNum}
-        onChange={onPlayerNumSelected}
-      />
-
-      <FormControl
-        variant="filled"
-        className={classes.formControl}
-        color="secondary"
-      >
-        <InputLabel htmlFor="player-select">Number of Players</InputLabel>
-        <Select
-          native
-          value={selectedPlayerNum}
-          onChange={onPlayerNumSelected}
-          inputProps={{
-            id: "player-select",
-          }}
-        >
-          {playerOptions.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-
-      <FormControl
-        variant="filled"
-        className={classes.formControl}
-        color="secondary"
-      >
-        <InputLabel htmlFor="rarity-select">Role Rarity</InputLabel>
-        <Select
-          native
-          value={selectedRarity}
-          onChange={onRaritySelected}
-          inputProps={{
-            id: "rarity-select",
-          }}
-        >
-          {rarityOptions.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
-    </>
-  );
-};
+    <StyledSelect
+      id="rarity-select"
+      label="Role Rarity"
+      options={rarityOptions}
+      value={selectedRarity}
+      onChange={onRaritySelected}
+    />
+  </>
+);
 
 export default CreateRoomForm;
