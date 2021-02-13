@@ -20,8 +20,8 @@ const StyledSelect = styled.select`
   border: none;
   box-sizing: border-box;
   width: 100%;
-  height: 3.5rem;
-  padding: 1.5rem 0 0 0.5rem;
+  height: 3.875rem;
+  padding: 1.625rem 0 0.375rem 0.5rem;
 
   cursor: inherit;
 
