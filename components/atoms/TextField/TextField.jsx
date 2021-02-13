@@ -10,6 +10,8 @@ const StyledLabel = styled.label`
 
   transition: all 0.1s ease-in-out;
 
+  user-select: none;
+
   font-size: 1rem;
 `;
 
