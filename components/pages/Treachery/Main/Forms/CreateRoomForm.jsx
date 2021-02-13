@@ -1,4 +1,6 @@
+import styled from "styled-components";
 import { FormControl, InputLabel, Select, makeStyles } from "@material-ui/core";
+
 import MySelect from "../../../../atoms/Select";
 
 const useStyles = makeStyles((theme) => ({
@@ -7,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "20%",
   },
 }));
+
+const StyledSelect = styled(MySelect)`
+  min-width: 20%;
+`;
 
 const CreateRoomForm = ({
   selectedPlayerNum,
@@ -20,7 +26,13 @@ const CreateRoomForm = ({
 
   return (
     <>
-      <MySelect />
+      <StyledSelect
+        id="player-select"
+        label="Number of Players"
+        options={playerOptions}
+        value={selectedPlayerNum}
+        onChange={onPlayerNumSelected}
+      />
 
       <FormControl
         variant="filled"
