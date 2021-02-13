@@ -91,12 +91,12 @@ const Select = ({
       onClick={() => selectRef.current.focus()}
     >
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <StyledSelect {...props} id={id} ref={selectRef} menuIsOpen={true}>
-        {options.map((opt, i) => (
+      <StyledSelect {...props} id={id} ref={selectRef}>
+        {/* {options.map((opt, i) => (
           <option key={i} value={opt} onClick={() => selectRef.current.focus()}>
             {opt}
           </option>
-        ))}
+        ))} */}
       </StyledSelect>
     </StyledContainer>
   );
