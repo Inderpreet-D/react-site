@@ -1,4 +1,3 @@
-import { Paper, makeStyles } from "@material-ui/core";
 import axios from "axios";
 
 import Container, {
@@ -9,17 +8,6 @@ import LoadingIcon from "../../../atoms/LoadingIcon";
 import Main from "../Main";
 import Room from "../Room";
 import Card from "../Card";
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     "& > *": {
-//       margin: theme.spacing(1),
-//     },
-//     margin: "0 auto",
-//     width: "50%",
-//     textAlign: "center",
-//   },
-// }));
 
 const STATE_MAIN = 0;
 const STATE_ROOM = 1;
