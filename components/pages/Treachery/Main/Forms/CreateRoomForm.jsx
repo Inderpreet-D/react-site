@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Select from "../../../../atoms/Select";
 
 const StyledSelect = styled(Select)`
-  margin: 0.5rem;
+  margin: 0 0.5rem;
   width: 20%;
 `;
 
