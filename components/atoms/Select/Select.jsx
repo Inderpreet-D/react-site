@@ -1,54 +1,85 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import alpha from "color-alpha";
 
-const StyledLabel = styled.label`
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-
-  transition: all 0.1s ease-in-out;
+const baseStyles = css`
+  transition: all 0.2s ease-in-out;
 
   user-select: none;
-
-  font-size: 1rem;
 `;
 
-const StyledSelect = styled.select`
-  transition: all 0.1s ease-in-out;
+const StyledLabel = styled.div`
+  ${baseStyles};
+`;
 
-  margin: 0;
-  border: none;
-  box-sizing: border-box;
-  width: 100%;
-  height: 3.875rem;
-  padding: 1.625rem 0 0.375rem 0.5rem;
+const StyledSelect = styled.div`
+  position: absolute;
+  bottom: 0.5rem;
 
-  cursor: inherit;
-
-  outline: none;
-  appearance: none;
-
-  background-color: transparent;
-
-  font-size: 1rem;
-  font-family: inherit;
-  text-decoration: none;
   color: ${({ theme }) => theme.foregroundDark};
+
+  ${baseStyles};
 `;
 
-const StyledOption = styled.option`
+const StyledOption = styled.div`
+  padding: 0.25rem 0.5rem;
+
   background-color: ${({ theme }) => theme.backgroundLight};
 
   color: ${({ theme }) => theme.foregroundDark};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.background};
+
+    color: ${({ theme }) => theme.foreground};
+  }
+
+  ${baseStyles};
+`;
+
+const StyledOptionList = styled.div`
+  position: absolute;
+  z-index: 2;
+  top: calc(100% - 0.125rem);
+  left: -0.0625rem;
+  flex-direction: column;
+
+  display: flex;
+
+  overflow: hidden auto;
+
+  border: 0.0625rem solid ${({ theme }) => theme.foregroundDark};
+  border-radius: 0 0 0.25rem 0.25rem;
+  box-sizing: border-box;
+  width: calc(100% + 0.125rem);
+  max-height: 20rem;
+
+  ${baseStyles};
+`;
+
+const containerFocusStyles = css`
+  border-color: ${({ theme }) => theme.foreground};
+
+  & ${StyledLabel} {
+    color: ${({ theme }) => alpha(theme.text, 0.5)};
+  }
+
+  & ${StyledSelect} {
+    color: ${({ theme }) => theme.foreground};
+  }
 `;
 
 const StyledContainer = styled.div`
   position: relative;
+  z-index: 2;
+  flex-direction: column;
+
+  display: flex;
 
   border: 0.0625rem solid ${({ theme }) => theme.background};
   border-radius: 0.25rem;
   box-sizing: border-box;
-  padding: 0;
+  height: 3.875rem;
+  padding: 0.5rem;
 
   cursor: pointer;
 
@@ -58,45 +89,78 @@ const StyledContainer = styled.div`
     border-color: ${({ theme }) => theme.foregroundDark};
   }
 
-  &:focus-within {
-    border-color: ${({ theme }) => theme.foreground};
-  }
-
-  &:focus-within > ${StyledLabel} {
-    color: ${({ theme }) => alpha(theme.text, 0.5)};
-  }
-
-  &:focus-within > ${StyledSelect} {
-    color: ${({ theme }) => theme.foreground};
-  }
+  ${baseStyles};
+  ${({ open }) => open && containerFocusStyles};
 `;
 
-const Select = ({
-  id = "select",
-  label = "",
-  className,
-  options,
-  onChange,
-  ...props
-}) => {
-  const selectRef = React.useRef();
+const StyledBackdrop = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
 
-  const handleClick = (e) => {
-    selectRef.current.blur();
-    onChange && onChange(e);
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const Select = ({ label, options, value, onChange, className }) => {
+  const [open, setOpen] = React.useState(false);
+  const containerRef = React.useRef();
+  const backdropRef = React.useRef();
+
+  const toggleOpen = (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  };
+
+  const handleContainerClick = (e) => {
+    if (
+      e.target === containerRef.current ||
+      e.target.parentElement === containerRef.current
+    ) {
+      toggleOpen(e);
+    }
+  };
+
+  const handleOptionClick = (opt) => (e) => {
+    toggleOpen(e);
+    onChange && onChange({ target: { value: opt } });
+  };
+
+  const handleBackdropClick = (e) => {
+    if (e.target === backdropRef.current) {
+      toggleOpen(e);
+    }
   };
 
   return (
-    <StyledContainer className={className}>
-      <StyledLabel htmlFor={id}>{label}</StyledLabel>
-      <StyledSelect {...props} id={id} onChange={() => {}} ref={selectRef}>
-        {options.map((opt, i) => (
-          <StyledOption key={i} value={opt} onClick={handleClick}>
-            {opt}
-          </StyledOption>
-        ))}
-      </StyledSelect>
-    </StyledContainer>
+    <>
+      <StyledContainer
+        open={open}
+        className={className}
+        onClick={handleContainerClick}
+        ref={containerRef}
+      >
+        <StyledLabel>{label}</StyledLabel>
+
+        <StyledSelect>{value}</StyledSelect>
+
+        {open && (
+          <StyledOptionList>
+            {options.map((opt, i) => (
+              <StyledOption key={i} onClick={handleOptionClick(opt)}>
+                {opt}
+              </StyledOption>
+            ))}
+          </StyledOptionList>
+        )}
+      </StyledContainer>
+
+      {open && (
+        <StyledBackdrop onClick={handleBackdropClick} ref={backdropRef} />
+      )}
+    </>
   );
 };
 
