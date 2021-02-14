@@ -8,28 +8,24 @@ const StyledSelect = styled(Select)`
 `;
 
 const CreateRoomForm = ({
-  selectedPlayerNum,
-  onPlayerNumSelected,
-  selectedRarity,
-  onRaritySelected,
+  values: { rarity, players },
+  onChange,
   playerOptions,
   rarityOptions,
 }) => (
   <>
     <StyledSelect
-      id="player-select"
       label="Number of Players"
       options={playerOptions}
-      value={selectedPlayerNum}
-      onChange={onPlayerNumSelected}
+      value={players}
+      onChange={onChange("players")}
     />
 
     <StyledSelect
-      id="rarity-select"
       label="Role Rarity"
       options={rarityOptions}
-      value={selectedRarity}
-      onChange={onRaritySelected}
+      value={rarity}
+      onChange={onChange("rarity")}
     />
   </>
 );

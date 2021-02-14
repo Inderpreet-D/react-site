@@ -1,4 +1,2 @@
-import JoinRoomForm from "./JoinRoomForm";
-import CreateRoomForm from "./CreateRoomForm";
-
-export { JoinRoomForm, CreateRoomForm };
+export { default as JoinRoomForm } from "./JoinRoomForm";
+export { default as CreateRoomForm } from "./CreateRoomForm";

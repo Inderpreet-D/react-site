@@ -26,12 +26,12 @@ const playerOptions = ["4", "5", "6", "7", "8"];
 
 const Main = ({ onJoin, onCreate, resetError }) => {
   const [isJoining, setIsJoining] = React.useState(true);
-  const [roomCode, setRoomCode] = React.useState("");
-  const [selectedRarity, setSelectedRarity] = React.useState(rarityOptions[0]);
-  const [selectedPlayerNum, setSelectedPlayerNum] = React.useState(
-    playerOptions[0]
-  );
   const [canRejoin, setCanRejoin] = React.useState(false);
+  const [values, setValues] = React.useState({
+    code: "",
+    rarity: rarityOptions[0],
+    players: playerOptions[0],
+  });
 
   React.useEffect(() => {
     setCanRejoin(window.sessionStorage.getItem("id") !== null);
@@ -42,32 +42,28 @@ const Main = ({ onJoin, onCreate, resetError }) => {
     resetError();
   };
 
+  const handleChange = (prop) => (e) => {
+    const val = e.target.value;
+    if (prop === "code") {
+      if (val.length <= 4) {
+        setValues({ ...values, code: val.toUpperCase().trim() });
+      }
+    } else {
+      setValues({ ...values, [prop]: val });
+    }
+  };
+
   const handleRejoin = () => {
     onJoin(window.sessionStorage.getItem("roomCode"));
-  };
-
-  const handlePlayerNumSelected = (event) => {
-    setSelectedPlayerNum(event.target.value);
-  };
-
-  const handleRaritySelected = (event) => {
-    setSelectedRarity(event.target.value);
-  };
-
-  const handleCodeChange = (event) => {
-    const val = event.target.value.toUpperCase();
-    if (val.length <= 4) {
-      setRoomCode(val);
-    }
   };
 
   const submitForm = (event) => {
     event.preventDefault();
 
     if (isJoining) {
-      onJoin(roomCode);
+      onJoin(values.code);
     } else {
-      onCreate(selectedPlayerNum, selectedRarity);
+      onCreate(values.players, values.rarity);
     }
   };
 
@@ -85,19 +81,17 @@ const Main = ({ onJoin, onCreate, resetError }) => {
 
       <StyledForm onSubmit={submitForm}>
         {isJoining ? (
-          <JoinRoomForm value={roomCode} onChange={handleCodeChange} />
+          <JoinRoomForm values={values} onChange={handleChange} />
         ) : (
           <CreateRoomForm
-            selectedPlayerNum={selectedPlayerNum}
-            onPlayerNumSelected={handlePlayerNumSelected}
-            selectedRarity={selectedRarity}
-            onRaritySelected={handleRaritySelected}
+            values={values}
+            onChange={handleChange}
             playerOptions={playerOptions}
             rarityOptions={rarityOptions}
           />
         )}
 
-        <Button type="submit" disabled={isJoining && roomCode.length !== 4}>
+        <Button type="submit" disabled={isJoining && values.code.length !== 4}>
           {isJoining ? "Join" : "Create"}
         </Button>
       </StyledForm>
