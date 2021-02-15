@@ -1,9 +1,14 @@
 import styled from "styled-components";
-import { Button } from "@material-ui/core";
 import Link from "next/link";
 
+import Button from "../Button";
+
 const StyledLink = styled.a`
-  color: ${({ theme }) => theme.foreground};
+  color: ${({ theme }) => theme.text};
+
+  &:visited {
+    color: ${({ theme }) => theme.background};
+  }
 `;
 
 const LinkButton = ({ href, title }) => {

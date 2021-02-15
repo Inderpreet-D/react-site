@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { makeStyles } from "@material-ui/core";
 
 import Container from "../../../atoms/Container";
 import MessageBlock from "./MessageBlock";

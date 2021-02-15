@@ -9,8 +9,6 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
     "axios": "^0.21.1",
     "color-alpha": "^1.1.2",
     "express": "^4.17.1",
