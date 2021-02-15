@@ -1,14 +1,42 @@
 import styled from "styled-components";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 import me from "../../../../public/me.json";
 import Container, { ContainerTitle } from "../../../atoms/Container";
+import Button from "../../../atoms/Button";
 import { Article, Data, Date } from "../Sections";
+
+const StyledControlButton = styled(Button)`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledControls = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+
+  & > ${StyledControlButton}:first-child {
+    margin-right: 1rem;
+  }
+
+  & > ${StyledControlButton}:last-child {
+    margin-left: 1rem;
+  }
+`;
 
 const StyledCard = styled.div`
   padding: 0.5rem;
   box-sizing: border-box;
   flex-grow: 1;
   overflow: hidden auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledButton = styled.div`
@@ -39,11 +67,16 @@ const StyledButtonHolder = styled.div`
   margin: 0.5rem 0.5rem 0.5rem 0;
 `;
 
+const StyledSeparator = styled.div`
+  border-bottom: 0.125rem solid ${({ theme }) => theme.accent};
+  margin-bottom: 0.75rem;
+`;
+
 const StyledBox = styled.div`
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  height: calc(100vh - 14.5rem);
+  height: calc(100vh - 15.5rem);
 `;
 
 const Page = () => {
@@ -57,12 +90,17 @@ const Page = () => {
     setPanelIdx(0);
   };
 
+  const updatePanel = (i) => () => setPanelIdx((old) => old + i);
+
   const { type, data } = me[idx];
   const Section = components[type];
+
+  const showControls = type !== "Data" && data.length > 1;
 
   return (
     <Container>
       <ContainerTitle>Inderpreet Dhillon</ContainerTitle>
+      <StyledSeparator />
 
       <StyledBox>
         <StyledButtonHolder>
@@ -74,6 +112,23 @@ const Page = () => {
         </StyledButtonHolder>
 
         <StyledCard>
+          {showControls && (
+            <StyledControls>
+              <StyledControlButton
+                disabled={panelIdx === 0}
+                onClick={updatePanel(-1)}
+              >
+                <FaAngleLeft />
+              </StyledControlButton>
+              {panelIdx + 1} / {data.length}
+              <StyledControlButton
+                disabled={panelIdx === data.length - 1}
+                onClick={updatePanel(1)}
+              >
+                <FaAngleRight />
+              </StyledControlButton>
+            </StyledControls>
+          )}
           <Section data={data} idx={panelIdx} />
         </StyledCard>
       </StyledBox>
