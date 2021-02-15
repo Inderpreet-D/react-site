@@ -1,11 +1,6 @@
 import Container, { ContainerTitle } from "../../../atoms/Container";
-import Languages from "../Languages";
-import Technologies from "../Technologies";
-import Education from "../Education";
-import Experience from "../Experience";
-import Publications from "../Publications";
 
-import data from "../../../../public/aboutMe";
+import me from "../../../../public/me.json";
 
 const Page = () => {
   const [idx, setIdx] = React.useState(-1);
@@ -14,15 +9,9 @@ const Page = () => {
     setIdx(num !== idx ? num : -1);
   };
 
-  const sections = [
-    Languages,
-    Technologies,
-    Education,
-    Experience,
-    Publications,
-  ];
+  const sections = [];
 
-  console.log(JSON.stringify(data, null, 2));
+  console.log(me);
 
   return (
     <Container>
