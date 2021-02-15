@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 import me from "../../../../public/me.json";
 import Container, { ContainerTitle } from "../../../atoms/Container";
+import { Article, Data, Date } from "../Sections";
 
 const StyledCard = styled.div`
   padding: 0.5rem;
   box-sizing: border-box;
-  border: 1px solid blue;
   flex-grow: 1;
+  overflow: hidden auto;
 `;
 
 const StyledButton = styled.div`
@@ -17,10 +18,14 @@ const StyledButton = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  border: 0.0625rem solid ${({ theme }) => theme.foregroundDark};
+  color: ${({ theme, active }) => (active ? "black" : theme.text)};
+  border: 0.125rem solid
+    ${({ theme, active }) => (active ? theme.foregroundDark : theme.foreground)};
   background-color: ${({ theme, active }) =>
     active ? theme.foreground : "transparent"};
   border-radius: 0.5rem;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
 `;
 
 const StyledButtonHolder = styled.div`
@@ -29,46 +34,48 @@ const StyledButtonHolder = styled.div`
   align-items: center;
   justify-content: space-around;
   box-sizing: border-box;
-  border: 1px solid yellow;
-  min-height: 20rem;
-  padding: 0.5rem;
-  margin-right: 0.5rem;
+  border-right: 0.125rem solid ${({ theme }) => theme.background};
+  padding: 0.5rem 1rem 0.5rem 0;
+  margin: 0.5rem 0.5rem 0.5rem 0;
 `;
 
 const StyledBox = styled.div`
   display: flex;
   box-sizing: border-box;
-  border: 1px solid red;
   width: 100%;
+  height: calc(100vh - 14.5rem);
 `;
 
 const Page = () => {
-  const [idx, setIdx] = React.useState(-1);
+  const [idx, setIdx] = React.useState(0);
+  const [panelIdx, setPanelIdx] = React.useState(0);
 
-  const handleClick = (num) => () => {
-    setIdx(num !== idx ? num : -1);
+  const components = { Article, Data, Date };
+
+  const update = (i) => () => {
+    setIdx(i);
+    setPanelIdx(0);
   };
 
-  const sections = [];
+  const { type, data } = me[idx];
+  const Section = components[type];
 
   return (
     <Container>
       <ContainerTitle>Inderpreet Dhillon</ContainerTitle>
 
-      {/* {sections.map((Component, i) => (
-        <Component key={i} expanded={idx === i} clickHandler={handleClick(i)} />
-      ))} */}
-
       <StyledBox>
         <StyledButtonHolder>
           {me.map(({ title }, i) => (
-            <StyledButton key={i} active={i === 0}>
+            <StyledButton key={i} active={idx === i} onMouseEnter={update(i)}>
               {title}
             </StyledButton>
           ))}
         </StyledButtonHolder>
 
-        <StyledCard>TEST DATA</StyledCard>
+        <StyledCard>
+          <Section data={data} idx={panelIdx} />
+        </StyledCard>
       </StyledBox>
     </Container>
   );
