@@ -13,11 +13,12 @@
     "color-alpha": "^1.1.2",
     "express": "^4.17.1",
     "html-react-parser": "^0.14.0",
-    "next": "^10.0.6",
+    "next": "^10.0.7",
     "project-name-generator": "^2.1.9",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-icons": "^4.1.0",
+    "react-is": "^17.0.1",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
