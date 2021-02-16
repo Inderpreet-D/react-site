@@ -12,12 +12,12 @@ const StyledGrid = styled.div`
   align-content: space-between;
   grid-template-columns: auto auto auto;
 
-  @media ${breakpoints.mobile} {
-    grid-template-columns: auto;
-  }
-
   @media ${breakpoints.tablet} {
     grid-template-columns: auto auto;
+  }
+
+  @media ${breakpoints.mobile} {
+    grid-template-columns: auto;
   }
 `;
 

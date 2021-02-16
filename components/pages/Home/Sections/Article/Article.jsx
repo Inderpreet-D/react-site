@@ -18,6 +18,7 @@ const StyledAuthor = styled.div`
   font-size: 1.1rem;
   font-weight: ${({ isMe }) => (isMe ? "bold" : "normal")};
   font-style: italic;
+  color: ${({ theme, isMe }) => (isMe ? theme.foregroundDark : theme.text)};
 `;
 
 const StyledAuthorList = styled.div`
