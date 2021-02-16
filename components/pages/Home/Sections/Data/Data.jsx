@@ -16,7 +16,8 @@ const StyledArrowWrapper = styled.div`
 
   display: flex;
 
-  margin-right: 0.5rem;
+  margin: 0 0.5rem 0 0.25rem;
+  border-right: 0.0625rem solid ${({ theme }) => theme.foregroundDark};
 `;
 
 const StyledKey = styled.div`
@@ -31,6 +32,7 @@ const StyledData = styled.div`
   display: flex;
 
   margin: 0.5rem;
+  padding-right: 3rem;
 `;
 
 const StyledContainer = styled.div`

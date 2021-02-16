@@ -75,7 +75,7 @@ const StyledBox = styled.div`
 
   box-sizing: border-box;
   width: 100%;
-  height: calc(100vh - 15.5rem);
+  height: 50vh;
 `;
 
 const Page = () => {
