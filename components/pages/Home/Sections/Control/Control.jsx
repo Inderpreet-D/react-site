@@ -4,17 +4,22 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import Button from "../../../../atoms/Button";
 
 const StyledControlButton = styled(Button)`
-  height: 100%;
-  display: flex;
   align-items: center;
   justify-content: center;
+
+  display: flex;
+
+  height: 100%;
 `;
 
 const StyledControls = styled.div`
-  display: flex;
   align-items: center;
   justify-content: center;
+
+  display: flex;
+
   margin-bottom: 0.5rem;
+
   font-size: 1.5rem;
 
   & > ${StyledControlButton}:first-child {
@@ -31,7 +36,11 @@ const Control = ({ current, last, onForward, onBack }) => (
     <StyledControlButton disabled={current === 0} onClick={onBack}>
       <FaAngleLeft />
     </StyledControlButton>
-    {current + 1} / {last}
+
+    <>
+      {current + 1} / {last}
+    </>
+
     <StyledControlButton disabled={current === last - 1} onClick={onForward}>
       <FaAngleRight />
     </StyledControlButton>
