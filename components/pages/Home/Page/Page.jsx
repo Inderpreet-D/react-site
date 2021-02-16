@@ -1,79 +1,78 @@
 import styled from "styled-components";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
-import me from "../../../../public/me.json";
+import meRaw from "../../../../public/me.json";
 import Container, { ContainerTitle } from "../../../atoms/Container";
-import Button from "../../../atoms/Button";
-import { Article, Data, Date } from "../Sections";
+import { Article, Data, Date, Control } from "../Sections";
 
-const StyledControlButton = styled(Button)`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+const me = [];
+[
+  "Publications",
+  "Experience",
+  "Education",
+  "Technologies",
+  "Languages",
+].forEach((title) => {
+  const section = meRaw.find((item) => item.title === title);
+  me.push(section);
+});
 
-const StyledControls = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid red;
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-
-  & > ${StyledControlButton}:first-child {
-    margin-right: 1rem;
-  }
-
-  & > ${StyledControlButton}:last-child {
-    margin-left: 1rem;
-  }
-`;
-
-const StyledCard = styled.div`
-  padding: 0.5rem;
-  box-sizing: border-box;
-  flex-grow: 1;
+const StyledSection = styled.div`
   overflow: hidden auto;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledButton = styled.div`
-  width: 100%;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  color: ${({ theme, active }) => (active ? "black" : theme.text)};
-  border: 0.125rem solid
-    ${({ theme, active }) => (active ? theme.foregroundDark : theme.foreground)};
-  background-color: ${({ theme, active }) =>
-    active ? theme.foreground : "transparent"};
-  border-radius: 0.5rem;
-  transition: all 0.5s ease-in-out;
-  cursor: pointer;
-`;
-
-const StyledButtonHolder = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  box-sizing: border-box;
-  border-right: 0.125rem solid ${({ theme }) => theme.background};
-  padding: 0.5rem 1rem 0.5rem 0;
-  margin: 0.5rem 0.5rem 0.5rem 0;
 `;
 
 const StyledSeparator = styled.div`
-  border-bottom: 0.125rem solid ${({ theme }) => theme.accent};
   margin-bottom: 0.75rem;
+  border-bottom: 0.125rem solid ${({ theme }) => theme.accent};
+`;
+
+const StyledCard = styled.div`
+  flex-direction: column;
+  flex-grow: 1;
+
+  display: flex;
+
+  box-sizing: border-box;
+  padding: 0.5rem;
+`;
+
+const StyledButton = styled.div`
+  align-items: center;
+  justify-content: center;
+
+  display: flex;
+
+  transition: all 0.5s ease-in-out;
+
+  border: 0.125rem solid
+    ${({ theme, active }) => (active ? theme.foregroundDark : theme.foreground)};
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+
+  background-color: ${({ theme, active }) =>
+    active ? theme.foreground : "transparent"};
+  cursor: pointer;
+
+  color: ${({ theme, active }) => (active ? "black" : theme.text)};
+`;
+
+const StyledButtonHolder = styled.div`
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  display: flex;
+
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  border-right: 0.125rem solid ${({ theme }) => theme.background};
+  box-sizing: border-box;
+  padding: 0.5rem 1rem 0.5rem 0;
 `;
 
 const StyledBox = styled.div`
   display: flex;
+
   box-sizing: border-box;
   width: 100%;
   height: calc(100vh - 15.5rem);
@@ -113,23 +112,17 @@ const Page = () => {
 
         <StyledCard>
           {showControls && (
-            <StyledControls>
-              <StyledControlButton
-                disabled={panelIdx === 0}
-                onClick={updatePanel(-1)}
-              >
-                <FaAngleLeft />
-              </StyledControlButton>
-              {panelIdx + 1} / {data.length}
-              <StyledControlButton
-                disabled={panelIdx === data.length - 1}
-                onClick={updatePanel(1)}
-              >
-                <FaAngleRight />
-              </StyledControlButton>
-            </StyledControls>
+            <Control
+              current={panelIdx}
+              last={data.length}
+              onForward={updatePanel(1)}
+              onBack={updatePanel(-1)}
+            />
           )}
-          <Section data={data} idx={panelIdx} />
+
+          <StyledSection>
+            <Section data={data} idx={panelIdx} />
+          </StyledSection>
         </StyledCard>
       </StyledBox>
     </Container>
