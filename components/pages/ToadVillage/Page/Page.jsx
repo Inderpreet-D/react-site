@@ -12,7 +12,10 @@ import Button from "../../../atoms/Button";
 import TextField from "../../../atoms/TextField";
 import TextArea from "../../../atoms/TextArea";
 
-import mtgDownload, { randomName } from "../../../../utilities/toad-helper";
+import mtgDownload, {
+  randomName,
+  downloadBlob,
+} from "../../../../utilities/toad-helper";
 
 const StyledButtonHolder = styled.div`
   display: flex;
@@ -72,6 +75,8 @@ const Page = () => {
   const [name, setName] = React.useState(randomName());
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const showEdit = process.env.NODE_ENV === "development";
 
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
@@ -173,6 +178,39 @@ const Page = () => {
     }
   };
 
+  const parseJSON = (data) => {
+    console.dir(data);
+    return ["asd", "asdeww"];
+  };
+
+  const downloadDecklist = (list, file) => {
+    const fullName = file.name.split(".");
+    fullName.splice(fullName.length - 1, 1, "LIST", "txt");
+    const newName = fullName.join(".");
+    const blob = new Blob([list.join("\n")], { type: "text/plain" });
+    downloadBlob(blob, newName);
+  };
+
+  const handleFileSelect = (e) => {
+    const files = e.target.files;
+    if (files.length > 0) {
+      const file = files[0];
+
+      if (file.name.endsWith(".json")) {
+        console.log(file);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const data = JSON.parse(e.target.result);
+
+          const list = parseJSON(data);
+          downloadDecklist(list, file);
+        };
+        reader.readAsText(file);
+      }
+    }
+  };
+
   const handleAdd = (name, isCommander) =>
     handleCountChange(name, isCommander, true);
 
@@ -191,6 +229,22 @@ const Page = () => {
       <StyledButtonHolder>
         <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
         <Button onClick={handleDownload}>Download</Button>
+        {showEdit && (
+          <label
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: "0.0625rem solid turquoise",
+              borderRadius: "0.75rem",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
+            }}
+          >
+            Extract List from JSON
+            <input type="file" onChange={handleFileSelect} hidden />
+          </label>
+        )}
       </StyledButtonHolder>
 
       {error && <ContainerError>{error}</ContainerError>}

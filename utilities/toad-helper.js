@@ -112,19 +112,23 @@ const convertToTTS = (cardObjs) => {
   return JSON.stringify(obj);
 };
 
+export const downloadBlob = (blob, name) => {
+  const el = document.createElement("a");
+  el.href = URL.createObjectURL(blob);
+  el.download = name;
+  document.body.appendChild(el);
+  el.click();
+};
+
 const download = (cardObjs, name) => {
   if (cardObjs.others) {
     if (cardObjs.others.length === 0) {
       return "You're missing a deck";
     } else {
-      const el = document.createElement("a");
-      const file = new Blob([convertToTTS(cardObjs)], {
+      const blob = new Blob([convertToTTS(cardObjs)], {
         type: "application/json",
       });
-      el.href = URL.createObjectURL(file);
-      el.download = `${name}.json`;
-      document.body.appendChild(el);
-      el.click();
+      downloadBlob(blob, `${name}.json`);
     }
   } else {
     return "You must build a deck before downloading";
