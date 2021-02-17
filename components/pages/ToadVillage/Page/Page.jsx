@@ -179,8 +179,23 @@ const Page = () => {
   };
 
   const parseJSON = (data) => {
-    console.dir(data);
-    return ["asd", "asdeww"];
+    const listObj = {};
+    const addCard = ({ Nickname }) => {
+      if (!(Nickname in listObj)) {
+        listObj[Nickname] = 0;
+      }
+      listObj[Nickname]++;
+    };
+
+    const { ObjectStates } = data;
+    addCard(ObjectStates[1]);
+    ObjectStates[0].ContainedObjects.forEach(addCard);
+
+    const deckList = Object.entries(listObj).map(
+      ([key, value]) => `${value} ${key}`
+    );
+
+    return deckList;
   };
 
   const downloadDecklist = (list, file) => {
@@ -197,8 +212,6 @@ const Page = () => {
       const file = files[0];
 
       if (file.name.endsWith(".json")) {
-        console.log(file);
-
         const reader = new FileReader();
         reader.onload = (e) => {
           const data = JSON.parse(e.target.result);
