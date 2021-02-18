@@ -50,25 +50,45 @@ const StyledCardCount = styled.div`
 const StyledImageHolder = styled.div`
   display: flex;
   justify-content: center;
-  position: relative;
   width: 100%;
+  perspective: 20rem;
 
   &:hover ${StyledCardCount} {
     opacity: 0;
   }
+
+  &:hover {
+    z-index: 1;
+  }
+`;
+
+const StyledFlippingCard = styled.div`
+  width: 95%;
+  height: 20rem;
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transform: ${({ flipped }) => flipped && "rotateY(180deg)"};
 `;
 
 const StyledCardImage = styled.img`
-  width: 95%;
+  width: 100%;
   margin: 0.3rem auto;
   border-radius: 0.75rem;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.background};
   transition: transform 1s;
+  position: absolute;
+  backface-visibility: hidden;
+  transform: ${({ isBack }) => isBack && "rotateY(180deg)"};
+  top: 0;
+  left: 0;
 
   &:hover {
-    transform: scale(1.5);
-    z-index: 1;
+    transform: scale(1.5)
+      ${({ isBack }) => (isBack ? "rotateY(180deg)" : "rotateY(0)")};
+
+    cursor: zoom-in;
   }
 `;
 
@@ -118,7 +138,6 @@ const MTGCard = ({
   const [flipped, setFlipped] = React.useState(false);
 
   const { image, name, faces } = card;
-  const imageLink = flipped ? faces[1].image : image;
 
   const handleSub = () => {
     if (amount > 0) {
@@ -141,7 +160,11 @@ const MTGCard = ({
   return (
     <StyledCard>
       <StyledImageHolder>
-        <StyledCardImage src={imageLink} />
+        <StyledFlippingCard flipped={flipped}>
+          <StyledCardImage src={image} />
+          {faces && <StyledCardImage src={faces[1].image} isBack />}
+        </StyledFlippingCard>
+
         <StyledCardCount noCards={amount === 0}>{amount}</StyledCardCount>
       </StyledImageHolder>
 
