@@ -1,6 +1,13 @@
-import styled from "styled-components";
 import axios from "axios";
 
+import {
+  StyledButtonHolder,
+  StyledTextFieldHolder,
+  StyledTextField,
+  StyledHeader,
+  StyledCardBlock,
+  StyledTextArea,
+} from "./Page.styles";
 import Container, {
   ContainerTitle,
   ContainerError,
@@ -9,63 +16,13 @@ import MTGCard from "../../../molecules/MTGCard";
 import LoadingIcon from "../../../atoms/LoadingIcon";
 import Dialog from "../../../molecules/Dialog";
 import Button from "../../../atoms/Button";
-import TextField from "../../../atoms/TextField";
-import TextArea from "../../../atoms/TextArea";
 
 import mtgDownload, {
   randomName,
-  downloadBlob,
-} from "../../../../utilities/toad-helper";
-
-const StyledButtonHolder = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-  & > ${Button} {
-    margin: 0 0.5rem;
-  }
-`;
-
-const StyledTextFieldHolder = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-`;
-
-const StyledTextField = styled(TextField)`
-  width: 70%;
-`;
-
-const StyledHeader = styled.div`
-  font-size: 1.75rem;
-  font-weight: 300;
-  text-decoration: underline;
-  margin: 1.25rem 0;
-`;
-
-const StyledCardBlock = styled.div`
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  padding: 0;
-  width: 100%;
-`;
-
-const StyledTextArea = styled(TextArea)`
-  width: 100%;
-  max-height: 70vh;
-`;
-
-const nameSort = (c1, c2) => {
-  const textA = c1.card.name;
-  const textB = c2.card.name;
-  if (textA < textB) {
-    return -1;
-  } else if (textA > textB) {
-    return 1;
-  } else {
-    return c1.amount - c2.amount;
-  }
-};
+  nameSort,
+  downloadDecklist,
+  parseJSON,
+} from "../../../../utilities/toad-village-helper";
 
 const Page = () => {
   const [showDialog, setShowDialog] = React.useState(false);
@@ -111,10 +68,7 @@ const Page = () => {
     }
   };
 
-  const handleClose = () => {
-    setShowDialog(false);
-  };
-
+  const handleClose = () => setShowDialog(false);
   const handleCancel = () => {
     setCardList({});
     setCardListString("");
@@ -125,6 +79,7 @@ const Page = () => {
     setError("");
     const cards = e.target.value.trim().split("\n");
     let error = "";
+
     const newCardList = cards.map((card, i) => {
       const split = card.split(" ");
       const amount = +split[0];
@@ -134,6 +89,7 @@ const Page = () => {
       const name = split.slice(1).join(" ");
       return { amount, name };
     });
+
     if (error) {
       setError(error);
     } else {
@@ -178,33 +134,11 @@ const Page = () => {
     }
   };
 
-  const parseJSON = (data) => {
-    const listObj = {};
-    const addCard = ({ Nickname }) => {
-      if (!(Nickname in listObj)) {
-        listObj[Nickname] = 0;
-      }
-      listObj[Nickname]++;
-    };
+  const handleAdd = (name, isCommander) =>
+    handleCountChange(name, isCommander, true);
 
-    const { ObjectStates } = data;
-    addCard(ObjectStates[1]);
-    ObjectStates[0].ContainedObjects.forEach(addCard);
-
-    const deckList = Object.entries(listObj).map(
-      ([key, value]) => `${value} ${key}`
-    );
-
-    return deckList;
-  };
-
-  const downloadDecklist = (list, file) => {
-    const fullName = file.name.split(".");
-    fullName.splice(fullName.length - 1, 1, "LIST", "txt");
-    const newName = fullName.join(".");
-    const blob = new Blob([list.join("\n")], { type: "text/plain" });
-    downloadBlob(blob, newName);
-  };
+  const handleRemove = (name, isCommander) =>
+    handleCountChange(name, isCommander, false);
 
   const handleFileSelect = (e) => {
     const files = e.target.files;
@@ -213,22 +147,18 @@ const Page = () => {
 
       if (file.name.endsWith(".json")) {
         const reader = new FileReader();
+
         reader.onload = (e) => {
           const data = JSON.parse(e.target.result);
 
           const list = parseJSON(data);
           downloadDecklist(list, file);
         };
+
         reader.readAsText(file);
       }
     }
   };
-
-  const handleAdd = (name, isCommander) =>
-    handleCountChange(name, isCommander, true);
-
-  const handleRemove = (name, isCommander) =>
-    handleCountChange(name, isCommander, false);
 
   const reduce = (t, { amount }) => t + amount;
   const commanderCount = cardObjs.commanders?.reduce(reduce, 0);
@@ -242,6 +172,7 @@ const Page = () => {
       <StyledButtonHolder>
         <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
         <Button onClick={handleDownload}>Download</Button>
+
         {showEdit && (
           <label
             style={{
@@ -275,6 +206,7 @@ const Page = () => {
       {!loading && cardObjs.commanders && cardObjs.others && (
         <>
           <StyledHeader>Total Cards ({totalCount})</StyledHeader>
+
           <StyledHeader>
             Commander Options / Sideboard ({commanderCount})
           </StyledHeader>
@@ -316,6 +248,7 @@ const Page = () => {
         actions={
           <StyledButtonHolder style={{ marginBottom: 0 }}>
             <Button onClick={handleCancel}>Cancel</Button>
+
             <Button onClick={handleClose}>Submit</Button>
           </StyledButtonHolder>
         }

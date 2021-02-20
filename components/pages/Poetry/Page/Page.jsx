@@ -1,55 +1,13 @@
-import styled, { css } from "styled-components";
 import axios from "axios";
 import parse from "html-react-parser";
 
 import Container from "../../../atoms/Container";
 import LoadingIcon from "../../../atoms/LoadingIcon";
+import { StyledError, StyledLink, StyledText } from "./Page.styles";
 
-const titleStyles = css`
-  display: flex;
-  justify-content: center;
-  color: ${({ theme }) => theme.foreground};
-  font-size: 2.125rem;
-  font-weight: bold;
-  line-height: 1.235;
-  letter-spacing: 0.00735em;
-`;
-
-const StyledLink = styled.a`
-  ${titleStyles}
-`;
-
-const StyledText = styled.div`
-  font-size: 1.25rem;
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
-`;
-
-const StyledError = styled.div`
-  ${titleStyles}
-`;
-
-const pickRandomPoem = (res) => {
-  const allPosts = res.data.data.children;
-  const textPosts = allPosts.filter((listing) => {
-    const post = listing.data;
-    const isPoem = post.title.startsWith("[POEM]");
-    const hasText = post.selftext.length > 0;
-    return isPoem && hasText;
-  });
-  const poems = textPosts.map((listing) => {
-    const poem = listing.data;
-    const title = poem.title.substring(7);
-    return {
-      name: title.trim(),
-      body: unescape(poem.selftext_html),
-      url: poem.url,
-    };
-  });
-  const idx = Math.floor(Math.random() * poems.length);
-  return poems[idx];
-};
+import parsePoems, {
+  pickRandomPoem,
+} from "../../../../utilities/poetry-helper";
 
 const Page = () => {
   const [poem, setPoem] = React.useState(null);
@@ -57,21 +15,27 @@ const Page = () => {
   const [error, setError] = React.useState(false);
 
   React.useEffect(() => {
-    axios
-      .get("/api/reddit")
-      .then((res) => {
-        const { name, body, url } = pickRandomPoem(res);
+    const handleFetch = async () => {
+      try {
+        const res = await axios.get("/api/reddit");
+
+        const poems = parsePoems(res);
+        const { name, body, url } = pickRandomPoem(poems);
+
         if (name && body && url) {
           setPoem({ name, body, url });
         } else {
           setError(true);
         }
+
         setLoaded(true);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError(true);
         setLoaded(true);
-      });
+      }
+    };
+
+    handleFetch();
   }, []);
 
   return (
@@ -85,6 +49,7 @@ const Page = () => {
           <StyledLink href={poem.url} target="_blank">
             {poem.name}
           </StyledLink>
+
           <StyledText dangerouslySetInnerHTML={{ __html: parse(poem.body) }} />
         </>
       )}

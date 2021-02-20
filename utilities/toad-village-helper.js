@@ -141,4 +141,44 @@ export const randomName = () => {
   return upped.join("");
 };
 
+export const nameSort = (c1, c2) => {
+  const textA = c1.card.name;
+  const textB = c2.card.name;
+  if (textA < textB) {
+    return -1;
+  } else if (textA > textB) {
+    return 1;
+  } else {
+    return c1.amount - c2.amount;
+  }
+};
+
+export const downloadDecklist = (list, file) => {
+  const fullName = file.name.split(".");
+  fullName.splice(fullName.length - 1, 1, "LIST", "txt");
+  const newName = fullName.join(".");
+  const blob = new Blob([list.join("\n")], { type: "text/plain" });
+  downloadBlob(blob, newName);
+};
+
+export const parseJSON = (data) => {
+  const listObj = {};
+  const addCard = ({ Nickname }) => {
+    if (!(Nickname in listObj)) {
+      listObj[Nickname] = 0;
+    }
+    listObj[Nickname]++;
+  };
+
+  const { ObjectStates } = data;
+  addCard(ObjectStates[1]);
+  ObjectStates[0].ContainedObjects.forEach(addCard);
+
+  const deckList = Object.entries(listObj).map(
+    ([key, value]) => `${value} ${key}`
+  );
+
+  return deckList;
+};
+
 export default download;
