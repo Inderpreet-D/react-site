@@ -1,6 +1,3 @@
-import Container from "./Container";
-import ContainerTitle from "./ContainerTitle";
-import ContainerError from "./ContainerError";
-
-export default Container;
-export { ContainerTitle, ContainerError };
+export { default } from "./Container.styles";
+export { default as ContainerTitle } from "./ContainerTitle.styles";
+export { default as ContainerError } from "./ContainerError.styles";

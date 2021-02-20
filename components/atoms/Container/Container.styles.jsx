@@ -3,12 +3,13 @@ import styled from "styled-components";
 import breakpoints from "../../../breakpoints";
 
 export default styled.div`
-  width: 55%;
   margin: 1rem auto;
-  padding: 1.25rem;
-  box-sizing: border-box;
-  border: ${({ theme }) => `0.125rem solid ${theme.foregroundDark}`};
+  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
   border-radius: 1rem;
+  box-sizing: border-box;
+  width: 55%;
+  padding: 1.25rem;
+
   background-color: ${({ theme }) => theme.backgroundLight};
 
   @media ${breakpoints.mobile} {
