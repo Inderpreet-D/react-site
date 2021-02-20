@@ -1,8 +1,5 @@
 import Link from "next/link";
-import styled from "styled-components";
 import { useRouter } from "next/router";
-
-import breakpoints from "../../../breakpoints";
 
 const StyledHolder = styled.div`
   height: 3.125rem;
