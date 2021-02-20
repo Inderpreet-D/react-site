@@ -7,15 +7,19 @@ import theme from "../themes/lightblue";
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    padding: 0;
     box-sizing: border-box;
+    padding: 0;
+
     background-color: ${theme.background};
+    
     color: ${theme.text};
   }
 
   #root {
-    display: flex;
     flex-direction: column;
+    
+    display: flex;
+    
     height: 100%;
   }
 `;
@@ -33,9 +37,11 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+
     return (
       <>
         <GlobalStyle />
+
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
         </ThemeProvider>
