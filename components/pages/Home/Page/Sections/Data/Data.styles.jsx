@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GiStitchedWound } from "react-icons/gi";
 
-import breakpoints from "../../../../../breakpoints";
+import breakpoints from "../../../../../../breakpoints";
 
 const StyledValue = styled.div`
   font-style: italic;
@@ -53,22 +53,11 @@ const StyledContainer = styled.div`
   }
 `;
 
-const Data = ({ data }) => (
-  <StyledContainer>
-    {data.map(({ key, value }, i) => (
-      <StyledData key={i}>
-        <StyledKey>{key}</StyledKey>
-
-        <StyledArrowWrapper>
-          <StyledArrow />
-        </StyledArrowWrapper>
-
-        <StyledValue>
-          {value} year{value === 1 ? "" : "s"}
-        </StyledValue>
-      </StyledData>
-    ))}
-  </StyledContainer>
-);
-
-export default Data;
+export {
+  StyledContainer,
+  StyledData,
+  StyledKey,
+  StyledArrowWrapper,
+  StyledArrow,
+  StyledValue,
+};

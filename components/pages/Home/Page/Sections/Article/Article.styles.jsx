@@ -22,7 +22,11 @@ const StyledAuthor = styled.div`
 `;
 
 const StyledAuthorList = styled.div`
+  flex-wrap: wrap;
+
   display: flex;
+
+  overflow: auto hidden;
 
   margin: 2rem 0;
 `;
@@ -39,25 +43,10 @@ const StyledContainer = styled.div`
   padding: 1rem;
 `;
 
-const Article = ({ data, idx }) => {
-  const { title, authors, me, description, href } = data[idx];
-
-  return (
-    <StyledContainer>
-      <StyledTitle href={href}>{title}</StyledTitle>
-
-      <StyledAuthorList>
-        {authors.map((author, i) => (
-          <StyledAuthor key={i} isMe={author === me}>
-            {author}
-            {i !== authors.length - 1 && ","}
-          </StyledAuthor>
-        ))}
-      </StyledAuthorList>
-
-      <StyledDescription>{description}</StyledDescription>
-    </StyledContainer>
-  );
+export {
+  StyledContainer,
+  StyledTitle,
+  StyledAuthorList,
+  StyledAuthor,
+  StyledDescription,
 };
-
-export default Article;
