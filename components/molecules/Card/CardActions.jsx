@@ -1,21 +1,12 @@
-import styled from "styled-components";
-
+import { StyledActions } from "./Card.styles";
 import Spacer from "../../atoms/Spacer";
 
-const StyledActions = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CardActions = ({ children, alignCenter, alignLeft, alignRight }) => {
-  return (
-    <StyledActions>
-      {(alignCenter || alignRight) && <Spacer />}
-      {children}
-      {(alignCenter || alignLeft) && <Spacer />}
-    </StyledActions>
-  );
-};
+const CardActions = ({ children, alignCenter, alignLeft, alignRight }) => (
+  <StyledActions>
+    {(alignCenter || alignRight) && <Spacer />}
+    {children}
+    {(alignCenter || alignLeft) && <Spacer />}
+  </StyledActions>
+);
 
 export default CardActions;

@@ -4,7 +4,7 @@ const StyledLink = styled.a`
   color: ${({ theme }) => theme.text};
 
   &:visited {
-    color: ${({ theme }) => theme.foregroundDark};
+    color: ${({ theme }) => theme.foreground};
   }
 `;
 

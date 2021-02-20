@@ -1,21 +1,12 @@
-import styled from "styled-components";
-
-import CardContent from "./CardContent";
-import CardTitle from "./CardTitle";
-import CardDescription from "./CardDescription";
+import {
+  StyledCard,
+  StyledContent,
+  StyledTitle,
+  StyledDescription,
+} from "./Card.styles";
+import Spacer from "../../atoms/Spacer";
 import CardActions from "./CardActions";
 import LinkButton from "../../atoms/LinkButton";
-import Spacer from "../../atoms/Spacer";
-
-const StyledCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 1.25rem;
-  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
-  border-radius: 1rem;
-  background-color: ${({ theme }) => theme.backgroundLight};
-`;
 
 const MyCard = ({
   href,
@@ -23,21 +14,19 @@ const MyCard = ({
   title,
   description,
   actionProps = { alignRight: true },
-}) => {
-  return (
-    <StyledCard>
-      <CardContent>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardContent>
+}) => (
+  <StyledCard>
+    <StyledContent>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledDescription>{description}</StyledDescription>
+    </StyledContent>
 
-      <Spacer />
+    <Spacer />
 
-      <CardActions {...actionProps}>
-        <LinkButton href={href} title={hrefTitle} />
-      </CardActions>
-    </StyledCard>
-  );
-};
+    <CardActions {...actionProps}>
+      <LinkButton href={href} title={hrefTitle} />
+    </CardActions>
+  </StyledCard>
+);
 
 export default MyCard;
