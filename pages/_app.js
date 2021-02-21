@@ -1,35 +1,51 @@
-import { Fragment, useEffect } from "react";
-import Head from "next/head";
-import { ThemeProvider, CssBaseline, createMuiTheme } from "@material-ui/core";
+import App from "next/app";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 
-import "../styles/globals.css";
+import theme from "../themes/lightblue";
+// import theme from "../themes/bluepurple";
 
-const theme = createMuiTheme({ palette: { type: "dark" } });
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
 
-export default function MyApp(props) {
-  const { Component, pageProps } = props;
+    background-color: ${theme.background};
+    
+    color: ${theme.text};
+  }
 
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
+  #root {
+    flex-direction: column;
+    
+    display: flex;
+    
+    height: 100%;
+  }
+`;
+
+export default class MyApp extends App {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
     }
-  }, []);
 
-  return (
-    <Fragment>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-      <ThemeProvider theme={theme}>
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </Fragment>
-  );
+    return { pageProps };
+  }
+
+  render() {
+    const { Component, pageProps } = this.props;
+
+    return (
+      <>
+        <GlobalStyle />
+
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </>
+    );
+  }
 }

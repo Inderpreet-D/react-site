@@ -9,22 +9,19 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "axios": "^0.20.0",
-    "clsx": "^1.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
+    "axios": "^0.21.1",
+    "color-alpha": "^1.1.2",
     "express": "^4.17.1",
-    "fontsource-roboto": "^3.0.3",
     "html-react-parser": "^0.14.0",
-    "next": "9.5.2",
+    "next": "^10.0.7",
     "project-name-generator": "^2.1.9",
-    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
-    "twilio": "^3.49.0"
+    "react-icons": "^4.1.0",
+    "react-is": "^17.0.1",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.12.0"
   }
 }
