@@ -16,6 +16,7 @@ import MTGCard from "../../../molecules/MTGCard";
 import LoadingIcon from "../../../atoms/LoadingIcon";
 import Dialog from "../../../molecules/Dialog";
 import Button from "../../../atoms/Button";
+import UploadButton from "../../../atoms/UploadButton";
 
 import mtgDownload, {
   randomName,
@@ -32,8 +33,6 @@ const Page = () => {
   const [name, setName] = React.useState(randomName());
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
-
-  const showEdit = process.env.NODE_ENV === "development";
 
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
@@ -140,8 +139,9 @@ const Page = () => {
   const handleRemove = (name, isCommander) =>
     handleCountChange(name, isCommander, false);
 
-  const handleFileSelect = (e) => {
-    const files = e.target.files;
+  const handleFileSelect = (files) => {
+    setError("");
+
     if (files.length > 0) {
       const file = files[0];
 
@@ -151,8 +151,14 @@ const Page = () => {
         reader.onload = (e) => {
           const data = JSON.parse(e.target.result);
 
-          const list = parseJSON(data);
-          downloadDecklist(list, file);
+          try {
+            const list = parseJSON(data);
+            downloadDecklist(list, file);
+          } catch (err) {
+            setError(
+              "Could not extract the decklist from that file, try a different one."
+            );
+          }
         };
 
         reader.readAsText(file);
@@ -171,24 +177,12 @@ const Page = () => {
 
       <StyledButtonHolder>
         <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
+
         <Button onClick={handleDownload}>Download</Button>
 
-        {showEdit && (
-          <label
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "0.0625rem solid turquoise",
-              borderRadius: "0.75rem",
-              paddingLeft: "1rem",
-              paddingRight: "1rem",
-            }}
-          >
-            Extract List from JSON
-            <input type="file" onChange={handleFileSelect} hidden />
-          </label>
-        )}
+        <UploadButton onFileSelected={handleFileSelect}>
+          Extract List from JSON
+        </UploadButton>
       </StyledButtonHolder>
 
       {error && <ContainerError>{error}</ContainerError>}

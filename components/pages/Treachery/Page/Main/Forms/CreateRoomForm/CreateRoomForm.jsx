@@ -1,11 +1,4 @@
-import styled from "styled-components";
-
-import Select from "../../../../atoms/Select";
-
-const StyledSelect = styled(Select)`
-  margin: 0 0.5rem;
-  width: 20%;
-`;
+import { StyledContainer, StyledSelect } from "./CreateRoomForm.styles";
 
 const CreateRoomForm = ({
   values: { rarity, players },
@@ -13,7 +6,7 @@ const CreateRoomForm = ({
   playerOptions,
   rarityOptions,
 }) => (
-  <>
+  <StyledContainer>
     <StyledSelect
       label="Number of Players"
       options={playerOptions}
@@ -27,7 +20,7 @@ const CreateRoomForm = ({
       value={rarity}
       onChange={onChange("rarity")}
     />
-  </>
+  </StyledContainer>
 );
 
 export default CreateRoomForm;

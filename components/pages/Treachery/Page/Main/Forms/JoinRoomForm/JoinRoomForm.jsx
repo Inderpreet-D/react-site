@@ -1,10 +1,4 @@
-import styled from "styled-components";
-
-import TextField from "../../../../atoms/TextField";
-
-const StyledTextField = styled(TextField)`
-  width: 15rem;
-`;
+import StyledTextField from "./JoinRoomForm.styles";
 
 const JoinRoomForm = ({ values: { code }, onChange }) => (
   <StyledTextField

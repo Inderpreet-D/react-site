@@ -174,9 +174,19 @@ export const parseJSON = (data) => {
   addCard(ObjectStates[1]);
   ObjectStates[0].ContainedObjects.forEach(addCard);
 
-  const deckList = Object.entries(listObj).map(
-    ([key, value]) => `${value} ${key}`
-  );
+  const kvSort = (a, b) => {
+    if (a[0] < b[0]) {
+      return -1;
+    } else if (a[0] > b[0]) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
+  const deckList = Object.entries(listObj)
+    .sort(kvSort)
+    .map(([key, value]) => `${value} ${key}`);
 
   return deckList;
 };

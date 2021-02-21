@@ -1,25 +1,6 @@
-import styled from "styled-components";
-
-import Button from "../../../atoms/Button";
+import { StyledButtonHolder, StyledForm } from "./Main.styles";
+import Button from "../../../../atoms/Button";
 import { JoinRoomForm, CreateRoomForm } from "./Forms";
-
-const StyledButtonHolder = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.25rem;
-  & > ${Button} {
-    margin: 0 0.5rem;
-  }
-`;
-
-const StyledForm = styled.form`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  & > ${Button} {
-    margin-left: 1rem;
-  }
-`;
 
 const rarityOptions = ["Uncommon", "Rare", "Mythic"];
 const playerOptions = ["4", "5", "6", "7", "8"];

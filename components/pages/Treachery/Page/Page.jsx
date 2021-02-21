@@ -5,9 +5,9 @@ import Container, {
   ContainerError,
 } from "../../../atoms/Container";
 import LoadingIcon from "../../../atoms/LoadingIcon";
-import Main from "../Main";
-import Room from "../Room";
-import Card from "../Card";
+import Main from "./Main";
+import Room from "./Room";
+import Card from "./Card";
 
 const STATE_MAIN = 0;
 const STATE_ROOM = 1;
