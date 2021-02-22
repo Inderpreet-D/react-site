@@ -1,21 +1,4 @@
-interface PostData {
-  selftext: string;
-  selftext_html: string;
-  title: string;
-  url: string;
-}
-
-interface RedditPost {
-  data: PostData;
-}
-
-interface RedditResponse {
-  data: {
-    data: {
-      children: RedditPost[];
-    };
-  };
-}
+import { RedditResponse, RedditPost, PostData } from "../shared/reddit";
 
 interface Poem {
   name: string;
