@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import breakpoints from "../../../breakpoints";
+import breakpoints from "../../../utilities/breakpoints";
 
 export default styled.div`
   margin: 1rem auto;

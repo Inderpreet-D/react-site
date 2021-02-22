@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GiStitchedWound } from "react-icons/gi";
 
-import breakpoints from "../../../../../../breakpoints";
+import breakpoints from "../../../../../../utilities/breakpoints";
 
 const StyledValue = styled.div`
   font-style: italic;

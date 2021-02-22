@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import breakpoints from "../../../../breakpoints";
+import breakpoints from "../../../../utilities/breakpoints";
 
 const StyledGrid = styled.div`
   align-content: space-between;

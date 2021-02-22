@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Select from "../../../../../../atoms/Select";
 
-import breakpoints from "../../../../../../../breakpoints";
+import breakpoints from "../../../../../../../utilities/breakpoints";
 
 const StyledSelect = styled(Select)`
   margin: 0.5rem 0;
