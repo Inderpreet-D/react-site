@@ -1,51 +1,62 @@
 import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
 
-const fetchCards = async (cards) => {
+import { ReqCard } from "../../../shared/toadvillage";
+
+const fetchCard = async (name: string): Promise<ReqCard> => {
+  return new Promise(async (resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const result = await axios.get(
+          `https://api.scryfall.com/cards/search?q=!"${name}"`
+        );
+        resolve(result.data.data[0]);
+      } catch (err) {
+        reject(err);
+      }
+    }, 100);
+  });
+};
+
+const fetchToken = async (uri: string): Promise<ReqCard> => {
+  return new Promise(async (resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const result = await axios.get(uri);
+        resolve(result.data);
+      } catch (err) {
+        reject(err);
+      }
+    }, 100);
+  });
+};
+
+const fetchCards = async (cards: ReqCard[]) => {
   const matchedCards = [];
   const unmatched = [];
   const tokens = [];
+  const neededTokens = [];
 
-  for (let { amount, name } of cards) {
-    try {
-      const card = await new Promise(async (resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            const result = await axios.get(
-              `https://api.scryfall.com/cards/search?q=!"${name}"`
-            );
-            resolve(result.data.data[0]);
-          } catch (err) {
-            reject(err);
-          }
-        }, 100);
-      });
-      matchedCards.push({ amount, card });
-      const tokenCards = card.all_parts?.filter(
-        ({ component }) => component === "token"
-      );
-      if (tokenCards) {
-        for (let { name, uri } of tokenCards) {
-          const token = await new Promise(async (resolve, reject) => {
-            setTimeout(async () => {
-              try {
-                const result = await axios.get(uri);
-                resolve(result.data);
-              } catch (err) {
-                reject(err);
-              }
-            }, 100);
-          });
-          tokens.push({
-            amount: 1,
-            card: { name, image: token.image_uris.normal },
-          });
-        }
+  await Promise.all(
+    cards.map(async ({ amount, name }) => {
+      try {
+        const card = await fetchCard(name);
+        matchedCards.push({ amount, card });
+        const tokenCards = card.all_parts?.filter(
+          ({ component }) => component === "token"
+        );
+        tokenCards.forEach((token) => neededTokens.push(token));
+      } catch (err) {
+        console.log("Error: ", err.message);
+        unmatched.push(name);
       }
-    } catch (err) {
-      console.log("Error: ", err.message);
-      unmatched.push(name);
-    }
-  }
+    })
+  );
+
+  [...new Set(neededTokens)].forEach(async ({ name, uri }) => {
+    const token = await fetchToken(uri);
+    tokens.push({ amount: 1, card: { name, image: token.image_uris.normal } });
+  });
 
   return { matchedCards, unmatched, tokens };
 };
@@ -111,8 +122,8 @@ const formatCards = (cards, identity) => {
   return { commanders, others };
 };
 
-export default async (req, res) => {
-  const { cards: cardNames } = req.body;
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const cardNames: ReqCard[] = req.body.cards;
 
   const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
   const filteredMatches = matchedCards.filter(Boolean);
@@ -121,9 +132,13 @@ export default async (req, res) => {
   const identity = getColorIdentity(filteredMatches);
   const { commanders, others } = formatCards(filteredMatches, identity);
 
-  res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.send(
-    JSON.stringify({ commanders, others, unmatched: filteredUnmatches, tokens })
+  res.status(200).send(
+    JSON.stringify({
+      commanders,
+      others,
+      unmatched: filteredUnmatches,
+      tokens,
+    })
   );
 };
