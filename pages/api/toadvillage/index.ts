@@ -1,9 +1,17 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { ReqCard } from "../../../shared/toadvillage";
+import {
+  ReqCard,
+  ScryfallPart,
+  ScryfallCard,
+  MatchedCard,
+  Token,
+  Card,
+  FormattedCard,
+} from "../../../shared/toadvillage";
 
-const fetchCard = async (name: string): Promise<ReqCard> => {
+const fetchCard = async (name: string): Promise<ScryfallCard> => {
   return new Promise(async (resolve, reject) => {
     setTimeout(async () => {
       try {
@@ -18,7 +26,7 @@ const fetchCard = async (name: string): Promise<ReqCard> => {
   });
 };
 
-const fetchToken = async (uri: string): Promise<ReqCard> => {
+const fetchToken = async (uri: string): Promise<ScryfallCard> => {
   return new Promise(async (resolve, reject) => {
     setTimeout(async () => {
       try {
@@ -32,20 +40,20 @@ const fetchToken = async (uri: string): Promise<ReqCard> => {
 };
 
 const fetchCards = async (cards: ReqCard[]) => {
-  const matchedCards = [];
-  const unmatched = [];
-  const tokens = [];
-  const neededTokens = [];
+  const matchedCards: MatchedCard[] = [];
+  const unmatched: string[] = [];
+  const tokens: Token[] = [];
+  const neededTokens: ScryfallPart[] = [];
 
   await Promise.all(
     cards.map(async ({ amount, name }) => {
       try {
         const card = await fetchCard(name);
         matchedCards.push({ amount, card });
-        const tokenCards = card.all_parts?.filter(
-          ({ component }) => component === "token"
-        );
-        tokenCards.forEach((token) => neededTokens.push(token));
+
+        card.all_parts
+          ?.filter(({ component }) => component === "token")
+          .forEach((token) => neededTokens.push(token));
       } catch (err) {
         console.log("Error: ", err.message);
         unmatched.push(name);
@@ -61,15 +69,15 @@ const fetchCards = async (cards: ReqCard[]) => {
   return { matchedCards, unmatched, tokens };
 };
 
-const getColorIdentity = (cards) => {
-  const identity = new Set();
+const getColorIdentity = (cards: MatchedCard[]) => {
+  const identity: Set<string> = new Set();
   cards.forEach(({ card }) => {
     card.color_identity.forEach((color) => identity.add(color));
   });
   return identity;
 };
 
-const isCommander = (deckIdentity, card) => {
+const isCommander = (deckIdentity: Set<string>, card: ScryfallCard) => {
   if (
     !card.type_line.startsWith("Legendary Creature") &&
     !card.type_line.startsWith("Legendary Planeswalker")
@@ -90,9 +98,9 @@ const isCommander = (deckIdentity, card) => {
   return true;
 };
 
-const formatCard = (card) => {
+const formatCard = (card: ScryfallCard) => {
   const image = card.image_uris || card.card_faces[0].image_uris;
-  const newCard = { name: card.name, image: image.normal };
+  const newCard: Card = { name: card.name, image: image.normal };
   if (card.card_faces) {
     const imageFaces = card.card_faces.filter((face) => face.image_uris);
     if (imageFaces.length === 2) {
@@ -105,13 +113,14 @@ const formatCard = (card) => {
   return newCard;
 };
 
-const formatCards = (cards, identity) => {
-  const commanders = [];
-  const others = [];
+const formatCards = (cards: MatchedCard[], identity: Set<string>) => {
+  const commanders: FormattedCard[] = [];
+  const others: FormattedCard[] = [];
 
   cards.forEach(({ amount, card }) => {
     const formatted = formatCard(card);
     const val = { amount, card: formatted };
+
     if (isCommander(identity, card)) {
       commanders.push(val);
     } else {
