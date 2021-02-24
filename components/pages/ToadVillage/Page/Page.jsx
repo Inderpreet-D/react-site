@@ -155,6 +155,7 @@ const Page = () => {
             const list = parseJSON(data);
             downloadDecklist(list, file);
           } catch (err) {
+            console.log(err);
             setError(
               "Could not extract the decklist from that file, try a different one."
             );
