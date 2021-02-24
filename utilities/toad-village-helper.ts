@@ -1,5 +1,13 @@
 import generate from "project-name-generator";
 
+import { FormattedCard } from "../shared/toadvillage";
+
+interface DownloadInput {
+  commanders: FormattedCard[];
+  others: FormattedCard[];
+  tokens: FormattedCard[];
+}
+
 const listAsDeck = (list, idx, hasFaces = false) => {
   if (!list) {
     return null;
@@ -80,52 +88,57 @@ const listAsDeck = (list, idx, hasFaces = false) => {
   }
 };
 
-const convertToTTS = (cardObjs) => {
-  const hasFace = ({ card }) => card.faces?.length == 2;
-  const flipCards = [
+const hasFace = (card: FormattedCard) => card.card.faces?.length === 2;
+
+const convertToTTS = (cardObjs: DownloadInput) => {
+  const flipCards: FormattedCard[] = [
     ...cardObjs.others.filter(hasFace),
     ...cardObjs.commanders.filter(hasFace),
   ];
+
+  const allCards: FormattedCard[][] = [
+    cardObjs.others,
+    cardObjs.commanders,
+    flipCards,
+    cardObjs.tokens,
+  ].filter((list) => Boolean(list) && list.length > 0);
+
   const states = [];
   let nextNum = 0;
-  [cardObjs.others, cardObjs.commanders, flipCards, cardObjs.tokens].forEach(
-    (l, i) => {
-      if (l?.length > 0) {
-        const deck = listAsDeck(l, nextNum, l === flipCards);
-        if (i !== 0) {
-          const newDeck = { ...deck };
-          if (newDeck.DeckIDs) {
-            newDeck.DeckIDs = newDeck.DeckIDs.reverse();
-          }
-          if (newDeck.ContainedObjects) {
-            newDeck.ContainedObjects = newDeck.ContainedObjects.reverse();
-          }
-          states.push(newDeck);
-        } else {
-          states.push(deck);
-        }
-        nextNum++;
+  allCards.forEach((cardList, i) => {
+    const deck = listAsDeck(cardList, nextNum, cardList === flipCards);
+    if (i !== 0) {
+      const newDeck = { ...deck };
+      if (newDeck.DeckIDs) {
+        newDeck.DeckIDs = newDeck.DeckIDs.reverse();
       }
+      if (newDeck.ContainedObjects) {
+        newDeck.ContainedObjects = newDeck.ContainedObjects.reverse();
+      }
+      states.push(newDeck);
+    } else {
+      states.push(deck);
     }
-  );
+    nextNum++;
+  });
   const obj = { ObjectStates: states.filter(Boolean) };
   return JSON.stringify(obj);
 };
 
-export const downloadBlob = (blob, name) => {
-  const el = document.createElement("a");
+export const downloadBlob = (blob: Blob, name: string) => {
+  const el: HTMLAnchorElement = document.createElement("a");
   el.href = URL.createObjectURL(blob);
   el.download = name;
   document.body.appendChild(el);
   el.click();
 };
 
-const download = (cardObjs, name) => {
+const download = (cardObjs: DownloadInput, name: string): string | void => {
   if (cardObjs.others) {
     if (cardObjs.others.length === 0) {
       return "You're missing a deck";
     } else {
-      const blob = new Blob([convertToTTS(cardObjs)], {
+      const blob: Blob = new Blob([convertToTTS(cardObjs)], {
         type: "application/json",
       });
       downloadBlob(blob, `${name}.json`);

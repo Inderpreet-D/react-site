@@ -38,13 +38,13 @@ const Page = () => {
     if (cardList.length > 0 && !showDialog) {
       setLoading(true);
       setError("");
-      axios.post("/api/toadvillage", { cards: cardList }).then((res) => {
+      axios.post("/api/toadvillage", { cards: cardList }).then(({ data }) => {
         const data = {
-          commanders: res.data.commanders,
-          others: res.data.others,
-          tokens: res.data.tokens,
+          commanders: data.commanders,
+          others: data.others,
+          tokens: data.tokens,
         };
-        const unmatched = res.data.unmatched;
+        const unmatched = data.unmatched;
         if (unmatched.length > 0) {
           const msg = `Could not find the following card${
             unmatched.length === 1 ? "" : "s"

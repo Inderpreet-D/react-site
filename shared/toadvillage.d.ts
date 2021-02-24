@@ -30,14 +30,6 @@ export interface MatchedCard {
   card: ScryfallCard;
 }
 
-export interface Token {
-  amount: number;
-  card: {
-    name: string;
-    image: string;
-  };
-}
-
 export interface Card {
   name: string;
   image: string;
