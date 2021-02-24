@@ -37,11 +37,11 @@ const fetchCards = async (
 ): Promise<{
   matchedCards: MatchedCard[];
   unmatched: string[];
-  tokens: Token[];
+  tokens: FormattedCard[];
 }> => {
   const matchedCards: MatchedCard[] = [];
   const unmatched: string[] = [];
-  const tokens: Token[] = [];
+  const tokens: FormattedCard[] = [];
   const neededTokens: ScryfallPart[] = [];
 
   await Promise.all(
