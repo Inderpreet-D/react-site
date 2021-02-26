@@ -1,14 +1,8 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import {
-  ReqCard,
-  ScryfallPart,
-  ScryfallCard,
-  MatchedCard,
-  Card,
-  FormattedCard,
-} from "../../../shared/toadvillage";
+import { Card, FormattedCard } from "../../../shared/toadvillage";
+import { ReqCard, ScryfallPart, ScryfallCard, MatchedCard } from "./types";
 
 const fetchCard = async (name: string): Promise<ScryfallCard> => {
   return new Promise(async (resolve, reject) => {
