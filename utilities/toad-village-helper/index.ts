@@ -194,16 +194,29 @@ export const downloadDecklist = (list: string[], file: File): void => {
 export const parseJSON = (data: TTSObjectStates): string[] => {
   const listObj: { [x: string]: number } = {};
 
-  const addCard = ({ Nickname }: TTSDeck | ContainedObject): void => {
+  const addCard = ({
+    Nickname,
+    CustomDeck,
+  }: TTSDeck | ContainedObject): void => {
     if (!(Nickname in listObj)) {
       listObj[Nickname] = 0;
     }
-    listObj[Nickname]++;
+
+    let amount = 1;
+    if (CustomDeck) {
+      amount = Object.keys(CustomDeck).length;
+    }
+
+    listObj[Nickname] += amount;
   };
 
   const { ObjectStates } = data;
   addCard(ObjectStates[1]);
-  ObjectStates[0].ContainedObjects.forEach(addCard);
+  try {
+    ObjectStates[0].ContainedObjects.forEach(addCard);
+  } catch (e) {
+    addCard(ObjectStates[0]);
+  }
 
   const kvSort = (a: [string, number], b: [string, number]): -1 | 1 | 0 => {
     if (a[0] < b[0]) {

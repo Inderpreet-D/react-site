@@ -23,6 +23,7 @@ export interface ContainedObject {
   Name: string;
   Nickname: string;
   Transform: Transform;
+  CustomDeck?: Deck;
 }
 
 export interface Deck {

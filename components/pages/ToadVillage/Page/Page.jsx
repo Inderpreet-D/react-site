@@ -39,7 +39,7 @@ const Page = () => {
       setLoading(true);
       setError("");
       axios.post("/api/toadvillage", { cards: cardList }).then(({ data }) => {
-        const data = {
+        const cardData = {
           commanders: data.commanders,
           others: data.others,
           tokens: data.tokens,
@@ -51,7 +51,7 @@ const Page = () => {
           }: ${unmatched.join(", ")}`;
           setError(msg);
         }
-        setCardObjs(data);
+        setCardObjs(cardData);
         setLoading(false);
       });
     } else if (cardList.length === 0) {
@@ -152,6 +152,7 @@ const Page = () => {
           const data = JSON.parse(e.target.result);
 
           try {
+            console.log(data);
             const list = parseJSON(data);
             downloadDecklist(list, file);
           } catch (err) {
