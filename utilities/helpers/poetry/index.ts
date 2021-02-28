@@ -1,10 +1,6 @@
 import { RedditResponse, RedditPost, PostData } from "../shared/reddit";
 
-interface Poem {
-  name: string;
-  body: string;
-  url: string;
-}
+import { Poem } from "./types";
 
 const parsePoems = (res: RedditResponse): Poem[] => {
   const allPosts: RedditPost[] = res.data.data.children;

@@ -1,6 +1,6 @@
 import generate from "project-name-generator";
 
-import { FormattedCard, Card } from "../../shared/toadvillage";
+import { FormattedCard, Card } from "../../../shared/toadvillage";
 import {
   DownloadInput,
   Transform,

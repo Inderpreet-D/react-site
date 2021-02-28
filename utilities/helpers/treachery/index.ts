@@ -1,26 +1,30 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
 
-const ROLES = JSON.parse(fs.readFileSync("public/treacheryRoles.json"));
-const WIN_CONDITIONS = JSON.parse(
-  fs.readFileSync("public/treacheryWinConditions.json")
+import { Rooms } from "../../../shared/treachery";
+import { Roles, WinConditions } from "./types";
+
+const ROLES: Roles = JSON.parse(
+  (fs.readFileSync("public/treacheryRoles.json") as unknown) as string
 );
-const ROOM_PATH = "public/treacheryRooms.json";
+const WIN_CONDITIONS: WinConditions = JSON.parse(
+  (fs.readFileSync("public/treacheryWinConditions.json") as unknown) as string
+);
+const ROOM_PATH: string = "public/treacheryRooms.json";
 
-export const readRooms = () => {
-  return JSON.parse(fs.readFileSync(ROOM_PATH));
-};
+export const readRooms = (): Rooms =>
+  JSON.parse((fs.readFileSync(ROOM_PATH) as unknown) as string);
 
-export const writeRooms = (rooms) => {
+export const writeRooms = (rooms: Rooms): void =>
   fs.writeFileSync(ROOM_PATH, JSON.stringify(rooms));
-};
 
-export const send = (res, data) => {
+export const send = (res: NextApiResponse, data) => {
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
   res.send(JSON.stringify(data));
 };
 
-export const generateUniqueCode = (codeSet) => {
+export const generateUniqueCode = (codeSet: { [x: string]: any }): string => {
   let code = "";
   for (let i = 0; i < 4; i++) {
     code += String.fromCharCode(65 + Math.floor(Math.random() * 26));

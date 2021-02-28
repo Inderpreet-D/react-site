@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { RedditRawResponse, RedditResponse } from "../../shared/reddit";
+import { RedditRawResponse, RedditResponse } from "../../../shared/reddit";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const response: RedditRawResponse = await axios.get(

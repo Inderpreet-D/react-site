@@ -23,7 +23,7 @@ import mtgDownload, {
   nameSort,
   downloadDecklist,
   parseJSON,
-} from "../../../../utilities/toad-village-helper";
+} from "../../../../utilities/helpers/toadvillage";
 
 const Page = () => {
   const [showDialog, setShowDialog] = React.useState(false);

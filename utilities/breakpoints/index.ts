@@ -1,16 +1,4 @@
-interface Size {
-  mobile: string[];
-  tablet: string[];
-  laptop: string[];
-  desktop: string[];
-}
-
-interface Breakpoints {
-  mobile: string;
-  tablet: string;
-  laptop: string;
-  desktop: string;
-}
+import { Size, Breakpoints } from "./types";
 
 const size: Size = {
   mobile: ["20rem", "30rem"],
@@ -23,9 +11,7 @@ const breakpoints: Breakpoints = {} as Breakpoints;
 
 Object.keys(size).forEach((key) => {
   breakpoints[key] = size[key]
-    .map(
-      (size: string, i: number) => `(${i === 0 ? "min" : "max"}-width: ${size})`
-    )
+    .map((size, i) => `(${i === 0 ? "min" : "max"}-width: ${size})`)
     .join(" and ");
 });
 

@@ -1,4 +1,8 @@
-import * as helpers from "./helper";
+import { NextApiRequest, NextApiResponse } from "next";
+
+import * as helpers from "../../../utilities/helpers/treachery";
+
+import { Rooms } from "../../../shared/treachery";
 
 const handleRoomCreation = (payload, rooms) => {
   const { numPlayers, rarity } = payload;
@@ -63,9 +67,9 @@ const handleCard = (payload, rooms) => {
   return parsed;
 };
 
-export default (req, res) => {
+export default (req: NextApiRequest, res: NextApiResponse) => {
   const { action, ...payload } = req.query;
-  const rooms = helpers.readRooms();
+  const rooms: Rooms = helpers.readRooms();
 
   let result;
   if (!action) {

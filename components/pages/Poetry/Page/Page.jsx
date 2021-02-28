@@ -7,7 +7,7 @@ import { StyledError, StyledLink, StyledText } from "./Page.styles";
 
 import parsePoems, {
   pickRandomPoem,
-} from "../../../../utilities/poetry-helper";
+} from "../../../../utilities/helpers/poetry";
 
 const Page = () => {
   const [poem, setPoem] = React.useState(null);

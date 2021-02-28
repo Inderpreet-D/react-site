@@ -1,4 +1,4 @@
-import { FormattedCard } from "../../shared/toadvillage";
+import { FormattedCard } from "../../../shared/toadvillage";
 
 export interface DownloadInput {
   commanders: FormattedCard[];

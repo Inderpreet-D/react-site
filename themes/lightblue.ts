@@ -1,4 +1,4 @@
-import { Theme } from "../shared/theme";
+import { Theme } from "./type";
 
 const theme: Theme = {
   background: "#0B0C10",
