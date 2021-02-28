@@ -9,17 +9,19 @@ import {
   send,
 } from "../../../utilities/helpers/treachery";
 
-import { Rooms } from "../../../shared/treachery";
+import { Card, Room, Rooms } from "../../../shared/treachery";
+import { Payload, JoinVal } from "./types";
 
-interface Payload {}
-
-const handleRoomCreation = (payload, rooms) => {
+const handleRoomCreation = (
+  payload: Payload,
+  rooms: Rooms
+): { roomCode: string; id: string } => {
   const { numPlayers, rarity } = payload;
 
   const roomCode = generateUniqueCode(rooms);
   const id = generateUniqueCode({});
 
-  rooms[roomCode] = {
+  const newRoom: Room = {
     numPlayers: +numPlayers,
     currentPlayers: 1,
     cards: getCards(numPlayers, rarity),
@@ -27,12 +29,13 @@ const handleRoomCreation = (payload, rooms) => {
     nextIDX: 1,
   };
 
+  rooms[roomCode] = newRoom;
   writeRooms(rooms);
 
-  return { roomCode: roomCode, id: id };
+  return { roomCode, id };
 };
 
-const handleRoomJoin = (payload, rooms) => {
+const handleRoomJoin = (payload: Payload, rooms: Rooms): JoinVal => {
   const { roomCode, id } = payload;
 
   if (!(roomCode in rooms)) {
@@ -40,44 +43,54 @@ const handleRoomJoin = (payload, rooms) => {
   }
 
   const ids = rooms[roomCode].ids;
+  const returnVal: JoinVal = {
+    roomCode,
+    id,
+    currentPlayers: 0,
+    numPlayers: 0,
+  };
+
   if (!id || !(id in ids)) {
     const newId = generateUniqueCode(ids);
+
     rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX;
     rooms[roomCode].nextIDX++;
     rooms[roomCode].currentPlayers++;
+
     writeRooms(rooms);
-    return {
-      roomCode: roomCode,
-      id: newId,
-      currentPlayers: rooms[roomCode].currentPlayers,
-      numPlayers: rooms[roomCode].numPlayers,
-    };
+
+    returnVal.id = newId;
   }
 
-  return {
-    roomCode: roomCode,
-    id: id,
-    currentPlayers: rooms[roomCode].currentPlayers,
-    numPlayers: rooms[roomCode].numPlayers,
-  };
+  returnVal.currentPlayers = rooms[roomCode].currentPlayers;
+  returnVal.numPlayers = rooms[roomCode].numPlayers;
+
+  return returnVal;
 };
 
-const handleRoomPing = (payload, rooms) => {
+const handleRoomPing = (
+  payload: Payload,
+  rooms: Rooms
+): { numPlayers: number; currentPlayers: number } => {
   const { roomCode } = payload;
   const { numPlayers, currentPlayers } = rooms[roomCode];
-  return { numPlayers: numPlayers, currentPlayers: currentPlayers };
+
+  return { numPlayers, currentPlayers };
 };
 
-const handleCard = (payload, rooms) => {
+const handleCard = (payload: Payload, rooms: Rooms): Card => {
   const { roomCode, id } = payload;
+
   const idx = rooms[roomCode].ids[id];
   const cardPath = rooms[roomCode].cards[idx];
   const parsed = parseCardData(cardPath);
+
   return parsed;
 };
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
-  const { action, ...payload } = req.query;
+  const { action, ...others } = req.query;
+  const payload: Payload = others as Payload;
   const rooms: Rooms = readRooms();
 
   let result: any;

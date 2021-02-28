@@ -1,8 +1,8 @@
 import { NextApiResponse } from "next";
 import fs from "fs";
 
-import { Rooms } from "../../../shared/treachery";
-import { Roles, WinConditions, RoleName, Rarity } from "./types";
+import { Rooms, Rarity, RoleName, Card } from "../../../shared/treachery";
+import { Roles, WinConditions } from "./types";
 
 const readFile = (name: string): any => {
   const data = (fs.readFileSync(name) as unknown) as string;
@@ -75,8 +75,8 @@ const shuffle = (array: any[]): any[] => {
   return array;
 };
 
-export const getCards = (numPlayers: number, rarity: Rarity) => {
-  let chosen = chooseN(RoleName.Leader, rarity, 1);
+export const getCards = (numPlayers: number, rarity: Rarity): string[] => {
+  let chosen: string[] = chooseN(RoleName.Leader, rarity, 1);
 
   if (numPlayers === 8) {
     chosen = chosen.concat(chooseN(RoleName.Traitor, rarity, 2));
@@ -99,9 +99,7 @@ export const getCards = (numPlayers: number, rarity: Rarity) => {
   return shuffle(chosen);
 };
 
-export const parseCardData = (
-  card: string
-): { imgSrc: string; role: RoleName; winCondition: string } => {
+export const parseCardData = (card: string): Card => {
   const imgSrc = card;
   const role: RoleName = card.split("/")[2] as RoleName;
   const winCondition: string = WIN_CONDITIONS[role];
