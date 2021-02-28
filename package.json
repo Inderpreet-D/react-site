@@ -11,7 +11,9 @@
   "dependencies": {
     "axios": "^0.21.1",
     "color-alpha": "^1.1.2",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^9.5.0",
     "html-react-parser": "^0.14.0",
     "next": "^10.0.7",
     "project-name-generator": "^2.1.9",
