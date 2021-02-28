@@ -1,11 +1,11 @@
-enum RoleName {
+export enum RoleName {
   Guardian = "Guardian",
   Assassin = "Assassin",
   Traitor = "Traitor",
   Leader = "Leader",
 }
 
-enum Rarity {
+export enum Rarity {
   Mythic = "Mythic",
   Rare = "Rare",
   Uncommon = "Uncommon",

@@ -19,6 +19,7 @@ const api = (queryParams) => {
     .filter((key) => queryParams[key])
     .map((param) => `${param}=${queryParams[param]}`)
     .join("&");
+
   return new Promise((res, rej) => {
     axios
       .get(`/api/treachery?${query}`)

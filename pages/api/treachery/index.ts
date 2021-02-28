@@ -1,24 +1,33 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import * as helpers from "../../../utilities/helpers/treachery";
+import {
+  generateUniqueCode,
+  getCards,
+  writeRooms,
+  parseCardData,
+  readRooms,
+  send,
+} from "../../../utilities/helpers/treachery";
 
 import { Rooms } from "../../../shared/treachery";
+
+interface Payload {}
 
 const handleRoomCreation = (payload, rooms) => {
   const { numPlayers, rarity } = payload;
 
-  const roomCode = helpers.generateUniqueCode(rooms);
-  const id = helpers.generateUniqueCode({});
+  const roomCode = generateUniqueCode(rooms);
+  const id = generateUniqueCode({});
 
   rooms[roomCode] = {
     numPlayers: +numPlayers,
     currentPlayers: 1,
-    cards: helpers.getCards(numPlayers, rarity),
+    cards: getCards(numPlayers, rarity),
     ids: { [id]: 0 },
     nextIDX: 1,
   };
 
-  helpers.writeRooms(rooms);
+  writeRooms(rooms);
 
   return { roomCode: roomCode, id: id };
 };
@@ -32,11 +41,11 @@ const handleRoomJoin = (payload, rooms) => {
 
   const ids = rooms[roomCode].ids;
   if (!id || !(id in ids)) {
-    const newId = helpers.generateUniqueCode(ids);
+    const newId = generateUniqueCode(ids);
     rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX;
     rooms[roomCode].nextIDX++;
     rooms[roomCode].currentPlayers++;
-    helpers.writeRooms(rooms);
+    writeRooms(rooms);
     return {
       roomCode: roomCode,
       id: newId,
@@ -63,15 +72,15 @@ const handleCard = (payload, rooms) => {
   const { roomCode, id } = payload;
   const idx = rooms[roomCode].ids[id];
   const cardPath = rooms[roomCode].cards[idx];
-  const parsed = helpers.parseCardData(cardPath);
+  const parsed = parseCardData(cardPath);
   return parsed;
 };
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
   const { action, ...payload } = req.query;
-  const rooms: Rooms = helpers.readRooms();
+  const rooms: Rooms = readRooms();
 
-  let result;
+  let result: any;
   if (!action) {
     result = rooms;
   } else if (action === "create") {
@@ -84,5 +93,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     result = handleCard(payload, rooms);
   }
 
-  helpers.send(res, result);
+  send(res, result);
 };
