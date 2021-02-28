@@ -4,7 +4,7 @@ const Test = () => {
   const [response, setResponse] = React.useState("");
 
   React.useEffect(() => {
-    axios.get("/api/test").then(({ data }) => setResponse(data));
+    axios.get("/api/test?action=push").then(({ data }) => setResponse(data));
   }, []);
 
   return <div>{JSON.stringify(response)}</div>;

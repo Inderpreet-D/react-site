@@ -1,19 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import Admin from "firebase-admin";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-const DB = Admin.initializeApp({
-  credential: Admin.credential.cert({
-    projectId: "react-site-inder",
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  }),
-  databaseURL: "https://react-site-inder.firebaseio.com",
-}).database();
+import { get, set } from "../../../utilities/helpers/database";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = await DB.ref("test").get();
+  if (req.query.action === "push") {
+    await set("test/key3", "value3");
+  }
+  const data = await get("test");
   res.status(200).send(data);
 };
