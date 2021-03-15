@@ -3,7 +3,7 @@ import {
   StyledTextField,
   StyledText,
 } from "./MessageBlock.styles";
-import { encode } from "../../../../../utilities/secret-helper";
+import { encode } from "../../../../../utilities/helpers/secret";
 
 const MessageBlock = ({ value, onChange, secret }) => (
   <StyledHolder>
