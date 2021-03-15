@@ -13,7 +13,7 @@ import {
   midParts,
   part3,
   decode,
-} from "../../../../utilities/secret-helper";
+} from "../../../../utilities/helpers/secret";
 
 const Page = () => {
   const [userInput, setUserInput] = React.useState("");
