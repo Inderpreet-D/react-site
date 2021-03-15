@@ -161,7 +161,8 @@ const download = (cardObjs: DownloadInput, name: string): string | void => {
 };
 
 export const randomName = (): string => {
-  const random: string[] = generate({ words: 4, alliterative: false }).raw;
+  const random: string[] = generate({ words: 4, alliterative: false })
+    .raw as string[];
   const upped = random.map(
     (val: string) => val.charAt(0).toUpperCase() + val.slice(1)
   );

@@ -1,4 +1,4 @@
-import { RedditResponse, RedditPost, PostData } from "../shared/reddit";
+import { RedditResponse, RedditPost, PostData } from "../../../shared/reddit";
 
 import { Poem } from "./types";
 
