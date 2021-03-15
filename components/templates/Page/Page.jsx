@@ -1,23 +1,34 @@
 import Head from "next/head";
+import { v4 as uuidv4 } from "uuid";
 
 import { StyledWrapper, StyledChildren } from "./Page.styles";
 import Header from "../../atoms/Header";
 import Footer from "../../atoms/Footer";
 
-const Page = ({ children, title, hideHeader, hideFooter }) => (
-  <>
-    <Head>
-      <title>{title}</title>
-    </Head>
+const ID_KEY = "inderpreetd_id";
 
-    <StyledWrapper>
-      {!hideHeader && <Header />}
+const Page = ({ children, title, hideHeader, hideFooter }) => {
+  if (typeof window !== "undefined") {
+    if (!localStorage.getItem(ID_KEY)) {
+      localStorage.setItem(ID_KEY, uuidv4());
+    }
+  }
 
-      <StyledChildren>{children}</StyledChildren>
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+      </Head>
 
-      {!hideFooter && <Footer />}
-    </StyledWrapper>
-  </>
-);
+      <StyledWrapper>
+        {!hideHeader && <Header />}
+
+        <StyledChildren>{children}</StyledChildren>
+
+        {!hideFooter && <Footer />}
+      </StyledWrapper>
+    </>
+  );
+};
 
 export default Page;

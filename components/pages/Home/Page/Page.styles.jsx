@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import breakpoints from "../../../../breakpoints";
+import breakpoints from "../../../../utilities/breakpoints";
 
 const StyledSeparator = styled.div`
   margin-bottom: 0.75rem;

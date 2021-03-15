@@ -23,7 +23,7 @@ import mtgDownload, {
   nameSort,
   downloadDecklist,
   parseJSON,
-} from "../../../../utilities/toad-village-helper";
+} from "../../../../utilities/helpers/toadvillage";
 
 const Page = () => {
   const [showDialog, setShowDialog] = React.useState(false);
@@ -38,20 +38,20 @@ const Page = () => {
     if (cardList.length > 0 && !showDialog) {
       setLoading(true);
       setError("");
-      axios.post("/api/toadvillage", { cards: cardList }).then((res) => {
-        const data = {
-          commanders: res.data.commanders,
-          others: res.data.others,
-          tokens: res.data.tokens,
+      axios.post("/api/toadvillage", { cards: cardList }).then(({ data }) => {
+        const cardData = {
+          commanders: data.commanders,
+          others: data.others,
+          tokens: data.tokens,
         };
-        const unmatched = res.data.unmatched;
+        const unmatched = data.unmatched;
         if (unmatched.length > 0) {
           const msg = `Could not find the following card${
             unmatched.length === 1 ? "" : "s"
           }: ${unmatched.join(", ")}`;
           setError(msg);
         }
-        setCardObjs(data);
+        setCardObjs(cardData);
         setLoading(false);
       });
     } else if (cardList.length === 0) {
@@ -152,9 +152,11 @@ const Page = () => {
           const data = JSON.parse(e.target.result);
 
           try {
+            console.log(data);
             const list = parseJSON(data);
             downloadDecklist(list, file);
           } catch (err) {
+            console.log(err);
             setError(
               "Could not extract the decklist from that file, try a different one."
             );

@@ -1,16 +1,13 @@
-export const size = {
+import { Size, Breakpoints } from "./types";
+
+const size: Size = {
   mobile: ["20rem", "30rem"],
   tablet: ["30.0625rem", "48rem"],
   laptop: ["48.0625rem", "64rem"],
   desktop: ["64.0625rem"],
 };
 
-const breakpoints = {
-  mobile: "",
-  tablet: "",
-  laptop: "",
-  desktop: "",
-};
+const breakpoints: Breakpoints = {} as Breakpoints;
 
 Object.keys(size).forEach((key) => {
   breakpoints[key] = size[key]

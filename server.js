@@ -7,9 +7,9 @@ const port = process.env.PORT || 3000;
 
 const handle = app.getRequestHandler();
 
-app
-  .prepare()
-  .then(() => {
+(async () => {
+  try {
+    await app.prepare();
     const server = express();
 
     server.use((req, res, next) => {
@@ -20,6 +20,7 @@ app
           "strict-transport-security",
           "max-age=31536000; includeSubDomains; preload"
         );
+
         next();
       }
     });
@@ -31,8 +32,8 @@ app
       if (error) throw error;
       console.error(`Listening on port ${port}`);
     });
-  })
-  .catch((error) => {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     process.exit(1);
-  });
+  }
+})();

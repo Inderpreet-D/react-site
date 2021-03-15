@@ -5,7 +5,7 @@ import {
 } from "./Header.styles";
 import NavigationItem from "../NavigationItem";
 import Sidebar from "../Sidebar";
-import routes from "../../../routes";
+import routes from "../../../utilities/routes";
 
 const HEADER_ITEMS = Object.entries(routes).map(([key, link], i) => (
   <NavigationItem key={i} link={link}>

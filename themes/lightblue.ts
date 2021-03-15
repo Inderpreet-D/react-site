@@ -1,4 +1,6 @@
-export default {
+import { Theme } from "./types";
+
+const theme: Theme = {
   background: "#0B0C10",
   backgroundLight: "#1F2833",
   accent: "#C5C6C7",
@@ -6,3 +8,5 @@ export default {
   foregroundDark: "#45A29E",
   text: "white",
 };
+
+export default theme;
