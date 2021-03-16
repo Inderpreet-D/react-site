@@ -5,7 +5,7 @@ import { StyledWrapper, StyledChildren } from "./Page.styles";
 import Header from "../../atoms/Header";
 import Footer from "../../atoms/Footer";
 
-const ID_KEY = "inderpreetd_id";
+import { ID_KEY } from "../../../shared/constants";
 
 const Page = ({ children, title, hideHeader, hideFooter }) => {
   if (typeof window !== "undefined") {
