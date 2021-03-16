@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Card, FormattedCard } from "../../../shared/toadvillage";
 import { ReqCard, ScryfallPart, ScryfallCard, MatchedCard } from "./types";
 
+const QUEUE: { [x: string]: any } = {};
+
 const fetchCard = async (name: string): Promise<ScryfallCard> => {
   return new Promise(async (resolve, reject) => {
     setTimeout(() => {
@@ -145,9 +147,23 @@ const formatCards = (
   return { commanders, others };
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const cardNames: ReqCard[] = req.body.cards;
+const coalesce = (cards: FormattedCard[]): FormattedCard[] => {
+  const coalesced: { [x: string]: FormattedCard } = {};
 
+  cards.forEach(({ amount, card }) => {
+    if (!(card.name in coalesced)) {
+      coalesced[card.name] = { amount: 0, card };
+    }
+    coalesced[card.name].amount += amount;
+  });
+
+  return Object.values(coalesced);
+};
+
+const handleRequest = async (
+  id: string,
+  cardNames: ReqCard[]
+): Promise<void> => {
   const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
   const filteredMatches: MatchedCard[] = matchedCards.filter(Boolean);
   const filteredUnmatches: string[] = unmatched.filter(Boolean);
@@ -155,13 +171,30 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const identity: Set<string> = getColorIdentity(filteredMatches);
   const { commanders, others } = formatCards(filteredMatches, identity);
 
+  QUEUE[id] = {
+    status: "DONE",
+    commanders: coalesce(commanders),
+    others: coalesce(others),
+    tokens: coalesce(tokens),
+    unmatched: [...new Set(filteredUnmatches)],
+  };
+};
+
+export default async (req: NextApiRequest, res: NextApiResponse) => {
+  const cardNames: ReqCard[] = req.body.cards;
+  const id: string = req.body.id;
+
   res.setHeader("Content-Type", "application/json");
-  res.status(200).send(
-    JSON.stringify({
-      commanders,
-      others,
-      unmatched: filteredUnmatches,
-      tokens,
-    })
-  );
+
+  if (cardNames) {
+    res.status(200).send({ status: "POLL" });
+    handleRequest(id, cardNames);
+  } else {
+    if (id in QUEUE) {
+      res.status(200).send(QUEUE[id]);
+      delete QUEUE[id];
+    } else {
+      res.status(200).send({ status: "WAIT" });
+    }
+  }
 };

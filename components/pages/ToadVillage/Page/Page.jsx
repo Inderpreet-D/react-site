@@ -24,6 +24,7 @@ import mtgDownload, {
   downloadDecklist,
   parseJSON,
 } from "../../../../utilities/helpers/toadvillage";
+import { ID_KEY } from "../../../../shared/constants";
 
 const Page = () => {
   const [showDialog, setShowDialog] = React.useState(false);
@@ -34,26 +35,39 @@ const Page = () => {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-  React.useEffect(() => {
-    if (cardList.length > 0 && !showDialog) {
-      setLoading(true);
-      setError("");
-      axios.post("/api/toadvillage", { cards: cardList }).then(({ data }) => {
-        const cardData = {
-          commanders: data.commanders,
-          others: data.others,
-          tokens: data.tokens,
-        };
-        const unmatched = data.unmatched;
+  const waitForResponse = React.useCallback(() => {
+    setTimeout(async () => {
+      const id = localStorage.getItem(ID_KEY);
+      const { data } = await axios.post("/api/toadvillage", { id });
+      const { status, ...rest } = data;
+
+      if (status === "WAIT") {
+        waitForResponse();
+      } else if (status === "DONE") {
+        const { unmatched, ...cardData } = rest;
+
         if (unmatched.length > 0) {
           const msg = `Could not find the following card${
             unmatched.length === 1 ? "" : "s"
           }: ${unmatched.join(", ")}`;
           setError(msg);
         }
-        setCardObjs(cardData);
+
+        setCardObjs({ ...cardData });
         setLoading(false);
-      });
+      }
+    }, 5000);
+  }, []);
+
+  React.useEffect(() => {
+    if (cardList.length > 0 && !showDialog) {
+      setLoading(true);
+      setError("");
+
+      const id = localStorage.getItem(ID_KEY);
+      axios
+        .post("/api/toadvillage", { id, cards: cardList })
+        .then(({ data }) => data.status === "POLL" && waitForResponse());
     } else if (cardList.length === 0) {
       setCardObjs({});
     }
