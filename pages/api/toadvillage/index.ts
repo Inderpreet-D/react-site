@@ -5,6 +5,7 @@ import { Card, FormattedCard } from "../../../shared/toadvillage";
 import { ReqCard, ScryfallPart, ScryfallCard, MatchedCard } from "./types";
 
 const QUEUE: { [x: string]: any } = {};
+const STARTED: Set<string> = new Set<string>();
 
 const fetchCard = async (name: string): Promise<ScryfallCard> => {
   return new Promise(async (resolve, reject) => {
@@ -50,7 +51,7 @@ const fetchCards = async (
           ?.filter(({ component }) => component === "token")
           .forEach((token) => neededTokens.push(token));
       } catch (err) {
-        console.log("Error: ", err.message);
+        console.log("Card Fetch Error: ", err.message);
         unmatched.push(name);
       }
     })
@@ -58,11 +59,15 @@ const fetchCards = async (
 
   await Promise.all(
     [...new Set(neededTokens)].map(async ({ name, uri }) => {
-      const token: ScryfallCard = await fetchToken(uri);
-      tokens.push({
-        amount: 1,
-        card: { name, image: token.image_uris.normal },
-      });
+      try {
+        const token: ScryfallCard = await fetchToken(uri);
+        tokens.push({
+          amount: 1,
+          card: { name, image: token.image_uris.normal },
+        });
+      } catch (err) {
+        console.log("Token Fetch Error: ", err.message);
+      }
     })
   );
 
@@ -175,7 +180,7 @@ const handleRequest = async (
     status: "DONE",
     commanders: coalesce(commanders),
     others: coalesce(others),
-    tokens: coalesce(tokens),
+    tokens,
     unmatched: [...new Set(filteredUnmatches)],
   };
 };
@@ -188,13 +193,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (cardNames) {
     res.status(200).send({ status: "POLL" });
+    STARTED.add(id);
     handleRequest(id, cardNames);
   } else {
     if (id in QUEUE) {
       res.status(200).send(QUEUE[id]);
+      STARTED.delete(id);
       delete QUEUE[id];
     } else {
-      res.status(200).send({ status: "WAIT" });
+      if (STARTED.has(id)) {
+        res.status(200).send({ status: "WAIT" });
+      } else {
+        res.status(200).send({
+          status: "DONE",
+          commanders: [],
+          others: [],
+          tokens: [],
+          unmatched: [],
+        });
+        STARTED.delete(id);
+      }
     }
   }
 };
