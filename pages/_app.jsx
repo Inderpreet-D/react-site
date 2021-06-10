@@ -1,7 +1,9 @@
-import App from "next/app";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import App from 'next/app'
+import { DefaultSeo } from 'next-seo'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
-import theme from "../themes/lightblue";
+import SEO from '../next-seo.config'
+import theme from '../themes/lightblue'
 // import theme from "../themes/bluepurple";
 
 const GlobalStyle = createGlobalStyle`
@@ -22,30 +24,32 @@ const GlobalStyle = createGlobalStyle`
     
     height: 100%;
   }
-`;
+`
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+  static async getInitialProps ({ Component, ctx }) {
+    let pageProps = {}
 
     if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = await Component.getInitialProps(ctx)
     }
 
-    return { pageProps };
+    return { pageProps }
   }
 
-  render() {
-    const { Component, pageProps } = this.props;
+  render () {
+    const { Component, pageProps } = this.props
 
     return (
       <>
+        <DefaultSeo {...SEO} />
+
         <GlobalStyle />
 
         <ThemeProvider theme={theme}>
           <Component {...pageProps} />
         </ThemeProvider>
       </>
-    );
+    )
   }
 }
