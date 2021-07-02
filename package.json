@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "yarn run build"
   },
   "dependencies": {
     "axios": "^0.21.1",
