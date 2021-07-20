@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 
 import {
   StyledButtonHolder,
@@ -6,186 +6,184 @@ import {
   StyledTextField,
   StyledHeader,
   StyledCardBlock,
-  StyledTextArea,
-} from "./Page.styles";
+  StyledTextArea
+} from './Page.styles'
 import Container, {
   ContainerTitle,
-  ContainerError,
-} from "../../../atoms/Container";
-import MTGCard from "../../../molecules/MTGCard";
-import LoadingIcon from "../../../atoms/LoadingIcon";
-import Dialog from "../../../molecules/Dialog";
-import Button from "../../../atoms/Button";
-import UploadButton from "../../../atoms/UploadButton";
+  ContainerError
+} from '../../../atoms/Container'
+import MTGCard from '../../../molecules/MTGCard'
+import LoadingIcon from '../../../atoms/LoadingIcon'
+import Dialog from '../../../molecules/Dialog'
+import Button from '../../../atoms/Button'
+import UploadButton from '../../../atoms/UploadButton'
 
 import mtgDownload, {
   randomName,
   nameSort,
   downloadDecklist,
-  parseJSON,
-} from "../../../../utilities/helpers/toadvillage";
-import { ID_KEY } from "../../../../shared/constants";
+  parseJSON
+} from '../../../../utilities/helpers/toadvillage'
+import { ID_KEY } from '../../../../shared/constants'
 
 const Page = () => {
-  const [showDialog, setShowDialog] = React.useState(false);
-  const [cardList, setCardList] = React.useState([]);
-  const [cardListString, setCardListString] = React.useState([]);
-  const [cardObjs, setCardObjs] = React.useState({});
-  const [name, setName] = React.useState(randomName());
-  const [error, setError] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+  const [showDialog, setShowDialog] = React.useState(false)
+  const [cardList, setCardList] = React.useState([])
+  const [cardListString, setCardListString] = React.useState([])
+  const [cardObjs, setCardObjs] = React.useState({})
+  const [name, setName] = React.useState(randomName())
+  const [error, setError] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
 
   const waitForResponse = React.useCallback(() => {
     setTimeout(async () => {
-      const id = localStorage.getItem(ID_KEY);
-      const { data } = await axios.post("/api/toadvillage", { id });
-      const { status, ...rest } = data;
+      const id = localStorage.getItem(ID_KEY)
+      const { data } = await axios.post('/api/toadvillage', { id })
+      const { status, ...rest } = data
 
-      if (status === "WAIT") {
-        waitForResponse();
-      } else if (status === "DONE") {
-        const { unmatched, ...cardData } = rest;
+      if (status === 'WAIT') {
+        waitForResponse()
+      } else if (status === 'DONE') {
+        const { unmatched, ...cardData } = rest
 
         if (unmatched.length > 0) {
           const msg = `Could not find the following card${
-            unmatched.length === 1 ? "" : "s"
-          }: ${unmatched.join(", ")}`;
-          setError(msg);
+            unmatched.length === 1 ? '' : 's'
+          }: ${unmatched.join(', ')}`
+          setError(msg)
         }
 
-        setCardObjs({ ...cardData });
-        setLoading(false);
+        setCardObjs({ ...cardData })
+        setLoading(false)
       }
-    }, 5000);
-  }, []);
+    }, 5000)
+  }, [])
 
   React.useEffect(() => {
     if (cardList.length > 0 && !showDialog) {
-      setLoading(true);
-      setError("");
+      setLoading(true)
+      setError('')
 
-      const id = localStorage.getItem(ID_KEY);
+      const id = localStorage.getItem(ID_KEY)
       axios
-        .post("/api/toadvillage", { id, cards: cardList })
-        .then(({ data }) => data.status === "POLL" && waitForResponse());
+        .post('/api/toadvillage', { id, cards: cardList })
+        .then(({ data }) => data.status === 'POLL' && waitForResponse())
     } else if (cardList.length === 0) {
-      setCardObjs({});
+      setCardObjs({})
     }
-  }, [cardList, showDialog]);
+  }, [cardList, showDialog])
 
   const handleDownload = () => {
-    setError("");
-    const errorMsg = mtgDownload(cardObjs, name);
+    setError('')
+    const errorMsg = mtgDownload(cardObjs, name)
     if (errorMsg) {
-      setError(errorMsg);
+      setError(errorMsg)
     }
-  };
+  }
 
-  const handleClose = () => setShowDialog(false);
+  const handleClose = () => setShowDialog(false)
   const handleCancel = () => {
-    setCardList({});
-    setCardListString("");
-    handleClose();
-  };
+    setCardList({})
+    setCardListString('')
+    handleClose()
+  }
 
-  const handleSetCards = (e) => {
-    setError("");
-    const cards = e.target.value.trim().split("\n");
-    let error = "";
+  const handleSetCards = e => {
+    setError('')
+    const cards = e.target.value.trim().split('\n')
+    let error = ''
 
     const newCardList = cards.map((card, i) => {
-      const split = card.split(" ");
-      const amount = +split[0];
+      const split = card.split(' ')
+      const amount = +split[0]
       if (isNaN(amount)) {
-        error = `Invalid entry '${card}' on line ${i + 1}`;
+        error = `Invalid entry '${card}' on line ${i + 1}`
       }
-      const name = split.slice(1).join(" ");
-      return { amount, name };
-    });
+      const name = split.slice(1).join(' ')
+      return { amount, name }
+    })
 
     if (error) {
-      setError(error);
+      setError(error)
     } else {
-      setCardList(newCardList);
+      setCardList(newCardList)
     }
-    setCardListString(e.target.value);
-  };
+    setCardListString(e.target.value)
+  }
 
   const findCard = (name, isCommander) => {
-    const check = ({ card }) => card.name === name;
-    const list = isCommander ? cardObjs.commanders : cardObjs.others;
-    return list.find(check);
-  };
+    const check = ({ card }) => card.name === name
+    const list = isCommander ? cardObjs.commanders : cardObjs.others
+    return list.find(check)
+  }
 
   const handleMove = (name, isCommander) => {
-    const cardObj = findCard(name, isCommander);
+    const cardObj = findCard(name, isCommander)
 
-    let others = cardObjs.others.filter((card) => card !== cardObj);
-    let commanders = [...cardObjs.commanders, cardObj];
+    let others = cardObjs.others.filter(card => card !== cardObj)
+    let commanders = [...cardObjs.commanders, cardObj]
     if (isCommander) {
-      commanders = cardObjs.commanders.filter((card) => card !== cardObj);
-      others = [...cardObjs.others, cardObj];
+      commanders = cardObjs.commanders.filter(card => card !== cardObj)
+      others = [...cardObjs.others, cardObj]
     }
 
-    setCardObjs({ commanders, others });
-  };
+    setCardObjs({ ...cardObjs, commanders, others })
+  }
 
   const handleCountChange = (name, isCommander, increment) => {
-    const cardObj = findCard(name, isCommander);
-    const list = isCommander ? cardObjs.commanders : cardObjs.others;
-    const filtered = list.filter((card) => card !== cardObj);
+    const cardObj = findCard(name, isCommander)
+    const list = isCommander ? cardObjs.commanders : cardObjs.others
+    const filtered = list.filter(card => card !== cardObj)
 
     const newList = [
       ...filtered,
-      { ...cardObj, amount: cardObj.amount + (increment ? 1 : -1) },
-    ];
+      { ...cardObj, amount: cardObj.amount + (increment ? 1 : -1) }
+    ]
 
     if (isCommander) {
-      setCardObjs({ ...cardObjs, commanders: newList });
+      setCardObjs({ ...cardObjs, commanders: newList })
     } else {
-      setCardObjs({ ...cardObjs, others: newList });
+      setCardObjs({ ...cardObjs, others: newList })
     }
-  };
+  }
 
   const handleAdd = (name, isCommander) =>
-    handleCountChange(name, isCommander, true);
+    handleCountChange(name, isCommander, true)
 
   const handleRemove = (name, isCommander) =>
-    handleCountChange(name, isCommander, false);
+    handleCountChange(name, isCommander, false)
 
-  const handleFileSelect = (files) => {
-    setError("");
+  const handleFileSelect = files => {
+    setError('')
 
     if (files.length > 0) {
-      const file = files[0];
+      const file = files[0]
 
-      if (file.name.endsWith(".json")) {
-        const reader = new FileReader();
+      if (file.name.endsWith('.json')) {
+        const reader = new FileReader()
 
-        reader.onload = (e) => {
-          const data = JSON.parse(e.target.result);
+        reader.onload = e => {
+          const data = JSON.parse(e.target.result)
 
           try {
-            console.log(data);
-            const list = parseJSON(data);
-            downloadDecklist(list, file);
+            const list = parseJSON(data)
+            downloadDecklist(list, file)
           } catch (err) {
-            console.log(err);
             setError(
-              "Could not extract the decklist from that file, try a different one."
-            );
+              'Could not extract the decklist from that file, try a different one.'
+            )
           }
-        };
+        }
 
-        reader.readAsText(file);
+        reader.readAsText(file)
       }
     }
-  };
+  }
 
-  const reduce = (t, { amount }) => t + amount;
-  const commanderCount = cardObjs.commanders?.reduce(reduce, 0);
-  const otherCount = cardObjs.others?.reduce(reduce, 0);
-  const totalCount = commanderCount + otherCount;
+  const reduce = (t, { amount }) => t + amount
+  const commanderCount = cardObjs.commanders?.reduce(reduce, 0)
+  const otherCount = cardObjs.others?.reduce(reduce, 0)
+  const totalCount = commanderCount + otherCount
 
   return (
     <Container>
@@ -206,8 +204,8 @@ const Page = () => {
       <StyledTextFieldHolder>
         <StyledTextField
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your deck name"
+          onChange={e => setName(e.target.value)}
+          placeholder='Enter your deck name'
         />
       </StyledTextFieldHolder>
 
@@ -254,7 +252,7 @@ const Page = () => {
       <Dialog
         open={showDialog}
         onClose={handleClose}
-        title="Enter Decklist"
+        title='Enter Decklist'
         actions={
           <StyledButtonHolder style={{ marginBottom: 0 }}>
             <Button onClick={handleCancel}>Cancel</Button>
@@ -272,7 +270,7 @@ const Page = () => {
         />
       </Dialog>
     </Container>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
