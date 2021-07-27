@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { initialState, toadVillageReducer, Actions } from './reducer'
+
 import {
   StyledButtonHolder,
   StyledTextFieldHolder,
@@ -18,8 +20,7 @@ import Dialog from '../../../molecules/Dialog'
 import Button from '../../../atoms/Button'
 import UploadButton from '../../../atoms/UploadButton'
 
-import mtgDownload, {
-  randomName,
+import {
   nameSort,
   downloadDecklist,
   parseJSON
@@ -27,170 +28,148 @@ import mtgDownload, {
 import { ID_KEY } from '../../../../shared/constants'
 
 const Page = () => {
+  const [state, dispatch] = React.useReducer(toadVillageReducer, initialState)
   const [showDialog, setShowDialog] = React.useState(false)
-  const [cardList, setCardList] = React.useState([])
-  const [cardListString, setCardListString] = React.useState([])
-  const [cardObjs, setCardObjs] = React.useState({})
-  const [name, setName] = React.useState(randomName())
-  const [error, setError] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
 
+  // Poll api to check status every 0.1s
   const waitForResponse = React.useCallback(() => {
-    setTimeout(async () => {
+    const interval = setInterval(async () => {
       const id = localStorage.getItem(ID_KEY)
       const { data } = await axios.post('/api/toadvillage', { id })
       const { status, ...rest } = data
 
-      if (status === 'WAIT') {
-        waitForResponse()
-      } else if (status === 'DONE') {
-        const { unmatched, ...cardData } = rest
-
-        if (unmatched.length > 0) {
-          const msg = `Could not find the following card${
-            unmatched.length === 1 ? '' : 's'
-          }: ${unmatched.join(', ')}`
-          setError(msg)
-        }
-
-        setCardObjs({ ...cardData })
-        setLoading(false)
+      if (status === 'DONE') {
+        dispatch({ type: Actions.DECK_RESPONSE, data: rest })
+        clearInterval(interval)
       }
-    }, 5000)
+    }, 100)
   }, [])
 
+  // Fetches cards after closing dialog
   React.useEffect(() => {
-    if (cardList.length > 0 && !showDialog) {
-      setLoading(true)
-      setError('')
+    if (!state.cardList.length) {
+      dispatch({ type: Actions.RESET_CARD_OBJS })
+      return
+    }
 
+    if (showDialog) {
+      return
+    }
+
+    const handleFetch = async () => {
       const id = localStorage.getItem(ID_KEY)
-      axios
-        .post('/api/toadvillage', { id, cards: cardList })
-        .then(({ data }) => data.status === 'POLL' && waitForResponse())
-    } else if (cardList.length === 0) {
-      setCardObjs({})
+      await axios.post('/api/toadvillage', { id, cards: cardList })
+      waitForResponse()
     }
-  }, [cardList, showDialog])
 
-  const handleDownload = () => {
-    setError('')
-    const errorMsg = mtgDownload(cardObjs, name)
-    if (errorMsg) {
-      setError(errorMsg)
-    }
-  }
+    dispatch({ type: Actions.START_FETCH })
+    handleFetch()
+  }, [state.cardList, showDialog, waitForResponse])
 
-  const handleClose = () => setShowDialog(false)
-  const handleCancel = () => {
-    setCardList({})
-    setCardListString('')
+  // Starts the download
+  const handleDownload = React.useCallback(() => {
+    dispatch({ type: Actions.DOWNLOAD })
+  }, [])
+
+  const handleOpen = React.useCallback(() => setShowDialog(true), [])
+
+  const handleClose = React.useCallback(() => setShowDialog(false), [])
+
+  const handleCancel = React.useCallback(() => {
+    dispatch({ type: Actions.CANCEL })
     handleClose()
-  }
+  }, [handleClose])
 
-  const handleSetCards = e => {
-    setError('')
-    const cards = e.target.value.trim().split('\n')
-    let error = ''
+  const handleSetCards = React.useCallback(value => {
+    dispatch({ type: Actions.SET_CARDS_STRING, value })
+  }, [])
 
-    const newCardList = cards.map((card, i) => {
-      const split = card.split(' ')
-      const amount = +split[0]
-      if (isNaN(amount)) {
-        error = `Invalid entry '${card}' on line ${i + 1}`
-      }
-      const name = split.slice(1).join(' ')
-      return { amount, name }
-    })
+  const findCard = React.useCallback(
+    (name, isCommander) => {
+      const check = ({ card }) => card.name === name
+      const list = isCommander ? cardObjs.commanders : cardObjs.others
+      return list.find(check)
+    },
+    [state.cardObjs]
+  )
 
-    if (error) {
-      setError(error)
-    } else {
-      setCardList(newCardList)
+  const handleMove = React.useCallback(
+    (name, isCommander) => {
+      const cardObj = findCard(name, isCommander)
+      dispatch({ type: Actions.MOVE, cardObj, isCommander })
+    },
+    [findCard]
+  )
+
+  const handleCountChange = React.useCallback(
+    (name, isCommander, increment) => {
+      const cardObj = findCard(name, isCommander)
+      dispatch({ type: Actions.CHANGE_COUNT, cardObj, isCommander, increment })
+    },
+    [findCard]
+  )
+
+  const handleAdd = React.useCallback(
+    (name, isCommander) => {
+      handleCountChange(name, isCommander, true)
+    },
+    [handleCountChange]
+  )
+
+  const handleRemove = React.useCallback(
+    (name, isCommander) => {
+      handleCountChange(name, isCommander, false)
+    },
+    [handleCountChange]
+  )
+
+  const handleFileSelect = React.useCallback(files => {
+    dispatch({ type: Actions.CLEAR_ERROR })
+
+    if (files.length === 0) {
+      return
     }
-    setCardListString(e.target.value)
-  }
 
-  const findCard = (name, isCommander) => {
-    const check = ({ card }) => card.name === name
-    const list = isCommander ? cardObjs.commanders : cardObjs.others
-    return list.find(check)
-  }
+    const file = files[0]
 
-  const handleMove = (name, isCommander) => {
-    const cardObj = findCard(name, isCommander)
-
-    let others = cardObjs.others.filter(card => card !== cardObj)
-    let commanders = [...cardObjs.commanders, cardObj]
-    if (isCommander) {
-      commanders = cardObjs.commanders.filter(card => card !== cardObj)
-      others = [...cardObjs.others, cardObj]
+    if (!file.name.endsWith('.json')) {
+      return
     }
 
-    setCardObjs({ ...cardObjs, commanders, others })
-  }
+    const reader = new FileReader()
 
-  const handleCountChange = (name, isCommander, increment) => {
-    const cardObj = findCard(name, isCommander)
-    const list = isCommander ? cardObjs.commanders : cardObjs.others
-    const filtered = list.filter(card => card !== cardObj)
+    reader.onload = e => {
+      const data = JSON.parse(e.target.result)
 
-    const newList = [
-      ...filtered,
-      { ...cardObj, amount: cardObj.amount + (increment ? 1 : -1) }
-    ]
-
-    if (isCommander) {
-      setCardObjs({ ...cardObjs, commanders: newList })
-    } else {
-      setCardObjs({ ...cardObjs, others: newList })
-    }
-  }
-
-  const handleAdd = (name, isCommander) =>
-    handleCountChange(name, isCommander, true)
-
-  const handleRemove = (name, isCommander) =>
-    handleCountChange(name, isCommander, false)
-
-  const handleFileSelect = files => {
-    setError('')
-
-    if (files.length > 0) {
-      const file = files[0]
-
-      if (file.name.endsWith('.json')) {
-        const reader = new FileReader()
-
-        reader.onload = e => {
-          const data = JSON.parse(e.target.result)
-
-          try {
-            const list = parseJSON(data)
-            downloadDecklist(list, file)
-          } catch (err) {
-            setError(
-              'Could not extract the decklist from that file, try a different one.'
-            )
-          }
-        }
-
-        reader.readAsText(file)
+      try {
+        const list = parseJSON(data)
+        downloadDecklist(list, file)
+      } catch (err) {
+        const error =
+          'Could not extract the decklist from that file, try a different one.'
+        dispatch({ type: Actions.SET_ERROR, error })
       }
     }
-  }
 
-  const reduce = (t, { amount }) => t + amount
-  const commanderCount = cardObjs.commanders?.reduce(reduce, 0)
-  const otherCount = cardObjs.others?.reduce(reduce, 0)
-  const totalCount = commanderCount + otherCount
+    reader.readAsText(file)
+  }, [])
+
+  const sumReducer = React.useCallback((t, { amount }) => {
+    return t + amount
+  }, [])
+  const commanderCount = React.useMemo(() => {
+    return state.cardObjs.commanders?.reduce(sumReducer, 0)
+  }, [state.cardObjs.commanders, sumReducer])
+  const otherCount = React.useMemo(() => {
+    return state.cardObjs.others?.reduce(sumReducer, 0)
+  }, [state.cardObjs.others, sumReducer])
 
   return (
     <Container>
       <ContainerTitle>Toad Village</ContainerTitle>
 
       <StyledButtonHolder>
-        <Button onClick={() => setShowDialog(true)}>Import Deck List</Button>
+        <Button onClick={handleOpen}>Import Deck List</Button>
 
         <Button onClick={handleDownload}>Download</Button>
 
@@ -199,28 +178,32 @@ const Page = () => {
         </UploadButton>
       </StyledButtonHolder>
 
-      {error && <ContainerError>{error}</ContainerError>}
+      <ContainerError>{state.error}</ContainerError>
 
       <StyledTextFieldHolder>
         <StyledTextField
-          value={name}
-          onChange={e => setName(e.target.value)}
+          value={state.name}
+          onChange={e =>
+            dispatch({ type: Actions.SET_NAME, name: e.target.value })
+          }
           placeholder='Enter your deck name'
         />
       </StyledTextFieldHolder>
 
-      {loading && <LoadingIcon />}
+      {state.loading && <LoadingIcon />}
 
-      {!loading && cardObjs.commanders && cardObjs.others && (
+      {!state.loading && state.cardObjs.commanders && state.cardObjs.others && (
         <>
-          <StyledHeader>Total Cards ({totalCount})</StyledHeader>
+          <StyledHeader>
+            Total Cards ({commanderCount + otherCount})
+          </StyledHeader>
 
           <StyledHeader>
             Commander Options / Sideboard ({commanderCount})
           </StyledHeader>
 
           <StyledCardBlock>
-            {cardObjs.commanders.sort(nameSort).map((card, i) => (
+            {state.cardObjs.commanders.sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={handleMove}
@@ -235,7 +218,7 @@ const Page = () => {
           <StyledHeader>Deck ({otherCount})</StyledHeader>
 
           <StyledCardBlock>
-            {cardObjs.others.sort(nameSort).map((card, i) => (
+            {state.cardObjs.others.sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={handleMove}
@@ -263,8 +246,8 @@ const Page = () => {
       >
         <StyledTextArea
           autoFocus
-          onChange={handleSetCards}
-          value={cardListString}
+          onChange={e => handleSetCards(e.target.value)}
+          value={state.cardListString}
           rows={20}
           placeholder="Enter your cards, one per line, in the format of 'NUMBER NAME'"
         />
