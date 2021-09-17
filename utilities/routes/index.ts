@@ -1,11 +1,12 @@
-import { Routes } from "./types";
+import { Routes } from './types'
 
 const routes: Routes = {
-  Home: "/",
-  Projects: "/projects",
-  "Toad Village": "/toadvillage",
-  "MTG Treachery": "/treachery",
-  Poetry: "/poetry",
-};
+  Home: '/',
+  Projects: '/projects',
+  'Toad Village': '/toadvillage',
+  'MTG Treachery': '/treachery',
+  Poetry: '/poetry',
+  Recipes: '/recipes'
+}
 
-export default routes;
+export default routes
