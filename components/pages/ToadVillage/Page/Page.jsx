@@ -58,7 +58,7 @@ const Page = () => {
 
     const handleFetch = async () => {
       const id = localStorage.getItem(ID_KEY)
-      await axios.post('/api/toadvillage', { id, cards: cardList })
+      await axios.post('/api/toadvillage', { id, cards: state.cardList })
       waitForResponse()
     }
 
@@ -178,7 +178,7 @@ const Page = () => {
         </UploadButton>
       </StyledButtonHolder>
 
-      <ContainerError>{state.error}</ContainerError>
+      {state.error && <ContainerError>{state.error}</ContainerError>}
 
       <StyledTextFieldHolder>
         <StyledTextField

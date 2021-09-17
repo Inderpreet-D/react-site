@@ -2,7 +2,25 @@ import mtgDownload, {
   randomName
 } from '../../../../utilities/helpers/toadvillage'
 
-export const toadVillageReducer = (state, action) => {
+import { DownloadInput } from '../../../../utilities/helpers/toadvillage/types'
+
+type State = {
+  cardList: { amount: number; name: string }[]
+  cardListString: string
+  cardObjs: { [x: string]: any[] }
+  name: string
+  error: string
+  loading: boolean
+}
+
+type Action = {
+  type: string
+  [x: string]: any
+}
+
+type ReducerFunc = (state: State, action: Action) => State
+
+export const toadVillageReducer: ReducerFunc = (state, action) => {
   const { type } = action
 
   if (type in Handlers) {
@@ -12,7 +30,7 @@ export const toadVillageReducer = (state, action) => {
   throw new Error(`Unknown toadVillage reducer type: ${type}`)
 }
 
-const handleDeckResponse = (state, action) => {
+const handleDeckResponse: ReducerFunc = (state, action) => {
   const { data } = action
   const { unmatched, ...cardData } = data
 
@@ -26,35 +44,40 @@ const handleDeckResponse = (state, action) => {
   return { ...state, cardObjs: cardData, loading: false, error }
 }
 
-const handleResetCardObjs = (state, _) => {
+const handleResetCardObjs: ReducerFunc = (state, _) => {
   return { ...state, cardObjs: {} }
 }
 
-const handleStartFetch = (state, _) => {
+const handleStartFetch: ReducerFunc = (state, _) => {
   return { ...state, loading: true, error: '' }
 }
 
-const handleDownload = (state, _) => {
-  const error = mtgDownload(state.cardObjs, state.name) ?? ''
+const handleDownload: ReducerFunc = (state, _) => {
+  const objs = (state.cardObjs as unknown) as DownloadInput
+  const error = mtgDownload(objs, state.name) ?? ''
 
-  return { ...state, error }
+  if (error) {
+    return { ...state, error }
+  } else {
+    return state
+  }
 }
 
-const handleCancel = (state, _) => {
+const handleCancel: ReducerFunc = (state, _) => {
   return { ...state, cardList: [], cardListString: '' }
 }
 
-const handleSetCardString = (state, action) => {
+const handleSetCardString: ReducerFunc = (state, action) => {
   const { value: cardListString } = action
   const cards = cardListString.trim().split('\n')
 
-  const error = []
+  let error = ''
   const cardList = cards.map((card, i) => {
     const split = card.split(' ')
     const amount = +split[0]
 
     if (isNaN(amount)) {
-      error.push([card, i + 1])
+      error = `Invalid entry '${card}' on line ${i + 1}`
     }
 
     const name = split.slice(1).join(' ')
@@ -62,13 +85,13 @@ const handleSetCardString = (state, action) => {
   })
 
   if (error) {
-    return { ...state, error, cardListString }
+    return { ...state, error, cardListString, cardList: [] }
   }
 
-  return { ...state, cardList, cardListString }
+  return { ...state, error: '', cardList, cardListString }
 }
 
-const handleMove = (state, action) => {
+const handleMove: ReducerFunc = (state, action) => {
   const { cardObj, isCommander } = action
 
   let others = state.cardObjs.others.filter(card => card !== cardObj)
@@ -81,7 +104,7 @@ const handleMove = (state, action) => {
   return { ...state, cardObjs: { ...state.cardObjs, commanders, others } }
 }
 
-const handleChangeCount = (state, action) => {
+const handleChangeCount: ReducerFunc = (state, action) => {
   const { cardObj, isCommander, increment } = action
 
   const list = isCommander ? state.cardObjs.commanders : state.cardObjs.others
@@ -99,23 +122,23 @@ const handleChangeCount = (state, action) => {
   return { ...state, cardObjs: { ...state.cardObjs, others: newList } }
 }
 
-const handleClearError = (state, _) => {
+const handleClearError: ReducerFunc = (state, _) => {
   return { ...state, error: '' }
 }
 
-const handleSetError = (state, action) => {
+const handleSetError: ReducerFunc = (state, action) => {
   const { error } = action
 
   return { ...state, error }
 }
 
-const handleSetName = (state, action) => {
+const handleSetName: ReducerFunc = (state, action) => {
   const { name } = action
 
   return { ...state, name }
 }
 
-export const initialState = {
+export const initialState: State = {
   cardList: [],
   cardListString: '',
   cardObjs: {},
@@ -138,7 +161,7 @@ export const Actions = {
   SET_NAME: 'SET_NAME'
 }
 
-const Handlers = {
+const Handlers: { [x: string]: ReducerFunc } = {
   [Actions.DECK_RESPONSE]: handleDeckResponse,
   [Actions.RESET_CARD_OBJS]: handleResetCardObjs,
   [Actions.START_FETCH]: handleStartFetch,

@@ -180,7 +180,7 @@ const handleRequest = async (
     status: 'DONE',
     commanders: coalesce(commanders),
     others: coalesce(others),
-    tokens,
+    tokens: coalesce(tokens),
     unmatched: [...new Set(filteredUnmatches)]
   }
 }
