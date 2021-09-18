@@ -19,5 +19,4 @@ export type Recipes = {
 
 export type PropType = {
   recipe: Recipe
-  index: number
 }

@@ -1,9 +1,13 @@
 import React from 'react'
 
-import { PropType } from '../../types'
+import { PropType as PPT } from '../../types'
 import { ListItem } from '../Ingredients/styles'
 import { RecipeSection } from '../styles'
 
+type PropType = PPT & {
+  index: number
+}
+        
 const Recipe = ({ recipe: { pages }, index }: PropType) => {
   const [checked, setChecked] = React.useState<string[]>([])
 
