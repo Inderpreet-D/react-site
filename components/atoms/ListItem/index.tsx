@@ -1,33 +1,21 @@
 import React from 'react'
 
-type PropType = {
+import { Checkbox, Item, Text } from './styles'
+
+interface PropType extends React.ComponentPropsWithoutRef<'div'> {
   checked: boolean
-  children: React.ReactNode
   onCheck: () => void
 }
 
-const ListItem = ({ checked, children, onCheck, ...props }: PropType) => {
+const ListItem = ({ checked, children, onCheck, className }: PropType) => {
   return (
-    <div {...props}>
-      <input
-        type='checkbox'
-        checked={checked}
-        style={{ marginRight: '0.75rem' }}
-        onClick={onCheck}
-      />
+    <Item className={className}>
+      <Checkbox checked={checked} onCheck={onCheck} />
 
-      <span
-        onClick={onCheck}
-        style={{
-          cursor: 'pointer',
-          textDecoration: checked ? 'line-through' : 'none',
-          color: checked ? 'gray' : 'white',
-          transition: 'all 750ms'
-        }}
-      >
+      <Text onClick={onCheck} checked={checked}>
         {children}
-      </span>
-    </div>
+      </Text>
+    </Item>
   )
 }
 
