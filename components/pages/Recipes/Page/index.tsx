@@ -1,21 +1,49 @@
 import React from 'react'
 
 import Container, { ContainerTitle } from '../../../atoms/Container'
+import RecipeBlock from './RecipeBlock'
 
 import { RecipeList, RecipeItem, Separator } from './styles'
 
+import recipes from './data'
+
 const Page = () => {
+  const [selected, setSelected] = React.useState('')
+  const [hovering, setHovering] = React.useState('')
+
+  const toggleSelect = React.useCallback(
+    (name: string) => () => {
+      setSelected(old => {
+        if (old === name) {
+          return ''
+        }
+        return name
+      })
+    },
+    []
+  )
+
   return (
     <Container>
       <ContainerTitle>Recipes</ContainerTitle>
 
       <RecipeList>
-        {new Array(50).fill(0).map((_, i) => (
-          <RecipeItem key={i}>Item {i}</RecipeItem>
+        {Object.keys(recipes).map(name => (
+          <RecipeItem
+            key={name}
+            active={[selected, hovering].includes(name)}
+            onClick={toggleSelect(name)}
+            onMouseEnter={() => setHovering(name)}
+            onMouseLeave={() => setHovering('')}
+          >
+            {name}
+          </RecipeItem>
         ))}
       </RecipeList>
 
       <Separator />
+
+      {selected && <RecipeBlock recipe={recipes[selected]} />}
     </Container>
   )
 }
