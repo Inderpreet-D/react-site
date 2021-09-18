@@ -1,9 +1,12 @@
 import Page from '../../templates/Page'
+import RecipeStateProvider from '../../../providers/RecipeStateProvider'
 import RecipePage from './Page'
 
 const Secret = () => (
   <Page title='Recipes'>
-    <RecipePage />
+    <RecipeStateProvider>
+      <RecipePage />
+    </RecipeStateProvider>
   </Page>
 )
 

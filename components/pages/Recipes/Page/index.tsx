@@ -3,6 +3,7 @@ import React from 'react'
 import Container, { ContainerTitle } from '../../../atoms/Container'
 import RecipeBlock from './RecipeBlock'
 
+import { useRecipeState } from '../../../../providers/RecipeStateProvider'
 import { RecipeList, RecipeItem, Separator } from './styles'
 
 import recipes from './data'
@@ -10,6 +11,7 @@ import recipes from './data'
 const Page = () => {
   const [selected, setSelected] = React.useState('')
   const [hovering, setHovering] = React.useState('')
+  const { reset } = useRecipeState()
 
   const toggleSelect = React.useCallback(
     (name: string) => () => {
@@ -17,6 +19,8 @@ const Page = () => {
         if (old === name) {
           return ''
         }
+
+        reset()
         return name
       })
     },

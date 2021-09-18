@@ -1,28 +1,21 @@
 import React from 'react'
 
 import { PropType as PPT } from '../../types'
+
 import { ListItem } from '../Ingredients/styles'
+
+import { useRecipeState } from '../../../../../providers/RecipeStateProvider'
 import { RecipeSection } from '../styles'
 
 type PropType = PPT & {
   index: number
 }
-        
+
 const Recipe = ({ recipe: { pages }, index }: PropType) => {
-  const [checked, setChecked] = React.useState<string[]>([])
-
-  const toggleCheck = React.useCallback(
-    (val: string) => () => {
-      setChecked(old => {
-        if (old.includes(val)) {
-          return old.filter(oldVal => oldVal !== val)
-        }
-
-        return [...new Set([...old, val])]
-      })
-    },
-    []
-  )
+  const {
+    state: { checked },
+    check
+  } = useRecipeState()
 
   return (
     <RecipeSection>
@@ -30,7 +23,7 @@ const Recipe = ({ recipe: { pages }, index }: PropType) => {
         <ListItem
           key={line}
           checked={checked.includes(line)}
-          onCheck={toggleCheck(line)}
+          onCheck={() => check(line)}
         >
           {line}
         </ListItem>

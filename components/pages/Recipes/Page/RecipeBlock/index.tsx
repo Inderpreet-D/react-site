@@ -3,9 +3,11 @@ import React from 'react'
 import { PropType } from '../../types'
 
 import { Box, ButtonHolder, Button, Card } from '../../../../atoms/BoxView'
-import { Section, Control } from './styles'
 import Ingredients from '../Ingredients'
 import Recipe from '../Recipe'
+
+import { useRecipeState } from '../../../../../providers/RecipeStateProvider'
+import { Section, Control } from './styles'
 
 type ButtonType = 'ingredients' | 'recipe'
 type HoverType = ButtonType | ''
@@ -21,13 +23,12 @@ const components = {
 const RecipeBlock = ({ recipe }: PropType) => {
   const [selected, setSelected] = React.useState<ButtonType>('ingredients')
   const [hovering, setHovering] = React.useState<HoverType>('')
-  const [index, setIndex] = React.useState(0)
+  const {
+    state: { index },
+    update
+  } = useRecipeState()
 
   const Component = components[selected]
-
-  React.useEffect(() => {
-    console.log({ recipe })
-  }, [recipe])
 
   return (
     <Box>
@@ -50,8 +51,8 @@ const RecipeBlock = ({ recipe }: PropType) => {
           <Control
             current={index}
             last={recipe.pages.length}
-            onForward={() => setIndex(old => old + 1)}
-            onBack={() => setIndex(old => old - 1)}
+            onForward={() => update(index + 1)}
+            onBack={() => update(index - 1)}
           />
         )}
 

@@ -1,8 +1,8 @@
 import { Ingredient, Recipe, Page } from '../../types'
 
 const ingredients: Ingredient[] = [
-  { amount: '113g', type: 'Butter, browned' },
-  { amount: '56g', type: 'Butter, cubed' },
+  { amount: '113g', type: 'Unsalted butter, browned' },
+  { amount: '56g', type: 'Unsalted butter, cubed' },
   { amount: '200g', type: 'Brown sugar' },
   { amount: '50g', type: 'Sugar' },
   { amount: '2', type: 'Large eggs' },
