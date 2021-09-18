@@ -7,7 +7,7 @@ import { RecipeSection } from '../styles'
 type PropType = PPT & {
   index: number
 }
-
+        
 const Recipe = ({ recipe: { pages }, index }: PropType) => {
   const [checked, setChecked] = React.useState<string[]>([])
 
