@@ -87,7 +87,9 @@ const Page = () => {
   const findCard = React.useCallback(
     (name, isCommander) => {
       const check = ({ card }) => card.name === name
-      const list = isCommander ? cardObjs.commanders : cardObjs.others
+      const list = isCommander
+        ? state.cardObjs.commanders
+        : state.cardObjs.others
       return list.find(check)
     },
     [state.cardObjs]
