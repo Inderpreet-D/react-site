@@ -1,13 +1,13 @@
-import { Rarity, RoleName } from "../../../shared/treachery";
+import { Rarity, RoleName } from '../../../shared/treachery'
 
 type Cards = {
-  [x in Rarity]: string[];
-};
+  [x in Rarity]: string[]
+}
 
 export type Roles = {
-  [x in RoleName]: Cards;
-};
+  [x in RoleName]: Cards
+}
 
 export type WinConditions = {
-  [x in RoleName]: string;
-};
+  [x in RoleName]: string
+}

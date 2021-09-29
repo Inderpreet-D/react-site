@@ -1,20 +1,20 @@
 import {
   StyledHolder,
   StyledTextField,
-  StyledText,
-} from "./MessageBlock.styles";
-import { encode } from "../../../../../utilities/helpers/secret";
+  StyledText
+} from './MessageBlock.styles'
+import { encode } from '../../../../../utilities/helpers/secret'
 
 const MessageBlock = ({ value, onChange, secret }) => (
   <StyledHolder>
     <StyledTextField
       value={value}
-      onChange={(e) => onChange(e.target.value)}
-      placeholder="Enter text to encrypt"
+      onChange={e => onChange(e.target.value)}
+      placeholder='Enter text to encrypt'
     />
 
-    <StyledText>"{encode(secret, value)}"</StyledText>
+    <StyledText>&quot;{encode(secret, value)}&quot;</StyledText>
   </StyledHolder>
-);
+)
 
-export default MessageBlock;
+export default MessageBlock

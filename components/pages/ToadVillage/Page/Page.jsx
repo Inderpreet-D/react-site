@@ -84,14 +84,11 @@ const Page = () => {
     dispatch({ type: Actions.SET_CARDS_STRING, value })
   }, [])
 
-  const findCard = React.useCallback(
-    (name, isCommander) => {
-      const check = ({ card }) => card.name === name
-      const list = isCommander ? cardObjs.commanders : cardObjs.others
-      return list.find(check)
-    },
-    [state.cardObjs]
-  )
+  const findCard = React.useCallback((name, isCommander) => {
+    const check = ({ card }) => card.name === name
+    const list = isCommander ? cardObjs.commanders : cardObjs.others
+    return list.find(check)
+  }, [])
 
   const handleMove = React.useCallback(
     (name, isCommander) => {

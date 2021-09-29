@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 const resetStyles = css`
   display: inline-block;
@@ -12,7 +12,7 @@ const resetStyles = css`
 
   appearance: none;
   outline: none;
-`;
+`
 
 const buttonStyles = css`
   transition: color 250ms ease-in-out, background-color 250ms ease-in-out,
@@ -27,7 +27,7 @@ const buttonStyles = css`
   color: ${({ theme }) => theme.text};
 
   cursor: pointer;
-`;
+`
 
 const StyledButton = styled.button`
   ${resetStyles};
@@ -53,6 +53,6 @@ const StyledButton = styled.button`
 
     color: ${({ theme }) => theme.background};
   }
-`;
+`
 
-export default StyledButton;
+export default StyledButton

@@ -1,8 +1,3 @@
-export interface Routes {
-  Home: string
-  Projects: string
-  'Toad Village': string
-  'MTG Treachery': string
-  Poetry: string
-  Recipes: string
+export type Routes = {
+  [x: string]: string
 }

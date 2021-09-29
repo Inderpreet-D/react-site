@@ -185,7 +185,7 @@ const handleRequest = async (
   }
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const cardNames: ReqCard[] = req.body.cards
   const id: string = req.body.id
 
@@ -216,3 +216,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 }
+
+export default api

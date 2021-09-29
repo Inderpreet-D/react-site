@@ -2,7 +2,20 @@ import { FaLessThan, FaGreaterThan } from 'react-icons/fa'
 
 import { Controls, ControlButton } from './styles'
 
-const Control = ({ current, last, onForward, onBack, ...props }) => (
+type ControlProps = {
+  current: number
+  last: number
+  onForward: () => void
+  onBack: () => void
+}
+
+const Control: React.FunctionComponent<ControlProps> = ({
+  current,
+  last,
+  onForward,
+  onBack,
+  ...props
+}) => (
   <Controls {...props}>
     <ControlButton disabled={current === 0} onClick={onBack}>
       <FaLessThan />

@@ -1,19 +1,19 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
-import { StyledHolder, StyledLink } from "./NavigationItem.styles";
+import { StyledHolder, StyledLink } from './NavigationItem.styles'
 
 const NavigationItem = ({ link, children }) => {
-  const { pathname } = useRouter();
-  const activeClass = pathname === link ? "active" : "";
+  const { pathname } = useRouter()
+  const activeClass = pathname === link ? 'active' : ''
 
   return (
-    <Link href={link}>
-      <StyledHolder>
+    <StyledHolder>
+      <Link href={link} passHref>
         <StyledLink className={activeClass}>{children}</StyledLink>
-      </StyledHolder>
-    </Link>
-  );
-};
+      </Link>
+    </StyledHolder>
+  )
+}
 
-export default NavigationItem;
+export default NavigationItem

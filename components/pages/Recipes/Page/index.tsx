@@ -24,7 +24,7 @@ const Page = () => {
         return name
       })
     },
-    []
+    [reset]
   )
 
   return (

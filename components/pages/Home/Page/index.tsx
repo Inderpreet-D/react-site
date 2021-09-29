@@ -12,7 +12,7 @@ import {
   Section
 } from '../../../atoms/BoxView'
 
-import meRaw from '../../../../public/me.json'
+import meRaw from './Data/me'
 
 const me = [
   'Publications',
@@ -20,7 +20,7 @@ const me = [
   'Education',
   'Technologies',
   'Languages'
-].map(title => meRaw.find(item => item.title === title))
+].map(title => meRaw.find(item => item.title === title)!)
 
 const components = { Article, Data, Date }
 

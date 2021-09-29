@@ -1,15 +1,14 @@
-export interface Size {
-  [x: string]: string[];
-  mobile: string[];
-  tablet: string[];
-  laptop: string[];
-  desktop: string[];
+enum ScreenTypes {
+  mobile = 'mobile',
+  tablet = 'tablet',
+  laptop = 'laptop',
+  desktop = 'desktop'
 }
 
-export interface Breakpoints {
-  [x: string]: string;
-  mobile: string;
-  tablet: string;
-  laptop: string;
-  desktop: string;
+export type Size = {
+  [x in ScreenTypes]: string[]
+}
+
+export type Breakpoints = {
+  [x in ScreenTypes]: string
 }
