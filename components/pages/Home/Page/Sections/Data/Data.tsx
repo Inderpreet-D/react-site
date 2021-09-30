@@ -1,15 +1,18 @@
+import { SectionProps } from '../..'
+import { KV } from '../../Data/me'
+
 import {
   StyledContainer,
   StyledData,
   StyledKey,
   StyledArrowWrapper,
   StyledArrow,
-  StyledValue,
-} from "./Data.styles";
+  StyledValue
+} from './Data.styles'
 
-const Data = ({ data }) => (
+const Data: React.FunctionComponent<SectionProps> = ({ data }) => (
   <StyledContainer>
-    {data.map(({ key, value }, i) => (
+    {(data as KV[]).map(({ key, value }, i) => (
       <StyledData key={i}>
         <StyledKey>{key}</StyledKey>
 
@@ -18,11 +21,11 @@ const Data = ({ data }) => (
         </StyledArrowWrapper>
 
         <StyledValue>
-          {value} year{value === 1 ? "" : "s"}
+          {value} year{value === 1 ? '' : 's'}
         </StyledValue>
       </StyledData>
     ))}
   </StyledContainer>
-);
+)
 
-export default Data;
+export default Data

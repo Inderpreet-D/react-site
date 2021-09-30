@@ -1,36 +1,12 @@
+import { Handler, ReducerFunc } from '../../../../shared/reducer'
+import { DownloadInput } from '../../../../utilities/helpers/toadvillage/types'
+
 import mtgDownload, {
   randomName
 } from '../../../../utilities/helpers/toadvillage'
 
-import { DownloadInput } from '../../../../utilities/helpers/toadvillage/types'
-
-type State = {
-  cardList: { amount: number; name: string }[]
-  cardListString: string
-  cardObjs: { [x: string]: any[] }
-  name: string
-  error: string
-  loading: boolean
-}
-
-type Action = {
-  type: string
-  [x: string]: any
-}
-
-type ReducerFunc = (state: State, action: Action) => State
-
-export const toadVillageReducer: ReducerFunc = (state, action) => {
-  const { type } = action
-
-  if (type in Handlers) {
-    return Handlers[type](state, action)
-  }
-
-  throw new Error(`Unknown toadVillage reducer type: ${type}`)
-}
-
-const handleDeckResponse: ReducerFunc = (state, action) => {
+const handleDeckResponse: Func = (state, action) => {
+  if (action.type !== 'DECK_RESPONSE') return state
   const { data } = action
   const { unmatched, ...cardData } = data
 
@@ -44,15 +20,15 @@ const handleDeckResponse: ReducerFunc = (state, action) => {
   return { ...state, cardObjs: cardData, loading: false, error }
 }
 
-const handleResetCardObjs: ReducerFunc = (state, _) => {
+const handleResetCardObjs: Func = (state, _) => {
   return { ...state, cardObjs: {} }
 }
 
-const handleStartFetch: ReducerFunc = (state, _) => {
+const handleStartFetch: Func = (state, _) => {
   return { ...state, loading: true, error: '' }
 }
 
-const handleDownload: ReducerFunc = (state, _) => {
+const handleDownload: Func = (state, _) => {
   const objs = (state.cardObjs as unknown) as DownloadInput
   const error = mtgDownload(objs, state.name) ?? ''
 
@@ -63,11 +39,12 @@ const handleDownload: ReducerFunc = (state, _) => {
   }
 }
 
-const handleCancel: ReducerFunc = (state, _) => {
+const handleCancel: Func = (state, _) => {
   return { ...state, cardList: [], cardListString: '' }
 }
 
-const handleSetCardString: ReducerFunc = (state, action) => {
+const handleSetCardString: Func = (state, action) => {
+  if (action.type !== 'SET_CARDS_STRING') return state
   const { value: cardListString } = action
   const cards = cardListString.trim().split('\n')
 
@@ -91,7 +68,8 @@ const handleSetCardString: ReducerFunc = (state, action) => {
   return { ...state, error: '', cardList, cardListString }
 }
 
-const handleMove: ReducerFunc = (state, action) => {
+const handleMove: Func = (state, action) => {
+  if (action.type !== 'MOVE') return state
   const { cardObj, isCommander } = action
 
   let others = state.cardObjs.others.filter(card => card !== cardObj)
@@ -104,7 +82,8 @@ const handleMove: ReducerFunc = (state, action) => {
   return { ...state, cardObjs: { ...state.cardObjs, commanders, others } }
 }
 
-const handleChangeCount: ReducerFunc = (state, action) => {
+const handleChangeCount: Func = (state, action) => {
+  if (action.type !== 'CHANGE_COUNT') return state
   const { cardObj, isCommander, increment } = action
 
   const list = isCommander ? state.cardObjs.commanders : state.cardObjs.others
@@ -122,21 +101,52 @@ const handleChangeCount: ReducerFunc = (state, action) => {
   return { ...state, cardObjs: { ...state.cardObjs, others: newList } }
 }
 
-const handleClearError: ReducerFunc = (state, _) => {
+const handleClearError: Func = (state, _) => {
   return { ...state, error: '' }
 }
 
-const handleSetError: ReducerFunc = (state, action) => {
+const handleSetError: Func = (state, action) => {
+  if (action.type !== 'SET_ERROR') return state
   const { error } = action
 
   return { ...state, error }
 }
 
-const handleSetName: ReducerFunc = (state, action) => {
+const handleSetName: Func = (state, action) => {
+  if (action.type !== 'SET_NAME') return state
   const { name } = action
 
   return { ...state, name }
 }
+
+export type State = {
+  cardList: { amount: number; name: string }[]
+  cardListString: string
+  cardObjs: { [x: string]: any[] }
+  name: string
+  error: string
+  loading: boolean
+}
+
+type Action =
+  | { type: 'DECK_RESPONSE'; data: { [x: string]: any[] } }
+  | { type: 'RESET_CARD_OBJS' }
+  | { type: 'START_FETCH' }
+  | { type: 'DOWNLOAD' }
+  | { type: 'CANCEL' }
+  | { type: 'SET_CARDS_STRING'; value: string }
+  | { type: 'MOVE'; cardObj: any; isCommander: boolean }
+  | {
+      type: 'CHANGE_COUNT'
+      cardObj: any
+      isCommander: boolean
+      increment: number
+    }
+  | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_ERROR'; error: string }
+  | { type: 'SET_NAME'; name: string }
+
+type Func = ReducerFunc<State, Action>
 
 export const initialState: State = {
   cardList: [],
@@ -147,30 +157,26 @@ export const initialState: State = {
   loading: false
 }
 
-export const Actions = {
-  DECK_RESPONSE: 'DECK_RESPONSE',
-  RESET_CARD_OBJS: 'RESET_CARD_OBJS',
-  START_FETCH: 'START_FETCH',
-  DOWNLOAD: 'DOWNLOAD',
-  CANCEL: 'CANCEL',
-  SET_CARDS_STRING: 'SET_CARDS_STRING',
-  MOVE: 'MOVE',
-  CHANGE_COUNT: 'CHANGE_COUNT',
-  CLEAR_ERROR: 'CLEAR_ERROR',
-  SET_ERROR: 'SET_ERROR',
-  SET_NAME: 'SET_NAME'
+const Handlers: Handler<Func> = {
+  DECK_RESPONSE: handleDeckResponse,
+  RESET_CARD_OBJS: handleResetCardObjs,
+  START_FETCH: handleStartFetch,
+  DOWNLOAD: handleDownload,
+  CANCEL: handleCancel,
+  SET_CARDS_STRING: handleSetCardString,
+  MOVE: handleMove,
+  CHANGE_COUNT: handleChangeCount,
+  CLEAR_ERROR: handleClearError,
+  SET_ERROR: handleSetError,
+  SET_NAME: handleSetName
 }
 
-const Handlers: { [x: string]: ReducerFunc } = {
-  [Actions.DECK_RESPONSE]: handleDeckResponse,
-  [Actions.RESET_CARD_OBJS]: handleResetCardObjs,
-  [Actions.START_FETCH]: handleStartFetch,
-  [Actions.DOWNLOAD]: handleDownload,
-  [Actions.CANCEL]: handleCancel,
-  [Actions.SET_CARDS_STRING]: handleSetCardString,
-  [Actions.MOVE]: handleMove,
-  [Actions.CHANGE_COUNT]: handleChangeCount,
-  [Actions.CLEAR_ERROR]: handleClearError,
-  [Actions.SET_ERROR]: handleSetError,
-  [Actions.SET_NAME]: handleSetName
+export const toadVillageReducer: Func = (state, action) => {
+  const { type } = action
+
+  if (type in Handlers) {
+    return Handlers[type](state, action)
+  }
+
+  throw new Error(`Unknown toadVillage reducer type: ${type}`)
 }

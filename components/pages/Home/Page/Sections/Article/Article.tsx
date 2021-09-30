@@ -1,17 +1,20 @@
+import { SectionProps } from '../..'
+import { Paper } from '../../Data/me'
+
 import {
   StyledContainer,
   StyledTitle,
   StyledAuthorList,
   StyledAuthor,
-  StyledDescription,
-} from "./Article.styles";
+  StyledDescription
+} from './Article.styles'
 
-const Article = ({ data, idx }) => {
-  const { title, authors, me, description, href } = data[idx];
+const Article: React.FunctionComponent<SectionProps> = ({ data, idx }) => {
+  const { title, authors, me, description, href } = data[idx] as Paper
 
   return (
     <StyledContainer>
-      <StyledTitle href={href} target="_blank">
+      <StyledTitle href={href} target='_blank'>
         {title}
       </StyledTitle>
 
@@ -19,14 +22,14 @@ const Article = ({ data, idx }) => {
         {authors.map((author, i) => (
           <StyledAuthor key={i} isMe={author === me}>
             {author}
-            {i !== authors.length - 1 && ","}
+            {i !== authors.length - 1 && ','}
           </StyledAuthor>
         ))}
       </StyledAuthorList>
 
       <StyledDescription>{description}</StyledDescription>
     </StyledContainer>
-  );
-};
+  )
+}
 
-export default Article;
+export default Article

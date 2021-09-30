@@ -33,17 +33,21 @@ const RecipeBlock = ({ recipe }: PropType) => {
   return (
     <Box>
       <ButtonHolder>
-        {Object.keys(MAP).map((name: ButtonType) => (
-          <Button
-            key={name}
-            active={[selected, hovering].includes(name)}
-            onClick={() => setSelected(name)}
-            onMouseEnter={() => setHovering(name)}
-            onMouseLeave={() => setHovering('')}
-          >
-            {MAP[name]}
-          </Button>
-        ))}
+        {Object.keys(MAP).map(name => {
+          const nameType = name as ButtonType
+
+          return (
+            <Button
+              key={name}
+              active={[selected, hovering].includes(nameType)}
+              onClick={() => setSelected(nameType)}
+              onMouseEnter={() => setHovering(nameType)}
+              onMouseLeave={() => setHovering('')}
+            >
+              {MAP[nameType]}
+            </Button>
+          )
+        })}
       </ButtonHolder>
 
       <Card>

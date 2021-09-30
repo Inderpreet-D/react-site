@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Container, { ContainerTitle } from '../../../atoms/Container'
-import { Article, Data, Date } from './Sections'
+import { Article, Data as DataComp, Date } from './Sections'
 import Control from '../../../atoms/Control'
 import {
   Separator,
@@ -12,7 +12,7 @@ import {
   Section
 } from '../../../atoms/BoxView'
 
-import meRaw from './Data/me'
+import meRaw, { Data } from './Data/me'
 
 const me = [
   'Publications',
@@ -22,7 +22,12 @@ const me = [
   'Languages'
 ].map(title => meRaw.find(item => item.title === title)!)
 
-const components = { Article, Data, Date }
+const components = { Article, Data: DataComp, Date }
+
+export type SectionProps = {
+  data: Data[]
+  idx: number
+}
 
 const Page = () => {
   const [idx, setIdx] = React.useState(0)

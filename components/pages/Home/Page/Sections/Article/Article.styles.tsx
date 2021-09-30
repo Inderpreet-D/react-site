@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const StyledTitle = styled.a`
   transition: all 0.2s ease-in-out;
@@ -10,16 +10,20 @@ const StyledTitle = styled.a`
   &:hover {
     color: ${({ theme }) => theme.foreground};
   }
-`;
+`
 
-const StyledAuthor = styled.div`
+type AuthorProps = {
+  isMe: boolean
+}
+
+const StyledAuthor = styled.div<AuthorProps>`
   margin-right: 0.5rem;
 
   font-size: 1.1rem;
-  font-weight: ${({ isMe }) => (isMe ? "bold" : "normal")};
+  font-weight: ${({ isMe }) => (isMe ? 'bold' : 'normal')};
   font-style: italic;
   color: ${({ theme, isMe }) => (isMe ? theme.foregroundDark : theme.text)};
-`;
+`
 
 const StyledAuthorList = styled.div`
   flex-wrap: wrap;
@@ -29,11 +33,11 @@ const StyledAuthorList = styled.div`
   overflow: auto hidden;
 
   margin: 2rem 0;
-`;
+`
 
 const StyledDescription = styled.div`
   font-size: 1rem;
-`;
+`
 
 const StyledContainer = styled.div`
   flex-direction: column;
@@ -41,12 +45,12 @@ const StyledContainer = styled.div`
   display: flex;
 
   padding: 1rem;
-`;
+`
 
 export {
   StyledContainer,
   StyledTitle,
   StyledAuthorList,
   StyledAuthor,
-  StyledDescription,
-};
+  StyledDescription
+}

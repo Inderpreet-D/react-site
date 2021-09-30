@@ -1,13 +1,16 @@
+import { SectionProps } from '../..'
+import { Date } from '../../Data/me'
+
 import {
   StyledContainer,
   StyledHeader,
   StyledPoints,
   StyledPoint,
-  StyledArrow,
-} from "./Date.styles";
+  StyledArrow
+} from './Date.styles'
 
-const Date = ({ data, idx }) => {
-  const { name, location, title, date, points } = data[idx];
+const Date: React.FunctionComponent<SectionProps> = ({ data, idx }) => {
+  const { name, location, title, date, points } = data[idx] as Date
 
   return (
     <StyledContainer>
@@ -30,7 +33,7 @@ const Date = ({ data, idx }) => {
         ))}
       </StyledPoints>
     </StyledContainer>
-  );
-};
+  )
+}
 
-export default Date;
+export default Date

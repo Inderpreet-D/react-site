@@ -1,9 +1,9 @@
-type KV = {
+export type KV = {
   key: string
   value: number
 }
 
-type Date = {
+export type Date = {
   name: string
   location: string
   title: string
@@ -11,7 +11,7 @@ type Date = {
   points: string[]
 }
 
-type Paper = {
+export type Paper = {
   title: string
   authors: string[]
   me: string
@@ -19,7 +19,7 @@ type Paper = {
   href: string
 }
 
-type Data = KV | Date | Paper
+export type Data = KV | Date | Paper
 
 type Page = {
   title: string
