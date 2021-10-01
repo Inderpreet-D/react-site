@@ -1,1 +1,1 @@
-export const ID_KEY = "inderpreetd_id";
+export const ID_KEY = 'inderpreetd_id'
