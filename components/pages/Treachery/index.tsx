@@ -1,126 +1,147 @@
-import axios from 'axios'
+import { Rarity } from '../../../shared/treachery'
+import {
+  CardResponse,
+  CreateResponse,
+  JoinResponse,
+  RoomResponse
+} from '../../../pages/api/treachery/types'
 
-import Container, {
-  ContainerTitle,
-  ContainerError
-} from '../../../atoms/Container'
-import LoadingIcon from '../../../atoms/LoadingIcon'
 import Main from './Main'
-import Room from './Room'
+import Room, { RoomState } from './Room'
 import Card from './Card'
 
-const STATE_MAIN = 0
-const STATE_ROOM = 1
-const STATE_CARD = 2
-const STATE_LOAD = 3
+import Container from '../../atoms/Container'
+import ContainerError from '../../atoms/Container/Error'
+import ContainerTitle from '../../atoms/Container/Title'
+import LoadingIcon from '../../atoms/LoadingIcon'
 
-const api = queryParams => {
-  const query = Object.keys(queryParams)
-    .filter(key => queryParams[key])
-    .map(param => `${param}=${queryParams[param]}`)
-    .join('&')
+import { treachery } from '../../../lib/api'
 
-  return new Promise((res, rej) => {
-    axios
-      .get(`/api/treachery?${query}`)
-      .then(({ data }) => res(data))
-      .catch(rej)
-  })
+enum State {
+  Main,
+  Room,
+  Card,
+  Load
 }
 
 const Page = () => {
-  const [state, setState] = React.useState(STATE_MAIN)
-  const [roomState, setRoomState] = React.useState({
+  const [state, setState] = React.useState<State>(State.Main)
+  const [roomState, setRoomState] = React.useState<RoomState>({
     roomCode: '',
     numPlayers: 0,
     roomSize: -1
   })
-  const [cardState, setCardState] = React.useState({})
-  const [error, setError] = React.useState(null)
+  const [cardState, setCardState] = React.useState<CardResponse>(
+    {} as CardResponse
+  )
+  const [error, setError] = React.useState<string | null>(null)
+
+  const waitForRoom = React.useCallback(async () => {
+    if (state !== State.Room) {
+      return
+    }
+
+    const data = await treachery<RoomResponse>({
+      action: 'room',
+      roomCode: roomState.roomCode
+    })
+    const { currentPlayers, numPlayers } = data
+
+    setRoomState(state => ({
+      ...state,
+      numPlayers: currentPlayers,
+      roomSize: numPlayers
+    }))
+
+    if (currentPlayers !== numPlayers) {
+      return
+    }
+
+    const res = await treachery<CardResponse>({
+      action: 'card',
+      roomCode: roomState.roomCode,
+      id: window.sessionStorage.getItem('id')!
+    })
+
+    setCardState(res)
+    setState(State.Card)
+  }, [roomState.roomCode, state])
 
   React.useEffect(() => {
-    const roomFillInterval = setInterval(() => {
-      if (state === STATE_ROOM) {
-        api({ action: 'room', roomCode: roomState.roomCode }).then(data => {
-          const { currentPlayers, numPlayers } = data
-
-          setRoomState(state => ({
-            ...state,
-            numPlayers: currentPlayers,
-            roomSize: numPlayers
-          }))
-
-          if (currentPlayers === numPlayers) {
-            api({
-              action: 'card',
-              roomCode: roomState.roomCode,
-              id: window.sessionStorage.getItem('id')
-            }).then(res => {
-              setCardState(res)
-              setState(STATE_CARD)
-            })
-          }
-        })
-      }
-    }, 1000)
+    const roomFillInterval = setInterval(waitForRoom, 1000)
 
     return () => {
       clearInterval(roomFillInterval)
     }
-  }, [state, roomState.roomCode])
+  }, [waitForRoom])
 
-  const startLoading = () => {
-    setState(STATE_LOAD)
+  const startLoading = React.useCallback(() => {
+    setState(State.Load)
     setError(null)
-  }
+  }, [])
 
-  const showError = err => {
+  const showError = React.useCallback((err: string) => {
     setError(err)
-    setState(STATE_MAIN)
-  }
+    setState(State.Main)
+  }, [])
 
-  const showRoom = (id, roomCode) => {
-    setState(STATE_ROOM)
+  const showRoom = React.useCallback((id: string, roomCode: string) => {
+    setState(State.Room)
 
     window.sessionStorage.setItem('id', id)
     window.sessionStorage.setItem('roomCode', roomCode)
-  }
+  }, [])
 
-  const handleJoin = roomCode => {
-    startLoading()
+  const handleJoin = React.useCallback(
+    async (roomCode: string) => {
+      startLoading()
 
-    const id = window.sessionStorage.getItem('id')
-    const query = { action: 'join', roomCode, id }
+      const id = window.sessionStorage.getItem('id')!
 
-    api(query).then(({ error, currentPlayers, numPlayers, id, roomCode }) => {
+      const data = await treachery<JoinResponse>({
+        action: 'join',
+        roomCode,
+        id
+      })
+      const {
+        error,
+        currentPlayers,
+        numPlayers,
+        id: roomID,
+        roomCode: responseCode
+      } = data
+
       if (error) {
         showError(error)
       } else {
         setRoomState({
-          roomCode,
+          roomCode: responseCode,
           roomSize: numPlayers,
           numPlayers: currentPlayers
         })
 
-        showRoom(id, roomCode)
+        showRoom(roomID, responseCode)
       }
-    })
-  }
+    },
+    [showError, startLoading, showRoom]
+  )
 
-  const handleCreate = (numPlayers, rarity) => {
-    startLoading()
+  const handleCreate = React.useCallback(
+    async (numPlayers: number, rarity: Rarity) => {
+      startLoading()
 
-    const query = { action: 'create', numPlayers, rarity }
+      const data = await treachery<CreateResponse>({
+        action: 'create',
+        numPlayers,
+        rarity
+      })
+      const { roomCode, id } = data
 
-    api(query).then(({ error, roomCode, id }) => {
-      if (error) {
-        showError(error)
-      } else {
-        setRoomState({ roomCode, roomSize: numPlayers, numPlayers: 1 })
-        showRoom(id, roomCode)
-      }
-    })
-  }
+      setRoomState({ roomCode, roomSize: numPlayers, numPlayers: 1 })
+      showRoom(id, roomCode)
+    },
+    [startLoading, showRoom]
+  )
 
   return (
     <Container>
@@ -128,16 +149,19 @@ const Page = () => {
 
       {error && <ContainerError>Error: {error}</ContainerError>}
 
-      {state === STATE_MAIN && (
+      {state === State.Main && (
         <Main
           onJoin={handleJoin}
           onCreate={handleCreate}
           resetError={() => setError('')}
         />
       )}
-      {state === STATE_ROOM && <Room roomState={roomState} />}
-      {state === STATE_CARD && <Card cardState={cardState} />}
-      {state === STATE_LOAD && <LoadingIcon />}
+
+      {state === State.Room && <Room {...roomState} />}
+
+      {state === State.Card && <Card {...cardState} />}
+
+      {state === State.Load && <LoadingIcon />}
     </Container>
   )
 }

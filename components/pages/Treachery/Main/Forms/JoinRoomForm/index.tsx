@@ -1,6 +1,8 @@
+import { FormProps } from '../types'
+
 import StyledTextField from './styles'
 
-const JoinRoomForm = ({ values: { code }, onChange }) => (
+const JoinRoomForm: React.FC<FormProps> = ({ values: { code }, onChange }) => (
   <StyledTextField
     onChange={onChange('code')}
     value={code}

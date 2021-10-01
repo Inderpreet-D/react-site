@@ -1,5 +1,7 @@
 import { FaSync, FaPlus, FaMinus } from 'react-icons/fa'
 
+import { Card } from '../../../shared/toadvillage'
+
 import {
   StyledCard,
   StyledImageHolder,
@@ -10,7 +12,16 @@ import {
   StyledButton
 } from './styles'
 
-const MTGCard = ({
+type MTGCardProps = {
+  amount: number
+  isCommander: boolean
+  card: Card
+  onClickMove: (name: string, isCommander: boolean) => void
+  onClickAdd: (name: string, isCommander: boolean) => void
+  onClickRemove: (name: string, isCommander: boolean) => void
+}
+
+const MTGCard: React.FC<MTGCardProps> = ({
   amount,
   isCommander,
   card,

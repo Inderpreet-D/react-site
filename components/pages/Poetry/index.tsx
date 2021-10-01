@@ -1,6 +1,8 @@
 import axios from 'axios'
 import parse from 'html-react-parser'
 
+import { Poem } from '../../../utilities/helpers/poetry/types'
+
 import Container from '../../atoms/Container'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import { StyledError, StyledLink, StyledText } from './styles'
@@ -8,7 +10,7 @@ import { StyledError, StyledLink, StyledText } from './styles'
 import parsePoems, { pickRandomPoem } from '../../../utilities/helpers/poetry'
 
 const Page = () => {
-  const [poem, setPoem] = React.useState(null)
+  const [poem, setPoem] = React.useState<Poem | null>(null)
   const [loaded, setLoaded] = React.useState(false)
   const [error, setError] = React.useState(false)
 
@@ -44,11 +46,13 @@ const Page = () => {
         <StyledError>An error occurred, please try again later.</StyledError>
       ) : (
         <>
-          <StyledLink href={poem.url} target='_blank'>
-            {poem.name}
+          <StyledLink href={poem?.url!} target='_blank'>
+            {poem?.name}
           </StyledLink>
 
-          <StyledText dangerouslySetInnerHTML={{ __html: parse(poem.body) }} />
+          <StyledText
+            dangerouslySetInnerHTML={{ __html: parse(poem?.body!).toString() }}
+          />
         </>
       )}
     </Container>

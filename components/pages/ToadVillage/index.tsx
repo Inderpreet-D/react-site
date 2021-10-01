@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-import { initialState, toadVillageReducer, Actions } from './reducer'
+import { FormattedCard } from '../../../shared/toadvillage'
+
+import { initialState, toadVillageReducer } from './reducer'
 
 import {
   StyledButtonHolder,
@@ -10,22 +12,21 @@ import {
   StyledCardBlock,
   StyledTextArea
 } from './styles'
-import Container, {
-  ContainerTitle,
-  ContainerError
-} from '../../../atoms/Container'
-import MTGCard from '../../../molecules/MTGCard'
-import LoadingIcon from '../../../atoms/LoadingIcon'
-import Dialog from '../../../molecules/Dialog'
-import Button from '../../../atoms/Button'
-import UploadButton from '../../../atoms/UploadButton'
+import Container from '../../atoms/Container'
+import ContainerError from '../../atoms/Container/Error'
+import ContainerTitle from '../../atoms/Container/Title'
+import MTGCard from '../../molecules/MTGCard'
+import LoadingIcon from '../../atoms/LoadingIcon'
+import Dialog from '../../molecules/Dialog'
+import Button from '../../atoms/Button'
+import UploadButton from '../../atoms/UploadButton'
 
 import {
   nameSort,
   downloadDecklist,
   parseJSON
-} from '../../../../utilities/helpers/toadvillage'
-import { ID_KEY } from '../../../../shared/constants'
+} from '../../../utilities/helpers/toadvillage'
+import { ID_KEY } from '../../../shared/constants'
 
 const Page = () => {
   const [state, dispatch] = React.useReducer(toadVillageReducer, initialState)
@@ -39,7 +40,7 @@ const Page = () => {
       const { status, ...rest } = data
 
       if (status === 'DONE') {
-        dispatch({ type: Actions.DECK_RESPONSE, data: rest })
+        dispatch({ type: 'DECK_RESPONSE', data: rest })
         clearInterval(interval)
       }
     }, 100)
@@ -48,7 +49,7 @@ const Page = () => {
   // Fetches cards after closing dialog
   React.useEffect(() => {
     if (!state.cardList.length) {
-      dispatch({ type: Actions.RESET_CARD_OBJS })
+      dispatch({ type: 'RESET_CARD_OBJS' })
       return
     }
 
@@ -62,13 +63,13 @@ const Page = () => {
       waitForResponse()
     }
 
-    dispatch({ type: Actions.START_FETCH })
+    dispatch({ type: 'START_FETCH' })
     handleFetch()
   }, [state.cardList, showDialog, waitForResponse])
 
   // Starts the download
   const handleDownload = React.useCallback(() => {
-    dispatch({ type: Actions.DOWNLOAD })
+    dispatch({ type: 'DOWNLOAD' })
   }, [])
 
   const handleOpen = React.useCallback(() => setShowDialog(true), [])
@@ -76,24 +77,29 @@ const Page = () => {
   const handleClose = React.useCallback(() => setShowDialog(false), [])
 
   const handleCancel = React.useCallback(() => {
-    dispatch({ type: Actions.CANCEL })
+    dispatch({ type: 'CANCEL' })
     handleClose()
   }, [handleClose])
 
   const handleSetCards = React.useCallback(value => {
-    dispatch({ type: Actions.SET_CARDS_STRING, value })
+    dispatch({ type: 'SET_CARDS_STRING', value })
   }, [])
 
-  const findCard = React.useCallback((name, isCommander) => {
-    const check = ({ card }) => card.name === name
-    const list = isCommander ? cardObjs.commanders : cardObjs.others
-    return list.find(check)
-  }, [])
+  const findCard = React.useCallback(
+    (name: string, isCommander: boolean) => {
+      const check = ({ card }: FormattedCard) => card.name === name
+      const list = isCommander
+        ? state.cardObjs.commanders
+        : state.cardObjs.others
+      return list.find(check)
+    },
+    [state.cardObjs]
+  )
 
   const handleMove = React.useCallback(
     (name, isCommander) => {
       const cardObj = findCard(name, isCommander)
-      dispatch({ type: Actions.MOVE, cardObj, isCommander })
+      dispatch({ type: 'MOVE', cardObj, isCommander })
     },
     [findCard]
   )
@@ -101,7 +107,7 @@ const Page = () => {
   const handleCountChange = React.useCallback(
     (name, isCommander, increment) => {
       const cardObj = findCard(name, isCommander)
-      dispatch({ type: Actions.CHANGE_COUNT, cardObj, isCommander, increment })
+      dispatch({ type: 'CHANGE_COUNT', cardObj, isCommander, increment })
     },
     [findCard]
   )
@@ -121,7 +127,7 @@ const Page = () => {
   )
 
   const handleFileSelect = React.useCallback(files => {
-    dispatch({ type: Actions.CLEAR_ERROR })
+    dispatch({ type: 'CLEAR_ERROR' })
 
     if (files.length === 0) {
       return
@@ -136,7 +142,8 @@ const Page = () => {
     const reader = new FileReader()
 
     reader.onload = e => {
-      const data = JSON.parse(e.target.result)
+      const res = e.target!.result!.toString()
+      const data = JSON.parse(res)
 
       try {
         const list = parseJSON(data)
@@ -144,7 +151,7 @@ const Page = () => {
       } catch (err) {
         const error =
           'Could not extract the decklist from that file, try a different one.'
-        dispatch({ type: Actions.SET_ERROR, error })
+        dispatch({ type: 'SET_ERROR', error })
       }
     }
 
@@ -180,9 +187,7 @@ const Page = () => {
       <StyledTextFieldHolder>
         <StyledTextField
           value={state.name}
-          onChange={e =>
-            dispatch({ type: Actions.SET_NAME, name: e.target.value })
-          }
+          onChange={e => dispatch({ type: 'SET_NAME', name: e.target.value })}
           placeholder='Enter your deck name'
         />
       </StyledTextFieldHolder>

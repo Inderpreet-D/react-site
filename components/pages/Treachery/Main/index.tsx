@@ -1,14 +1,35 @@
-import { StyledButtonHolder, StyledForm } from './styles'
+import { ChangeEvent, FormEvent } from 'react'
+
+import { Rarity } from '../../../../shared/treachery'
+
 import Button from '../../../atoms/Button'
-import { JoinRoomForm, CreateRoomForm } from './Forms'
+import { StyledButtonHolder, StyledForm } from './styles'
+import JoinRoomForm from './Forms/JoinRoomForm'
+import CreateRoomForm from './Forms/CreateRoomForm'
 
 const rarityOptions = ['Uncommon', 'Rare', 'Mythic']
-const playerOptions = ['4', '5', '6', '7', '8']
+const playerOptions = [4, 5, 6, 7, 8]
 
-const Main = ({ onJoin, onCreate, resetError }) => {
+type MainProps = {
+  onJoin: (roomCode: string) => Promise<void>
+  onCreate: (numPlayers: number, rarity: Rarity) => Promise<void>
+  resetError: () => void
+}
+
+export type Values = {
+  code: string
+  rarity: string
+  players: number
+}
+
+export type ChangeHandler = (
+  prop: string
+) => (e: ChangeEvent<HTMLInputElement>) => void
+
+const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
   const [isJoining, setIsJoining] = React.useState(true)
   const [canRejoin, setCanRejoin] = React.useState(false)
-  const [values, setValues] = React.useState({
+  const [values, setValues] = React.useState<Values>({
     code: '',
     rarity: rarityOptions[0],
     players: playerOptions[0]
@@ -18,35 +39,46 @@ const Main = ({ onJoin, onCreate, resetError }) => {
     setCanRejoin(window.sessionStorage.getItem('id') !== null)
   }, [])
 
-  const handleSwitch = val => () => {
-    setIsJoining(val)
-    resetError()
-  }
+  const handleSwitch = React.useCallback(
+    (val: boolean) => () => {
+      setIsJoining(val)
+      resetError()
+    },
+    [resetError]
+  )
 
-  const handleChange = prop => e => {
-    const val = e.target.value
-    if (prop === 'code') {
-      if (val.length <= 4) {
-        setValues({ ...values, code: val.toUpperCase().trim() })
+  const handleChange = React.useCallback(
+    (prop: string) => (e: ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value
+      if (prop === 'code') {
+        if (val.length <= 4) {
+          setValues(old => ({ ...old, code: val.toUpperCase().trim() }))
+        }
+      } else {
+        setValues(old => ({ ...old, [prop]: val }))
       }
-    } else {
-      setValues({ ...values, [prop]: val })
-    }
-  }
+    },
+    []
+  )
 
-  const handleRejoin = () => {
-    onJoin(window.sessionStorage.getItem('roomCode'))
-  }
+  const handleRejoin = React.useCallback(() => {
+    onJoin(window.sessionStorage.getItem('roomCode')!)
+  }, [onJoin])
 
-  const submitForm = event => {
-    event.preventDefault()
+  const submitForm = React.useCallback(
+    (event: FormEvent) => {
+      event.preventDefault()
 
-    if (isJoining) {
-      onJoin(values.code)
-    } else {
-      onCreate(values.players, values.rarity)
-    }
-  }
+      const { code, players, rarity } = values
+
+      if (isJoining) {
+        onJoin(code)
+      } else {
+        onCreate(players, rarity as Rarity)
+      }
+    },
+    [values, isJoining, onJoin, onCreate]
+  )
 
   return (
     <>

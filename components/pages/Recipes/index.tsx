@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Container, { ContainerTitle } from '../../atoms/Container'
+import Container from '../../atoms/Container'
+import ContainerTitle from '../../atoms/Container/Title'
 import RecipeBlock from './RecipeBlock'
 
 import { useRecipeState } from '../../../providers/RecipeStateProvider'

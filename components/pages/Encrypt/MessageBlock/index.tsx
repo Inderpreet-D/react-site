@@ -1,7 +1,17 @@
 import { StyledHolder, StyledTextField, StyledText } from './styles'
 import { encode } from '../../../../utilities/helpers/secret'
 
-const MessageBlock = ({ value, onChange, secret }) => (
+type MessageBlockProps = {
+  value: string
+  onChange: (s: string) => void
+  secret: string
+}
+
+const MessageBlock: React.FC<MessageBlockProps> = ({
+  value,
+  onChange,
+  secret
+}) => (
   <StyledHolder>
     <StyledTextField
       value={value}

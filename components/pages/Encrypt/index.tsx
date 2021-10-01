@@ -3,18 +3,24 @@ import {
   StyledHolder,
   StyledControls,
   StyledTextField
-} from './Page/Page.styles'
+} from './styles'
 import MessageBlock from './MessageBlock'
 import Button from '../../atoms/Button'
 
 const Page = () => {
-  const [values, setValues] = React.useState({})
+  const [values, setValues] = React.useState<{ [x: string]: string }>({})
   const [secret, setSecret] = React.useState('')
 
-  const handleChange = prop => value => setValues({ ...values, [prop]: value })
+  const handleChange = React.useCallback(
+    (prop: string) => (value: string) => {
+      setValues(old => ({ ...old, [prop]: value }))
+    },
+    []
+  )
 
-  const handleAdd = () =>
-    setValues({ ...values, [Object.keys(values).length]: '' })
+  const handleAdd = React.useCallback(() => {
+    setValues(old => ({ ...old, [Object.keys(old).length.toString()]: '' }))
+  }, [])
 
   return (
     <StyledContainer>

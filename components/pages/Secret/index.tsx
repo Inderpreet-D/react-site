@@ -13,7 +13,7 @@ import {
   midParts,
   part3,
   decode
-} from '../../../../utilities/helpers/secret'
+} from '../../../utilities/helpers/secret'
 
 const Page = () => {
   const [userInput, setUserInput] = React.useState('')
@@ -32,8 +32,6 @@ const Page = () => {
 
       <StyledForm onSubmit={e => e.preventDefault()}>
         <StyledTextField
-          variant='filled'
-          color='secondary'
           placeholder='Who are you to me?'
           onChange={e => setUserInput(e.target.value)}
           value={userInput}

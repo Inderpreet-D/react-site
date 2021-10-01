@@ -4,7 +4,7 @@ import Select from '../../../../../atoms/Select'
 
 import breakpoints from '../../../../../../utilities/breakpoints'
 
-const StyledSelect = styled(Select)`
+export const StyledSelect = styled(Select)`
   margin: 0.5rem 0;
   min-width: 10rem;
   width: 20%;
@@ -14,7 +14,7 @@ const StyledSelect = styled(Select)`
   }
 `
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   flex-direction: column;
 
   display: flex;
@@ -23,5 +23,3 @@ const StyledContainer = styled.div`
     flex-direction: row;
   }
 `
-
-export { StyledContainer, StyledSelect }

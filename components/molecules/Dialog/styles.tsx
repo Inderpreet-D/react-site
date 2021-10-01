@@ -1,8 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import Container from "../../atoms/Container";
+import Container from '../../atoms/Container'
 
-const StyledDialog = styled(Container)`
+type DialogProps = {
+  width: string
+}
+const StyledDialog = styled(Container)<DialogProps>`
   position: absolute;
   z-index: 2;
   top: 50%;
@@ -11,7 +14,7 @@ const StyledDialog = styled(Container)`
   transform: translate(-50%, -50%);
 
   width: ${({ width }) => width};
-`;
+`
 
 const StyledTitle = styled.div`
   font-size: 1.5rem;
@@ -19,13 +22,13 @@ const StyledTitle = styled.div`
   font-weight: 500;
   color: ${({ theme }) => theme.foreground};
   letter-spacing: 0.0075em;
-`;
+`
 
 const StyledContent = styled.div`
   overflow: hidden auto;
 
   margin: 1.5rem 0;
-`;
+`
 
 const StyledActions = styled.div`
   justify-content: flex-end;
@@ -33,7 +36,7 @@ const StyledActions = styled.div`
   flex: 0 0 auto;
 
   display: flex;
-`;
+`
 
 const StyledBackdrop = styled.div`
   position: absolute;
@@ -47,12 +50,12 @@ const StyledBackdrop = styled.div`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.background};
-`;
+`
 
 export {
   StyledDialog,
   StyledTitle,
   StyledContent,
   StyledActions,
-  StyledBackdrop,
-};
+  StyledBackdrop
+}

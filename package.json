@@ -7,7 +7,8 @@
     "lint": "next lint --no-cache",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "heroku-postbuild": "yarn run build"
+    "heroku-postbuild": "yarn run build",
+    "tsc": "tsc"
   },
   "dependencies": {
     "axios": "^0.21.1",

@@ -1,7 +1,18 @@
-import { StyledActions } from './Card.styles'
+import { StyledActions } from '../styles'
 import Spacer from '../../../atoms/Spacer'
 
-const CardActions = ({ children, alignCenter, alignLeft, alignRight }) => (
+type CardActionProps = {
+  alignCenter?: boolean
+  alignLeft?: boolean
+  alignRight?: boolean
+}
+
+const CardActions: React.FC<CardActionProps> = ({
+  children,
+  alignCenter,
+  alignLeft,
+  alignRight
+}) => (
   <StyledActions>
     {(alignCenter || alignRight) && <Spacer />}
     {children}

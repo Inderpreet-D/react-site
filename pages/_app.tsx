@@ -1,4 +1,4 @@
-import App from 'next/app'
+import App, { AppContext } from 'next/app'
 import { DefaultSeo } from 'next-seo'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
@@ -18,16 +18,15 @@ const GlobalStyle = createGlobalStyle`
   }
 
   #root {
-    flex-direction: column;
-    
     display: flex;
+    flex-direction: column;
     
     height: 100%;
   }
 `
 
 export default class MyApp extends App {
-  static async getInitialProps ({ Component, ctx }) {
+  static async getInitialProps ({ Component, ctx }: AppContext) {
     let pageProps = {}
 
     if (Component.getInitialProps) {

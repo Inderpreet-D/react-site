@@ -1,17 +1,35 @@
-import { Rarity } from '../../../shared/treachery'
+import { Card, Rarity } from '../../../shared/treachery'
 
-export interface Payload {
+export type Payload = {
   numPlayers?: number
   rarity?: Rarity
   roomCode?: string
   id?: string
 }
 
-export type JoinVal =
-  | { error: string }
-  | {
-      roomCode: string
-      id: string
-      numPlayers: number
-      currentPlayers: number
-    }
+type ErrorVal = {
+  error: string
+}
+type JoinData = {
+  roomCode: string
+  id: string
+  numPlayers: number
+  currentPlayers: number
+}
+export type JoinVal = ErrorVal | JoinData
+
+export type ApiRequest = Payload & { action: string }
+
+export type RoomResponse = {
+  numPlayers: number
+  currentPlayers: number
+}
+
+export type CardResponse = Card
+
+export type JoinResponse = ErrorVal & JoinData
+
+export type CreateResponse = {
+  roomCode: string
+  id: string
+}

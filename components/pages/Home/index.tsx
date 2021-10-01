@@ -1,7 +1,10 @@
 import React from 'react'
 
-import Container, { ContainerTitle } from '../../atoms/Container'
-import { Article, Data as DataComp, Date } from './Sections'
+import Container from '../../atoms/Container'
+import ContainerTitle from '../../atoms/Container/Title'
+import Article from './Sections/Article'
+import DataComp from './Sections/Data'
+import Date from './Sections/Date'
 import Control from '../../atoms/Control'
 import {
   Separator,

@@ -1,13 +1,13 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 const defaultStyles = css`
   line-height: 1.235;
   font-weight: 400;
   text-align: center;
   letter-spacing: 0.00735em;
-`;
+`
 
-const StyledDescription = styled.div`
+export const StyledDescription = styled.div`
   ${defaultStyles};
 
   border: 0.125rem solid ${({ theme }) => theme.foreground};
@@ -19,26 +19,24 @@ const StyledDescription = styled.div`
 
   font-size: 1.5rem;
   text-align: left;
-`;
+`
 
-const StyledCard = styled.img`
+export const StyledCard = styled.img`
   margin: 1.5rem 0;
   border: 0.1875rem solid ${({ theme }) => theme.foregroundDark};
   border-radius: 5%;
   box-sizing: border-box;
-`;
+`
 
-const StyledHeader = styled.div`
+export const StyledHeader = styled.div`
   ${defaultStyles};
 
   font-size: 2rem;
-`;
+`
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
   align-items: center;
   flex-direction: column;
 
   display: flex;
-`;
-
-export { StyledContainer, StyledHeader, StyledCard, StyledDescription };
+`

@@ -1,15 +1,15 @@
-import styled, { css } from "styled-components";
-import alpha from "color-alpha";
+import styled, { css } from 'styled-components'
+import alpha from 'color-alpha'
 
 const baseStyles = css`
   transition: all 0.2s ease-in-out;
 
   user-select: none;
-`;
+`
 
 const StyledLabel = styled.div`
   ${baseStyles};
-`;
+`
 
 const StyledSelect = styled.div`
   ${baseStyles};
@@ -18,7 +18,7 @@ const StyledSelect = styled.div`
   bottom: 0.5rem;
 
   color: ${({ theme }) => theme.foregroundDark};
-`;
+`
 
 const StyledOption = styled.div`
   ${baseStyles};
@@ -34,7 +34,7 @@ const StyledOption = styled.div`
 
     color: ${({ theme }) => theme.foreground};
   }
-`;
+`
 
 const StyledOptionList = styled.div`
   ${baseStyles};
@@ -55,7 +55,7 @@ const StyledOptionList = styled.div`
   min-width: fit-content;
   width: calc(100% + 0.125rem);
   max-height: 20rem;
-`;
+`
 
 const containerFocusStyles = css`
   border-color: ${({ theme }) => theme.foreground};
@@ -67,9 +67,12 @@ const containerFocusStyles = css`
   & ${StyledSelect} {
     color: ${({ theme }) => theme.foreground};
   }
-`;
+`
 
-const StyledContainer = styled.div`
+type ContainerProps = {
+  open: boolean
+}
+const StyledContainer = styled.div<ContainerProps>`
   ${baseStyles};
   ${({ open }) => open && containerFocusStyles};
 
@@ -92,7 +95,7 @@ const StyledContainer = styled.div`
   &:hover {
     border-color: ${({ theme }) => theme.foregroundDark};
   }
-`;
+`
 
 const StyledBackdrop = styled.div`
   position: absolute;
@@ -103,7 +106,7 @@ const StyledBackdrop = styled.div`
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
-`;
+`
 
 export {
   StyledContainer,
@@ -111,5 +114,5 @@ export {
   StyledSelect,
   StyledOptionList,
   StyledOption,
-  StyledBackdrop,
-};
+  StyledBackdrop
+}

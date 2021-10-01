@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import Button from '../../../atoms/Button'
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
   justify-content: center;
   align-items: center;
 
@@ -13,7 +13,7 @@ const StyledForm = styled.form`
   }
 `
 
-const StyledButtonHolder = styled.div`
+export const StyledButtonHolder = styled.div`
   justify-content: center;
 
   display: flex;
@@ -24,5 +24,3 @@ const StyledButtonHolder = styled.div`
     margin: 0 0.5rem;
   }
 `
-
-export { StyledButtonHolder, StyledForm }

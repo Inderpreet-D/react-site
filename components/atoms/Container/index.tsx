@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import breakpoints from "../../../utilities/breakpoints";
+import breakpoints from '../../../utilities/breakpoints'
 
 export default styled.div`
   margin: 1rem auto;
@@ -21,4 +21,4 @@ export default styled.div`
   @media ${breakpoints.laptop} {
     width: calc(55% + calc(25% / 3));
   }
-`;
+`

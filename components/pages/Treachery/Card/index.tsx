@@ -1,3 +1,5 @@
+import { CardResponse } from '../../../../pages/api/treachery/types'
+
 import {
   StyledContainer,
   StyledHeader,
@@ -5,7 +7,7 @@ import {
   StyledDescription
 } from './styles'
 
-const Card = ({ cardState: { role, imgSrc, winCondition } }) => (
+const Card: React.FC<CardResponse> = ({ role, imgSrc, winCondition }) => (
   <StyledContainer>
     <StyledHeader>Your Role is {role}</StyledHeader>
 

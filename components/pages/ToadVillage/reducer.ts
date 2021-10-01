@@ -1,9 +1,8 @@
-import { Handler, ReducerFunc } from '../../../../shared/reducer'
-import { DownloadInput } from '../../../../utilities/helpers/toadvillage/types'
+import { Handler, ReducerFunc } from '../../../shared/reducer'
+import { DownloadInput } from '../../../utilities/helpers/toadvillage/types'
+import { FormattedCard } from '../../../shared/toadvillage'
 
-import mtgDownload, {
-  randomName
-} from '../../../../utilities/helpers/toadvillage'
+import mtgDownload, { randomName } from '../../../utilities/helpers/toadvillage'
 
 const handleDeckResponse: Func = (state, action) => {
   if (action.type !== 'DECK_RESPONSE') return state
@@ -122,7 +121,7 @@ const handleSetName: Func = (state, action) => {
 export type State = {
   cardList: { amount: number; name: string }[]
   cardListString: string
-  cardObjs: { [x: string]: any[] }
+  cardObjs: { [x: string]: FormattedCard[] }
   name: string
   error: string
   loading: boolean

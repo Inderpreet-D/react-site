@@ -8,7 +8,15 @@ import Spacer from '../../atoms/Spacer'
 import CardActions from './Actions'
 import LinkButton from '../../atoms/LinkButton'
 
-const MyCard = ({
+type MyCardProps = {
+  href: string
+  hrefTitle: string
+  title: string
+  description: string
+  actionProps?: any
+}
+
+const MyCard: React.FC<MyCardProps> = ({
   href,
   hrefTitle,
   title,

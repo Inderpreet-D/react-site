@@ -1,10 +1,10 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 const noCardStyles = css`
   border-color: red;
 
   color: red;
-`;
+`
 
 const greyStyles = css`
   border-color: gray;
@@ -23,7 +23,7 @@ const greyStyles = css`
 
     color: gray;
   }
-`;
+`
 
 const StyledCard = styled.div`
   flex-direction: column;
@@ -35,9 +35,12 @@ const StyledCard = styled.div`
   border-radius: 0.5rem;
 
   background-color: ${({ theme }) => theme.backgroundLight};
-`;
+`
 
-const StyledCardCount = styled.div`
+type CardCountProps = {
+  noCards: boolean
+}
+const StyledCardCount = styled.div<CardCountProps>`
   position: absolute;
   top: 30%;
   left: 50%;
@@ -58,7 +61,7 @@ const StyledCardCount = styled.div`
   color: ${({ theme }) => theme.foreground};
 
   ${({ noCards }) => noCards && noCardStyles};
-`;
+`
 
 const StyledImageHolder = styled.div`
   justify-content: center;
@@ -75,26 +78,32 @@ const StyledImageHolder = styled.div`
   &:hover {
     z-index: 1;
   }
-`;
+`
 
-const StyledFlippingCard = styled.div`
+type FlippingCardProps = {
+  flipped: boolean
+}
+const StyledFlippingCard = styled.div<FlippingCardProps>`
   position: relative;
 
-  transform: ${({ flipped }) => flipped && "rotateY(180deg)"};
+  transform: ${({ flipped }) => flipped && 'rotateY(180deg)'};
   transform-style: preserve-3d;
 
   transition: transform 1s;
 
   width: 95%;
   height: 20rem;
-`;
+`
 
-const StyledCardImage = styled.img`
+type CardImageProps = {
+  isBack?: boolean
+}
+const StyledCardImage = styled.img<CardImageProps>`
   position: absolute;
   top: 0;
   left: 0;
 
-  transform: ${({ isBack }) => isBack && "rotateY(180deg)"};
+  transform: ${({ isBack }) => isBack && 'rotateY(180deg)'};
   backface-visibility: hidden;
 
   transition: transform 1s;
@@ -107,11 +116,11 @@ const StyledCardImage = styled.img`
 
   &:hover {
     transform: scale(1.5)
-      ${({ isBack }) => (isBack ? "rotateY(180deg)" : "rotateY(0)")};
+      ${({ isBack }) => (isBack ? 'rotateY(180deg)' : 'rotateY(0)')};
 
     cursor: zoom-in;
   }
-`;
+`
 
 const StyledCardActions = styled.div`
   justify-content: space-around;
@@ -120,9 +129,12 @@ const StyledCardActions = styled.div`
 
   margin: 0.5rem auto;
   width: 100%;
-`;
+`
 
-const StyledButton = styled.div`
+type ButtonProps = {
+  isGrey?: boolean
+}
+const StyledButton = styled.div<ButtonProps>`
   justify-content: center;
   align-items: center;
 
@@ -156,7 +168,7 @@ const StyledButton = styled.div`
   }
 
   ${({ isGrey }) => isGrey && greyStyles}
-`;
+`
 
 export {
   StyledCard,
@@ -165,5 +177,5 @@ export {
   StyledCardImage,
   StyledCardCount,
   StyledCardActions,
-  StyledButton,
-};
+  StyledButton
+}

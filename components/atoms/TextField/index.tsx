@@ -1,13 +1,17 @@
 import { StyledContainer, StyledLabel, StyledInput } from './styles'
 
-const TextField = ({
+type TextFieldProps = React.FC<
+  React.InputHTMLAttributes<HTMLInputElement> & { label?: string }
+>
+
+const TextField: TextFieldProps = ({
   className,
   id = 'text-field',
   label = '',
   placeholder,
   ...props
 }) => {
-  const inputRef = React.createRef()
+  const inputRef = React.createRef<HTMLInputElement>()
 
   return (
     <StyledContainer

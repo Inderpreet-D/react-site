@@ -1,6 +1,13 @@
 import { StyledButton, StyledLabel } from './styles'
 
-const UploadButton = ({ children, onFileSelected }) => (
+type UploadButtonProps = {
+  onFileSelected: (files: FileList | null) => void
+}
+
+const UploadButton: React.FC<UploadButtonProps> = ({
+  children,
+  onFileSelected
+}) => (
   <StyledButton>
     <StyledLabel>
       {children}

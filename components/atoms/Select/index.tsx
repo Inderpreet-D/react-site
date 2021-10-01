@@ -1,3 +1,4 @@
+import { ChangeEvent, MouseEventHandler } from 'react'
 import {
   StyledContainer,
   StyledLabel,
@@ -7,35 +8,58 @@ import {
   StyledBackdrop
 } from './styles'
 
-const Select = ({ label, options, value, onChange, className }) => {
+type OnClickType = MouseEventHandler<HTMLDivElement>
+type OnOptClickType = (opt: string) => OnClickType
+
+type SelectProps = React.FC<
+  React.SelectHTMLAttributes<HTMLSelectElement> & {
+    label: string
+    options: string[]
+  }
+>
+
+const Select: SelectProps = ({
+  label,
+  options,
+  value,
+  onChange,
+  className
+}) => {
   const [open, setOpen] = React.useState(false)
-  const containerRef = React.useRef()
-  const backdropRef = React.useRef()
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const backdropRef = React.useRef<HTMLDivElement>(null)
 
-  const toggleOpen = e => {
+  const toggleOpen = React.useCallback((e: MouseEvent) => {
     e.preventDefault()
-    setOpen(!open)
-  }
+    setOpen(old => !old)
+  }, [])
 
-  const handleContainerClick = e => {
-    if (
-      e.target === containerRef.current ||
-      e.target.parentElement === containerRef.current
-    ) {
-      toggleOpen(e)
-    }
-  }
+  const handleContainerClick = React.useCallback<OnClickType>(
+    e => {
+      if (e.target === containerRef.current) {
+        toggleOpen((e as unknown) as MouseEvent)
+      }
+    },
+    [toggleOpen]
+  )
 
-  const handleOptionClick = opt => e => {
-    toggleOpen(e)
-    onChange && onChange({ target: { value: opt } })
-  }
+  const handleOptionClick = React.useCallback<OnOptClickType>(
+    opt => e => {
+      toggleOpen((e as unknown) as MouseEvent)
+      onChange &&
+        onChange({ target: { value: opt } } as ChangeEvent<HTMLSelectElement>)
+    },
+    [toggleOpen, onChange]
+  )
 
-  const handleBackdropClick = e => {
-    if (e.target === backdropRef.current) {
-      toggleOpen(e)
-    }
-  }
+  const handleBackdropClick = React.useCallback<OnClickType>(
+    e => {
+      if (e.target === backdropRef.current) {
+        toggleOpen((e as unknown) as MouseEvent)
+      }
+    },
+    [toggleOpen]
+  )
 
   return (
     <>

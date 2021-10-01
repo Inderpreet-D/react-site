@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import TextField from "../../../atoms/TextField";
-import TextArea from "../../../atoms/TextArea";
-import Button from "../../../atoms/Button";
+import TextField from '../../atoms/TextField'
+import TextArea from '../../atoms/TextArea'
+import Button from '../../atoms/Button'
 
 const StyledButtonHolder = styled.div`
   justify-content: center;
@@ -14,7 +14,7 @@ const StyledButtonHolder = styled.div`
   & > ${Button} {
     margin: 0 0.5rem;
   }
-`;
+`
 
 const StyledTextFieldHolder = styled.div`
   justify-content: center;
@@ -22,11 +22,11 @@ const StyledTextFieldHolder = styled.div`
   display: flex;
 
   margin-bottom: 1.25rem;
-`;
+`
 
 const StyledTextField = styled(TextField)`
   width: 70%;
-`;
+`
 
 const StyledHeader = styled.div`
   margin: 1.25rem 0;
@@ -34,7 +34,7 @@ const StyledHeader = styled.div`
   font-size: 1.75rem;
   font-weight: 300;
   text-decoration: underline;
-`;
+`
 
 const StyledCardBlock = styled.div`
   grid-template-columns: 25% 25% 25% 25%;
@@ -43,12 +43,12 @@ const StyledCardBlock = styled.div`
 
   width: 100%;
   padding: 0;
-`;
+`
 
 const StyledTextArea = styled(TextArea)`
   width: 100%;
   max-height: 70vh;
-`;
+`
 
 export {
   StyledButtonHolder,
@@ -56,5 +56,5 @@ export {
   StyledTextField,
   StyledHeader,
   StyledCardBlock,
-  StyledTextArea,
-};
+  StyledTextArea
+}

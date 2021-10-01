@@ -3,7 +3,12 @@ import Link from 'next/link'
 import StyledLink from './styles'
 import Button from '../Button'
 
-const LinkButton = ({ href, title }) => (
+type LinkButtonProps = {
+  href: string
+  title: string
+}
+
+const LinkButton: React.FC<LinkButtonProps> = ({ href, title }) => (
   <Button>
     <Link href={href} passHref>
       <StyledLink target={href.startsWith('/') ? '' : '_blank'}>

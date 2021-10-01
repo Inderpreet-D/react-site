@@ -1,16 +1,16 @@
-import styled, { css } from "styled-components";
-import alpha from "color-alpha";
+import styled, { css } from 'styled-components'
+import alpha from 'color-alpha'
 
-import Container from "../../../atoms/Container";
-import TextField from "../../../atoms/TextField";
+import Container from '../../atoms/Container'
+import TextField from '../../atoms/TextField'
 
 const textBlock = css`
   margin-top: 0.625rem;
   padding: 0.625rem;
 
-  font-family: "Courier New", Courier, monospace;
+  font-family: 'Courier New', Courier, monospace;
   word-break: break-word;
-`;
+`
 
 const StyledContainer = styled(Container)`
   flex-direction: column;
@@ -22,7 +22,7 @@ const StyledContainer = styled(Container)`
   margin: 1rem;
   width: calc(100vw - 2rem);
   height: calc(100vh - 2rem);
-`;
+`
 
 const StyledTitle = styled.div`
   ${textBlock};
@@ -36,13 +36,13 @@ const StyledTitle = styled.div`
   font-weight: bold;
   letter-spacing: 0.00735em;
   color: ${({ theme }) => theme.foreground};
-`;
+`
 
 const StyledScrollContainer = styled.div`
   flex-grow: 1;
 
   overflow-y: auto;
-`;
+`
 
 const StyledText = styled.div`
   ${textBlock};
@@ -58,7 +58,7 @@ const StyledText = styled.div`
   &:hover {
     background-color: ${({ theme }) => alpha(theme.background, 0.5)};
   }
-`;
+`
 
 const StyledSubText = styled.div`
   ${textBlock};
@@ -69,7 +69,7 @@ const StyledSubText = styled.div`
 
   font-size: 0.9375rem;
   color: ${({ theme }) => theme.foregroundDark};
-`;
+`
 
 const StyledForm = styled.form`
   justify-content: center;
@@ -78,11 +78,11 @@ const StyledForm = styled.form`
 
   width: 100%;
   padding-top: 1.25rem;
-`;
+`
 
 const StyledTextField = styled(TextField)`
   width: 60%;
-`;
+`
 
 export {
   StyledContainer,
@@ -91,5 +91,5 @@ export {
   StyledText,
   StyledSubText,
   StyledForm,
-  StyledTextField,
-};
+  StyledTextField
+}
