@@ -10,7 +10,7 @@ import {
   StyledValue
 } from './Data.styles'
 
-const Data: React.FunctionComponent<SectionProps> = ({ data }) => (
+const Data: React.FC<SectionProps> = ({ data }) => (
   <StyledContainer>
     {(data as KV[]).map(({ key, value }, i) => (
       <StyledData key={i}>

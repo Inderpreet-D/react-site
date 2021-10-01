@@ -9,7 +9,7 @@ type ControlProps = {
   onBack: () => void
 }
 
-const Control: React.FunctionComponent<ControlProps> = ({
+const Control: React.FC<ControlProps> = ({
   current,
   last,
   onForward,

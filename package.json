@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "next lint --no-cache",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
+    "tsc": "tsc",
     "heroku-postbuild": "yarn run build"
   },
   "dependencies": {

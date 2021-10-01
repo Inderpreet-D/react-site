@@ -1,4 +1,4 @@
-import { Size, Breakpoints } from './types'
+import { Size, Breakpoints, ScreenTypes } from './types'
 
 const size: Size = {
   mobile: ['20rem', '30rem'],
@@ -8,7 +8,8 @@ const size: Size = {
 }
 
 const breakpoints: Breakpoints = Object.keys(size).reduce((prev, key) => {
-  prev[key] = size[key]
+  const st = key as ScreenTypes
+  prev[st] = size[st]
     .map(
       (size: string, i: number) => `(${i === 0 ? 'min' : 'max'}-width: ${size})`
     )

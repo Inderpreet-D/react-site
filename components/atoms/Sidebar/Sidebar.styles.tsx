@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const StyledButton = styled.div`
   justify-content: center;
@@ -13,7 +13,7 @@ const StyledButton = styled.div`
   cursor: pointer;
 
   user-select: none;
-`;
+`
 
 const StyledBackdrop = styled.div`
   position: absolute;
@@ -27,14 +27,18 @@ const StyledBackdrop = styled.div`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.backgroundLight};
-`;
+`
 
-const width = 25;
-const StyledModal = styled.div`
+type ModalProps = {
+  open: boolean
+}
+
+const width = 25
+const StyledModal = styled.div<ModalProps>`
   position: absolute;
   z-index: 2;
   top: 0;
-  left: ${({ open }) => (open ? "0" : `-${width}%`)};
+  left: ${({ open }) => (open ? '0' : `-${width}%`)};
 
   transition: left 0.5s;
 
@@ -44,6 +48,6 @@ const StyledModal = styled.div`
   height: 100vh;
 
   background-color: ${({ theme }) => theme.background};
-`;
+`
 
-export { StyledButton, StyledBackdrop, StyledModal };
+export { StyledButton, StyledBackdrop, StyledModal }

@@ -9,7 +9,7 @@ import {
   StyledDescription
 } from './Article.styles'
 
-const Article: React.FunctionComponent<SectionProps> = ({ data, idx }) => {
+const Article: React.FC<SectionProps> = ({ data, idx }) => {
   const { title, authors, me, description, href } = data[idx] as Paper
 
   return (

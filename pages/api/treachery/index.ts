@@ -16,7 +16,8 @@ const handleRoomCreation = (
   payload: Payload,
   rooms: Rooms
 ): { roomCode: string; id: string } => {
-  const { numPlayers, rarity } = payload
+  const numPlayers = payload.numPlayers!
+  const rarity = payload.rarity!
 
   const roomCode = generateUniqueCode(rooms)
   const id = generateUniqueCode({})
@@ -36,7 +37,8 @@ const handleRoomCreation = (
 }
 
 const handleRoomJoin = (payload: Payload, rooms: Rooms): JoinVal => {
-  const { roomCode, id } = payload
+  const roomCode = payload.roomCode!
+  const id = payload.id!
 
   if (!(roomCode in rooms)) {
     return { error: 'Room not found' }
@@ -72,14 +74,15 @@ const handleRoomPing = (
   payload: Payload,
   rooms: Rooms
 ): { numPlayers: number; currentPlayers: number } => {
-  const { roomCode } = payload
+  const roomCode = payload.roomCode!
   const { numPlayers, currentPlayers } = rooms[roomCode]
 
   return { numPlayers, currentPlayers }
 }
 
 const handleCard = (payload: Payload, rooms: Rooms): Card => {
-  const { roomCode, id } = payload
+  const roomCode = payload.roomCode!
+  const id = payload.id!
 
   const idx = rooms[roomCode].ids[id]
   const cardPath = rooms[roomCode].cards[idx]

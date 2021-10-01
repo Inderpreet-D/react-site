@@ -1,5 +1,5 @@
 import { SectionProps } from '../..'
-import { Date } from '../../Data/me'
+import { Date as DateType } from '../../Data/me'
 
 import {
   StyledContainer,
@@ -9,8 +9,8 @@ import {
   StyledArrow
 } from './Date.styles'
 
-const Date: React.FunctionComponent<SectionProps> = ({ data, idx }) => {
-  const { name, location, title, date, points } = data[idx] as Date
+const Date: React.FC<SectionProps> = ({ data, idx }) => {
+  const { name, location, title, date, points } = data[idx] as DateType
 
   return (
     <StyledContainer>

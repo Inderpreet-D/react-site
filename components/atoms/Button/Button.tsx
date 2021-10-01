@@ -3,9 +3,7 @@ import styled from 'styled-components'
 
 import StyledButton from './Button.styles'
 
-type ButtonProps = React.FunctionComponent<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->
+type ButtonProps = React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>>
 
 const Button: ButtonProps = ({ onClick, ...props }) => {
   const btnRef = React.useRef<HTMLButtonElement>(null)

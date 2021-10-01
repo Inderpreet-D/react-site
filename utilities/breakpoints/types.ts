@@ -1,4 +1,4 @@
-enum ScreenTypes {
+export enum ScreenTypes {
   mobile = 'mobile',
   tablet = 'tablet',
   laptop = 'laptop',
