@@ -1,4 +1,4 @@
-import App, { AppContext } from 'next/app'
+import { AppProps } from 'next/app'
 import { DefaultSeo } from 'next-seo'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
@@ -25,30 +25,16 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-export default class MyApp extends App {
-  static async getInitialProps ({ Component, ctx }: AppContext) {
-    let pageProps = {}
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
+  <>
+    <DefaultSeo {...SEO} />
 
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
-    }
+    <GlobalStyle />
 
-    return { pageProps }
-  }
+    <ThemeProvider theme={theme}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  </>
+)
 
-  render () {
-    const { Component, pageProps } = this.props
-
-    return (
-      <>
-        <DefaultSeo {...SEO} />
-
-        <GlobalStyle />
-
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </>
-    )
-  }
-}
+export default MyApp
