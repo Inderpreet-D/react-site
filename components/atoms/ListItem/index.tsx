@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { Checkbox, Item, Text } from './styles'
 
 interface PropType extends React.ComponentPropsWithoutRef<'div'> {

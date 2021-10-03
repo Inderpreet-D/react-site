@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { Check, Container } from './styles'
 
 interface PropType extends React.ComponentPropsWithoutRef<'div'> {

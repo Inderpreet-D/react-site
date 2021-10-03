@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { PropType as PPT } from '../types'
 
 import { ListItem } from '../Ingredients/styles'

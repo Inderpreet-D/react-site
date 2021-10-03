@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { PropType } from '../types'
 
 import { RecipeSection } from '../styles'
