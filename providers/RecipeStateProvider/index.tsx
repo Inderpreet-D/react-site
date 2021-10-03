@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { State, recipeStateReducer, initialState } from './reducer'
 
 type ContextType = {
