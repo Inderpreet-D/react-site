@@ -36,7 +36,9 @@ const Page = () => {
   const waitForResponse = React.useCallback(() => {
     const interval = setInterval(async () => {
       const id = localStorage.getItem(ID_KEY)
-      const { data } = await axios.post('/api/toadvillage', { id })
+      const { data } = (await axios.post('/api/toadvillage', { id })) as {
+        data: { status: string; [x: string]: any }
+      }
       const { status, ...rest } = data
 
       if (status === 'DONE') {

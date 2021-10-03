@@ -1,4 +1,5 @@
-import { FaLessThan, FaGreaterThan } from 'react-icons/fa'
+import { FaLessThan } from '@react-icons/all-files/fa/FaLessThan'
+import { FaGreaterThan } from '@react-icons/all-files/fa/FaGreaterThan'
 
 import { Controls, ControlButton } from './styles'
 

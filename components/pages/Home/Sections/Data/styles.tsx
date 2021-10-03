@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { GiStitchedWound } from 'react-icons/gi'
+import { GiStitchedWound } from '@react-icons/all-files/gi/GiStitchedWound'
 
 import breakpoints from '../../../../../utilities/breakpoints'
 

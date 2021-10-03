@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/Container/Title'
 import Article from './Sections/Article'

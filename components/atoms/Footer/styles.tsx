@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { FaRegCopyright } from "react-icons/fa";
+import styled from 'styled-components'
+import { FaRegCopyright } from '@react-icons/all-files/fa/FaRegCopyright'
 
 const StyledFooter = styled.div`
   justify-content: center;
@@ -15,10 +15,10 @@ const StyledFooter = styled.div`
   background-color: ${({ theme }) => theme.backgroundLight};
 
   color: ${({ theme }) => theme.text};
-`;
+`
 
 const StyledCopyright = styled(FaRegCopyright)`
   margin: 0 0.5rem 0 0.25rem;
-`;
+`
 
-export { StyledFooter, StyledCopyright };
+export { StyledFooter, StyledCopyright }

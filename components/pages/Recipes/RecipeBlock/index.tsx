@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { PropType } from '../types'
 
 import { Box, ButtonHolder, Button, Card } from '../../../atoms/BoxView'

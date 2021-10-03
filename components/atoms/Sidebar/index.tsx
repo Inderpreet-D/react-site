@@ -1,4 +1,4 @@
-import { FaBars } from 'react-icons/fa'
+import { FaBars } from '@react-icons/all-files/fa/FaBars'
 
 import { StyledButton, StyledBackdrop, StyledModal } from './styles'
 

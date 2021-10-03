@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { GiFrayedArrow } from "react-icons/gi";
+import styled from 'styled-components'
+import { GiFrayedArrow } from '@react-icons/all-files/gi/GiFrayedArrow'
 
 const StyledArrow = styled(GiFrayedArrow)`
   align-items: center;
@@ -9,13 +9,13 @@ const StyledArrow = styled(GiFrayedArrow)`
   transform: rotate(-45deg);
 
   margin-right: 0.75rem;
-`;
+`
 
 const StyledPoint = styled.div`
   display: flex;
 
   margin-bottom: 0.75rem;
-`;
+`
 
 const StyledPoints = styled.div`
   flex-direction: column;
@@ -23,7 +23,7 @@ const StyledPoints = styled.div`
   display: flex;
 
   padding: 1rem;
-`;
+`
 
 const StyledHeader = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const StyledHeader = styled.div`
   & > span:last-child {
     font-style: italic;
   }
-`;
+`
 
 const StyledContainer = styled.div`
   flex-direction: column;
@@ -47,12 +47,6 @@ const StyledContainer = styled.div`
   display: flex;
 
   padding: 1rem;
-`;
+`
 
-export {
-  StyledContainer,
-  StyledHeader,
-  StyledPoints,
-  StyledPoint,
-  StyledArrow,
-};
+export { StyledContainer, StyledHeader, StyledPoints, StyledPoint, StyledArrow }

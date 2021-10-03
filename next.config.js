@@ -1,7 +1,15 @@
 module.exports = {
   reactStrictMode: true,
   eslint: {
-    dirs: ['components', 'pages', 'providers', 'shared', 'themes', 'utilities']
+    dirs: [
+      'components',
+      'lib',
+      'pages',
+      'providers',
+      'shared',
+      'themes',
+      'utilities'
+    ]
   },
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: return the modified config

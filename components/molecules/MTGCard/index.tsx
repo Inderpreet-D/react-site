@@ -1,4 +1,6 @@
-import { FaSync, FaPlus, FaMinus } from 'react-icons/fa'
+import { FaSync } from '@react-icons/all-files/fa/FaSync'
+import { FaPlus } from '@react-icons/all-files/fa/FaPlus'
+import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
 
 import { Card } from '../../../shared/toadvillage'
 

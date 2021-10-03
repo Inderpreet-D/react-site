@@ -8,23 +8,29 @@ const QUEUE: { [x: string]: any } = {}
 const STARTED: Set<string> = new Set<string>()
 
 const fetchCard = async (name: string): Promise<ScryfallCard> => {
-  return new Promise(async (resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get(`https://api.scryfall.com/cards/search?q=!"${name}"`)
-        .then(({ data }) => resolve(data.data[0]))
-        .catch(reject)
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const data = await axios.get(
+          `https://api.scryfall.com/cards/search?q=!"${name}"`
+        )
+        resolve(data.data[0])
+      } catch (err) {
+        reject(err)
+      }
     }, 100)
   })
 }
 
 const fetchToken = async (uri: string): Promise<ScryfallCard> => {
-  return new Promise(async (resolve, reject) => {
-    setTimeout(() => {
-      axios
-        .get(uri)
-        .then(({ data }) => resolve(data))
-        .catch(reject)
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const data = await axios.get(uri)
+        resolve(data.data)
+      } catch (err) {
+        reject(err)
+      }
     }, 100)
   })
 }
