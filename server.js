@@ -13,7 +13,6 @@ const handle = app.getRequestHandler()
     const server = express()
 
     server.use((req, res, next) => {
-      console.log({ head: req.headers })
       if (req.headers['x-forwarded-proto'] === 'http') {
         res.redirect(301, `https://${req.hostname}${req.url}`)
       } else {
