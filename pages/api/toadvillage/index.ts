@@ -11,10 +11,11 @@ const fetchCard = async (name: string): Promise<ScryfallCard> => {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       try {
-        const data = await axios.get(
+        const { data } = await axios.get(
           `https://api.scryfall.com/cards/search?q=!"${name}"`
         )
-        resolve(data.data[0])
+        const card = (data as unknown) as { data: ScryfallCard[] }
+        resolve(card.data[0])
       } catch (err) {
         reject(err)
       }
