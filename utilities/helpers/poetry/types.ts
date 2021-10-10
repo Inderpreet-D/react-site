@@ -1,5 +1,5 @@
-export interface Poem {
-  name: string;
-  body: string;
-  url: string;
+export type Poem = {
+  name: string
+  body: string
+  url: string
 }

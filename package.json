@@ -4,32 +4,37 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "lint": "next lint --no-cache",
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
-    "heroku-postbuild": "yarn run build"
+    "heroku-postbuild": "yarn run build",
+    "tsc": "tsc"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "@react-icons/all-files": "^4.1.0",
+    "axios": "^0.22.0",
     "color-alpha": "^1.1.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "firebase-admin": "^9.5.0",
-    "html-react-parser": "^0.14.0",
-    "next": "^10.2.3",
+    "html-react-parser": "^1.4.0",
+    "next": "^11.1.2",
     "next-seo": "^4.24.0",
     "project-name-generator": "^2.1.9",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-icons": "^4.1.0",
+    "react": "^17.0.2",
+    "react-dom": "17.0.2",
     "react-is": "^17.0.1",
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/project-name-generator": "^2.1.0",
-    "@types/react": "^17.0.2",
+    "@types/react": "^17.0.26",
     "@types/styled-components": "^5.1.14",
+    "@types/uuid": "^8.3.1",
     "babel-plugin-styled-components": "^1.12.0",
-    "typescript": "^4.1.5"
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2",
+    "typescript": "^4.4.3"
   }
 }

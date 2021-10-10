@@ -1,6 +1,4 @@
-import React from 'react'
-
-import { State, Reducer, initialState } from './reducer'
+import { State, recipeStateReducer, initialState } from './reducer'
 
 type ContextType = {
   state: State
@@ -9,10 +7,10 @@ type ContextType = {
   update: (index: number) => void
 }
 
-const RecipeStateContext = React.createContext<ContextType>(null)
+const RecipeStateContext = React.createContext<ContextType | null>(null)
 
-const RecipeStateProvider = ({ children }) => {
-  const [state, dispatch] = React.useReducer(Reducer, initialState)
+const RecipeStateProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = React.useReducer(recipeStateReducer, initialState)
 
   const reset = React.useCallback(() => {
     dispatch({ type: 'RESET' })
@@ -35,4 +33,5 @@ const RecipeStateProvider = ({ children }) => {
 
 export default RecipeStateProvider
 
-export const useRecipeState = () => React.useContext(RecipeStateContext)
+export const useRecipeState = () =>
+  React.useContext(RecipeStateContext) as ContextType

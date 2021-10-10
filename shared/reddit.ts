@@ -1,22 +1,22 @@
-export interface PostData {
-  selftext: string;
-  selftext_html: string;
-  title: string;
-  url: string;
+export type PostData = {
+  selftext: string
+  selftext_html: string
+  title: string
+  url: string
 }
 
-export interface RedditPost {
-  data: PostData;
+export type RedditPost = {
+  data: PostData
 }
 
-export interface RedditResponse {
+export type RedditResponse = {
   data: {
     data: {
-      children: RedditPost[];
-    };
-  };
+      children: RedditPost[]
+    }
+  }
 }
 
-export interface RedditRawResponse {
-  data: RedditResponse;
+export type RedditRawResponse = {
+  data: RedditResponse
 }

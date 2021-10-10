@@ -32,10 +32,6 @@ const listAsDeck = (
   idx: number,
   hasFaces: boolean = false
 ): TTSDeck => {
-  if (!list) {
-    return null
-  }
-
   const rotZ: number = idx === 0 ? 180 : 0
 
   const contained: ContainedObject[] = []
@@ -52,9 +48,9 @@ const listAsDeck = (
     })
 
     deck[deckId] = {
-      FaceURL: hasFaces ? card.faces[0].image : card.image,
+      FaceURL: hasFaces ? card.faces![0].image : card.image,
       BackURL: hasFaces
-        ? card.faces[1].image
+        ? card.faces![1].image
         : 'https://i.redd.it/25zhw3vvkvn41.png',
       NumHeight: 1,
       NumWidth: 1,
@@ -199,8 +195,8 @@ export const parseJSON = (data: TTSObjectStates): string[] => {
     Nickname,
     CustomDeck
   }: TTSDeck | ContainedObject): void => {
-    if (!(Nickname in listObj)) {
-      listObj[Nickname] = 0
+    if (!(Nickname! in listObj)) {
+      listObj[Nickname!] = 0
     }
 
     let amount = 1
@@ -208,13 +204,13 @@ export const parseJSON = (data: TTSObjectStates): string[] => {
       amount = Object.keys(CustomDeck).length
     }
 
-    listObj[Nickname] += amount
+    listObj[Nickname!] += amount
   }
 
   const { ObjectStates } = data
   addCard(ObjectStates[1])
   try {
-    ObjectStates[0].ContainedObjects.forEach(addCard)
+    ObjectStates![0].ContainedObjects!.forEach(addCard)
   } catch (e) {
     addCard(ObjectStates[0])
   }

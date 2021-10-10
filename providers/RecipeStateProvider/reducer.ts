@@ -1,8 +1,10 @@
-const handleReset: ReducerFunc = (state, action) => {
+import { Handler, ReducerFunc } from '../../shared/reducer'
+
+const handleReset: Func = (state, action) => {
   return initialState
 }
 
-const handleToggleCheck: ReducerFunc = (state, action) => {
+const handleToggleCheck: Func = (state, action) => {
   const { key } = action as { key: string }
 
   let newChecked: string[] = []
@@ -15,7 +17,7 @@ const handleToggleCheck: ReducerFunc = (state, action) => {
   return { ...state, checked: newChecked }
 }
 
-const handleUpdateIndex: ReducerFunc = (state, action) => {
+const handleUpdateIndex: Func = (state, action) => {
   const { index } = action as { index: number }
 
   return { ...state, index }
@@ -30,29 +32,26 @@ type Action =
   | { type: 'RESET' }
   | { type: 'TOGGLE_CHECK'; key: string }
   | { type: 'UPDATE_INDEX'; index: number }
-type ReducerFunc = (s: State, a: Action) => State
 
-type Handler = {
-  [x: string]: ReducerFunc
-}
+type Func = ReducerFunc<State, Action>
 
 export const initialState: State = {
   index: 0,
   checked: []
 }
 
-const Handlers: Handler = {
+const Handlers: Handler<Func> = {
   RESET: handleReset,
   TOGGLE_CHECK: handleToggleCheck,
   UPDATE_INDEX: handleUpdateIndex
 }
 
-export const Reducer: ReducerFunc = (state, action) => {
+export const recipeStateReducer: Func = (state, action) => {
   const { type } = action
 
   if (type in Handlers) {
     return Handlers[type](state, action)
   }
 
-  throw new Error(`Unknown  reducer type: ${type}`)
+  throw new Error(`Unknown recipeState reducer type: ${type}`)
 }
