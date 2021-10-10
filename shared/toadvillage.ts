@@ -15,3 +15,8 @@ export interface TreacheryResponse {
   tokens: FormattedCard[]
   unmatched: string[]
 }
+
+export interface ReqCard {
+  amount: number
+  name: string
+}

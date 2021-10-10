@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { FormattedCard } from '../../shared/toadvillage'
 
 import { State, toadVillageReducer, initialState } from './reducer'
@@ -9,7 +7,7 @@ import {
   parseJSON
 } from '../../utilities/helpers/toadvillage'
 import { ID_KEY } from '../../shared/constants'
-import { QueueType } from '../../pages/api/toadvillage/types'
+import { toadvillage } from '../../lib/api'
 
 type ContextType = {
   state: State
@@ -37,10 +35,8 @@ const ToadVillageStateProvider: React.FC = ({ children }) => {
   // Poll api to check status every 0.1s
   const waitForResponse = React.useCallback(() => {
     const interval = setInterval(async () => {
-      const id = localStorage.getItem(ID_KEY)
-      const { data } = (await axios.post('/api/toadvillage', { id })) as {
-        data: QueueType
-      }
+      const id = localStorage.getItem(ID_KEY)!
+      const { data } = await toadvillage({ id })
       const { status, ...rest } = data
 
       if (status === 'DONE') {
@@ -62,8 +58,8 @@ const ToadVillageStateProvider: React.FC = ({ children }) => {
     }
 
     const handleFetch = async () => {
-      const id = localStorage.getItem(ID_KEY)
-      await axios.post('/api/toadvillage', { id, cards: state.cardList })
+      const id = localStorage.getItem(ID_KEY)!
+      await toadvillage({ id, cards: state.cardList })
       waitForResponse()
     }
 

@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { ReqCard, QueueType } from './types'
+import { ReqCard } from '../../../shared/toadvillage'
+import { QueueType } from './types'
 
 import handleRequest from './helpers'
 

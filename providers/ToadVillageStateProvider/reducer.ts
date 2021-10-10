@@ -1,6 +1,6 @@
 import { Handler, ReducerFunc } from '../../shared/reducer'
 import { DownloadInput } from '../../utilities/helpers/toadvillage/types'
-import { TreacheryResponse } from '../../shared/toadvillage'
+import { ReqCard, TreacheryResponse } from '../../shared/toadvillage'
 
 import mtgDownload, { randomName } from '../../utilities/helpers/toadvillage'
 
@@ -119,7 +119,7 @@ const handleSetName: Func = (state, action) => {
 }
 
 export type State = {
-  cardList: { amount: number; name: string }[]
+  cardList: ReqCard[]
   cardListString: string
   cardObjs: TreacheryResponse
   name: string

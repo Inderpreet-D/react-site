@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-import { Card, FormattedCard } from '../../../shared/toadvillage'
+import { Card, FormattedCard, ReqCard } from '../../../shared/toadvillage'
 import {
-  ReqCard,
   ScryfallPart,
   ScryfallCard,
   MatchedCard,

@@ -1,10 +1,5 @@
 import { FormattedCard, TreacheryResponse } from '../../../shared/toadvillage'
 
-export interface ReqCard {
-  amount: number
-  name: string
-}
-
 export interface ScryfallPart {
   component: string
   name: string
