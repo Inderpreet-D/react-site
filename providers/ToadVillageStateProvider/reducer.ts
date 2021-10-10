@@ -139,7 +139,7 @@ type Action =
       type: 'CHANGE_COUNT'
       cardObj: any
       isCommander: boolean
-      increment: number
+      increment: boolean
     }
   | { type: 'CLEAR_ERROR' }
   | { type: 'SET_ERROR'; error: string }
