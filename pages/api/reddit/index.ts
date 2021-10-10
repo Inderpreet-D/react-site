@@ -3,14 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { RedditRawResponse, RedditResponse } from '../../../shared/reddit'
 
-const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  const response: RedditRawResponse = await axios.get(
-    'https://www.reddit.com/r/poetry/hot.json'
-  )
-  const data: RedditResponse = response.data
+const URL = 'https://www.reddit.com/r/poetry/hot.json'
 
-  res.setHeader('Content-Type', 'application/json')
-  res.status(200).send(data)
+const api = async (_: NextApiRequest, res: NextApiResponse) => {
+  const response: RedditRawResponse = await axios.get(URL)
+  const data: RedditResponse = response.data
+  res.send(data)
 }
 
 export default api

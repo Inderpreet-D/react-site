@@ -1,4 +1,3 @@
-import axios from 'axios'
 import parse from 'html-react-parser'
 
 import { Poem } from '../../../utilities/helpers/poetry/types'
@@ -7,6 +6,7 @@ import Container from '../../atoms/Container'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import { StyledError, StyledLink, StyledText } from './styles'
 
+import { reddit } from '../../../lib/api'
 import parsePoems, { pickRandomPoem } from '../../../utilities/helpers/poetry'
 
 const Page = () => {
@@ -17,7 +17,7 @@ const Page = () => {
   React.useEffect(() => {
     const handleFetch = async () => {
       try {
-        const res = await axios.get('/api/reddit')
+        const res = await reddit()
 
         const poems = parsePoems(res)
         const { name, body, url } = pickRandomPoem(poems)

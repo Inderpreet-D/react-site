@@ -8,3 +8,10 @@ export interface FormattedCard {
   amount: number
   card: Card
 }
+
+export interface TreacheryResponse {
+  commanders: FormattedCard[]
+  others: FormattedCard[]
+  tokens: FormattedCard[]
+  unmatched: string[]
+}

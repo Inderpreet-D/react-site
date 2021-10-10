@@ -1,13 +1,13 @@
 import { Handler, ReducerFunc } from '../../shared/reducer'
 import { DownloadInput } from '../../utilities/helpers/toadvillage/types'
-import { FormattedCard } from '../../shared/toadvillage'
+import { TreacheryResponse } from '../../shared/toadvillage'
 
 import mtgDownload, { randomName } from '../../utilities/helpers/toadvillage'
 
 const handleDeckResponse: Func = (state, action) => {
   if (action.type !== 'DECK_RESPONSE') return state
   const { data } = action
-  const { unmatched, ...cardData } = data
+  const { unmatched } = data
 
   let error = ''
   if (unmatched.length) {
@@ -16,11 +16,11 @@ const handleDeckResponse: Func = (state, action) => {
     error = `Could not find the following card${suffix}: ${cardNames}`
   }
 
-  return { ...state, cardObjs: cardData, loading: false, error }
+  return { ...state, cardObjs: data, loading: false, error }
 }
 
 const handleResetCardObjs: Func = (state, _) => {
-  return { ...state, cardObjs: {} }
+  return { ...state, cardObjs: {} as TreacheryResponse }
 }
 
 const handleStartFetch: Func = (state, _) => {
@@ -121,14 +121,14 @@ const handleSetName: Func = (state, action) => {
 export type State = {
   cardList: { amount: number; name: string }[]
   cardListString: string
-  cardObjs: { [x: string]: FormattedCard[] }
+  cardObjs: TreacheryResponse
   name: string
   error: string
   loading: boolean
 }
 
 type Action =
-  | { type: 'DECK_RESPONSE'; data: { [x: string]: any[] } }
+  | { type: 'DECK_RESPONSE'; data: TreacheryResponse }
   | { type: 'RESET_CARD_OBJS' }
   | { type: 'START_FETCH' }
   | { type: 'DOWNLOAD' }
@@ -150,7 +150,7 @@ type Func = ReducerFunc<State, Action>
 export const initialState: State = {
   cardList: [],
   cardListString: '',
-  cardObjs: {},
+  cardObjs: {} as TreacheryResponse,
   name: randomName(),
   error: '',
   loading: false

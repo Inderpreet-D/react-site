@@ -9,6 +9,7 @@ import {
   parseJSON
 } from '../../utilities/helpers/toadvillage'
 import { ID_KEY } from '../../shared/constants'
+import { QueueType } from '../../pages/api/toadvillage/types'
 
 type ContextType = {
   state: State
@@ -38,7 +39,7 @@ const ToadVillageStateProvider: React.FC = ({ children }) => {
     const interval = setInterval(async () => {
       const id = localStorage.getItem(ID_KEY)
       const { data } = (await axios.post('/api/toadvillage', { id })) as {
-        data: { status: string; [x: string]: any }
+        data: QueueType
       }
       const { status, ...rest } = data
 

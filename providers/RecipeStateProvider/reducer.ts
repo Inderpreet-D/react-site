@@ -1,6 +1,6 @@
 import { Handler, ReducerFunc } from '../../shared/reducer'
 
-const handleReset: Func = (state, action) => {
+const handleReset: Func = (_, __) => {
   return initialState
 }
 
