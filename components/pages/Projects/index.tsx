@@ -1,11 +1,11 @@
 import StyledGrid from './styles'
 import Card from '../../molecules/Card'
 
-import projects from '../../../public/projects.json'
+import Projects from './Data'
 
 const Page = () => (
   <StyledGrid>
-    {projects.map((data, i) => (
+    {Projects.map((data, i) => (
       <Card key={i} {...data} />
     ))}
   </StyledGrid>
