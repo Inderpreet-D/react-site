@@ -1,8 +1,9 @@
 type CanvasProps = {
   draw: (context: CanvasRenderingContext2D, frameCount: number) => void
+  style: React.CSSProperties
 }
 
-const Canvas: React.FC<CanvasProps> = ({ draw }) => {
+const Canvas: React.FC<CanvasProps> = ({ draw, ...props }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
   React.useEffect(() => {
@@ -27,7 +28,7 @@ const Canvas: React.FC<CanvasProps> = ({ draw }) => {
     }
   }, [draw])
 
-  return <canvas ref={canvasRef} />
+  return <canvas ref={canvasRef} {...props} />
 }
 
 export default Canvas

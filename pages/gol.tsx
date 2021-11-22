@@ -1,9 +1,13 @@
 import Page from '../components/templates/Page'
 import GoLPage from '../components/pages/GoL'
 
+import LifeProvider from '../providers/LifeProvider'
+
 const GoL = () => (
   <Page title='Game of Life'>
-    <GoLPage />
+    <LifeProvider>
+      <GoLPage />
+    </LifeProvider>
   </Page>
 )
 
