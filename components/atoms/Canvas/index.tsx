@@ -1,9 +1,16 @@
 type CanvasProps = {
-  draw: (context: CanvasRenderingContext2D, frameCount: number) => void
-  style: React.CSSProperties
+  draw: (
+    context: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+    frameCount: number
+  ) => void
+  style?: React.CSSProperties
+  width?: string
+  height?: string
 }
 
-const Canvas: React.FC<CanvasProps> = ({ draw, ...props }) => {
+const Canvas: React.FC<CanvasProps &
+  React.DOMAttributes<HTMLCanvasElement>> = ({ draw, ...props }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
   React.useEffect(() => {
@@ -13,12 +20,16 @@ const Canvas: React.FC<CanvasProps> = ({ draw, ...props }) => {
     }
 
     const context = canvas.getContext('2d')
+    if (!context) {
+      return
+    }
+
     let frameCount = 0
     let animationFrameID: number
 
     const render = () => {
       frameCount++
-      draw(context!, frameCount)
+      draw(context, canvas, frameCount)
       animationFrameID = window.requestAnimationFrame(render)
     }
     render()

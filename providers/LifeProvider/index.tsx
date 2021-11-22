@@ -14,8 +14,8 @@ type ContextType = {
 const LifeContext = React.createContext<ContextType | null>(null)
 
 const INITIAL = {
-  width: 94,
-  height: 43
+  width: 160,
+  height: 47
 }
 
 const LifeProvider: React.FC = ({ children }) => {
