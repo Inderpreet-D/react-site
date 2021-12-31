@@ -20,13 +20,13 @@ const Page = () => {
     <Container>
       <ContainerTitle>Movie Picker</ContainerTitle>
 
-      {movie && <Movie>{movie}</Movie>}
-
       {isLoading ? (
         <LoadingIcon />
       ) : (
         <Button onClick={pickMovie}>Get Movie</Button>
       )}
+
+      {movie && <Movie>{movie}</Movie>}
     </Container>
   )
 }

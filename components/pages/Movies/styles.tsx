@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import BaseButton from '../../atoms/Button'
 
 const Movie = styled.div`
-  margin: 1rem 0 2rem 0;
+  margin: 2rem 0 1rem 0;
   text-align: center;
   font-size: 3rem;
   text-decoration: underline;
