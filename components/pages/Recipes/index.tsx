@@ -1,5 +1,5 @@
 import Container from '../../atoms/Container'
-import ContainerTitle from '../../atoms/Container/Title'
+import ContainerTitle from '../../atoms/ContainerTitle'
 import RecipeBlock from './RecipeBlock'
 
 import { useRecipeState } from '../../../providers/RecipeStateProvider'
