@@ -11,8 +11,8 @@ import Room, { RoomState } from './Room'
 import Card from './Card'
 
 import Container from '../../atoms/Container'
-import ContainerError from '../../atoms/Container/Error'
-import ContainerTitle from '../../atoms/Container/Title'
+import ContainerError from '../../atoms/ContainerError'
+import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
 
 import { treachery } from '../../../lib/api'

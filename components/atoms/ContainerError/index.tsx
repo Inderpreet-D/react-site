@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-const StyledError = styled.div`
+const ContainerError = styled.div`
   justify-content: center;
 
   display: flex;
@@ -9,6 +9,6 @@ const StyledError = styled.div`
 
   font-size: 2rem;
   color: lightcoral;
-`;
+`
 
-export default StyledError;
+export default ContainerError

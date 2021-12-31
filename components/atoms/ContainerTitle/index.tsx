@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-const StyledTitle = styled.div`
+const ContainerTitle = styled.div`
   margin-bottom: 1.25rem;
 
   font-size: 2.125rem;
@@ -8,6 +8,6 @@ const StyledTitle = styled.div`
   font-weight: 400;
   text-align: center;
   letter-spacing: 0.00735em;
-`;
+`
 
-export default StyledTitle;
+export default ContainerTitle

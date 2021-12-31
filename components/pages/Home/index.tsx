@@ -1,5 +1,5 @@
 import Container from '../../atoms/Container'
-import ContainerTitle from '../../atoms/Container/Title'
+import ContainerTitle from '../../atoms/ContainerTitle'
 import Article from './Sections/Article'
 import DataComp from './Sections/Data'
 import Date from './Sections/Date'

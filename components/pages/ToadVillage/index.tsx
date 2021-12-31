@@ -7,8 +7,8 @@ import {
   StyledTextArea
 } from './styles'
 import Container from '../../atoms/Container'
-import ContainerError from '../../atoms/Container/Error'
-import ContainerTitle from '../../atoms/Container/Title'
+import ContainerError from '../../atoms/ContainerError'
+import ContainerTitle from '../../atoms/ContainerTitle'
 import MTGCard from '../../molecules/MTGCard'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import Dialog from '../../molecules/Dialog'

@@ -77,7 +77,7 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
           ?.filter(({ component }) => component === 'token')
           .forEach(token => neededTokens.push(token))
       } catch (err) {
-        console.log('Card Fetch Error: ', (err as Error).message)
+        console.error('Card Fetch Error: ', (err as Error).message)
         unmatched.push(name)
       }
     })
@@ -101,7 +101,7 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
           card: { name, image: token.image_uris.normal }
         })
       } catch (err) {
-        console.log('Token Fetch Error: ', (err as Error).message)
+        console.error('Token Fetch Error: ', (err as Error).message)
       }
     })
   )
