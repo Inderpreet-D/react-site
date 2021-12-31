@@ -67,7 +67,6 @@ const GoL = () => {
       const cellWidth = elem.width / width
       const cellHeight = elem.height / height
 
-      console.log({ x, y })
       toggle(Math.floor(x / cellWidth), Math.floor(y / cellHeight))
     },
     [width, height, toggle]
