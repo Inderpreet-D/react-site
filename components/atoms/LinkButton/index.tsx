@@ -6,10 +6,11 @@ import Button from '../Button'
 type LinkButtonProps = {
   href: string
   title: string
+  className?: string
 }
 
-const LinkButton: React.FC<LinkButtonProps> = ({ href, title }) => (
-  <Button>
+const LinkButton: React.FC<LinkButtonProps> = ({ href, title, className }) => (
+  <Button className={className}>
     <Link href={href} passHref>
       <StyledLink target={href.startsWith('/') ? '' : '_blank'}>
         {title}

@@ -20,5 +20,14 @@ module.exports = {
       })
     ]
     return config
+  },
+  redirects: async () => {
+    return [
+      {
+        source: '/toadvillage',
+        destination: '/mtg/toadvillage',
+        permanent: false
+      }
+    ]
   }
 }

@@ -27,13 +27,13 @@ const projects: Project[] = [
     href: 'https://github.com/Inderpreet-D/Telestrations',
     hrefTitle: 'Source Code on Github'
   },
-  {
-    title: 'MagicDB',
-    description:
-      'An inventory system built in React to keep track of your Magic the Gathering card collection.',
-    href: '/mtgdb',
-    hrefTitle: 'Go to MagicDB'
-  },
+  // {
+  //   title: 'MagicDB',
+  //   description:
+  //     'An inventory system built in React to keep track of your Magic the Gathering card collection.',
+  //   href: '/mtgdb',
+  //   hrefTitle: 'Go to MagicDB'
+  // },
   {
     title: 'ART 321 Site',
     description: 'My website for a Net Art course I took in University.',
