@@ -1,20 +1,19 @@
+import { Movie, Button } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
-import { Movie, Button } from './styles'
 
 import useSWR from '../../../hooks/useSWR'
 
 const Page = () => {
-  const { data, isLoading } = useSWR('movies')
+  const { data: movies, isLoading } = useSWR<string[]>('movies')
 
   const [movie, setMovie] = React.useState<null | string>(null)
 
   const pickMovie = React.useCallback(() => {
-    const strData = data as string[]
-    const idx = Math.floor(Math.random() * strData.length)
-    setMovie(strData[idx])
-  }, [data])
+    const idx = Math.floor(Math.random() * movies.length)
+    setMovie(movies[idx])
+  }, [movies])
 
   return (
     <Container>
