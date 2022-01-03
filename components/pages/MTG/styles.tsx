@@ -15,7 +15,7 @@ export const ButtonArea = styled.div`
   flex-direction: column;
   width: fit-content;
 
-  & > ${LinkButton}:not(:last-child) {
+  & > :not(:last-child) {
     margin-bottom: 1.5rem;
   }
 `

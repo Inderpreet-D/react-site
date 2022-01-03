@@ -15,9 +15,11 @@ export default styled.div`
   @media ${breakpoints.mobile} {
     width: 80%;
   }
+
   @media ${breakpoints.tablet} {
     width: calc(55% + (2 * calc(25% / 3)));
   }
+
   @media ${breakpoints.laptop} {
     width: calc(55% + calc(25% / 3));
   }

@@ -1,6 +1,7 @@
 import { Info, ButtonArea, LinkButton } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
+import Tooltip from '../../atoms/Tooltip'
 
 type ButtonData = {
   href: string
@@ -13,7 +14,7 @@ const buttonData: ButtonData[] = [
     href: 'toadvillage',
     title: 'Toad Village',
     description:
-      'Helper for converting MTG decklists for use with Tabletop Simulator'
+      'Helper for converting MTG decklists to be usable with Tabletop Simulator'
   },
   {
     href: 'competitive',
@@ -39,7 +40,9 @@ const Page = () => {
 
       <ButtonArea>
         {buttonData.map(({ href, title, description }) => (
-          <LinkButton key={href} href={`/mtg/${href}`} title={title} />
+          <Tooltip key={href} content={description}>
+            <LinkButton href={`/mtg/${href}`} title={title} />
+          </Tooltip>
         ))}
       </ButtonArea>
     </Container>
