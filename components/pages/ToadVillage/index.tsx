@@ -8,6 +8,7 @@ import {
 } from './styles'
 import Container from '../../atoms/Container'
 import ContainerError from '../../atoms/ContainerError'
+import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import MTGCard from '../../molecules/MTGCard'
 import LoadingIcon from '../../atoms/LoadingIcon'
@@ -38,6 +39,8 @@ const Page = () => {
 
   return (
     <Container>
+      <ContainerBackButton to='mtg' />
+
       <ContainerTitle>Toad Village</ContainerTitle>
 
       <StyledButtonHolder>

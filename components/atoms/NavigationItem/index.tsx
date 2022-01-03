@@ -9,7 +9,14 @@ type NavigationItemProps = {
 
 const NavigationItem: React.FC<NavigationItemProps> = ({ link, children }) => {
   const { pathname } = useRouter()
-  const activeClass = pathname === link ? 'active' : ''
+
+  const activeClass = React.useMemo(() => {
+    if (link === '/') {
+      return pathname === link ? 'active' : ''
+    }
+
+    return pathname.startsWith(link) ? 'active' : ''
+  }, [pathname, link])
 
   return (
     <StyledHolder>

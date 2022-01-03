@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import breakpoints from '../../../utilities/breakpoints'
 
 export default styled.div`
+  position: relative;
   margin: 1rem auto;
   border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
   border-radius: 1rem;
