@@ -3,8 +3,8 @@ import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import Rules from './Rules'
-import Leaderboard from './Leaderboard'
 import Games from './Games'
+import Leaderboard from './Leaderboard'
 
 import useSWR from '../../../hooks/useSWR'
 
@@ -53,9 +53,9 @@ const Page = () => {
             <>
               <Rules rules={season.rules} />
 
-              <Leaderboard season={season} />
-
               <Games games={season.games} year={season.year} />
+
+              <Leaderboard season={season} />
             </>
           )}
         </>
