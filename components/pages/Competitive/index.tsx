@@ -10,13 +10,15 @@ type PlayerObj = {
 }
 
 type Game = {
-  date: string
+  month: number
+  day: number
   players: PlayerObj
   winner: string
 }
 
-interface Season {
+export interface Season {
   name?: string
+  year: number
   games: Game[]
   rules: string[]
 }
@@ -36,7 +38,19 @@ const Page = () => {
 
       <ContainerTitle>Competitive</ContainerTitle>
 
-      {isLoading ? <LoadingIcon /> : <></>}
+      {isLoading ? (
+        <LoadingIcon />
+      ) : (
+        <>
+          <div>Button bar</div>
+
+          <div>Rules</div>
+
+          <div>Leaderboard</div>
+
+          <div>Games per season</div>
+        </>
+      )}
     </Container>
   )
 }
