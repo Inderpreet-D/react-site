@@ -4,7 +4,8 @@ const s: Season[] = [
   {
     games: [
       {
-        date: '2022-01-02',
+        day: 3,
+        month: 1,
         players: {
           Gary: 'Eldrazi',
           Inderpreet: 'Something tribal',
@@ -13,7 +14,8 @@ const s: Season[] = [
         winner: 'Inderpreet'
       }
     ],
-    name: 'Some name (optional)',
-    rules: ['BAN: Something', 'GENERAL: Something in general']
+    name: 'Some name',
+    rules: ['BAN: Something', 'GENERAL: Something in general'],
+    year: 2022
   }
 ]

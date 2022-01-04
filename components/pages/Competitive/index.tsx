@@ -2,14 +2,17 @@ import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
+import Rules from './Rules'
+import Leaderboard from './Leaderboard'
+import Games from './Games'
 
 import useSWR from '../../../hooks/useSWR'
 
-type PlayerObj = {
+export type PlayerObj = {
   [x: string]: string
 }
 
-type Game = {
+export type Game = {
   month: number
   day: number
   players: PlayerObj
@@ -26,11 +29,7 @@ export interface Season {
 const Page = () => {
   const { data: seasons, isLoading } = useSWR<Season[]>('competitive')
 
-  React.useEffect(() => {
-    if (seasons) {
-      console.log({ seasons })
-    }
-  }, [seasons])
+  const [season, setSeason] = React.useState<Season | null>(null)
 
   return (
     <Container>
@@ -42,13 +41,23 @@ const Page = () => {
         <LoadingIcon />
       ) : (
         <>
-          <div>Button bar</div>
+          <div>
+            {seasons.map((season, i) => (
+              <div key={i} onClick={() => setSeason(season)}>
+                {season.name ?? `Season ${i + 1}`}
+              </div>
+            ))}
+          </div>
 
-          <div>Rules</div>
+          {season && (
+            <>
+              <Rules rules={season.rules} />
 
-          <div>Leaderboard</div>
+              <Leaderboard season={season} />
 
-          <div>Games per season</div>
+              <Games games={season.games} year={season.year} />
+            </>
+          )}
         </>
       )}
     </Container>

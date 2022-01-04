@@ -1,13 +1,19 @@
-[ {
-  "games" : [ {
-    "date" : "2022-01-02",
-    "players" : {
-      "Gary" : "Eldrazi",
-      "Inderpreet" : "Something tribal",
-      "Richard" : "Big mana"
-    },
-    "winner" : "Inderpreet"
-  } ],
-  "name" : "Some name (optional)",
-  "rules" : [ "BAN: Something", "GENERAL: Something in general" ]
-} ]
+[
+  {
+    "games": [
+      {
+        "day": 3,
+        "month": 1,
+        "players": {
+          "Gary": "Eldrazi",
+          "Inderpreet": "Something tribal",
+          "Richard": "Big mana"
+        },
+        "winner": "Inderpreet"
+      }
+    ],
+    "name": "Some name",
+    "rules": ["BAN: Something", "GENERAL: Something in general"],
+    "year": 2022
+  }
+]
