@@ -14,7 +14,13 @@ const Rules: React.FC<RulesProps> = ({ rules }) => {
         const type = t as RuleType
 
         return (
-          <div key={i} style={{ color: type === 'BAN' ? 'red' : 'green' }}>
+          <div
+            key={i}
+            style={{
+              color:
+                type === 'BAN' ? 'red' : type === 'GENERAL' ? 'green' : 'white'
+            }}
+          >
             {text}
           </div>
         )
