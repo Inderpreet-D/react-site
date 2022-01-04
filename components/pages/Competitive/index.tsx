@@ -16,7 +16,7 @@ export type Game = {
   month: number
   day: number
   players: PlayerObj
-  winner: string
+  winner?: string
 }
 
 export interface Season {

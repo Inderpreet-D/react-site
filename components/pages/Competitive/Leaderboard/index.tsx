@@ -8,7 +8,9 @@ const extractLeaderboard = (season: Season): { [x: string]: number } => {
   const wins = new Map<string, number>()
 
   season.games.forEach(game => {
-    wins.set(game.winner, (wins.get(game.winner) ?? 0) + 1)
+    if (game.winner) {
+      wins.set(game.winner, (wins.get(game.winner) ?? 0) + 1)
+    }
   })
 
   const winsObj = [...wins.entries()].reduce((prev, [name, val]) => {

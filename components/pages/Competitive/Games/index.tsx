@@ -28,7 +28,7 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
             </div>
           ))}
 
-          <div>Winner: {game.winner}</div>
+          <div>Winner: {game.winner ?? 'DRAW/STALEMATE'}</div>
         </>
       )}
     </>
