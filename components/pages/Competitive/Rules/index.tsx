@@ -10,7 +10,7 @@ const Rules: React.FC<RulesProps> = ({ rules }) => {
       <div>Rules</div>
 
       {rules.map((rule, i) => {
-        const [t, text] = rule.split(':').map(s => s.trim())
+        const [t, text] = rule.split('::')
         const type = t as RuleType
 
         return (
