@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import breakpoints from "../../../utilities/breakpoints";
+import breakpoints from '../../../utilities/breakpoints'
 
 const StyledHolder = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ const StyledHolder = styled.div`
   cursor: pointer;
 
   user-select: none;
-`;
+`
 
 const StyledLink = styled.div`
   justify-content: center;
@@ -17,7 +17,7 @@ const StyledLink = styled.div`
 
   display: flex;
 
-  transition: all 0.75s;
+  transition: all 750ms;
 
   border: 0.25rem solid transparent;
   box-sizing: border-box;
@@ -41,6 +41,11 @@ const StyledLink = styled.div`
 
       background-color: ${({ theme }) => theme.background};
     }
+
+    &:hover {
+      padding-bottom: 0.75rem;
+      transition: all 250ms;
+    }
   }
 
   @media ${breakpoints.mobile}, ${breakpoints.tablet} {
@@ -53,6 +58,6 @@ const StyledLink = styled.div`
       background-color: ${({ theme }) => theme.backgroundLight};
     }
   }
-`;
+`
 
-export { StyledHolder, StyledLink };
+export { StyledHolder, StyledLink }

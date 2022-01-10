@@ -1,15 +1,15 @@
-import Link from 'next/link'
+import NextLink from 'next/link'
 
-import { StyledErrorBox, StyledLink } from './styles'
+import { ErrorBox, Link } from './styles'
 
 const Page = () => (
-  <StyledErrorBox>
+  <ErrorBox>
     <h1>Page Not Found</h1>
 
-    <Link href='/' replace passHref>
-      <StyledLink>Go back home</StyledLink>
-    </Link>
-  </StyledErrorBox>
+    <NextLink href='/' replace passHref>
+      <Link>Go back home</Link>
+    </NextLink>
+  </ErrorBox>
 )
 
 export default Page

@@ -1,6 +1,6 @@
 import { PropType } from '../types'
 
-import { RecipeSection } from '../styles'
+import ContainerSection from '../../../atoms/ContainerSection'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
 import { ListItem, NormalListItem } from './styles'
@@ -12,7 +12,7 @@ const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
   } = useRecipeState()
 
   return (
-    <RecipeSection>
+    <ContainerSection>
       {ingredients.map(ing => {
         const key = `${ing.amount}-${ing.type}`
 
@@ -30,7 +30,7 @@ const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
       <NormalListItem>Bake at: {bake}</NormalListItem>
 
       <NormalListItem>Makes: {makes}</NormalListItem>
-    </RecipeSection>
+    </ContainerSection>
   )
 }
 
