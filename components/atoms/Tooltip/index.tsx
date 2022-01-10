@@ -1,5 +1,5 @@
 import Portal from '../Portal'
-import { Host, Tip, Arrow } from './styles'
+import { Host, Tip } from './styles'
 
 type TooltipProps = {
   content: React.ReactNode

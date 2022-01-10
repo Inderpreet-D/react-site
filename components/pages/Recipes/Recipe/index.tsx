@@ -1,9 +1,10 @@
 import { PropType as PPT } from '../types'
 
+import ContainerSection from '../../../atoms/ContainerSection'
+
 import { ListItem } from '../Ingredients/styles'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
-import { RecipeSection } from '../styles'
 
 type PropType = PPT & {
   index: number
@@ -16,7 +17,7 @@ const Recipe = ({ recipe: { pages }, index }: PropType) => {
   } = useRecipeState()
 
   return (
-    <RecipeSection>
+    <ContainerSection>
       {pages[index].map(line => (
         <ListItem
           key={line}
@@ -26,7 +27,7 @@ const Recipe = ({ recipe: { pages }, index }: PropType) => {
           {line}
         </ListItem>
       ))}
-    </RecipeSection>
+    </ContainerSection>
   )
 }
 

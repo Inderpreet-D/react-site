@@ -1,7 +1,12 @@
+import { isEqual } from 'lodash'
+
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
+import HorizontalList from '../../atoms/HorizontalList'
+import HorizontalListButton from '../../atoms/HorizontalListButton'
+import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
 import Rules from './Rules'
 import Games from './Games'
 import Leaderboard from './Leaderboard'
@@ -41,19 +46,29 @@ const Page = () => {
         <LoadingIcon />
       ) : (
         <>
-          <div>
-            {seasons.map((season, i) => (
-              <div key={i} onClick={() => setSeason(season)}>
-                {season.name ?? `Season ${i + 1}`}
-              </div>
+          <HorizontalList>
+            {seasons.map((s, i) => (
+              <HorizontalListButton
+                key={i}
+                active={isEqual(s, season)}
+                onClick={() => setSeason(old => (isEqual(old, s) ? null : s))}
+              >
+                {s.name ?? `Season ${i + 1}`}
+              </HorizontalListButton>
             ))}
-          </div>
+          </HorizontalList>
+
+          <ContainerSectionSeparator />
 
           {season && (
             <>
               <Rules rules={season.rules} />
 
+              <ContainerSectionSeparator />
+
               <Games games={season.games} year={season.year} />
+
+              <ContainerSectionSeparator />
 
               <Leaderboard season={season} />
             </>

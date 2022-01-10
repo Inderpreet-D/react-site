@@ -1,4 +1,17 @@
+import {
+  ResponsiveContainer,
+  BarChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Bar
+} from 'recharts'
+import { useTheme } from 'styled-components'
+
 import { Season } from '..'
+
+import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
+import TT from './TT'
 
 type LeaderboardProps = {
   season: Season
@@ -21,19 +34,33 @@ const extractLeaderboard = (season: Season): { [x: string]: number } => {
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ season }) => {
+  const theme = useTheme()
+
   const leaderboard = React.useMemo(() => extractLeaderboard(season), [season])
+
+  const data = React.useMemo(() => {
+    const entries = Object.entries(leaderboard)
+    const formatted = entries.map(([name, Win]) => ({ name, Win }))
+    return formatted
+  }, [leaderboard])
 
   return (
     <>
-      <div>Leaderboard</div>
+      <ContainerSubTitle style={{ marginBottom: '1rem' }}>
+        Leaderboard
+      </ContainerSubTitle>
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {Object.entries(leaderboard).map(([name, wins], i) => (
-          <div key={i}>
-            {name} =&gt; {wins}
-          </div>
-        ))}
-      </div>
+      <ResponsiveContainer width='100%' aspect={2}>
+        <BarChart data={data} width={500} height={300}>
+          <XAxis dataKey='name' />
+
+          <YAxis allowDecimals={false} />
+
+          <Tooltip content={<TT />} />
+
+          <Bar dataKey='Win' fill={theme.foregroundDark} />
+        </BarChart>
+      </ResponsiveContainer>
     </>
   )
 }

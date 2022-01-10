@@ -28,5 +28,3 @@ export const Tip = styled.div<TipProps>`
       background-color: ${({ theme }) => theme.background};
     `}
 `
-
-export const Arrow = styled.div``

@@ -1,4 +1,6 @@
-import Markdown from '../../../atoms/Markdown'
+import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
+
+import { OrderedList, BanItem, GeneralItem, Markdown } from './styles'
 
 type RulesProps = {
   rules: string[]
@@ -11,18 +13,21 @@ const TYPE_SEPARATOR = '::'
 const Rules: React.FC<RulesProps> = ({ rules }) => {
   return (
     <>
-      <div>Rules</div>
+      <ContainerSubTitle>Rules</ContainerSubTitle>
 
-      {rules.map((rule, i) => {
-        const [t, text] = rule.split(TYPE_SEPARATOR)
-        const type = t as RuleType
+      <OrderedList>
+        {rules.map((rule, i) => {
+          const [t, text] = rule.split(TYPE_SEPARATOR)
+          const type = t as RuleType
+          const Item = type === 'BAN' ? BanItem : GeneralItem
 
-        return (
-          <div key={i} style={{ color: type === 'BAN' ? 'red' : 'white' }}>
-            <Markdown markdown={text} />
-          </div>
-        )
-      })}
+          return (
+            <Item key={i}>
+              <Markdown markdown={text} />
+            </Item>
+          )
+        })}
+      </OrderedList>
     </>
   )
 }

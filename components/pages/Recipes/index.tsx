@@ -1,9 +1,11 @@
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import RecipeBlock from './RecipeBlock'
+import HorizontalList from '../../atoms/HorizontalList'
+import HorizontalListButton from '../../atoms/HorizontalListButton'
+import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
 
 import { useRecipeState } from '../../../providers/RecipeStateProvider'
-import { RecipeList, RecipeItem, Separator } from './styles'
 
 import recipes from './Data'
 
@@ -30,9 +32,9 @@ const Page = () => {
     <Container>
       <ContainerTitle>Recipes</ContainerTitle>
 
-      <RecipeList>
+      <HorizontalList>
         {Object.keys(recipes).map(name => (
-          <RecipeItem
+          <HorizontalListButton
             key={name}
             active={[selected, hovering].includes(name)}
             onClick={toggleSelect(name)}
@@ -40,11 +42,11 @@ const Page = () => {
             onMouseLeave={() => setHovering('')}
           >
             {name}
-          </RecipeItem>
+          </HorizontalListButton>
         ))}
-      </RecipeList>
+      </HorizontalList>
 
-      <Separator />
+      <ContainerSectionSeparator />
 
       {selected && <RecipeBlock recipe={recipes[selected]} />}
     </Container>
