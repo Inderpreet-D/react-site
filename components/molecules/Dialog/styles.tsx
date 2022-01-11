@@ -41,13 +41,13 @@ const StyledActions = styled.div`
 const StyledBackdrop = styled.div`
   position: absolute;
   z-index: 1;
-  top: 0;
-  left: 0;
 
   opacity: 0.75;
 
-  width: 100vw;
-  height: 100vh;
+  width: 2000vw;
+  height: 2000vh;
+
+  transform: translate(-50%, -50%);
 
   background-color: ${({ theme }) => theme.background};
 `
