@@ -7,7 +7,14 @@ import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
 import HorizontalList from '../../../atoms/HorizontalList'
 import HorizontalListButton from '../../../atoms/HorizontalListButton'
 
-import { Table, HeaderRow, Row, HeaderCell, DataCell } from './styles'
+import {
+  TableHolder,
+  Table,
+  HeaderRow,
+  Row,
+  HeaderCell,
+  DataCell
+} from './styles'
 
 type GamesProps = {
   games: Game[]
@@ -107,47 +114,49 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
       </HorizontalList>
 
       {game && (
-        <Table>
-          <thead>
-            <HeaderRow>
-              <HeaderCell>Player</HeaderCell>
+        <TableHolder>
+          <Table>
+            <thead>
+              <HeaderRow>
+                <HeaderCell>Player</HeaderCell>
 
-              <HeaderCell>Commander</HeaderCell>
+                <HeaderCell>Commander</HeaderCell>
 
-              {showTheme && <HeaderCell>Theme</HeaderCell>}
+                {showTheme && <HeaderCell>Theme</HeaderCell>}
 
-              {showTribe && <HeaderCell>Tribe</HeaderCell>}
+                {showTribe && <HeaderCell>Tribe</HeaderCell>}
 
-              {showCompanion && <HeaderCell>Companion</HeaderCell>}
-            </HeaderRow>
-          </thead>
+                {showCompanion && <HeaderCell>Companion</HeaderCell>}
+              </HeaderRow>
+            </thead>
 
-          <tbody>
-            {Object.entries(game.players).map(data => {
-              const [name, deck] = data
-              const {
-                commander,
-                theme = 'N/A',
-                tribe = 'N/A',
-                companion = 'N/A'
-              } = extractDeckData(deck)
+            <tbody>
+              {Object.entries(game.players).map(data => {
+                const [name, deck] = data
+                const {
+                  commander,
+                  theme = 'N/A',
+                  tribe = 'N/A',
+                  companion = 'N/A'
+                } = extractDeckData(deck)
 
-              return (
-                <Row key={name} winner={name === game.winner}>
-                  <DataCell>{name}</DataCell>
+                return (
+                  <Row key={name} winner={name === game.winner}>
+                    <DataCell>{name}</DataCell>
 
-                  <DataCell>{commander}</DataCell>
+                    <DataCell>{commander}</DataCell>
 
-                  {showTheme && <DataCell>{theme}</DataCell>}
+                    {showTheme && <DataCell>{theme}</DataCell>}
 
-                  {showTribe && <DataCell>{tribe}</DataCell>}
+                    {showTribe && <DataCell>{tribe}</DataCell>}
 
-                  {showCompanion && <DataCell>{companion}</DataCell>}
-                </Row>
-              )
-            })}
-          </tbody>
-        </Table>
+                    {showCompanion && <DataCell>{companion}</DataCell>}
+                  </Row>
+                )
+              })}
+            </tbody>
+          </Table>
+        </TableHolder>
       )}
     </>
   )

@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import breakpoints from "../../../utilities/breakpoints";
+import breakpoints from '../../../utilities/breakpoints'
 
 const StyledHeader = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const StyledHeader = styled.div`
   box-sizing: border-box;
 
   background-color: ${({ theme }) => theme.backgroundLight};
-`;
+`
 
 const StyledDesktopItems = styled.div`
   display: none;
@@ -19,14 +19,14 @@ const StyledDesktopItems = styled.div`
   @media ${breakpoints.laptop}, ${breakpoints.desktop} {
     display: flex;
   }
-`;
+`
 
 const StyledMobileItems = styled.div`
   display: none;
 
-  @media ${breakpoints.mobile}, ${breakpoints.tablet} {
+  @media ${breakpoints.base}, ${breakpoints.mobile}, ${breakpoints.tablet} {
     display: flex;
   }
-`;
+`
 
-export { StyledHeader, StyledDesktopItems, StyledMobileItems };
+export { StyledHeader, StyledDesktopItems, StyledMobileItems }

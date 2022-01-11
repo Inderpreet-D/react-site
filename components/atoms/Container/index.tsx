@@ -13,15 +13,11 @@ export default styled.div`
 
   background-color: ${({ theme }) => theme.backgroundLight};
 
-  @media ${breakpoints.mobile} {
-    width: 80%;
-  }
-
-  @media ${breakpoints.tablet} {
-    width: calc(55% + (2 * calc(25% / 3)));
+  @media ${breakpoints.base}, ${breakpoints.mobile}, ${breakpoints.tablet} {
+    width: 100%;
   }
 
   @media ${breakpoints.laptop} {
-    width: calc(55% + calc(25% / 3));
+    width: calc(55% + calc(45% / 2));
   }
 `

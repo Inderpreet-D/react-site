@@ -1,10 +1,11 @@
 import { Size, Breakpoints, ScreenTypes } from './types'
 
 const size: Size = {
-  mobile: ['20rem', '30rem'],
-  tablet: ['30.0625rem', '48rem'],
-  laptop: ['48.0625rem', '64rem'],
-  desktop: ['64.0625rem']
+  base: ['0px', '319px'],
+  mobile: ['320px', '480px'],
+  tablet: ['481px', '768px'],
+  laptop: ['769px', '1024px'],
+  desktop: ['1025px']
 }
 
 const breakpoints: Breakpoints = Object.keys(size).reduce((prev, key) => {

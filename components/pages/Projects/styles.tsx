@@ -15,7 +15,7 @@ const StyledGrid = styled.div`
     grid-template-columns: auto auto;
   }
 
-  @media ${breakpoints.mobile} {
+  @media ${breakpoints.base}, ${breakpoints.mobile} {
     grid-template-columns: auto;
   }
 `

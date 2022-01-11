@@ -48,7 +48,7 @@ const StyledLink = styled.div`
     }
   }
 
-  @media ${breakpoints.mobile}, ${breakpoints.tablet} {
+  @media ${breakpoints.base}, ${breakpoints.mobile}, ${breakpoints.tablet} {
     &:hover,
     &:active,
     &.active {
