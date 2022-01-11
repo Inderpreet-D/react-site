@@ -46,7 +46,7 @@ const StyledContainer = styled.div`
     grid-template-columns: auto;
   }
 
-  @media ${breakpoints.mobile} {
+  @media ${breakpoints.base}, ${breakpoints.mobile} {
     flex-direction: column;
 
     display: flex;
