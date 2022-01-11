@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components'
 
+export const TableHolder = styled.div`
+  overflow-x: auto;
+`
+
 export const Table = styled.table`
   margin: 1rem 0;
   width: 100%;

@@ -41,7 +41,8 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ season }) => {
   const data = React.useMemo(() => {
     const entries = Object.entries(leaderboard)
     const formatted = entries.map(([name, Win]) => ({ name, Win }))
-    return formatted
+    const sorted = formatted.sort((a, b) => a.name.localeCompare(b.name))
+    return sorted
   }, [leaderboard])
 
   return (
@@ -50,17 +51,29 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ season }) => {
         Leaderboard
       </ContainerSubTitle>
 
-      <ResponsiveContainer width='100%' aspect={2}>
-        <BarChart data={data} width={500} height={300}>
-          <XAxis dataKey='name' />
+      <div style={{ width: '100%', height: '300px' }}>
+        <ResponsiveContainer>
+          <BarChart
+            data={data}
+            width={500}
+            height={300}
+            margin={{
+              top: 0,
+              right: 16,
+              left: -32,
+              bottom: 0
+            }}
+          >
+            <XAxis dataKey='name' />
 
-          <YAxis allowDecimals={false} />
+            <YAxis allowDecimals={false} />
 
-          <Tooltip content={<TT />} />
+            <Tooltip content={<TT />} />
 
-          <Bar dataKey='Win' fill={theme.foregroundDark} />
-        </BarChart>
-      </ResponsiveContainer>
+            <Bar dataKey='Win' fill={theme.foregroundDark} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </>
   )
 }
