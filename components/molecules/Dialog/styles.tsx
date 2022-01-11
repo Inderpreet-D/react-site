@@ -11,7 +11,7 @@ const StyledDialog = styled(Container)<DialogProps>`
   top: 50%;
   left: 50%;
 
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 
   width: ${({ width }) => width};
 `
