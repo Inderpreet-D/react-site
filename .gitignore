@@ -33,4 +33,8 @@ yarn-error.log*
 # vercel
 .vercel
 
+# for this app
 .env
+components/pages/Competitive/react-site-inder-competitive-export.json
+components/pages/Competitive/save.json
+components/pages/Competitive/test.ts
