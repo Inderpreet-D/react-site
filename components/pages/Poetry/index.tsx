@@ -46,7 +46,7 @@ const Page = () => {
         <StyledError>An error occurred, please try again later.</StyledError>
       ) : (
         <>
-          <StyledLink href={poem?.url!} target='_blank'>
+          <StyledLink href={poem?.url!} target='_blank' data-cy='title'>
             {poem?.name}
           </StyledLink>
 

@@ -1,6 +1,7 @@
+import { DivPropsWithoutRef } from 'react-html-props'
 import styled from 'styled-components'
 
-const ContainerTitle = styled.div`
+const StyledTitle = styled.div`
   margin-bottom: 1.25rem;
 
   font-size: 2.125rem;
@@ -9,5 +10,9 @@ const ContainerTitle = styled.div`
   text-align: center;
   letter-spacing: 0.00735em;
 `
+
+const ContainerTitle: React.FC<DivPropsWithoutRef> = props => (
+  <StyledTitle {...props} data-cy='title' />
+)
 
 export default ContainerTitle
