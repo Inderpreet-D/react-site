@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-const getTitle = () => cy.get('div[class^="ContainerTitle"')
+const getTitle = () => cy.get('[data-cy=title]')
 
 describe('Navigation', () => {
   beforeEach(() => {
@@ -74,7 +74,7 @@ describe('Navigation', () => {
 
     cy.title().should('equal', 'Poetry')
 
-    cy.get('a').should('have.text', 'Poem Title')
+    cy.get('[data-cy=title]').should('have.text', 'Poem Title')
   })
 
   // Recipes
