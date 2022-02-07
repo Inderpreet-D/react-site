@@ -13,14 +13,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Create env file
         run: |
-          touch src/.env.local
+          touch .env.local
           echo REACT_APP_API_URI=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env.local
           echo REACT_APP_CHAT_HOST=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env.local
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           start: yarn dev
-          working-directory: src
+          working-directory: /
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120 
           browser: chrome
