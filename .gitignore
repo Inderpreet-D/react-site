@@ -38,3 +38,7 @@ yarn-error.log*
 components/pages/Competitive/react-site-inder-competitive-export.json
 components/pages/Competitive/save.json
 components/pages/Competitive/test.ts
+
+# Cypress config
+cypress/screenshots
+cypress/videso
