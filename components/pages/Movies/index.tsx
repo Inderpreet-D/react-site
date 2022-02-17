@@ -6,26 +6,38 @@ import LoadingIcon from '../../atoms/LoadingIcon'
 import useSWR from '../../../hooks/useSWR'
 
 const Page = () => {
-  const { data: movies, isLoading } = useSWR<string[]>('movies')
+  const { data: moviesList, isLoading: isLoadingMovies } = useSWR<string[]>(
+    'movies'
+  )
 
   const [movie, setMovie] = React.useState<null | string>(null)
 
+  const { data: movieInfo } = useSWR<any>(() => {
+    if (!movie) {
+      return null
+    }
+
+    return `/movies/${movie}`
+  })
+
   const pickMovie = React.useCallback(() => {
-    const idx = Math.floor(Math.random() * movies.length)
-    setMovie(movies[idx])
-  }, [movies])
+    const idx = Math.floor(Math.random() * moviesList.length)
+    setMovie(moviesList[idx])
+  }, [moviesList])
 
   return (
     <Container>
       <ContainerTitle>Movie Picker</ContainerTitle>
 
-      {isLoading ? (
-        <LoadingIcon />
-      ) : (
-        <Button onClick={pickMovie}>Get Movie</Button>
-      )}
+      <Button onClick={pickMovie} disabled={isLoadingMovies}>
+        Get Movie
+      </Button>
+
+      {isLoadingMovies && <LoadingIcon />}
 
       {movie && <Movie>{movie}</Movie>}
+
+      {movieInfo && <div>{JSON.stringify(movieInfo)}</div>}
     </Container>
   )
 }
