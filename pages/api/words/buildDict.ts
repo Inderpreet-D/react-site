@@ -20,7 +20,7 @@ const allWords = fs.readFileSync(inputFile).toString() as string
 
 // Filter words by length
 const words = allWords
-  .split('\r\n')
+  .split('\n')
   .filter(word => Boolean(word) && word.length > 1)
 console.log({ words: words.length })
 
