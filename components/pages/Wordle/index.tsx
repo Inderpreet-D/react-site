@@ -1,3 +1,8 @@
+import Container from '../../atoms/Container'
+import ContainerTitle from '../../atoms/ContainerTitle'
+import LoadingIcon from '../../atoms/LoadingIcon'
+import Select from '../../atoms/Select'
+
 import useSWR from '../../../hooks/useSWR'
 
 const Page = () => {
@@ -17,16 +22,22 @@ const Page = () => {
   )
 
   return (
-    <>
-      {!isLoadingOptions &&
-        options.map(num => (
-          <div key={num} onClick={() => setLength(num)}>
-            {num}
-          </div>
-        ))}
+    <Container>
+      <ContainerTitle>Wordle</ContainerTitle>
+
+      {isLoadingOptions ? (
+        <LoadingIcon />
+      ) : (
+        <Select
+          label='Word Length'
+          options={options.map(opt => `${opt}`)}
+          value={length}
+          onChange={e => setLength(+e.target.value)}
+        />
+      )}
 
       <div>{isLoadingWord ? 'Loading...' : `Word is ${word.word}`}</div>
-    </>
+    </Container>
   )
 }
 
