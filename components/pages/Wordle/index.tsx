@@ -1,7 +1,8 @@
+import { StyledSelect, StyledHolder } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
-import Select from '../../atoms/Select'
+import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
 
@@ -13,7 +14,7 @@ const Page = () => {
   )
   const { data: word, isLoading: isLoadingWord } = useSWR<{ word: string }>(
     () => {
-      if (!length || isLoadingOptions) {
+      if (!length || isLoadingOptions || word) {
         return null
       }
 
@@ -25,18 +26,22 @@ const Page = () => {
     <Container>
       <ContainerTitle>Wordle</ContainerTitle>
 
-      {isLoadingOptions ? (
-        <LoadingIcon />
-      ) : (
-        <Select
-          label='Word Length'
-          options={options.map(opt => `${opt}`)}
-          value={length}
-          onChange={e => setLength(+e.target.value)}
-        />
-      )}
+      <StyledHolder>
+        {isLoadingOptions ? (
+          <LoadingIcon />
+        ) : (
+          <StyledSelect
+            label='Word Length'
+            options={options.map(opt => `${opt}`)}
+            value={length}
+            onChange={e => setLength(+e.target.value)}
+          />
+        )}
 
-      <div>{isLoadingWord ? 'Loading...' : `Word is ${word.word}`}</div>
+        <div>{isLoadingWord ? 'Loading...' : `Word is ${word.word}`}</div>
+
+        <WordleBoard />
+      </StyledHolder>
     </Container>
   )
 }
