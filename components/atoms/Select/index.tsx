@@ -69,7 +69,13 @@ const Select: SelectProps = ({
         className={className}
         ref={containerRef}
       >
-        <StyledLabel>{label}</StyledLabel>
+        <StyledLabel
+          onClick={e => {
+            toggleOpen((e as unknown) as MouseEvent)
+          }}
+        >
+          {label}
+        </StyledLabel>
 
         <StyledSelect>{value}</StyledSelect>
 

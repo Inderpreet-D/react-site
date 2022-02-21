@@ -19,6 +19,10 @@ const WordleStateProvider: React.FC = ({ children }) => {
     dispatch({ type: 'MAKE_GUESS', guess })
   }, [])
 
+  React.useEffect(() => {
+    console.log({ state })
+  }, [state])
+
   return (
     <WordleStateContext.Provider value={{ state, startGame, makeGuess }}>
       {children}

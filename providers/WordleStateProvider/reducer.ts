@@ -3,10 +3,14 @@ import { Handler, ReducerFunc } from '../../shared/reducer'
 const handleStart: Func = (_state, action) => {
   const { word } = action as { word: string }
 
+  const fixedWord = word.trim().toLocaleLowerCase()
+  const wordLen = fixedWord.length
+
   return {
     ...initialState,
-    word: word.trim().toLocaleLowerCase(),
-    maxRound: word.length + 1,
+    word: fixedWord,
+    wordLength: wordLen,
+    maxRound: wordLen + 1,
     started: true
   }
 }
@@ -36,6 +40,7 @@ const handleMakeGuess: Func = (state, action) => {
 
 export type State = {
   word: string
+  wordLength: number
   guesses: string[]
   round: number
   maxRound: number
