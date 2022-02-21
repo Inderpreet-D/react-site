@@ -51,7 +51,7 @@ const projects: Project[] = [
     title: 'Treachery App',
     description:
       'A web app, built in React, for randomly assigning and viewing roles in the Treachery variant of EDH.',
-    href: '/treachery',
+    href: '/mtg/treachery',
     hrefTitle: 'Go to Treachery'
   },
   {
@@ -69,7 +69,7 @@ const projects: Project[] = [
   {
     title: 'Toad Village',
     description: 'Helps convert MTG decklists for use with Tabletop Simulator',
-    href: '/toadvillage',
+    href: '/mtg/toadvillage',
     hrefTitle: 'Go to Toad Village'
   },
   {
