@@ -34,19 +34,19 @@ const projects: Project[] = [
   //   href: '/mtgdb',
   //   hrefTitle: 'Go to MagicDB'
   // },
-  {
-    title: 'ART 321 Site',
-    description: 'My website for a Net Art course I took in University.',
-    href: 'http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/ART321/index.html',
-    hrefTitle: 'View ART 321'
-  },
-  {
-    title: 'SENG 513 Site',
-    description: 'Projects for a course in web applications.',
-    href:
-      'http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/SENG513/index.html',
-    hrefTitle: 'View SENG 513'
-  },
+  // {
+  //   title: 'ART 321 Site',
+  //   description: 'My website for a Net Art course I took in University.',
+  //   href: 'http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/ART321/index.html',
+  //   hrefTitle: 'View ART 321'
+  // },
+  // {
+  //   title: 'SENG 513 Site',
+  //   description: 'Projects for a course in web applications.',
+  //   href:
+  //     'http://pages.cpsc.ucalgary.ca/~inderpreet.dhillon/SENG513/index.html',
+  //   hrefTitle: 'View SENG 513'
+  // },
   {
     title: 'Treachery App',
     description:
