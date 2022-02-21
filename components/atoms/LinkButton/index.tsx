@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
-import StyledLink from './styles'
-import Button from '../Button'
+import { StyledLink, StyledButton } from './styles'
 
 type LinkButtonProps = {
   href: string
@@ -10,16 +9,14 @@ type LinkButtonProps = {
 }
 
 const LinkButton: React.FC<LinkButtonProps> = ({ href, title, className }) => {
-  const linkRef = React.useRef<HTMLAnchorElement>(null)
+  const isExternal = !href.startsWith('/')
 
   return (
-    <Button onClick={() => linkRef.current?.click()} className={className}>
-      <Link href={href} passHref>
-        <StyledLink ref={linkRef} target={href.startsWith('/') ? '' : '_blank'}>
-          {title}
-        </StyledLink>
-      </Link>
-    </Button>
+    <Link href={href} passHref>
+      <StyledLink target={isExternal ? '' : '_blank'}>
+        <StyledButton className={className}>{title}</StyledButton>
+      </StyledLink>
+    </Link>
   )
 }
 
