@@ -4,7 +4,7 @@ import breakpoints from '../../../utilities/breakpoints'
 
 const StyledGrid = styled.div`
   align-content: space-between;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 
   display: grid;
