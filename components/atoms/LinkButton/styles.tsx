@@ -1,11 +1,15 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
-const StyledLink = styled.a`
+import Button from '../Button'
+
+export const StyledLink = styled.a`
   color: ${({ theme }) => theme.text};
 
   &:visited {
     color: ${({ theme }) => theme.foreground};
   }
-`;
+`
 
-export default StyledLink;
+export const StyledButton = styled(Button)`
+  text-decoration: underline;
+`
