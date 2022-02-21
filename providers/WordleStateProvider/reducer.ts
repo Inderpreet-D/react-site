@@ -57,6 +57,7 @@ type Func = ReducerFunc<State, Action>
 
 export const initialState: State = {
   word: '',
+  wordLength: 0,
   guesses: [],
   round: 0,
   maxRound: 1,
