@@ -1,10 +1,10 @@
+import { Controls } from './styles'
 import Container from '../../atoms/Container'
 import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
 import Canvas from '../../atoms/Canvas'
 
 import { useLife } from '../../../providers/LifeProvider'
-import { Controls } from './styles'
 
 const DELAY = 10
 
@@ -58,11 +58,10 @@ const GoL = () => {
       setRunning(false)
 
       const elem = e.target as HTMLCanvasElement
-      const elemLeft = elem.offsetLeft + elem.clientLeft
-      const elemTop = elem.offsetTop + elem.clientTop
 
-      const x = e.pageX - elemLeft
-      const y = e.pageY - elemTop
+      const rect = elem.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
       const cellWidth = elem.width / width
       const cellHeight = elem.height / height
