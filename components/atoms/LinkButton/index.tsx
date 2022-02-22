@@ -9,11 +9,9 @@ type LinkButtonProps = {
 }
 
 const LinkButton: React.FC<LinkButtonProps> = ({ href, title, className }) => {
-  const isExternal = !href.startsWith('/')
-
   return (
     <Link href={href} passHref>
-      <StyledLink target={isExternal ? '' : '_blank'}>
+      <StyledLink>
         <StyledButton className={className}>{title}</StyledButton>
       </StyledLink>
     </Link>
