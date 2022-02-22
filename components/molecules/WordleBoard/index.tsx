@@ -44,7 +44,7 @@ const getCell = (
 }
 
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
-  const { state, makeGuess, startGame } = useWordleState()
+  const { state, makeGuess } = useWordleState()
 
   const inputRefs = React.useRef<(HTMLInputElement | null)[]>([])
   const [currentWord, setCurrentWord] = React.useState<string[]>(
