@@ -20,13 +20,9 @@ const handleMakeGuess: Func = (state, action) => {
 
   const fixedGuess = guess.trim().toLocaleLowerCase()
 
-  if (state.guesses.includes(fixedGuess)) {
-    return state
-  }
-
   const newGuesses = [...state.guesses, fixedGuess]
   const newRound = state.round + 1
-  const newDone = newRound === state.maxRound
+  const newDone = newRound === state.maxRound || fixedGuess === state.word
   const newWon = newGuesses.includes(state.word)
 
   return {

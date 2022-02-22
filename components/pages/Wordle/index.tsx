@@ -65,7 +65,7 @@ const Page = () => {
           />
         )}
 
-        <WordleBoard />
+        <WordleBoard reset={() => setFetched(false)} />
       </StyledHolder>
     </Container>
   )
