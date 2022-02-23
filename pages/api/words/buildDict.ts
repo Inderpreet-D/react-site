@@ -4,7 +4,10 @@ import fs from 'fs'
 
 import { outputFolder } from '.'
 
-const inputFile = './words_alpha.txt'
+const LOWER_LENGTH_LIMIT = 3
+const UPPER_LENGTH_LIMIT = 15
+const SPLIT = '\r\n'
+const INPUT_FILE = './words_alpha.txt'
 const getName = (key: string) => `${outputFolder}/${key}.json`
 
 type DictType = {
@@ -16,12 +19,17 @@ type CountType = {
 }
 
 // Loads all words
-const allWords = fs.readFileSync(inputFile).toString() as string
+const allWords = fs.readFileSync(INPUT_FILE).toString() as string
 
 // Filter words by length
 const words = allWords
-  .split('\n')
-  .filter(word => Boolean(word) && word.length > 1)
+  .split(SPLIT)
+  .filter(
+    word =>
+      Boolean(word) &&
+      word.length >= LOWER_LENGTH_LIMIT &&
+      word.length <= UPPER_LENGTH_LIMIT
+  )
 console.log({ words: words.length })
 
 // Dictionary filling
