@@ -1,20 +1,18 @@
 import { isEqual } from 'lodash'
 import { format as dateFormat } from 'date-fns'
 
-import { Game } from '..'
-
-import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
-import HorizontalList from '../../../atoms/HorizontalList'
-import HorizontalListButton from '../../../atoms/HorizontalListButton'
-
 import {
   TableHolder,
   Table,
   HeaderRow,
   Row,
   HeaderCell,
-  DataCell
+  DataCell,
+  GameGrid
 } from './styles'
+import { Game } from '..'
+import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
+import HorizontalListButton from '../../../atoms/HorizontalListButton'
 
 type GamesProps = {
   games: Game[]
@@ -101,17 +99,18 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
         Games
       </ContainerSubTitle>
 
-      <HorizontalList>
+      <GameGrid>
         {formattedGames.map((g, i) => (
           <HorizontalListButton
             key={i}
             active={isEqual(g, game)}
             onClick={() => setGame(old => (isEqual(old, g) ? null : g))}
+            style={{ minWidth: 'unset' }}
           >
             {getDate(g.date)}
           </HorizontalListButton>
         ))}
-      </HorizontalList>
+      </GameGrid>
 
       {game && (
         <TableHolder>
