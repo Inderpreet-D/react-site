@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 import {
   Container,
   Row,
@@ -10,7 +12,6 @@ import {
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
 import { useWordleState } from '../../../providers/WordleStateProvider'
-import { ChangeEvent, KeyboardEvent } from 'react'
 
 type WordleBoardProps = {
   reset: () => void
@@ -76,7 +77,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   }, [goNext])
 
   const handleChange = React.useCallback(
-    (cellIdx: number) => (e: ChangeEvent<HTMLInputElement>) => {
+    (cellIdx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentWord(old => {
         const copy = [...old]
         copy[cellIdx] = e.target.value
@@ -87,7 +88,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   )
 
   const handleKeyDown = React.useCallback(
-    (cellIdx: number) => (e: KeyboardEvent<HTMLInputElement>) => {
+    (cellIdx: number) => async (e: React.KeyboardEvent<HTMLInputElement>) => {
       const key = e.key
 
       if (key === 'Enter') {
@@ -97,7 +98,13 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         const lengthMatch = guess.length === state.wordLength
         const alreadyGuessed = state.guesses.includes(guess)
 
-        if (lengthMatch && !alreadyGuessed) {
+        // Check that the guess is a real word
+        const val = (await axios.get(`/api/words/valid/${guess}`)) as {
+          data: { valid: boolean }
+        }
+        const isValid = val.data.valid
+
+        if (lengthMatch && !alreadyGuessed && isValid) {
           makeGuess(guess)
           nextGuess()
         }
