@@ -130,8 +130,6 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
   return (
     <Container>
-      <div>{state.started ? `Word is ${state.word}` : 'Loading...'}</div>
-
       {new Array(state.maxRound).fill(0).map((_, rowIdx) => (
         <Row key={rowIdx}>
           {new Array(state.wordLength).fill(0).map((_, cellIdx) => {
