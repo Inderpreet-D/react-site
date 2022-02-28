@@ -174,20 +174,20 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
       ))}
 
       {state.done && (
-        <div>
-          Game over: {state.won ? 'You won' : `the word was '${state.word}'`}
-        </div>
-      )}
+        <>
+          <div>
+            Game over: {state.won ? 'You won' : `the word was '${state.word}'`}
+          </div>
 
-      {state.done && (
-        <div
-          onClick={() => {
-            focus()
-            reset()
-          }}
-        >
-          RESTART
-        </div>
+          <div
+            onClick={() => {
+              focus()
+              reset()
+            }}
+          >
+            RESTART
+          </div>
+        </>
       )}
 
       {/* Hidden input */}
