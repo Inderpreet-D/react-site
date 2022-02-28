@@ -40,12 +40,12 @@ const Cell = styled.div`
   font-weight: 700;
 `
 
-export const EmptyCell = styled(Cell)`
+type EmptyCellProps = {
+  current?: boolean
+}
+export const EmptyCell = styled(Cell)<EmptyCellProps>`
   background-color: transparent;
-
-  &:focus-within {
-    border-bottom: 1px solid white;
-  }
+  border-bottom: 1px solid ${({ current }) => (current ? 'white' : 'inherit')};
 `
 
 export const NormalCell = styled(Cell)`
@@ -58,17 +58,4 @@ export const CorrectCell = styled(Cell)`
 
 export const WrongPlaceCell = styled(Cell)`
   background-color: #ccac00;
-`
-
-export const Input = styled.input`
-  border: none;
-  outline: none;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  color: ${({ theme }) => theme.text};
-  font-size: 2rem;
-  font-family: 'Courier New', Courier, monospace;
-  font-weight: 700;
-  text-align: center;
 `

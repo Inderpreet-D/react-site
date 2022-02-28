@@ -6,8 +6,7 @@ import {
   EmptyCell,
   NormalCell,
   CorrectCell,
-  WrongPlaceCell,
-  Input
+  WrongPlaceCell
 } from './styles'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
@@ -47,85 +46,104 @@ const getCell = (
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   const { state, makeGuess } = useWordleState()
 
-  const inputRefs = React.useRef<(HTMLInputElement | null)[]>([])
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
   const [currentWord, setCurrentWord] = React.useState<string[]>(
     new Array(state.wordLength).fill('')
   )
-  const [goNext, setGoNext] = React.useState(-1)
+  const [currentIdx, setCurrentIdx] = React.useState(0)
 
   const nextGuess = React.useCallback(() => {
-    const first = inputRefs.current[0]
-    if (first) {
-      first.focus()
-    }
+    setCurrentIdx(0)
     setCurrentWord(new Array(state.wordLength).fill(''))
   }, [state.wordLength])
 
-  React.useEffect(() => {
-    nextGuess()
-    inputRefs.current = []
-  }, [nextGuess])
-
-  React.useEffect(() => {
-    if (goNext >= 0) {
-      setGoNext(-1)
-      const nextInput = inputRefs.current[goNext + 1]
-      if (nextInput) {
-        nextInput.focus()
-      }
+  const focus = React.useCallback(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
     }
-  }, [goNext])
+  }, [])
 
-  const handleChange = React.useCallback(
-    (cellIdx: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  React.useEffect(() => {
+    document.addEventListener('keydown', focus)
+
+    return () => {
+      document.removeEventListener('keydown', focus)
+    }
+  }, [focus])
+
+  const handleEnter = React.useCallback(async () => {
+    const word = currentWord.join('')
+    const guess = word.trim().toLocaleLowerCase()
+
+    const lengthMatch = guess.length === state.wordLength
+    const alreadyGuessed = state.guesses.includes(guess)
+
+    // Check that the guess is a real word
+    const val = (await axios.get(`/api/words/valid/${guess}`)) as {
+      data: { valid: boolean }
+    }
+    const isValid = val.data.valid
+
+    if (lengthMatch && !alreadyGuessed && isValid) {
+      makeGuess(guess)
+      nextGuess()
+    }
+  }, [currentWord, state.wordLength, state.guesses, makeGuess, nextGuess])
+
+  const handleBackspace = React.useCallback(() => {
+    setCurrentWord(old => {
+      const copy = [...old]
+      copy[currentIdx] = ''
+      return copy
+    })
+
+    setCurrentIdx(old => {
+      if (old === 0) {
+        return 0
+      }
+
+      return old - 1
+    })
+  }, [currentIdx])
+
+  const handleLetter = React.useCallback(
+    (key: string) => {
       setCurrentWord(old => {
         const copy = [...old]
-        copy[cellIdx] = e.target.value
+        copy[currentIdx] = key
         return copy
       })
+
+      setCurrentIdx(old => {
+        if (old === state.wordLength - 1) {
+          return state.wordLength - 1
+        }
+
+        return old + 1
+      })
     },
-    []
+    [currentIdx, state.wordLength]
   )
 
   const handleKeyDown = React.useCallback(
-    (cellIdx: number) => async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    async (e: React.KeyboardEvent<HTMLInputElement>) => {
       const key = e.key
 
-      if (key === 'Enter') {
-        const word = currentWord.join('')
-        const guess = word.trim().toLocaleLowerCase()
-
-        const lengthMatch = guess.length === state.wordLength
-        const alreadyGuessed = state.guesses.includes(guess)
-
-        // Check that the guess is a real word
-        const val = (await axios.get(`/api/words/valid/${guess}`)) as {
-          data: { valid: boolean }
-        }
-        const isValid = val.data.valid
-
-        if (lengthMatch && !alreadyGuessed && isValid) {
-          makeGuess(guess)
-          nextGuess()
-        }
-
+      if (key === 'Enter' && currentIdx === state.wordLength - 1) {
+        await handleEnter()
         return
       }
 
       if (key === 'Backspace') {
-        if (currentWord[cellIdx] === '') {
-          const prev = inputRefs.current[cellIdx - 1]
-          if (prev) {
-            prev.focus()
-          }
-        }
-
+        handleBackspace()
         return
       }
 
-      setGoNext(cellIdx)
+      if (key.length === 1 && key.match(/[a-zA-Z]/i)) {
+        handleLetter(key)
+      }
     },
-    [currentWord, state.wordLength, state.guesses, makeGuess, nextGuess]
+    [currentIdx, state.wordLength, handleEnter, handleBackspace, handleLetter]
   )
 
   return (
@@ -137,18 +155,15 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
             if (rowIdx === state.round) {
               return (
-                <EmptyCell key={key}>
-                  <Input
-                    ref={val => {
-                      inputRefs.current[cellIdx] = val
-                    }}
-                    value={(currentWord[cellIdx] ?? '').toLocaleUpperCase()}
-                    onChange={handleChange(cellIdx)}
-                    onKeyDown={handleKeyDown(cellIdx)}
-                    autoFocus={cellIdx === 0}
-                    maxLength={1}
-                    disabled={state.done}
-                  />
+                <EmptyCell
+                  key={key}
+                  current={cellIdx === currentIdx}
+                  onClick={() => {
+                    focus()
+                    setCurrentIdx(cellIdx)
+                  }}
+                >
+                  {(currentWord[cellIdx] ?? '').toLocaleUpperCase()}
                 </EmptyCell>
               )
             }
@@ -164,7 +179,31 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         </div>
       )}
 
-      {state.done && <div onClick={reset}>RESTART</div>}
+      {state.done && (
+        <div
+          onClick={() => {
+            focus()
+            reset()
+          }}
+        >
+          RESTART
+        </div>
+      )}
+
+      {/* Hidden input */}
+      <input
+        ref={inputRef}
+        value={currentWord.join('').toLocaleUpperCase()}
+        onKeyDown={handleKeyDown}
+        maxLength={state.wordLength}
+        disabled={state.done}
+        style={{
+          position: 'absolute',
+          zIndex: '-1'
+        }}
+        autoFocus
+        readOnly
+      />
     </Container>
   )
 }
