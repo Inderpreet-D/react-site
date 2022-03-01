@@ -43,6 +43,8 @@ const getCell = (
   return <NormalCell key={key}>{upper}</NormalCell>
 }
 
+const isAlphaKey = (key: string) => key.length === 1 && key.match(/[a-zA-Z]/i)
+
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   const { state, makeGuess } = useWordleState()
 
@@ -64,12 +66,38 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   }, [])
 
   React.useEffect(() => {
-    document.addEventListener('keydown', focus)
+    const onKey = (e: KeyboardEvent) => {
+      if (!inputRef.current) {
+        return
+      }
+
+      const focused = inputRef.current === document.activeElement
+      if (focused) {
+        return
+      }
+
+      inputRef.current.focus()
+
+      const key = e.key
+      if (!isAlphaKey(key)) {
+        setCurrentIdx(0)
+        return
+      }
+
+      setCurrentIdx(1)
+      setCurrentWord(old => {
+        const copy = [...old]
+        copy[0] = key
+        return copy
+      })
+    }
+
+    document.addEventListener('keydown', onKey)
 
     return () => {
-      document.removeEventListener('keydown', focus)
+      document.removeEventListener('keydown', onKey)
     }
-  }, [focus])
+  }, [])
 
   const handleEnter = React.useCallback(async () => {
     const word = currentWord.join('')
@@ -139,7 +167,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         return
       }
 
-      if (key.length === 1 && key.match(/[a-zA-Z]/i)) {
+      if (isAlphaKey(key)) {
         handleLetter(key)
       }
     },
