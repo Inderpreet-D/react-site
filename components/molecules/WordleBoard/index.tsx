@@ -8,6 +8,7 @@ import {
   CorrectCell,
   WrongPlaceCell
 } from './styles'
+import Button from '../../atoms/Button'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
 import { useWordleState } from '../../../providers/WordleStateProvider'
@@ -203,18 +204,21 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
       {state.done && (
         <>
-          <div>
-            Game over: {state.won ? 'You won' : `the word was '${state.word}'`}
+          <div style={{ margin: '1rem 0 1.5rem 0', fontSize: '1.5rem' }}>
+            Game over:{' '}
+            {state.won
+              ? 'You won'
+              : `the word was ${state.word.toLocaleUpperCase()}`}
           </div>
 
-          <div
+          <Button
             onClick={() => {
               focus()
               reset()
             }}
           >
-            RESTART
-          </div>
+            NEW GAME
+          </Button>
         </>
       )}
 
@@ -225,12 +229,12 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         onKeyDown={handleKeyDown}
         maxLength={state.wordLength}
         disabled={state.done}
+        onChange={() => {}}
         style={{
           position: 'absolute',
           zIndex: '-1'
         }}
         autoFocus
-        readOnly
       />
     </Container>
   )
