@@ -75,8 +75,15 @@ const projects: Project[] = [
   {
     title: 'Game of Life',
     description: "A simulation of Conway's Game of Life",
-    href: '/gol',
+    href: '/games/gol',
     hrefTitle: 'Go to the Game of Life'
+  },
+  {
+    title: 'Wordle',
+    description:
+      'A clone of the popular Wordle Game, but with a variable word length',
+    href: '/games/wordle',
+    hrefTitle: 'Play Wordle'
   }
 ]
 
