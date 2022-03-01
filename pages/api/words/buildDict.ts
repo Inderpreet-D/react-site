@@ -19,18 +19,18 @@ type CountType = {
   [x: number]: number
 }
 
+const filterWord = (word: string) => {
+  const isWord = Boolean(word)
+  const isCorrectLength =
+    word.length >= LOWER_LENGTH_LIMIT && word.length <= UPPER_LENGTH_LIMIT
+  return isWord && isCorrectLength
+}
+
 // Loads all words
 const allWords = fs.readFileSync(INPUT_FILE).toString() as string
 
 // Filter words by length
-const words = allWords
-  .split(SPLIT)
-  .filter(
-    word =>
-      Boolean(word) &&
-      word.length >= LOWER_LENGTH_LIMIT &&
-      word.length <= UPPER_LENGTH_LIMIT
-  )
+const words = allWords.split(SPLIT).filter(filterWord)
 console.log({ words: words.length })
 
 // Dictionary filling
