@@ -2,9 +2,9 @@ name: Run E2E Tests ⏳
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -14,14 +14,14 @@ jobs:
       - name: Create env file
         run: |
           touch .env.local
-          echo REACT_APP_API_URI=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env.local
-          echo REACT_APP_CHAT_HOST=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env.local
+          echo FIREBASE_PRIVATE_KEY=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env.local
+          echo FIREBASE_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env.local
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           start: yarn dev
           wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120 
+          wait-on-timeout: 120
           browser: chrome
           spec: cypress/integration/*.js
       - name: Upload Artifacts
