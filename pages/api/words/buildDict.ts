@@ -1,12 +1,13 @@
 // Run with: npx ts-node --skipProject buildDict.ts
 
 import fs from 'fs'
+import os from 'os'
 
 import { outputFolder } from '.'
 
 const LOWER_LENGTH_LIMIT = 3
 const UPPER_LENGTH_LIMIT = 15
-const SPLIT = '\r\n'
+const SPLIT = os.EOL
 const INPUT_FILE = './words_alpha.txt'
 const getName = (key: string) => `${outputFolder}/${key}.json`
 
