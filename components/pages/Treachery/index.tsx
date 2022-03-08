@@ -1,10 +1,5 @@
 import { Rarity } from '../../../shared/treachery'
-import {
-  CardResponse,
-  CreateResponse,
-  JoinResponse,
-  RoomResponse
-} from '../../../pages/api/treachery/types'
+import { CardResponse } from '../../../pages/api/treachery/types'
 
 import Main from './Main'
 import Room, { RoomState } from './Room'
@@ -16,7 +11,12 @@ import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
 
-import { treachery } from '../../../lib/api'
+import {
+  createRoom,
+  getCard,
+  joinRoom,
+  waitRoom
+} from '../../../lib/api/treachery'
 
 enum State {
   Main,
@@ -42,10 +42,7 @@ const Page = () => {
       return
     }
 
-    const data = await treachery<RoomResponse>({
-      action: 'room',
-      roomCode: roomState.roomCode
-    })
+    const data = await waitRoom(roomState.roomCode)
     const { currentPlayers, numPlayers } = data
 
     setRoomState(state => ({
@@ -58,11 +55,10 @@ const Page = () => {
       return
     }
 
-    const res = await treachery<CardResponse>({
-      action: 'card',
-      roomCode: roomState.roomCode,
-      id: window.sessionStorage.getItem('id')!
-    })
+    const res = await getCard(
+      roomState.roomCode,
+      window.sessionStorage.getItem('id')!
+    )
 
     setCardState(res)
     setState(State.Card)
@@ -99,11 +95,7 @@ const Page = () => {
 
       const id = window.sessionStorage.getItem('id')!
 
-      const data = await treachery<JoinResponse>({
-        action: 'join',
-        roomCode,
-        id
-      })
+      const data = await joinRoom(roomCode, id)
       const {
         error,
         currentPlayers,
@@ -131,11 +123,7 @@ const Page = () => {
     async (numPlayers: number, rarity: Rarity) => {
       startLoading()
 
-      const data = await treachery<CreateResponse>({
-        action: 'create',
-        numPlayers,
-        rarity
-      })
+      const data = await createRoom(numPlayers, rarity)
       const { roomCode, id } = data
 
       setRoomState({ roomCode, roomSize: numPlayers, numPlayers: 1 })

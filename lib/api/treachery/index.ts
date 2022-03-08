@@ -1,15 +1,42 @@
-import { ApiRequest as TreacheryRequest } from '../../../pages/api/treachery/types'
+import {
+  CreateResponse,
+  RoomResponse,
+  CardResponse,
+  JoinResponse
+} from '../../../pages/api/treachery/types'
 
-import { wrapCall } from '..'
+import qs from 'qs'
+import axios from 'axios'
 
-const treachery = async <T>(queryParams: TreacheryRequest) => {
-  const params = queryParams as { [x: string]: any }
-  const query = Object.keys(params)
-    .filter(key => params[key])
-    .map(param => `${param}=${params[param]}`)
-    .join('&')
-  const uri = `/treachery?${query}`
-  return await wrapCall<T>({ method: 'GET', uri })
+const getUrl = (params: any) => {
+  const paramString = qs.stringify(params, { addQueryPrefix: true })
+  return `/api/treachery${paramString}`
 }
 
-export default treachery
+export const createRoom = async (numPlayers: number, rarity: string) => {
+  const params = { action: 'create', numPlayers, rarity }
+  const uri = getUrl(params)
+  const data = await axios.get(uri)
+  return (data.data as unknown) as CreateResponse
+}
+
+export const waitRoom = async (roomCode: string) => {
+  const params = { action: 'room', roomCode }
+  const uri = getUrl(params)
+  const data = await axios.get(uri)
+  return (data.data as unknown) as RoomResponse
+}
+
+export const getCard = async (roomCode: string, id: string) => {
+  const params = { action: 'card', roomCode, id }
+  const uri = getUrl(params)
+  const data = await axios.get(uri)
+  return (data.data as unknown) as CardResponse
+}
+
+export const joinRoom = async (roomCode: string, id: string) => {
+  const params = { action: 'join', roomCode, id }
+  const uri = getUrl(params)
+  const data = await axios.get(uri)
+  return (data.data as unknown) as JoinResponse
+}
