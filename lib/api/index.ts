@@ -51,5 +51,4 @@ export const wrapCall = async <T>({
 }
 
 export { default as reddit } from './reddit'
-export { default as treachery } from './treachery'
 export { default as toadvillage } from './toadvillage'

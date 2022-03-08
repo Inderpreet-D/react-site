@@ -77,7 +77,7 @@ const StyledContainer = styled.div<ContainerProps>`
   ${({ open }) => open && containerFocusStyles};
 
   position: relative;
-  z-index: 2;
+  z-index: ${({ open }) => (open ? 3 : 2)};
   flex-direction: column;
 
   display: flex;
