@@ -35,12 +35,13 @@ yarn-error.log*
 
 # for this app
 .env
-components/pages/Competitive/react-site-inder-competitive-export.json
-components/pages/Competitive/save.json
-components/pages/Competitive/test.ts
 
 # Cypress config
 cypress/screenshots
 cypress/videso
 coverage
 .nyc_output
+
+# Script data files
+scripts/mtg/react-site-inder-competitive-export.json
+scripts/mtg/save.json
