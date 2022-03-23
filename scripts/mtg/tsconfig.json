@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "outDir": ".",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "include": ["*.ts", "*.json"],
+  "exclude": ["node_modules"]
+}

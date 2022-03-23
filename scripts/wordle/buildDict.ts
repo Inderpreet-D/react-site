@@ -3,7 +3,7 @@
 import fs from 'fs'
 import os from 'os'
 
-import { outputFolder } from '.'
+import { outputFolder } from '../../pages/api/words'
 
 const LOWER_LENGTH_LIMIT = 3
 const UPPER_LENGTH_LIMIT = 15
