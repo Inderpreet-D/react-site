@@ -11,7 +11,7 @@ const ContainerBackButton: React.FC<ContainerBackButtonProps> = ({ to }) => {
   const router = useRouter()
 
   return (
-    <Button onClick={() => router.push(`/${to}`)}>
+    <Button onClick={() => router.push(`/${to}`)} aria-label='Back'>
       <FaLessThan />
     </Button>
   )

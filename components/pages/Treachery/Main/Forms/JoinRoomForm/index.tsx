@@ -7,6 +7,7 @@ const JoinRoomForm: React.FC<FormProps> = ({ values: { code }, onChange }) => (
     onChange={onChange('code')}
     value={code}
     placeholder='4-Letter Room Code'
+    aria-label='Room code'
   />
 )
 

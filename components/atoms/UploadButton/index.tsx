@@ -6,9 +6,10 @@ type UploadButtonProps = {
 
 const UploadButton: React.FC<UploadButtonProps> = ({
   children,
-  onFileSelected
+  onFileSelected,
+  ...props
 }) => (
-  <StyledButton>
+  <StyledButton {...props}>
     <StyledLabel>
       {children}
       <input

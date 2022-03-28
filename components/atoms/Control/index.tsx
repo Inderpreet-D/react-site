@@ -18,7 +18,11 @@ const Control: React.FC<ControlProps> = ({
   ...props
 }) => (
   <Controls {...props}>
-    <ControlButton disabled={current === 0} onClick={onBack}>
+    <ControlButton
+      aria-label='Backward'
+      disabled={current === 0}
+      onClick={onBack}
+    >
       <FaLessThan />
     </ControlButton>
 
@@ -26,7 +30,11 @@ const Control: React.FC<ControlProps> = ({
       {current + 1} / {last}
     </span>
 
-    <ControlButton disabled={current === last - 1} onClick={onForward}>
+    <ControlButton
+      aria-label='Forward'
+      disabled={current === last - 1}
+      onClick={onForward}
+    >
       <FaGreaterThan />
     </ControlButton>
   </Controls>

@@ -19,7 +19,11 @@ const TextField: TextFieldProps = ({
       onClick={() => inputRef.current?.focus()}
     >
       <StyledLabel htmlFor={id}>{placeholder || label}</StyledLabel>
-      <StyledInput id={id} ref={inputRef} {...props} />
+      <StyledInput
+        id={`${id}-${placeholder || label}`}
+        ref={inputRef}
+        {...props}
+      />
     </StyledContainer>
   )
 }

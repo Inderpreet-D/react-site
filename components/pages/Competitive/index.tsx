@@ -1,15 +1,20 @@
+import dynamic from 'next/dynamic'
 import { isEqual } from 'lodash'
 
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
-import LoadingIcon from '../../atoms/LoadingIcon'
-import HorizontalList from '../../atoms/HorizontalList'
-import HorizontalListButton from '../../atoms/HorizontalListButton'
-import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
-import Rules from './Rules'
-import Games from './Games'
-import Leaderboard from './Leaderboard'
+const LoadingIcon = dynamic(() => import('../../atoms/LoadingIcon'))
+const HorizontalList = dynamic(() => import('../../atoms/HorizontalList'))
+const HorizontalListButton = dynamic(() =>
+  import('../../atoms/HorizontalListButton')
+)
+const ContainerSectionSeparator = dynamic(() =>
+  import('../../atoms/ContainerSectionSeparator')
+)
+const Rules = dynamic(() => import('./Rules'))
+const Games = dynamic(() => import('./Games'))
+const Leaderboard = dynamic(() => import('./Leaderboard'))
 
 import useSWR from '../../../hooks/useSWR'
 
