@@ -44,11 +44,18 @@ const Page = () => {
       <ContainerTitle>Toad Village</ContainerTitle>
 
       <StyledButtonHolder>
-        <Button onClick={handleOpen}>Import Deck List</Button>
+        <Button onClick={handleOpen} aria-label='Import Deck'>
+          Import Deck List
+        </Button>
 
-        <Button onClick={handleDownload}>Download</Button>
+        <Button onClick={handleDownload} aria-label='Download'>
+          Download
+        </Button>
 
-        <UploadButton onFileSelected={handleFileSelect}>
+        <UploadButton
+          onFileSelected={handleFileSelect}
+          aria-label='Extract List'
+        >
           Extract List from JSON
         </UploadButton>
       </StyledButtonHolder>
@@ -60,6 +67,7 @@ const Page = () => {
           value={state.name}
           onChange={e => handleSetName(e.target.value)}
           placeholder='Enter your deck name'
+          aria-label='Deck name'
         />
       </StyledTextFieldHolder>
 
