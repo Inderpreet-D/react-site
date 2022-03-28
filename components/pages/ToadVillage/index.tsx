@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic'
+
 import {
   StyledButtonHolder,
   StyledTextFieldHolder,
@@ -10,11 +12,12 @@ import Container from '../../atoms/Container'
 import ContainerError from '../../atoms/ContainerError'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
-import MTGCard from '../../molecules/MTGCard'
-import LoadingIcon from '../../atoms/LoadingIcon'
-import Dialog from '../../molecules/Dialog'
 import Button from '../../atoms/Button'
 import UploadButton from '../../atoms/UploadButton'
+
+const MTGCard = dynamic(() => import('../../molecules/MTGCard'))
+const LoadingIcon = dynamic(() => import('../../atoms/LoadingIcon'))
+const Dialog = dynamic(() => import('../../molecules/Dialog'))
 
 import { nameSort } from '../../../utilities/helpers/toadvillage'
 import { useToadVillageState } from '../../../providers/ToadVillageStateProvider'
@@ -113,26 +116,28 @@ const Page = () => {
         </>
       )}
 
-      <Dialog
-        open={showDialog}
-        onClose={handleClose}
-        title='Enter Decklist'
-        actions={
-          <StyledButtonHolder style={{ marginBottom: 0 }}>
-            <Button onClick={handleCancel}>Cancel</Button>
+      {showDialog && (
+        <Dialog
+          open={showDialog}
+          onClose={handleClose}
+          title='Enter Decklist'
+          actions={
+            <StyledButtonHolder style={{ marginBottom: 0 }}>
+              <Button onClick={handleCancel}>Cancel</Button>
 
-            <Button onClick={handleClose}>Submit</Button>
-          </StyledButtonHolder>
-        }
-      >
-        <StyledTextArea
-          autoFocus
-          onChange={e => handleSetCards(e.target.value)}
-          value={state.cardListString}
-          rows={20}
-          placeholder="Enter your cards, one per line, in the format of 'NUMBER NAME'"
-        />
-      </Dialog>
+              <Button onClick={handleClose}>Submit</Button>
+            </StyledButtonHolder>
+          }
+        >
+          <StyledTextArea
+            autoFocus
+            onChange={e => handleSetCards(e.target.value)}
+            value={state.cardListString}
+            rows={20}
+            placeholder="Enter your cards, one per line, in the format of 'NUMBER NAME'"
+          />
+        </Dialog>
+      )}
     </Container>
   )
 }
