@@ -7,7 +7,7 @@ import { Card } from '../../../shared/toadvillage'
 import {
   StyledCard,
   StyledImageHolder,
-  StyledFlippingCard,
+  StyledCardImageHolder,
   StyledCardImage,
   StyledCardCount,
   StyledCardActions,
@@ -43,10 +43,11 @@ const MTGCard: React.FC<MTGCardProps> = ({
   return (
     <StyledCard>
       <StyledImageHolder>
-        <StyledFlippingCard flipped={flipped}>
-          <StyledCardImage src={image} />
-          {faces && <StyledCardImage src={faces[1].image} isBack />}
-        </StyledFlippingCard>
+        <StyledCardImageHolder>
+          {(!faces || !flipped) && <StyledCardImage src={image} />}
+
+          {faces && flipped && <StyledCardImage src={faces[1].image} />}
+        </StyledCardImageHolder>
 
         <StyledCardCount noCards={amount === 0}>{amount}</StyledCardCount>
       </StyledImageHolder>
