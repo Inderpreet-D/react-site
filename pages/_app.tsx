@@ -5,6 +5,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import SEO from '../next-seo.config'
 import theme from '../themes/lightblue'
 // import theme from "../themes/bluepurple";
+import '../styles/index.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
