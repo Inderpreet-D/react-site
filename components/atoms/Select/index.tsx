@@ -1,97 +1,75 @@
-import { ChangeEvent, MouseEventHandler } from 'react'
-import {
-  StyledContainer,
-  StyledLabel,
-  StyledSelect,
-  StyledOptionList,
-  StyledOption,
-  StyledBackdrop
-} from './styles'
+import { DivProps } from 'react-html-props'
+import clsx from 'clsx'
 
-type OnClickType = MouseEventHandler<HTMLDivElement>
-type OnOptClickType = (opt: string) => OnClickType
+import Button from '../Button'
 
-type SelectProps = React.FC<
-  React.SelectHTMLAttributes<HTMLSelectElement> & {
-    label: string
-    options: string[]
-  }
->
+type SelectProps = DivProps & {
+  options: string[]
+  value: string
+  onChange: (val: string) => void
+}
 
-const Select: SelectProps = ({
-  label,
+const Select: React.FC<SelectProps> = ({
   options,
   value,
   onChange,
-  className
+  className: extraClasss
 }) => {
   const [open, setOpen] = React.useState(false)
-  const containerRef = React.useRef<HTMLDivElement>(null)
-  const backdropRef = React.useRef<HTMLDivElement>(null)
 
-  const toggleOpen = React.useCallback((e: MouseEvent) => {
-    e.preventDefault()
-    setOpen(old => !old)
+  const handleSelect = React.useCallback(
+    (value: string) => {
+      onChange(value)
+      setOpen(false)
+    },
+    [onChange]
+  )
+
+  const handleMainClick = React.useCallback(() => {
+    setOpen(true)
   }, [])
 
-  const handleContainerClick = React.useCallback<OnClickType>(
-    e => {
-      if (e.target === containerRef.current) {
-        toggleOpen((e as unknown) as MouseEvent)
-      }
-    },
-    [toggleOpen]
-  )
-
-  const handleOptionClick = React.useCallback<OnOptClickType>(
-    opt => e => {
-      toggleOpen((e as unknown) as MouseEvent)
-      onChange &&
-        onChange({ target: { value: opt } } as ChangeEvent<HTMLSelectElement>)
-    },
-    [toggleOpen, onChange]
-  )
-
-  const handleBackdropClick = React.useCallback<OnClickType>(
-    e => {
-      if (e.target === backdropRef.current) {
-        toggleOpen((e as unknown) as MouseEvent)
-      }
-    },
-    [toggleOpen]
-  )
+  const handleBackdropClick = React.useCallback(() => {
+    setOpen(false)
+  }, [])
 
   return (
     <>
-      <StyledContainer
-        open={open}
-        onClick={handleContainerClick}
-        className={className}
-        ref={containerRef}
-      >
-        <StyledLabel
-          onClick={e => {
-            toggleOpen((e as unknown) as MouseEvent)
-          }}
-        >
-          {label}
-        </StyledLabel>
-
-        <StyledSelect>{value}</StyledSelect>
+      <div className={clsx('relative', extraClasss)}>
+        <Button onClick={handleMainClick} className='relative'>
+          {value}
+        </Button>
 
         {open && (
-          <StyledOptionList>
-            {options.map((opt, i) => (
-              <StyledOption key={i} onClick={handleOptionClick(opt)}>
-                {opt}
-              </StyledOption>
-            ))}
-          </StyledOptionList>
+          <>
+            <div className='z-20 absolute top-12 flex flex-col border border-sky-400 rounded-xl py-2 bg-sky-800 text-white w-auto'>
+              {options.map(opt => (
+                <div
+                  key={opt}
+                  onClick={e => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    handleSelect(opt)
+                  }}
+                  className='text-sm mb-1 px-3 py-1 last:mb-0 hover:text-black hover:bg-slate-400 transition-all duration-300 text-center cursor-pointer w-full whitespace-nowrap'
+                >
+                  {opt}
+                </div>
+              ))}
+            </div>
+          </>
         )}
-      </StyledContainer>
+      </div>
 
       {open && (
-        <StyledBackdrop onClick={handleBackdropClick} ref={backdropRef} />
+        <div
+          onClick={e => {
+            e.preventDefault()
+            e.stopPropagation()
+            handleBackdropClick()
+          }}
+          className='bg-transparent z-10 absolute top-0 left-0 right-0 bottom-0'
+        />
       )}
     </>
   )
