@@ -1,3 +1,4 @@
+import Button from '../../atoms/Button'
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -11,7 +12,7 @@ const Page = () => {
 
       <ContainerTitle>Add Competitive Record</ContainerTitle>
 
-      <div className='flex '>
+      <div className='flex'>
         <select
           value='test'
           className='mr-4 border bg-transparent border-solid border-sky-400 rounded-xl px-3 py-2 hover:bg-sky-300 hover:text-slate-700 transition-all duration-300 h-10 flex justify-center items-center box-border'
@@ -21,12 +22,7 @@ const Page = () => {
         </select>
 
         {!addingSeason ? (
-          <button
-            onClick={() => setAddingSeason(true)}
-            className='border border-solid border-sky-400 rounded-xl px-3 py-2 hover:bg-sky-300 hover:text-slate-700 transition-all duration-300 h-10 flex justify-center items-center box-border'
-          >
-            Add season
-          </button>
+          <Button onClick={() => setAddingSeason(true)}>Add Season</Button>
         ) : (
           <input
             placeholder='Add season'
@@ -84,9 +80,7 @@ const Page = () => {
         </select>
       </div>
 
-      <button className='border border-solid border-sky-400 rounded-xl px-3 py-2 hover:bg-sky-300 hover:text-slate-700 transition-all duration-300 h-10 flex justify-center items-center box-border mt-4'>
-        Submit
-      </button>
+      <Button className='mt-4'>Submit</Button>
     </Container>
   )
 }
