@@ -1,14 +1,11 @@
-import styled from 'styled-components'
+import { DivProps } from 'react-html-props'
+import clsx from 'clsx'
 
-const ContainerError = styled.div`
-  justify-content: center;
+const className = 'flex justify-center mb-5 text-4xl text-red-500'
 
-  display: flex;
-
-  margin-bottom: 1.25rem;
-
-  font-size: 2rem;
-  color: lightcoral;
-`
+const ContainerError: React.FC<DivProps> = ({
+  className: extraClass,
+  ...props
+}) => <div className={clsx(className, extraClass)} {...props} />
 
 export default ContainerError

@@ -1,23 +1,11 @@
-import styled from 'styled-components'
+import { DivProps } from 'react-html-props'
+import clsx from 'clsx'
 
-import breakpoints from '../../../utilities/breakpoints'
+const className =
+  'relative mx-auto my-4 border-2 border-sky-400 rounded-xl box-border p-5 bg-slate-800 w-full lg:w-8/12 md:w-10/12'
 
-export default styled.div`
-  position: relative;
-  margin: 1rem auto;
-  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
-  border-radius: 1rem;
-  box-sizing: border-box;
-  width: 55%;
-  padding: 1.25rem;
+const Container: React.FC<DivProps> = ({ className: extraClass, ...props }) => (
+  <div className={clsx(className, extraClass)} {...props} />
+)
 
-  background-color: ${({ theme }) => theme.backgroundLight};
-
-  @media ${breakpoints.base}, ${breakpoints.mobile}, ${breakpoints.tablet} {
-    width: 100%;
-  }
-
-  @media ${breakpoints.laptop} {
-    width: calc(55% + calc(45% / 2));
-  }
-`
+export default Container

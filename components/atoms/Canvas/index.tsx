@@ -1,4 +1,6 @@
-type CanvasProps = {
+import { CanvasProps } from 'react-html-props'
+
+type MyCanvasProps = CanvasProps & {
   draw: (
     context: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
@@ -9,8 +11,7 @@ type CanvasProps = {
   height?: string
 }
 
-const Canvas: React.FC<CanvasProps &
-  React.DOMAttributes<HTMLCanvasElement>> = ({ draw, ...props }) => {
+const Canvas: React.FC<MyCanvasProps> = ({ draw, ...props }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
   React.useEffect(() => {

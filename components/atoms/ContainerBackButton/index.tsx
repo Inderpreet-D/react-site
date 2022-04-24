@@ -1,17 +1,24 @@
 import { useRouter } from 'next/router'
 import { FaLessThan } from '@react-icons/all-files/fa/FaLessThan'
 
-import { Button } from './styles'
+import Button from '../Button'
 
 type ContainerBackButtonProps = {
   to: string
 }
 
+const className =
+  'absolute -top-px -left-px rounded-tr-none rounded-bl-none border-t-transparent border-l-transparent md:top-5 md:left-5 md:rounded-tr-xl md:rounded-bl-xl md:border-l md:border-t'
+
 const ContainerBackButton: React.FC<ContainerBackButtonProps> = ({ to }) => {
   const router = useRouter()
 
   return (
-    <Button onClick={() => router.push(`/${to}`)} aria-label='Back'>
+    <Button
+      onClick={() => router.push(`/${to}`)}
+      className={className}
+      aria-label='Back'
+    >
       <FaLessThan />
     </Button>
   )

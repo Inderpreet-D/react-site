@@ -1,3 +1,5 @@
+// TODO: Fix this
+
 import styled from 'styled-components'
 
 import breakpoints from '../../../utilities/breakpoints'
@@ -60,7 +62,7 @@ export const ButtonHolder = styled.div`
   box-sizing: border-box;
   padding: 0.5rem 0.5rem 1rem 0.5rem;
 
-  ${Button}:not(:last-child) {
+  ${Button}:not (:last-child) {
     margin-bottom: 0.5rem;
   }
 
