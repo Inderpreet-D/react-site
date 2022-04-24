@@ -4,12 +4,14 @@ import clsx from 'clsx'
 import Button from '../Button'
 
 type SelectProps = DivProps & {
+  label?: string
   options: string[]
   value: string
   onChange: (val: string) => void
 }
 
 const Select: React.FC<SelectProps> = ({
+  label,
   options,
   value,
   onChange,
@@ -34,8 +36,10 @@ const Select: React.FC<SelectProps> = ({
   }, [])
 
   return (
-    <>
-      <div className={clsx('relative', extraClasss)}>
+    <div className={clsx('flex items-center', extraClasss)}>
+      {label && <div className='text-white text-base mr-4'>{label}</div>}
+
+      <div className={'relative'}>
         <Button onClick={handleMainClick} className='relative'>
           {value}
         </Button>
@@ -74,7 +78,7 @@ const Select: React.FC<SelectProps> = ({
           className='bg-transparent z-10 absolute top-0 left-0 right-0 bottom-0'
         />
       )}
-    </>
+    </div>
   )
 }
 

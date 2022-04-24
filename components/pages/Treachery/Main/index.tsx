@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from 'react'
+import { FormEvent } from 'react'
 
 import { Rarity } from '../../../../shared/treachery'
 
@@ -22,9 +22,7 @@ export type Values = {
   players: number
 }
 
-export type ChangeHandler = (
-  prop: string
-) => (e: ChangeEvent<HTMLInputElement>) => void
+export type ChangeHandler = (prop: string) => (val: string) => void
 
 const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
   const [isJoining, setIsJoining] = React.useState(true)
@@ -48,8 +46,7 @@ const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
   )
 
   const handleChange = React.useCallback(
-    (prop: string) => (e: ChangeEvent<HTMLInputElement>) => {
-      const val = e.target.value
+    (prop: string) => (val: string) => {
       if (prop === 'code') {
         if (val.length <= 4) {
           setValues(old => ({ ...old, code: val.toUpperCase().trim() }))
