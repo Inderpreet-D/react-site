@@ -51,7 +51,10 @@ const Select: React.FC<SelectProps> = ({
                     e.preventDefault()
                     handleSelect(opt)
                   }}
-                  className='text-sm mb-1 px-3 py-1 last:mb-0 hover:text-black hover:bg-slate-400 transition-all duration-300 text-center cursor-pointer w-full whitespace-nowrap'
+                  className={clsx(
+                    'text-sm mb-1 px-3 py-1 last:mb-0 hover:text-black hover:bg-slate-400 transition-all duration-300 text-center cursor-pointer w-full whitespace-nowrap',
+                    value === opt && 'bg-slate-400 text-black'
+                  )}
                 >
                   {opt}
                 </div>

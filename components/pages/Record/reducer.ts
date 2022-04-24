@@ -7,8 +7,8 @@ const handleReset: Func = (_, __) => {
 }
 
 const handleSetSeasonName: Func = (state, action) => {
-  const { value } = action as { value: string }
-  return { ...state, seasonName: value }
+  const { name } = action as { name: string }
+  return { ...state, seasonName: name }
 }
 
 const handleStartAddingSeason: Func = (state, _) => {
@@ -30,7 +30,7 @@ const handleSetSeasons: Func = (state, action) => {
   if (seasons.length) {
     season = seasons[seasons.length - 1]
   }
-  return { ...state, seasons, season }
+  return { ...state, seasons, season, seasonsLoaded: true }
 }
 
 const handleUpdateValue: Func = (state, action) => {
@@ -66,7 +66,7 @@ type Player = {
   companion: string
 }
 
-type Players = {
+export type Players = {
   [key: string]: Player
 }
 
