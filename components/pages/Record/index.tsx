@@ -108,15 +108,14 @@ const Page = () => {
       />
 
       <div className='flex items-center mb-4'>
-        <div className='text-base text-white mr-2'>Season:</div>
-
         <Select
+          label='Season:'
           options={seasons}
           value={season}
           onChange={val =>
             dispatch({ type: 'SET_SEASON', season: val as string })
           }
-          className='mr-4'
+          className='mr-8'
         />
 
         {!addingSeason ? (
@@ -195,20 +194,18 @@ const Page = () => {
         Add Player
       </Button>
 
-      <div className='flex items-center mt-8'>
-        <div className='text-white text-base mr-4'>Winner:</div>
-
-        <Select
-          options={[
-            'No Winner',
-            ...Object.values(players).map(player => player.name)
-          ]}
-          value={winner}
-          onChange={val =>
-            dispatch({ type: 'SET_WINNER', winner: val as string })
-          }
-        />
-      </div>
+      <Select
+        label='Winner:'
+        options={[
+          'No Winner',
+          ...Object.values(players).map(player => player.name)
+        ]}
+        value={winner}
+        onChange={val =>
+          dispatch({ type: 'SET_WINNER', winner: val as string })
+        }
+        className='mt-8'
+      />
 
       <Button
         disabled={!passValid}

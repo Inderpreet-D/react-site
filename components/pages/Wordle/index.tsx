@@ -60,8 +60,8 @@ const Page = () => {
           <StyledSelect
             label='Word Length'
             options={options.map(opt => `${opt}`)}
-            value={length}
-            onChange={e => setLength(+e.target.value)}
+            value={length.toString()}
+            onChange={val => setLength(+val)}
           />
         )}
 

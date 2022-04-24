@@ -1,4 +1,3 @@
-import { ChangeEventHandler } from 'react'
 import { FormProps } from '../types'
 
 import { StyledContainer, StyledSelect } from './styles'
@@ -18,21 +17,15 @@ const CreateRoomForm: React.FC<CreateRoomProps> = ({
     <StyledSelect
       label='Number of Players'
       options={playerOptions.map(x => x.toString())}
-      value={players}
-      onChange={
-        (onChange('players') as unknown) as ChangeEventHandler<
-          HTMLSelectElement
-        >
-      }
+      value={players.toString()}
+      onChange={val => onChange('players')(val as string)}
     />
 
     <StyledSelect
       label='Role Rarity'
       options={rarityOptions}
       value={rarity}
-      onChange={
-        (onChange('rarity') as unknown) as ChangeEventHandler<HTMLSelectElement>
-      }
+      onChange={val => onChange('rarity')(val as string)}
     />
   </StyledContainer>
 )
