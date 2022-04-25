@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Section as Sect } from '../../../atoms/BoxView'
+import Sect from '../../../atoms/Section'
 import Cont from '../../../atoms/Control'
 
 export const Section = styled(Sect)`
