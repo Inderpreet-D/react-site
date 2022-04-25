@@ -1,7 +1,8 @@
 import { FaLessThan } from '@react-icons/all-files/fa/FaLessThan'
 import { FaGreaterThan } from '@react-icons/all-files/fa/FaGreaterThan'
 
-import { Controls, ControlButton } from './styles'
+import Controls from '../Controls'
+import ControlButton from '../ControlButton'
 
 type ControlProps = {
   current: number

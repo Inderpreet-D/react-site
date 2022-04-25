@@ -1,18 +1,11 @@
-import { DivPropsWithoutRef } from 'react-html-props'
-import styled from 'styled-components'
+import { DivProps } from 'react-html-props'
+import clsx from 'clsx'
 
-const StyledTitle = styled.div`
-  margin-bottom: 1.25rem;
+const className = 'mb-5 text-4xl text-center'
 
-  font-size: 2.125rem;
-  line-height: 1.235;
-  font-weight: 400;
-  text-align: center;
-  letter-spacing: 0.00735em;
-`
-
-const ContainerTitle: React.FC<DivPropsWithoutRef> = props => (
-  <StyledTitle {...props} data-cy='title' />
-)
+const ContainerTitle: React.FC<DivProps> = ({
+  className: extraClass,
+  ...props
+}) => <div data-cy='title' className={clsx(className, extraClass)} {...props} />
 
 export default ContainerTitle

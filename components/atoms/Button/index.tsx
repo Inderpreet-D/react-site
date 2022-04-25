@@ -1,7 +1,7 @@
 import { ButtonProps } from 'react-html-props'
 import clsx from 'clsx'
 
-type MyButtonProps = ButtonProps & {
+export type MyButtonProps = ButtonProps & {
   active?: boolean
 }
 

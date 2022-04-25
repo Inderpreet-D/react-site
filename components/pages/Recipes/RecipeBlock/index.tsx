@@ -1,10 +1,11 @@
 import { PropType } from '../types'
 
-import { Box, ButtonHolder } from '../../../atoms/BoxView'
 import Ingredients from '../Ingredients'
 import Recipe from '../Recipe'
 import Card from '../../../atoms/Card'
 import Button from '../../../atoms/Button'
+import ButtonHolder from '../../../atoms/ButtonHolder'
+import Box from '../../../atoms/Box'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
 import { Section, Control } from './styles'

@@ -4,11 +4,12 @@ import Article from './Sections/Article'
 import DataComp from './Sections/Data'
 import Date from './Sections/Date'
 import Control from '../../atoms/Control'
-import { Box, ButtonHolder } from '../../atoms/BoxView'
 import Separator from '../../atoms/Separator'
 import Section from '../../atoms/Section'
 import Card from '../../atoms/Card'
 import Button from '../../atoms/Button'
+import ButtonHolder from '../../atoms/ButtonHolder'
+import Box from '../../atoms/Box'
 
 import meRaw, { Data } from './Data/me'
 
