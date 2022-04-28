@@ -16,10 +16,6 @@ const Portal: React.FC = ({ children }) => {
     return null
   }
 
-  if (!mounted) {
-    return null
-  }
-
   const portal = document.querySelector(`#${PORTAL_ID}`)!
   return createPortal(children, portal)
 }
