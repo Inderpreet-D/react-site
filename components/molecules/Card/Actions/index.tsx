@@ -1,4 +1,3 @@
-import { StyledActions } from '../styles'
 import Spacer from '../../../atoms/Spacer'
 
 type CardActionProps = {
@@ -13,11 +12,13 @@ const CardActions: React.FC<CardActionProps> = ({
   alignLeft,
   alignRight
 }) => (
-  <StyledActions>
+  <div className='flex items-center justify-center'>
     {(alignCenter || alignRight) && <Spacer />}
+
     {children}
+
     {(alignCenter || alignLeft) && <Spacer />}
-  </StyledActions>
+  </div>
 )
 
 export default CardActions

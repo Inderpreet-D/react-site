@@ -47,7 +47,7 @@ const StyledCardBlock = styled.div`
 
 const StyledTextArea = styled(TextArea)`
   width: 100%;
-  max-height: 70vh;
+  height: 100%;
 `
 
 export {

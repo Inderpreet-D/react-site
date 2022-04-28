@@ -1,9 +1,3 @@
-import {
-  StyledCard,
-  StyledContent,
-  StyledTitle,
-  StyledDescription
-} from './styles'
 import Spacer from '../../atoms/Spacer'
 import CardActions from './Actions'
 import LinkButton from '../../atoms/LinkButton'
@@ -23,18 +17,21 @@ const MyCard: React.FC<MyCardProps> = ({
   description,
   actionProps = { alignRight: true }
 }) => (
-  <StyledCard>
-    <StyledContent>
-      <StyledTitle>{title}</StyledTitle>
-      <StyledDescription>{description}</StyledDescription>
-    </StyledContent>
+  <div className='flex flex-col border-2 border-sky-800 rounded-2xl box-border p-5 bg-slate-700'>
+    <div className='flex flex-col mb-2'>
+      <div className='flex items-center justify-center mb-2 text-2xl text-sky-400 tracking-[0.00735em] underline'>
+        {title}
+      </div>
+
+      <div className='text-sm tracking-[0.01071em]'>{description}</div>
+    </div>
 
     <Spacer />
 
     <CardActions {...actionProps}>
       <LinkButton href={href} title={hrefTitle} />
     </CardActions>
-  </StyledCard>
+  </div>
 )
 
 export default MyCard

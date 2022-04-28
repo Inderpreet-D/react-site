@@ -4,7 +4,6 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components'
 
 import SEO from '../next-seo.config'
 import theme from '../themes/lightblue'
-// import theme from "../themes/bluepurple";
 import '../styles/index.css'
 
 const GlobalStyle = createGlobalStyle`
@@ -12,16 +11,14 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     box-sizing: border-box;
     padding: 0;
-
-    background-color: ${theme.background};
-    
-    color: ${theme.text};
+    overflow: hidden;
+    background-color: black;
+    color: white;
   }
 
   #root {
     display: flex;
     flex-direction: column;
-    
     height: 100%;
   }
 `
