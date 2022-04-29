@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { FaSync } from '@react-icons/all-files/fa/FaSync'
 import { FaPlus } from '@react-icons/all-files/fa/FaPlus'
 import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
@@ -5,7 +6,6 @@ import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
 import { Card } from '../../../shared/toadvillage'
 
 import {
-  StyledCard,
   StyledImageHolder,
   StyledCardImageHolder,
   StyledCardImage,
@@ -35,13 +35,23 @@ const MTGCard: React.FC<MTGCardProps> = ({
 
   const { image, name, faces } = card
 
-  const handleSub = () => amount > 0 && onClickRemove(name, isCommander)
-  const handleMove = () => onClickMove(name, isCommander)
-  const handleAdd = () => onClickAdd(name, isCommander)
-  const handleFlip = () => setFlipped(!flipped)
+  const handleSub = React.useCallback(() => {
+    if (amount > 0) {
+      onClickRemove(name, isCommander)
+    }
+  }, [amount, onClickRemove, name, isCommander])
+  const handleMove = React.useCallback(() => {
+    onClickMove(name, isCommander)
+  }, [onClickMove, name, isCommander])
+  const handleAdd = React.useCallback(() => {
+    onClickAdd(name, isCommander)
+  }, [onClickAdd, name, isCommander])
+  const handleFlip = React.useCallback(() => {
+    setFlipped(old => !old)
+  }, [])
 
   return (
-    <StyledCard>
+    <div className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'>
       <StyledImageHolder>
         <StyledCardImageHolder>
           {(!faces || !flipped) && <StyledCardImage src={image} />}
@@ -71,7 +81,7 @@ const MTGCard: React.FC<MTGCardProps> = ({
           </StyledButton>
         )}
       </StyledCardActions>
-    </StyledCard>
+    </div>
   )
 }
 

@@ -1,4 +1,4 @@
-// TODO: Fix this
+// TODO: Fix
 
 import styled, { css } from 'styled-components'
 
@@ -21,15 +21,6 @@ const greyStyles = css`
   }
 `
 
-const StyledCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0.25rem;
-  border: 0.125rem solid ${({ theme }) => theme.foregroundDark};
-  border-radius: 0.5rem;
-  background-color: ${({ theme }) => theme.backgroundLight};
-`
-
 type CardCountProps = {
   noCards: boolean
 }
@@ -47,6 +38,7 @@ const StyledCardCount = styled.div<CardCountProps>`
   line-height: 3rem;
   font-weight: bold;
   color: ${({ theme }) => theme.foreground};
+  pointer-events: none;
 
   ${({ noCards }) => noCards && noCardStyles};
 `
@@ -124,7 +116,6 @@ const StyledButton = styled.div<ButtonProps>`
 `
 
 export {
-  StyledCard,
   StyledImageHolder,
   StyledCardImageHolder,
   StyledCardImage,

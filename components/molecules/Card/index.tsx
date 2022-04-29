@@ -1,5 +1,5 @@
 import Spacer from '../../atoms/Spacer'
-import CardActions from './Actions'
+import CardActions from './CardActions'
 import LinkButton from '../../atoms/LinkButton'
 
 type MyCardProps = {
