@@ -1,13 +1,7 @@
 import axios from 'axios'
+import clsx from 'clsx'
 
-import {
-  Container,
-  Row,
-  EmptyCell,
-  NormalCell,
-  CorrectCell,
-  WrongPlaceCell
-} from './styles'
+import Cell from './Cell'
 import Button from '../../atoms/Button'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
@@ -24,9 +18,10 @@ const getCell = (
   key: string
 ) => {
   if (rowIdx > state.round) {
-    return <NormalCell key={key} />
+    return <Cell key={key} className='bg-slate-600' />
   }
 
+  // TODO: Update this logic to sweep better
   const guess = state.guesses[rowIdx]
   const letter = guess[cellIdx]
   const inWord = state.word.includes(letter)
@@ -34,14 +29,26 @@ const getCell = (
   const upper = letter.toLocaleUpperCase()
 
   if (correct) {
-    return <CorrectCell key={key}>{upper}</CorrectCell>
+    return (
+      <Cell key={key} className='bg-green-600'>
+        {upper}
+      </Cell>
+    )
   }
 
   if (inWord) {
-    return <WrongPlaceCell key={key}>{upper}</WrongPlaceCell>
+    return (
+      <Cell key={key} className='bg-yellow-600'>
+        {upper}
+      </Cell>
+    )
   }
 
-  return <NormalCell key={key}>{upper}</NormalCell>
+  return (
+    <Cell key={key} className='bg-slate-600'>
+      {upper}
+    </Cell>
+  )
 }
 
 const isAlphaKey = (key: string) => key.length === 1 && key.match(/[a-zA-Z]/i)
@@ -176,35 +183,43 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
   )
 
   return (
-    <Container>
+    <div className='flex items-center justify-center flex-col w-full overflow-auto'>
       {new Array(state.maxRound).fill(0).map((_, rowIdx) => (
-        <Row key={rowIdx}>
+        <div
+          key={rowIdx}
+          className='mb-2 last:mb-0 flex items-center justify-center w-full overflow-auto'
+        >
           {new Array(state.wordLength).fill(0).map((_, cellIdx) => {
             const key = `${rowIdx}-${cellIdx}`
 
             if (rowIdx === state.round) {
               return (
-                <EmptyCell
+                <Cell
                   key={key}
-                  current={cellIdx === currentIdx}
                   onClick={() => {
                     focus()
                     setCurrentIdx(cellIdx)
                   }}
+                  className={clsx(
+                    'bg-transparent',
+                    cellIdx === currentIdx
+                      ? 'border-b-white'
+                      : 'border-b-slate-900'
+                  )}
                 >
                   {(currentWord[cellIdx] ?? '').toLocaleUpperCase()}
-                </EmptyCell>
+                </Cell>
               )
             }
 
             return getCell(state, rowIdx, cellIdx, key)
           })}
-        </Row>
+        </div>
       ))}
 
       {state.done && (
         <>
-          <div style={{ margin: '1rem 0 1.5rem 0', fontSize: '1.5rem' }}>
+          <div className='mt-4 mb-6 mx-0 text-2xl'>
             Game over:{' '}
             {state.won
               ? 'You won'
@@ -230,13 +245,10 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         maxLength={state.wordLength}
         disabled={state.done}
         onChange={() => {}}
-        style={{
-          position: 'absolute',
-          zIndex: '-1'
-        }}
+        className='absolute -z-10'
         autoFocus
       />
-    </Container>
+    </div>
   )
 }
 

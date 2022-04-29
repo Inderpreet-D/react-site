@@ -1,10 +1,6 @@
-import {
-  StyledContainer,
-  StyledHolder,
-  StyledControls,
-  StyledTextField
-} from './styles'
+import Container from '../../atoms/Container'
 import MessageBlock from './MessageBlock'
+import TextField from '../../atoms/TextField'
 import Button from '../../atoms/Button'
 
 const Page = () => {
@@ -23,8 +19,8 @@ const Page = () => {
   }, [])
 
   return (
-    <StyledContainer>
-      <StyledHolder>
+    <Container className='flex flex-col overflow-hidden'>
+      <div className='flex flex-col flex-grow overflow-x-hidden overflow-y-auto mb-4'>
         {Object.entries(values).map(([k, v]) => (
           <MessageBlock
             key={k}
@@ -33,18 +29,21 @@ const Page = () => {
             secret={secret}
           />
         ))}
-      </StyledHolder>
+      </div>
 
-      <StyledControls>
-        <StyledTextField
+      <div className='flex justify-center w-full'>
+        <TextField
           value={secret}
           onChange={e => setSecret(e.target.value)}
           placeholder='Enter secret phrase'
+          className='w-3/5 mr-4'
         />
 
-        <Button onClick={handleAdd}>Add</Button>
-      </StyledControls>
-    </StyledContainer>
+        <Button onClick={handleAdd} className=''>
+          Add
+        </Button>
+      </div>
+    </Container>
   )
 }
 

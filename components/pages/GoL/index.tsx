@@ -1,4 +1,3 @@
-import { Controls } from './styles'
 import Container from '../../atoms/Container'
 import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
@@ -73,7 +72,7 @@ const GoL = () => {
 
   return (
     <Container style={{ width: '95%' }}>
-      <Controls>
+      <div className='flex flex-col items-center justify-center mb-5'>
         <div>
           <TextField
             value={width}
@@ -87,6 +86,7 @@ const GoL = () => {
             placeholder='Height'
             type='number'
             onChange={e => changeHeight(+e.target.value)}
+            className='mx-0 my-3'
           />
         </div>
 
@@ -97,8 +97,8 @@ const GoL = () => {
           onChange={e => setDelay(+e.target.value)}
         />
 
-        <div>
-          <Button onClick={() => setRunning(old => !old)}>
+        <div className='flex my-3'>
+          <Button onClick={() => setRunning(old => !old)} className='mr-3'>
             {running ? 'Stop' : 'Start'}
           </Button>
 
@@ -111,7 +111,7 @@ const GoL = () => {
             Reset
           </Button>
         </div>
-      </Controls>
+      </div>
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Canvas

@@ -1,15 +1,15 @@
 import NextLink from 'next/link'
 
-import { ErrorBox, Link } from './styles'
+import Container from '../../atoms/Container'
 
 const Page = () => (
-  <ErrorBox>
+  <Container className='!absolute !top-1/2 !left-1/2 flex flex-col items-center justify-center !w-max -translate-x-1/2 -translate-y-1/2'>
     <h1>Page Not Found</h1>
 
     <NextLink href='/' replace passHref>
-      <Link>Go back home</Link>
+      <a className='text-sky-400 hover:underline'>Go back home</a>
     </NextLink>
-  </ErrorBox>
+  </Container>
 )
 
 export default Page

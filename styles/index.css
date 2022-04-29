@@ -30,3 +30,8 @@
 .markdown > p {
   margin: 0;
 }
+
+.markdown a {
+  color: inherit;
+  text-decoration: underline;
+}

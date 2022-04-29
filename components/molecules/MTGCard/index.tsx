@@ -6,8 +6,7 @@ import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
 import { Card } from '../../../shared/toadvillage'
 
 import CardImage from './CardImage'
-
-import { StyledCardActions, StyledButton } from './styles'
+import Button from '../../atoms/Button'
 
 type MTGCardProps = {
   amount: number
@@ -57,30 +56,48 @@ const MTGCard: React.FC<MTGCardProps> = ({
           {faces && flipped && <CardImage src={faces[1].image} />}
         </div>
 
-        <div className={clsx(' group-hover:opacity-0', amount === 0 && '')}>
+        <div
+          className={clsx(
+            'absolute top-1/3 left-1/2 border border-slate-200 rounded-full p-4 bg-slate-800 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-sky-400 pointer-events-none group-hover:opacity-0',
+            amount === 0 && 'border-red-600 text-red-600'
+          )}
+        >
           {amount}
         </div>
       </div>
 
-      <StyledCardActions>
-        <StyledButton onClick={handleSub} isGrey={amount === 0}>
+      <div className='flex items-center justify-around mx-auto my-2 w-full'>
+        <Button
+          onClick={handleSub}
+          disabled={amount === 0}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] '
+        >
           <FaMinus />
-        </StyledButton>
+        </Button>
 
-        <StyledButton onClick={handleMove} style={{ fontWeight: 'bold' }}>
+        <Button
+          onClick={handleMove}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] font-bold'
+        >
           Move
-        </StyledButton>
+        </Button>
 
-        <StyledButton onClick={handleAdd}>
+        <Button
+          onClick={handleAdd}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] '
+        >
           <FaPlus />
-        </StyledButton>
+        </Button>
 
         {faces && (
-          <StyledButton onClick={handleFlip}>
+          <Button
+            onClick={handleFlip}
+            className='h-10 min-w-[2.5rem] max-w-[4rem] '
+          >
             <FaSync />
-          </StyledButton>
+          </Button>
         )}
-      </StyledCardActions>
+      </div>
     </div>
   )
 }
