@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 import TextField from '../../atoms/TextField'
 import TextArea from '../../atoms/TextArea'
-// import Button from '../../atoms/Button'
 
 const StyledButtonHolder = styled.div`
   justify-content: center;
@@ -11,10 +10,6 @@ const StyledButtonHolder = styled.div`
 
   margin-bottom: 1.25rem;
 `
-//  TODO: Fix this
-// & > ${Button} {
-//   margin: 0 0.5rem;
-// }
 
 const StyledTextFieldHolder = styled.div`
   justify-content: center;

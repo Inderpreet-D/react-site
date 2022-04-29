@@ -29,5 +29,8 @@ module.exports = {
         permanent: false
       }
     ]
+  },
+  images: {
+    domains: ['c1.scryfall.com']
   }
 }

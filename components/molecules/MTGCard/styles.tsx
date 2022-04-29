@@ -43,40 +43,6 @@ const StyledCardCount = styled.div<CardCountProps>`
   ${({ noCards }) => noCards && noCardStyles};
 `
 
-const StyledImageHolder = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-  &:hover ${StyledCardCount} {
-    opacity: 0;
-  }
-
-  &:hover {
-    z-index: 1;
-  }
-`
-
-const StyledCardImageHolder = styled.div`
-  position: relative;
-  width: 95%;
-`
-
-const StyledCardImage = styled.img`
-  transition: transform 400ms;
-  margin: 0.5rem auto 0.3rem auto;
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme.background};
-  border-radius: 1rem;
-  box-sizing: border-box;
-
-  &:hover {
-    transform: scale(1.25);
-    cursor: zoom-in;
-  }
-`
-
 const StyledCardActions = styled.div`
   display: flex;
   justify-content: space-around;
@@ -115,11 +81,4 @@ const StyledButton = styled.div<ButtonProps>`
   ${({ isGrey }) => isGrey && greyStyles}
 `
 
-export {
-  StyledImageHolder,
-  StyledCardImageHolder,
-  StyledCardImage,
-  StyledCardCount,
-  StyledCardActions,
-  StyledButton
-}
+export { StyledCardCount, StyledCardActions, StyledButton }

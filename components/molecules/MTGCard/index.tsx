@@ -5,14 +5,9 @@ import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
 
 import { Card } from '../../../shared/toadvillage'
 
-import {
-  StyledImageHolder,
-  StyledCardImageHolder,
-  StyledCardImage,
-  StyledCardCount,
-  StyledCardActions,
-  StyledButton
-} from './styles'
+import CardImage from './CardImage'
+
+import { StyledCardActions, StyledButton } from './styles'
 
 type MTGCardProps = {
   amount: number
@@ -40,27 +35,32 @@ const MTGCard: React.FC<MTGCardProps> = ({
       onClickRemove(name, isCommander)
     }
   }, [amount, onClickRemove, name, isCommander])
+
   const handleMove = React.useCallback(() => {
     onClickMove(name, isCommander)
   }, [onClickMove, name, isCommander])
+
   const handleAdd = React.useCallback(() => {
     onClickAdd(name, isCommander)
   }, [onClickAdd, name, isCommander])
+
   const handleFlip = React.useCallback(() => {
     setFlipped(old => !old)
   }, [])
 
   return (
     <div className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'>
-      <StyledImageHolder>
-        <StyledCardImageHolder>
-          {(!faces || !flipped) && <StyledCardImage src={image} />}
+      <div className='group relative flex justify-center w-full hover:z-10'>
+        <div className='relative w-11/12 h-full'>
+          {(!faces || !flipped) && <CardImage src={image} />}
 
-          {faces && flipped && <StyledCardImage src={faces[1].image} />}
-        </StyledCardImageHolder>
+          {faces && flipped && <CardImage src={faces[1].image} />}
+        </div>
 
-        <StyledCardCount noCards={amount === 0}>{amount}</StyledCardCount>
-      </StyledImageHolder>
+        <div className={clsx(' group-hover:opacity-0', amount === 0 && '')}>
+          {amount}
+        </div>
+      </div>
 
       <StyledCardActions>
         <StyledButton onClick={handleSub} isGrey={amount === 0}>

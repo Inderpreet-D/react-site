@@ -22,7 +22,7 @@
     "firebase-admin": "^10.0.1",
     "html-react-parser": "^1.4.0",
     "lodash": "^4.17.21",
-    "next": "^11.1.2",
+    "next": "^12.1.5",
     "next-seo": "^4.24.0",
     "project-name-generator": "^2.1.9",
     "qs": "^6.10.3",
