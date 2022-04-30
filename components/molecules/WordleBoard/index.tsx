@@ -11,6 +11,34 @@ type WordleBoardProps = {
   reset: () => void
 }
 
+export const getCellColors = (
+  state: State,
+  rowIdx: number,
+  cellIdx: number,
+  key: string
+) => {
+  return 'GYBBB'
+}
+
+const isInWord = (word: string, letter: string, idx: number) => {
+  let before = 0
+  let total = 0
+
+  const letters = [...word]
+  letters.forEach((c, i) => {
+    if (c === letter) {
+      total++
+      if (i < idx) {
+        before++
+      }
+    }
+  })
+
+  console.log({ word, letter, idx, before, total })
+
+  return before < total
+}
+
 const getCell = (
   state: State,
   rowIdx: number,
@@ -21,12 +49,13 @@ const getCell = (
     return <Cell key={key} className='bg-slate-700' />
   }
 
-  // TODO: Update this logic to sweep better
-  const guess = state.guesses[rowIdx]
+  const { word, guesses } = state
+  const guess = guesses[rowIdx]
   const letter = guess[cellIdx]
-  const inWord = state.word.includes(letter)
-  const correct = state.word[cellIdx] === letter
   const upper = letter.toLocaleUpperCase()
+
+  const inWord = word.includes(letter) && isInWord(word, letter, cellIdx)
+  const correct = word[cellIdx] === letter
 
   if (correct) {
     return (
@@ -184,6 +213,9 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
   return (
     <div className='flex items-center justify-center flex-col w-full overflow-auto'>
+      {/* TODO: Remove this debug */}
+      <div className='text-red-600 my-4'>{state.word}</div>
+
       {new Array(state.maxRound).fill(0).map((_, rowIdx) => (
         <div
           key={rowIdx}
