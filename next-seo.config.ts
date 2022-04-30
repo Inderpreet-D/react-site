@@ -1,4 +1,4 @@
-export default {
+const config = {
   description:
     "Inderpreet Dhillon's personal site, featuring some of my latest projects. All built using React and Next.js",
   openGraph: {
@@ -12,3 +12,5 @@ export default {
     cardType: 'summary_large_image'
   }
 }
+
+export default config

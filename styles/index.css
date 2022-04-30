@@ -6,6 +6,21 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
+body {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  color: white;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .loading-icon {
   border-color: rgb(0, 115, 62) rgb(211, 32, 42) rgb(21, 11, 0)
     rgb(14, 104, 171);

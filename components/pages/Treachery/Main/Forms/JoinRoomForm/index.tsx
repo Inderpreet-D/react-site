@@ -1,13 +1,14 @@
 import { FormProps } from '../types'
 
-import StyledTextField from './styles'
+import TextField from '../../../../../atoms/TextField'
 
 const JoinRoomForm: React.FC<FormProps> = ({ values: { code }, onChange }) => (
-  <StyledTextField
+  <TextField
     onChange={e => onChange('code')(e.target.value)}
     value={code}
     placeholder='4-Letter Room Code'
     aria-label='Room code'
+    className='w-60'
   />
 )
 

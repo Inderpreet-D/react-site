@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": [
-      "es6",
-      "es7",
-      "esnext",
-      "dom"
-    ],
+    "lib": ["es6", "es7", "esnext", "dom"],
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -32,13 +27,6 @@
     "allowUmdGlobalAccess": true,
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "scripts"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "scripts"]
 }

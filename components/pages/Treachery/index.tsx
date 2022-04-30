@@ -1,14 +1,14 @@
 import { Rarity } from '../../../shared/treachery'
 import { CardResponse } from '../../../pages/api/treachery/types'
-
-import Main from './Main'
-import Room, { RoomState } from './Room'
-import Card from './Card'
+import { RoomState } from './Room'
 
 import Container from '../../atoms/Container'
-import ContainerError from '../../atoms/ContainerError'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
+import ContainerError from '../../atoms/ContainerError'
+import Main from './Main'
+import Room from './Room'
+import Card from './Card'
 import LoadingIcon from '../../atoms/LoadingIcon'
 
 import {

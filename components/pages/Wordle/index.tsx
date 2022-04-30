@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-import { StyledSelect, StyledHolder } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
@@ -8,6 +7,7 @@ import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
 import { useWordleState } from '../../../providers/WordleStateProvider'
+import Select from '../../atoms/Select'
 
 const Page = () => {
   const { startGame } = useWordleState()
@@ -53,20 +53,21 @@ const Page = () => {
     <Container>
       <ContainerTitle>Wordle</ContainerTitle>
 
-      <StyledHolder>
+      <div className='flex flex-col items-center'>
         {isLoadingOptions ? (
           <LoadingIcon />
         ) : (
-          <StyledSelect
+          <Select
             label='Word Length'
             options={options.map(opt => `${opt}`)}
             value={length.toString()}
             onChange={val => setLength(+val)}
+            className='mt-2 mb-4 mx-0'
           />
         )}
 
         <WordleBoard reset={() => setFetched(false)} />
-      </StyledHolder>
+      </div>
     </Container>
   )
 }
