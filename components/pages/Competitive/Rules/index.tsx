@@ -21,14 +21,14 @@ const Rules: React.FC<RulesProps> = ({ rules }) => {
 
           if ((t as RuleType) === 'BAN') {
             return (
-              <li key={i} className='text-red-800 mb-2 last:mb-0'>
+              <li key={i} className='text-red-600 mb-2 last:mb-0'>
                 {md}
               </li>
             )
           }
 
           return (
-            <li key={i} className='text-sky-600 mb-2 last:mb-0'>
+            <li key={i} className='text-sky-400 mb-2 last:mb-0'>
               {md}
             </li>
           )

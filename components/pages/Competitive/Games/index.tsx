@@ -137,8 +137,8 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
                   <tr
                     key={name}
                     className={clsx(
-                      'border-b border-b-slate-900 text-slate-400 transition-all duration-500',
-                      name === game.winner && 'bg-sky-400 text-sky-200',
+                      'border-b border-b-slate-900 text-white transition-all duration-500',
+                      name === game.winner && 'bg-sky-400 text-slate-700',
                       'hover:bg-slate-900 hover:text-white'
                     )}
                   >

@@ -32,7 +32,7 @@ const TextField: React.FC<TextFieldProps> = ({
       <input
         id={id}
         ref={inputRef}
-        className='origin-top-left transition-all duration-100 mt-4 border-none box-border w-7/12 p-0 bg-transparent text-base text-center decoration-transparent no-underline text-sky-600 outline-none appearance-none group-focus-within:scale-150 group-focus-within:mt-2 group-focus-within:mb-2 group-focus-within:-ml-[42.75%] group-focus-within:text-sky-400'
+        className='origin-top-left transition-all duration-100 mt-4 border-none box-border w-7/12 p-0 bg-transparent text-base text-center decoration-transparent no-underline text-sky-800 outline-none appearance-none group-focus-within:scale-150 group-focus-within:mt-2 group-focus-within:mb-2 group-focus-within:-ml-[42.75%] group-focus-within:text-sky-400'
         {...props}
       />
     </div>

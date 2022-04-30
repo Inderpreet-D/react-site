@@ -18,7 +18,7 @@ const getCell = (
   key: string
 ) => {
   if (rowIdx > state.round) {
-    return <Cell key={key} className='bg-slate-600' />
+    return <Cell key={key} className='bg-slate-700' />
   }
 
   // TODO: Update this logic to sweep better
@@ -45,7 +45,7 @@ const getCell = (
   }
 
   return (
-    <Cell key={key} className='bg-slate-600'>
+    <Cell key={key} className='bg-slate-700'>
       {upper}
     </Cell>
   )

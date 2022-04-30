@@ -22,7 +22,7 @@ const ListItem: React.FC<ListItemProps> = ({
       <Checkbox
         checked={checked}
         onCheck={onCheck}
-        className='mr-3 group-hover:border-sky-200'
+        className='mr-3 group-hover:border-sky-800'
       />
 
       <div
