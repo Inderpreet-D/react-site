@@ -1,7 +1,10 @@
-import styled from "styled-components";
+import { DivProps } from 'react-html-props'
+import clsx from 'clsx'
 
-const StyledSpacer = styled.div`
-  flex-grow: 1;
-`;
+const className = 'flex-grow'
 
-export default StyledSpacer;
+const Spacer: React.FC<DivProps> = ({ className: extraClass, ...props }) => {
+  return <div className={clsx(className, extraClass)} {...props} />
+}
+
+export default Spacer

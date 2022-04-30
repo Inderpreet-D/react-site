@@ -1,7 +1,8 @@
-import { StyledButton, StyledLabel } from './styles'
+import Button from '../Button'
 
 type UploadButtonProps = {
   onFileSelected: (files: FileList | null) => void
+  children: React.ReactNode
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({
@@ -9,16 +10,17 @@ const UploadButton: React.FC<UploadButtonProps> = ({
   onFileSelected,
   ...props
 }) => (
-  <StyledButton {...props}>
-    <StyledLabel>
+  <Button className='!p-0' {...props}>
+    <label className='w-full h-full px-4 py-2'>
       {children}
+
       <input
         type='file'
         onChange={e => onFileSelected(e.target.files)}
         hidden
       />
-    </StyledLabel>
-  </StyledButton>
+    </label>
+  </Button>
 )
 
 export default UploadButton

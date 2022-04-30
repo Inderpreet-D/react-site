@@ -6,7 +6,6 @@ import {
   Tooltip,
   Bar
 } from 'recharts'
-import { useTheme } from 'styled-components'
 
 import { Season } from '..'
 
@@ -34,8 +33,6 @@ const extractLeaderboard = (season: Season): { [x: string]: number } => {
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({ season }) => {
-  const theme = useTheme()
-
   const leaderboard = React.useMemo(() => extractLeaderboard(season), [season])
 
   const data = React.useMemo(() => {
@@ -70,7 +67,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ season }) => {
 
             <Tooltip content={<TT />} />
 
-            <Bar dataKey='Win' fill={theme.foregroundDark} />
+            <Bar dataKey='Win' fill='rgba(15, 23, 42, 1)' />
           </BarChart>
         </ResponsiveContainer>
       </div>

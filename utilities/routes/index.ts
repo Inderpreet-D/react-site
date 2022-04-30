@@ -4,7 +4,6 @@ const routes: Routes = {
   Home: '/',
   Projects: '/projects',
   MTG: '/mtg',
-  Poetry: '/poetry',
   Recipes: '/recipes'
 }
 

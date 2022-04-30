@@ -5,6 +5,7 @@ import Button from '../Button'
 
 type SelectProps = DivProps & {
   label?: string
+  labelClass?: string
   options: string[]
   value: string
   onChange: (val: string) => void
@@ -15,7 +16,8 @@ const Select: React.FC<SelectProps> = ({
   options,
   value,
   onChange,
-  className: extraClasss
+  className: extraClasss,
+  labelClass
 }) => {
   const [open, setOpen] = React.useState(false)
 
@@ -37,10 +39,21 @@ const Select: React.FC<SelectProps> = ({
 
   return (
     <div className={clsx('flex items-center', extraClasss)}>
-      {label && <div className='text-white text-base mr-4'>{label}</div>}
+      {label && (
+        <div className={clsx('text-white text-base mr-4', labelClass)}>
+          {label}
+        </div>
+      )}
 
       <div className={'relative'}>
-        <Button onClick={handleMainClick} className='relative'>
+        <Button
+          onClick={e => {
+            e.stopPropagation()
+            e.preventDefault()
+            handleMainClick()
+          }}
+          className='relative'
+        >
           {value}
         </Button>
 

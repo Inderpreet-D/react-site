@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 
-import { StyledWrapper, StyledChildren } from './styles'
 import Header from '../../atoms/Header'
 import Footer from '../../atoms/Footer'
 
@@ -27,13 +26,13 @@ const Page = ({ children, title, hideHeader, hideFooter }: PageProps) => {
         <title>{title}</title>
       </Head>
 
-      <StyledWrapper>
+      <div className='flex flex-col w-screen h-screen'>
         {!hideHeader && <Header />}
 
-        <StyledChildren>{children}</StyledChildren>
+        <div className='flex-grow overflow-auto'>{children}</div>
 
         {!hideFooter && <Footer />}
-      </StyledWrapper>
+      </div>
     </>
   )
 }

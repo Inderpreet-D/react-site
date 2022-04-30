@@ -7,9 +7,13 @@ type ContextType = {
   update: (index: number) => void
 }
 
+type Props = {
+  children: React.ReactNode
+}
+
 const RecipeStateContext = React.createContext<ContextType | null>(null)
 
-const RecipeStateProvider: React.FC = ({ children }) => {
+const RecipeStateProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = React.useReducer(recipeStateReducer, initialState)
 
   const reset = React.useCallback(() => {

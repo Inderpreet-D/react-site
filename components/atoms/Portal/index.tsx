@@ -2,7 +2,11 @@ import { createPortal } from 'react-dom'
 
 import { PORTAL_ID } from '../../../pages/_document'
 
-const Portal: React.FC = ({ children }) => {
+type Props = {
+  children: React.ReactNode
+}
+
+const Portal: React.FC<Props> = ({ children }) => {
   const [mounted, setMounted] = React.useState(false)
 
   //  Updates mounted status
@@ -11,10 +15,6 @@ const Portal: React.FC = ({ children }) => {
 
     return () => setMounted(false)
   }, [])
-
-  if (!mounted) {
-    return null
-  }
 
   if (!mounted) {
     return null

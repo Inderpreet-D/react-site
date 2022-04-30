@@ -1,6 +1,6 @@
 import { FormProps } from '../types'
 
-import { StyledContainer, StyledSelect } from './styles'
+import Select from '../../../../../atoms/Select'
 
 type CreateRoomProps = FormProps & {
   playerOptions: number[]
@@ -13,21 +13,25 @@ const CreateRoomForm: React.FC<CreateRoomProps> = ({
   playerOptions,
   rarityOptions
 }) => (
-  <StyledContainer>
-    <StyledSelect
+  <div className='flex flex-col lg:flex-row'>
+    <Select
       label='Number of Players'
       options={playerOptions.map(x => x.toString())}
       value={players.toString()}
       onChange={val => onChange('players')(val as string)}
+      className='mx-0 my-2 lg:mx-2 lg:my-0 w-full'
+      labelClass='w-[inherit] lg:w-max'
     />
 
-    <StyledSelect
+    <Select
       label='Role Rarity'
       options={rarityOptions}
       value={rarity}
       onChange={val => onChange('rarity')(val as string)}
+      className='mx-0 my-2 lg:mx-2 lg:my-0 w-full'
+      labelClass='w-[inherit] lg:w-max'
     />
-  </StyledContainer>
+  </div>
 )
 
 export default CreateRoomForm

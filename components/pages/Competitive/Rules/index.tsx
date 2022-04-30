@@ -1,6 +1,5 @@
 import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
-
-import { OrderedList, BanItem, GeneralItem, Markdown } from './styles'
+import Markdown from '../../../atoms/Markdown'
 
 type RulesProps = {
   rules: string[]
@@ -15,19 +14,26 @@ const Rules: React.FC<RulesProps> = ({ rules }) => {
     <>
       <ContainerSubTitle>Rules</ContainerSubTitle>
 
-      <OrderedList>
+      <ul className='list-decimal pl-6'>
         {rules.map((rule, i) => {
           const [t, text] = rule.split(TYPE_SEPARATOR)
-          const type = t as RuleType
-          const Item = type === 'BAN' ? BanItem : GeneralItem
+          const md = <Markdown markdown={text} />
+
+          if ((t as RuleType) === 'BAN') {
+            return (
+              <li key={i} className='text-red-600 mb-2 last:mb-0'>
+                {md}
+              </li>
+            )
+          }
 
           return (
-            <Item key={i}>
-              <Markdown markdown={text} />
-            </Item>
+            <li key={i} className='text-sky-400 mb-2 last:mb-0'>
+              {md}
+            </li>
           )
         })}
-      </OrderedList>
+      </ul>
     </>
   )
 }

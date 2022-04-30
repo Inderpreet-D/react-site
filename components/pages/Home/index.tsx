@@ -4,14 +4,12 @@ import Article from './Sections/Article'
 import DataComp from './Sections/Data'
 import Date from './Sections/Date'
 import Control from '../../atoms/Control'
-import {
-  Separator,
-  Box,
-  ButtonHolder,
-  Button,
-  Card,
-  Section
-} from '../../atoms/BoxView'
+import Separator from '../../atoms/Separator'
+import Section from '../../atoms/Section'
+import Card from '../../atoms/Card'
+import Button from '../../atoms/Button'
+import ButtonHolder from '../../atoms/ButtonHolder'
+import Box from '../../atoms/Box'
 
 import meRaw, { Data } from './Data/me'
 
@@ -55,7 +53,12 @@ const Page = () => {
       <Box>
         <ButtonHolder>
           {me.map(({ title }, i) => (
-            <Button key={i} active={idx === i} onMouseEnter={update(i)}>
+            <Button
+              key={i}
+              active={idx === i}
+              onMouseEnter={update(i)}
+              className='w-full mb-2 lg:mb-0'
+            >
               {title}
             </Button>
           ))}

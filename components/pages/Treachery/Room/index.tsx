@@ -1,9 +1,3 @@
-import {
-  StyledContainer,
-  StyledInfoHolder,
-  StyledHeader,
-  StyledSubHeader
-} from './styles'
 import LoadingIcon from '../../../atoms/LoadingIcon'
 
 export type RoomState = {
@@ -13,17 +7,17 @@ export type RoomState = {
 }
 
 const Room: React.FC<RoomState> = ({ roomCode, numPlayers, roomSize }) => (
-  <StyledContainer>
-    <StyledInfoHolder>
-      <StyledHeader>Room Code: {roomCode}</StyledHeader>
+  <div className='flex flex-col items-center'>
+    <div className='mb-4 border-2 border-sky-400 rounded-xl box-border w-max p-4 bg-slate-900'>
+      <div className='text-center mb-2 text-4xl'>Room Code: {roomCode}</div>
 
-      <StyledSubHeader>
+      <div className='text-center text-xl'>
         {numPlayers} / {roomSize} Players Joined
-      </StyledSubHeader>
-    </StyledInfoHolder>
+      </div>
+    </div>
 
     <LoadingIcon />
-  </StyledContainer>
+  </div>
 )
 
 export default Room

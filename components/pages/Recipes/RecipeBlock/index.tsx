@@ -1,11 +1,15 @@
 import { PropType } from '../types'
 
-import { Box, ButtonHolder, Button, Card } from '../../../atoms/BoxView'
 import Ingredients from '../Ingredients'
 import Recipe from '../Recipe'
+import Box from '../../../atoms/Box'
+import ButtonHolder from '../../../atoms/ButtonHolder'
+import Button from '../../../atoms/Button'
+import Card from '../../../atoms/Card'
+import Control from '../../../atoms/Control'
+import Section from '../../../atoms/Section'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
-import { Section, Control } from './styles'
 
 type ButtonType = 'ingredients' | 'recipe'
 type HoverType = ButtonType | ''
@@ -41,6 +45,7 @@ const RecipeBlock = ({ recipe }: PropType) => {
               onClick={() => setSelected(nameType)}
               onMouseEnter={() => setHovering(nameType)}
               onMouseLeave={() => setHovering('')}
+              className='w-full mb-2 lg:mb-0'
             >
               {MAP[nameType]}
             </Button>
@@ -55,10 +60,11 @@ const RecipeBlock = ({ recipe }: PropType) => {
             last={recipe.pages.length}
             onForward={() => update(index + 1)}
             onBack={() => update(index - 1)}
+            className='mb-6'
           />
         )}
 
-        <Section>
+        <Section className='flex-1'>
           <Component recipe={recipe} index={index} />
         </Section>
       </Card>

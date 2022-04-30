@@ -1,18 +1,12 @@
+import clsx from 'clsx'
 import { FaSync } from '@react-icons/all-files/fa/FaSync'
 import { FaPlus } from '@react-icons/all-files/fa/FaPlus'
 import { FaMinus } from '@react-icons/all-files/fa/FaMinus'
 
 import { Card } from '../../../shared/toadvillage'
 
-import {
-  StyledCard,
-  StyledImageHolder,
-  StyledCardImageHolder,
-  StyledCardImage,
-  StyledCardCount,
-  StyledCardActions,
-  StyledButton
-} from './styles'
+import CardImage from './CardImage'
+import Button from '../../atoms/Button'
 
 type MTGCardProps = {
   amount: number
@@ -35,43 +29,76 @@ const MTGCard: React.FC<MTGCardProps> = ({
 
   const { image, name, faces } = card
 
-  const handleSub = () => amount > 0 && onClickRemove(name, isCommander)
-  const handleMove = () => onClickMove(name, isCommander)
-  const handleAdd = () => onClickAdd(name, isCommander)
-  const handleFlip = () => setFlipped(!flipped)
+  const handleSub = React.useCallback(() => {
+    if (amount > 0) {
+      onClickRemove(name, isCommander)
+    }
+  }, [amount, onClickRemove, name, isCommander])
+
+  const handleMove = React.useCallback(() => {
+    onClickMove(name, isCommander)
+  }, [onClickMove, name, isCommander])
+
+  const handleAdd = React.useCallback(() => {
+    onClickAdd(name, isCommander)
+  }, [onClickAdd, name, isCommander])
+
+  const handleFlip = React.useCallback(() => {
+    setFlipped(old => !old)
+  }, [])
 
   return (
-    <StyledCard>
-      <StyledImageHolder>
-        <StyledCardImageHolder>
-          {(!faces || !flipped) && <StyledCardImage src={image} />}
+    <div className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'>
+      <div className='group relative flex justify-center w-full hover:z-10'>
+        <div className='relative w-11/12 h-full'>
+          {(!faces || !flipped) && <CardImage src={image} />}
 
-          {faces && flipped && <StyledCardImage src={faces[1].image} />}
-        </StyledCardImageHolder>
+          {faces && flipped && <CardImage src={faces[1].image} />}
+        </div>
 
-        <StyledCardCount noCards={amount === 0}>{amount}</StyledCardCount>
-      </StyledImageHolder>
+        <div
+          className={clsx(
+            'absolute top-1/3 left-1/2 border border-slate-200 rounded-full p-4 bg-slate-800 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-sky-400 pointer-events-none group-hover:opacity-0',
+            amount === 0 && 'border-red-600 text-red-600'
+          )}
+        >
+          {amount}
+        </div>
+      </div>
 
-      <StyledCardActions>
-        <StyledButton onClick={handleSub} isGrey={amount === 0}>
+      <div className='flex items-center justify-around mx-auto my-2 w-full'>
+        <Button
+          onClick={handleSub}
+          disabled={amount === 0}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] '
+        >
           <FaMinus />
-        </StyledButton>
+        </Button>
 
-        <StyledButton onClick={handleMove} style={{ fontWeight: 'bold' }}>
+        <Button
+          onClick={handleMove}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] font-bold'
+        >
           Move
-        </StyledButton>
+        </Button>
 
-        <StyledButton onClick={handleAdd}>
+        <Button
+          onClick={handleAdd}
+          className='h-10 min-w-[2.5rem] max-w-[4rem] '
+        >
           <FaPlus />
-        </StyledButton>
+        </Button>
 
         {faces && (
-          <StyledButton onClick={handleFlip}>
+          <Button
+            onClick={handleFlip}
+            className='h-10 min-w-[2.5rem] max-w-[4rem] '
+          >
             <FaSync />
-          </StyledButton>
+          </Button>
         )}
-      </StyledCardActions>
-    </StyledCard>
+      </div>
+    </div>
   )
 }
 

@@ -1,18 +1,11 @@
+import clsx from 'clsx'
 import { isEqual } from 'lodash'
 import { format as dateFormat } from 'date-fns'
 
-import {
-  TableHolder,
-  Table,
-  HeaderRow,
-  Row,
-  HeaderCell,
-  DataCell,
-  GameGrid
-} from './styles'
 import { Game } from '..'
+
 import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
-import HorizontalListButton from '../../../atoms/HorizontalListButton'
+import Button from '../../../atoms/Button'
 
 type GamesProps = {
   games: Game[]
@@ -60,6 +53,8 @@ const extractDeckData = (deck: string): DeckType => {
   }
 }
 
+const cellClassName = 'p-2 text-left'
+
 const Games: React.FC<GamesProps> = ({ games, year }) => {
   const [game, setGame] = React.useState<Game | null>(null)
 
@@ -99,34 +94,33 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
         Games
       </ContainerSubTitle>
 
-      <GameGrid>
+      <div className='grid grid-cols-1 gap-8 p-8 lg:grid-cols-3 sm:grid-cols-2'>
         {formattedGames.map((g, i) => (
-          <HorizontalListButton
+          <Button
             key={i}
             active={isEqual(g, game)}
             onClick={() => setGame(old => (isEqual(old, g) ? null : g))}
-            style={{ minWidth: 'unset' }}
           >
             {getDate(g.date)}
-          </HorizontalListButton>
+          </Button>
         ))}
-      </GameGrid>
+      </div>
 
       {game && (
-        <TableHolder>
-          <Table>
+        <div className='overflow-x-auto'>
+          <table className='mx-0 my-4 w-full border-collapse'>
             <thead>
-              <HeaderRow>
-                <HeaderCell>Player</HeaderCell>
+              <tr className='bg-slate-800 text-slate-400'>
+                <th className={cellClassName}>Player</th>
 
-                <HeaderCell>Commander</HeaderCell>
+                <th className={cellClassName}>Commander</th>
 
-                {showTheme && <HeaderCell>Theme</HeaderCell>}
+                {showTheme && <th className={cellClassName}>Theme</th>}
 
-                {showTribe && <HeaderCell>Tribe</HeaderCell>}
+                {showTribe && <th className={cellClassName}>Tribe</th>}
 
-                {showCompanion && <HeaderCell>Companion</HeaderCell>}
-              </HeaderRow>
+                {showCompanion && <th className={cellClassName}>Companion</th>}
+              </tr>
             </thead>
 
             <tbody>
@@ -140,22 +134,31 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
                 } = extractDeckData(deck)
 
                 return (
-                  <Row key={name} winner={name === game.winner}>
-                    <DataCell>{name}</DataCell>
+                  <tr
+                    key={name}
+                    className={clsx(
+                      'border-b border-b-slate-900 text-white transition-all duration-500',
+                      name === game.winner && 'bg-sky-400 text-slate-700',
+                      'hover:bg-slate-900 hover:text-white'
+                    )}
+                  >
+                    <td className={cellClassName}>{name}</td>
 
-                    <DataCell>{commander}</DataCell>
+                    <td className={cellClassName}>{commander}</td>
 
-                    {showTheme && <DataCell>{theme}</DataCell>}
+                    {showTheme && <td className={cellClassName}>{theme}</td>}
 
-                    {showTribe && <DataCell>{tribe}</DataCell>}
+                    {showTribe && <td className={cellClassName}>{tribe}</td>}
 
-                    {showCompanion && <DataCell>{companion}</DataCell>}
-                  </Row>
+                    {showCompanion && (
+                      <td className={cellClassName}>{companion}</td>
+                    )}
+                  </tr>
                 )
               })}
             </tbody>
-          </Table>
-        </TableHolder>
+          </table>
+        </div>
       )}
     </>
   )

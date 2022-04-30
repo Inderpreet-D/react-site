@@ -1,4 +1,3 @@
-import { StyledHeader, StyledDesktopItems, StyledMobileItems } from './styles'
 import NavigationItem from '../NavigationItem'
 import Sidebar from '../Sidebar'
 import routes from '../../../utilities/routes'
@@ -9,15 +8,17 @@ const HEADER_ITEMS = Object.entries(routes).map(([key, link], i) => (
   </NavigationItem>
 ))
 
+const className = 'flex border-b border-b-slate-400 box-border bg-slate-800'
+
 const Header = () => {
   return (
-    <StyledHeader>
-      <StyledDesktopItems>{HEADER_ITEMS}</StyledDesktopItems>
+    <div className={className}>
+      <div className='hidden overflow-auto lg:flex'>{HEADER_ITEMS}</div>
 
-      <StyledMobileItems>
+      <div className='flex lg:hidden'>
         <Sidebar>{HEADER_ITEMS}</Sidebar>
-      </StyledMobileItems>
-    </StyledHeader>
+      </div>
+    </div>
   )
 }
 

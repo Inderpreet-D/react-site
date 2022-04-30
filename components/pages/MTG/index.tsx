@@ -1,7 +1,7 @@
-import { Info, ButtonArea, LinkButton } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import Tooltip from '../../atoms/Tooltip'
+import LinkButton from '../../atoms/LinkButton'
 
 type ButtonData = {
   href: string
@@ -33,18 +33,22 @@ const Page = () => {
     <Container>
       <ContainerTitle>MTG Hub</ContainerTitle>
 
-      <Info>
+      <div className='mb-8 text-2xl'>
         This page has links to everything concerning Magic the Gathering on this
         site
-      </Info>
+      </div>
 
-      <ButtonArea>
-        {buttonData.map(({ href, title, description }) => (
+      <div className='flex flex-col justify-center w-fit'>
+        {buttonData.map(({ href, title, description }, i) => (
           <Tooltip key={href} content={description}>
-            <LinkButton href={`/mtg/${href}`} title={title} />
+            <LinkButton
+              href={`/mtg/${href}`}
+              title={title}
+              className={`mb-${i === buttonData.length - 1 ? 0 : 6}`}
+            />
           </Tooltip>
         ))}
-      </ButtonArea>
+      </div>
     </Container>
   )
 }

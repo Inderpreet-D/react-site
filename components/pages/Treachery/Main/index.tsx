@@ -1,9 +1,6 @@
-import { FormEvent } from 'react'
-
 import { Rarity } from '../../../../shared/treachery'
 
 import Button from '../../../atoms/Button'
-import { StyledButtonHolder, StyledForm } from './styles'
 import JoinRoomForm from './Forms/JoinRoomForm'
 import CreateRoomForm from './Forms/CreateRoomForm'
 
@@ -63,7 +60,7 @@ const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
   }, [onJoin])
 
   const submitForm = React.useCallback(
-    (event: FormEvent) => {
+    (event: React.FormEvent) => {
       event.preventDefault()
 
       const { code, players, rarity } = values
@@ -79,17 +76,34 @@ const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
 
   return (
     <>
-      <StyledButtonHolder>
-        <Button disabled={isJoining} onClick={handleSwitch(true)}>
+      <div className='flex flex-col items-center justify-center sm:flex-row mb-4'>
+        <Button
+          disabled={isJoining}
+          onClick={handleSwitch(true)}
+          className='w-full sm:w-auto'
+        >
           Join Room
         </Button>
-        <Button disabled={!isJoining} onClick={handleSwitch(false)}>
+
+        <Button
+          disabled={!isJoining}
+          onClick={handleSwitch(false)}
+          className='mt-2 sm:mt-0 sm:ml-2 w-full sm:w-auto'
+        >
           Create Room
         </Button>
-        {canRejoin && <Button onClick={handleRejoin}>Rejoin Room</Button>}
-      </StyledButtonHolder>
 
-      <StyledForm onSubmit={submitForm}>
+        {canRejoin && (
+          <Button
+            onClick={handleRejoin}
+            className='mt-2 sm:mt-0 sm:ml-2 w-full sm:w-auto'
+          >
+            Rejoin Room
+          </Button>
+        )}
+      </div>
+
+      <form onSubmit={submitForm} className='flex items-center justify-center'>
         {isJoining ? (
           <JoinRoomForm values={values} onChange={handleChange} />
         ) : (
@@ -101,10 +115,14 @@ const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
           />
         )}
 
-        <Button type='submit' disabled={isJoining && values.code.length !== 4}>
+        <Button
+          type='submit'
+          disabled={isJoining && values.code.length !== 4}
+          className='ml-4'
+        >
           {isJoining ? 'Join' : 'Create'}
         </Button>
-      </StyledForm>
+      </form>
     </>
   )
 }

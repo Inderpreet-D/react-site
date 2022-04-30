@@ -1,8 +1,7 @@
 import { PropType as PPT } from '../types'
 
 import ContainerSection from '../../../atoms/ContainerSection'
-
-import { ListItem } from '../Ingredients/styles'
+import ListItem from '../../../atoms/ListItem'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
 
@@ -23,6 +22,7 @@ const Recipe = ({ recipe: { pages }, index }: PropType) => {
           key={line}
           checked={checked.includes(line)}
           onCheck={() => check(line)}
+          className='mb-4'
         >
           {line}
         </ListItem>

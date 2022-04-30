@@ -1,12 +1,7 @@
-import {
-  StyledContainer,
-  StyledTitle,
-  StyledScrollContainer,
-  StyledText,
-  StyledSubText,
-  StyledForm,
-  StyledTextField
-} from './styles'
+import clsx from 'clsx'
+
+import Container from '../../atoms/Container'
+import TextField from '../../atoms/TextField'
 
 import {
   part1,
@@ -15,29 +10,57 @@ import {
   decode
 } from '../../../utilities/helpers/secret'
 
+const textClassName = 'mt-0.5 p-0.5 break-all'
+
 const Page = () => {
   const [userInput, setUserInput] = React.useState('')
 
   return (
-    <StyledContainer>
-      <StyledTitle>{decode(userInput, part1)}</StyledTitle>
+    <Container className='flex flex-col overflow-hidden m-4 !w-screen !h-screen my-0 rounded-none'>
+      <div
+        className={clsx(
+          textClassName,
+          'flex justify-center text-7xl font-bold tracking-wide text-sky-400 mb-4'
+        )}
+      >
+        {decode(userInput, part1)}
+      </div>
 
-      <StyledScrollContainer>
+      <div className='flex-grow overflow-y-auto'>
         {midParts.map((part, i) => (
-          <StyledText key={i}>{decode(userInput, part)}</StyledText>
+          <div
+            key={i}
+            className={clsx(
+              textClassName,
+              'flex-shrink transition-all duration-1000 rounded-2xl text-xl !p-4 hover:bg-slate-900'
+            )}
+          >
+            {decode(userInput, part)}
+          </div>
         ))}
-      </StyledScrollContainer>
+      </div>
 
-      <StyledSubText>{decode(userInput, part3)}</StyledSubText>
+      <div
+        className={clsx(
+          textClassName,
+          'flex justify-center text-base text-sky-800'
+        )}
+      >
+        {decode(userInput, part3)}
+      </div>
 
-      <StyledForm onSubmit={e => e.preventDefault()}>
-        <StyledTextField
+      <form
+        onSubmit={e => e.preventDefault()}
+        className='flex justify-center w-full pt-5'
+      >
+        <TextField
           placeholder='Who are you to me?'
           onChange={e => setUserInput(e.target.value)}
           value={userInput}
+          className='w-3/5'
         />
-      </StyledForm>
-    </StyledContainer>
+      </form>
+    </Container>
   )
 }
 

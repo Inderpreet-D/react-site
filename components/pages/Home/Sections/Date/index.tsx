@@ -1,38 +1,25 @@
-import { SectionProps } from '../..'
 import { Date as DateType } from '../../Data/me'
+import { SectionProps } from '../..'
 
-import {
-  StyledContainer,
-  StyledHeader,
-  StyledPoints,
-  StyledPoint,
-  StyledArrow
-} from './styles'
+import Header from './Header'
 
 const Date: React.FC<SectionProps> = ({ data, idx }) => {
   const { name, location, title, date, points } = data[idx] as DateType
 
   return (
-    <StyledContainer>
-      <StyledHeader>
-        <span>{name}</span>
-        <span>{location}</span>
-      </StyledHeader>
+    <div className='flex flex-col p-4'>
+      <Header title={name} subtitle={location} />
 
-      <StyledHeader>
-        <span>{title}</span>
-        <span>{date}</span>
-      </StyledHeader>
+      <Header title={title} subtitle={date} />
 
-      <StyledPoints>
+      <ul className='p-4 list-outside list-disc'>
         {points.map((point, i) => (
-          <StyledPoint key={i}>
-            <StyledArrow />
+          <li key={i} className='mb-3'>
             {point}
-          </StyledPoint>
+          </li>
         ))}
-      </StyledPoints>
-    </StyledContainer>
+      </ul>
+    </div>
   )
 }
 

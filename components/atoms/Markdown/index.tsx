@@ -1,4 +1,4 @@
-import { MD } from './styles'
+import clsx from 'clsx'
 
 import useSWR from '../../../hooks/useSWR'
 
@@ -7,7 +7,11 @@ type MarkdownProps = {
   className?: string
 }
 
-const Markdown: React.FC<MarkdownProps> = ({ markdown, ...props }) => {
+const Markdown: React.FC<MarkdownProps> = ({
+  markdown,
+  className: extraClass,
+  ...props
+}) => {
   const { data, isLoading } = useSWR<string>(
     `/markdown?md=${encodeURIComponent(markdown)}`
   )
@@ -16,7 +20,13 @@ const Markdown: React.FC<MarkdownProps> = ({ markdown, ...props }) => {
     return null
   }
 
-  return <MD dangerouslySetInnerHTML={{ __html: data }} {...props} />
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: data }}
+      className={clsx('markdown', extraClass)}
+      {...props}
+    />
+  )
 }
 
 export default Markdown

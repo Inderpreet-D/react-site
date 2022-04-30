@@ -1,6 +1,7 @@
+import clsx from 'clsx'
 import Link from 'next/link'
 
-import { StyledLink, StyledButton } from './styles'
+import Button from '../Button'
 
 type LinkButtonProps = {
   href: string
@@ -11,9 +12,9 @@ type LinkButtonProps = {
 const LinkButton: React.FC<LinkButtonProps> = ({ href, title, className }) => {
   return (
     <Link href={href} passHref>
-      <StyledLink>
-        <StyledButton className={className}>{title}</StyledButton>
-      </StyledLink>
+      <a className='text-white visited:text-sky-400'>
+        <Button className={clsx('underline', className)}>{title}</Button>
+      </a>
     </Link>
   )
 }
