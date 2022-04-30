@@ -84,6 +84,12 @@ const projects: Project[] = [
       'A clone of the popular Wordle Game, but with a variable word length',
     href: '/games/wordle',
     hrefTitle: 'Play Wordle'
+  },
+  {
+    title: 'Poetry',
+    description: 'Randomly loads a poem from the /r/poetry subreddit',
+    href: '/poetry',
+    hrefTitle: 'View Poems'
   }
 ]
 

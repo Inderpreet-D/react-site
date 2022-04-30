@@ -6,9 +6,13 @@ type ContextType = {
   makeGuess: (guess: string) => void
 }
 
+type Props = {
+  children: React.ReactNode
+}
+
 const WordleStateContext = React.createContext<ContextType | null>(null)
 
-const WordleStateProvider: React.FC = ({ children }) => {
+const WordleStateProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
   const startGame = React.useCallback((word: string) => {

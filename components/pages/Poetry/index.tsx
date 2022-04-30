@@ -1,14 +1,17 @@
-// TODO: Fix
 import parse from 'html-react-parser'
+import clsx from 'clsx'
 
 import { Poem } from '../../../utilities/helpers/poetry/types'
 
 import Container from '../../atoms/Container'
 import LoadingIcon from '../../atoms/LoadingIcon'
-import { StyledError, StyledLink, StyledText } from './styles'
+import Button from '../../atoms/Button'
 
 import { reddit } from '../../../lib/api'
 import parsePoems, { pickRandomPoem } from '../../../utilities/helpers/poetry'
+
+const titleClassName =
+  'flex justify-center text-4xl font-bold tracking-wide text-sky-400'
 
 const Page = () => {
   const [poem, setPoem] = React.useState<Poem | null>(null)
@@ -16,6 +19,10 @@ const Page = () => {
   const [error, setError] = React.useState(false)
 
   React.useEffect(() => {
+    if (loaded) {
+      return
+    }
+
     const handleFetch = async () => {
       try {
         const res = await reddit()
@@ -37,23 +44,36 @@ const Page = () => {
     }
 
     handleFetch()
-  }, [])
+  }, [loaded])
 
   return (
     <Container>
       {!loaded ? (
         <LoadingIcon />
       ) : error ? (
-        <StyledError>An error occurred, please try again later.</StyledError>
+        <div className={titleClassName}>
+          An error occurred, please try again later.
+        </div>
       ) : (
         <>
-          <StyledLink href={poem?.url!} target='_blank' data-cy='title'>
+          <a
+            href={poem?.url!}
+            target='_blank'
+            rel='noreferrer'
+            data-cy='title'
+            className={clsx(titleClassName, 'mb-4')}
+          >
             {poem?.name}
-          </StyledLink>
+          </a>
 
-          <StyledText
+          <div
             dangerouslySetInnerHTML={{ __html: parse(poem?.body!).toString() }}
+            className='text-xl font-medium tracking-wide'
           />
+
+          <Button onClick={() => setLoaded(false)} className='mt-8 mx-auto'>
+            Refresh
+          </Button>
         </>
       )}
     </Container>

@@ -4,6 +4,7 @@ type CardActionProps = {
   alignCenter?: boolean
   alignLeft?: boolean
   alignRight?: boolean
+  children: React.ReactNode
 }
 
 const CardActions: React.FC<CardActionProps> = ({

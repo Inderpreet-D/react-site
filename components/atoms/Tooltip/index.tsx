@@ -4,6 +4,7 @@ import Portal from '../Portal'
 type TooltipProps = {
   content: React.ReactNode
   className?: string
+  children: React.ReactNode
 }
 
 const getClassName = (box: DOMRect | undefined) => {

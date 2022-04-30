@@ -1,10 +1,11 @@
+import { DivProps } from 'react-html-props'
 import { FaLessThan } from '@react-icons/all-files/fa/FaLessThan'
 import { FaGreaterThan } from '@react-icons/all-files/fa/FaGreaterThan'
 
 import Controls from '../Controls'
 import ControlButton from '../ControlButton'
 
-type ControlProps = {
+type ControlProps = DivProps & {
   current: number
   last: number
   onForward: () => void

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 type NavigationItemProps = {
   link: string
+  children: React.ReactNode
 }
 
 const className =

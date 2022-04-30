@@ -44,7 +44,7 @@ const Page = () => {
             <LinkButton
               href={`/mtg/${href}`}
               title={title}
-              className={`!mb-${i === buttonData.length - 1 ? 0 : 6}`}
+              className={`mb-${i === buttonData.length - 1 ? 0 : 6}`}
             />
           </Tooltip>
         ))}

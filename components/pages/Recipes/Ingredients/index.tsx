@@ -1,9 +1,9 @@
 import { PropType } from '../types'
 
 import ContainerSection from '../../../atoms/ContainerSection'
+import ListItem from '../../../atoms/ListItem'
 
 import { useRecipeState } from '../../../../providers/RecipeStateProvider'
-import { ListItem, NormalListItem } from './styles'
 
 const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
   const {
@@ -21,15 +21,16 @@ const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
             key={key}
             checked={checked.includes(key)}
             onCheck={() => check(key)}
+            className='mb-4'
           >
             {ing.amount} - {ing.type}
           </ListItem>
         )
       })}
 
-      <NormalListItem>Bake at: {bake}</NormalListItem>
+      <div className='mb-4 font-bold'>Bake at: {bake}</div>
 
-      <NormalListItem>Makes: {makes}</NormalListItem>
+      <div className='mb-4 font-bold'>Makes: {makes}</div>
     </ContainerSection>
   )
 }

@@ -9,7 +9,7 @@ type CheckboxProps = DivProps & {
 }
 
 const className =
-  'group relative flex items-center justify-center border-2 border-sky-400 rounded box-border w-4 h-4 bg-transparent transition-all duration-700 hover:border-sky-200 cursor-pointer'
+  'group relative flex items-center justify-center border-2 border-sky-400 rounded box-border min-w-[1rem] w-4 max-w-[1rem] min-h-[1rem] h-4 max-h-[1rem] bg-transparent transition-all duration-700 hover:border-sky-200 cursor-pointer'
 
 const Checkbox: React.FC<CheckboxProps> = ({
   checked,

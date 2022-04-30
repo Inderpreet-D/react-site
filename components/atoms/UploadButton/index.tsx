@@ -2,6 +2,7 @@ import Button from '../Button'
 
 type UploadButtonProps = {
   onFileSelected: (files: FileList | null) => void
+  children: React.ReactNode
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({

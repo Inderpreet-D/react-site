@@ -26,9 +26,13 @@ type ContextType = {
   handleSetCards: (value: string) => void
 }
 
+type Props = {
+  children: React.ReactNode
+}
+
 const ToadVillageStateContext = React.createContext<ContextType | null>(null)
 
-const ToadVillageStateProvider: React.FC = ({ children }) => {
+const ToadVillageStateProvider: React.FC<Props> = ({ children }) => {
   const [showDialog, setShowDialog] = React.useState(false)
   const [state, dispatch] = React.useReducer(toadVillageReducer, initialState)
 
@@ -81,7 +85,7 @@ const ToadVillageStateProvider: React.FC = ({ children }) => {
     handleClose()
   }, [handleClose])
 
-  const handleSetCards = React.useCallback(value => {
+  const handleSetCards = React.useCallback((value: string) => {
     dispatch({ type: 'SET_CARDS_STRING', value })
   }, [])
 

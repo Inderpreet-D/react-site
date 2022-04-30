@@ -1,15 +1,21 @@
 import clsx from 'clsx'
 import { FaBars } from '@react-icons/all-files/fa/FaBars'
 
-const Sidebar: React.FC = ({ children }) => {
+type SideBarProps = {
+  children: React.ReactNode
+}
+
+type MEH = React.MouseEventHandler<HTMLDivElement>
+
+const Sidebar: React.FC<SideBarProps> = ({ children }) => {
   const [open, setOpen] = React.useState(false)
 
-  const handleClose = React.useCallback(e => {
+  const handleClose: MEH = React.useCallback(e => {
     e.stopPropagation()
     setOpen(false)
   }, [])
 
-  const handleMenuClick = React.useCallback(e => {
+  const handleMenuClick: MEH = React.useCallback(e => {
     e.stopPropagation()
     setOpen(true)
   }, [])

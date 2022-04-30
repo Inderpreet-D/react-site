@@ -11,6 +11,10 @@ type ContextType = {
   reset: () => void
 }
 
+type Props = {
+  children: React.ReactNode
+}
+
 const LifeContext = React.createContext<ContextType | null>(null)
 
 const INITIAL = {
@@ -18,7 +22,7 @@ const INITIAL = {
   height: 47
 }
 
-const LifeProvider: React.FC = ({ children }) => {
+const LifeProvider: React.FC<Props> = ({ children }) => {
   const [board, setBoard] = React.useState<boolean[][]>(
     new Array(INITIAL.height)
       .fill(0)
