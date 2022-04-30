@@ -27,7 +27,7 @@ const Control: React.FC<ControlProps> = ({
       <FaLessThan />
     </ControlButton>
 
-    <span>
+    <span className='select-none'>
       {current + 1} / {last}
     </span>
 

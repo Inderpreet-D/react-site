@@ -1,34 +1,41 @@
+import clsx from 'clsx'
+
 import { SectionProps } from '../..'
 import { Paper } from '../../Data/me'
-
-import {
-  StyledContainer,
-  StyledTitle,
-  StyledAuthorList,
-  StyledAuthor,
-  StyledDescription
-} from './styles'
 
 const Article: React.FC<SectionProps> = ({ data, idx }) => {
   const { title, authors, me, description, href } = data[idx] as Paper
 
   return (
-    <StyledContainer>
-      <StyledTitle href={href} target='_blank'>
+    <div className='flex flex-col p-4'>
+      <a
+        href={href}
+        target='_blank'
+        rel='noreferrer'
+        className='transition-all duration-200 text-2xl text-center text-sky-800 hover:text-sky-400'
+      >
         {title}
-      </StyledTitle>
+      </a>
 
-      <StyledAuthorList>
+      <div className='flex flex-wrap overflow-x-auto overflow-y-hidden mx-0 my-8'>
         {authors.map((author, i) => (
-          <StyledAuthor key={i} isMe={author === me}>
+          <div
+            key={i}
+            className={clsx(
+              'mr-2 text-lg italic',
+              author === me
+                ? 'font-bold text-sky-800'
+                : 'font-normal text-white'
+            )}
+          >
             {author}
             {i !== authors.length - 1 && ','}
-          </StyledAuthor>
+          </div>
         ))}
-      </StyledAuthorList>
+      </div>
 
-      <StyledDescription>{description}</StyledDescription>
-    </StyledContainer>
+      <div className='text-base'>{description}</div>
+    </div>
   )
 }
 

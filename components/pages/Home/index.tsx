@@ -1,4 +1,3 @@
-// TODO: Fix
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import Article from './Sections/Article'
@@ -54,7 +53,12 @@ const Page = () => {
       <Box>
         <ButtonHolder>
           {me.map(({ title }, i) => (
-            <Button key={i} active={idx === i} onMouseEnter={update(i)}>
+            <Button
+              key={i}
+              active={idx === i}
+              onMouseEnter={update(i)}
+              className='w-full mb-2 lg:mb-0'
+            >
               {title}
             </Button>
           ))}

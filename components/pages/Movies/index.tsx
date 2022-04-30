@@ -1,6 +1,6 @@
-import { Movie, Button } from './styles'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
+import Button from '../../atoms/Button'
 import LoadingIcon from '../../atoms/LoadingIcon'
 
 import useSWR from '../../../hooks/useSWR'
@@ -29,13 +29,21 @@ const Page = () => {
     <Container>
       <ContainerTitle>Movie Picker</ContainerTitle>
 
-      <Button onClick={pickMovie} disabled={isLoadingMovies}>
+      <Button
+        onClick={pickMovie}
+        disabled={isLoadingMovies}
+        className='mx-auto my-0'
+      >
         Get Movie
       </Button>
 
       {isLoadingMovies && <LoadingIcon />}
 
-      {movie && <Movie>{movie}</Movie>}
+      {movie && (
+        <div className='mt-8 mb-4 mx-0 text-center text-5xl underline text-sky-400'>
+          {movie}
+        </div>
+      )}
 
       {movieInfo && <div>{JSON.stringify(movieInfo)}</div>}
     </Container>
