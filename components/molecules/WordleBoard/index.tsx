@@ -6,37 +6,10 @@ import Button from '../../atoms/Button'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
 import { useWordleState } from '../../../providers/WordleStateProvider'
+import { getCellColors } from './utils'
 
 type WordleBoardProps = {
   reset: () => void
-}
-
-export const getCellColors = (
-  state: State,
-  rowIdx: number,
-  cellIdx: number,
-  key: string
-) => {
-  return 'GYBBB'
-}
-
-const isInWord = (word: string, letter: string, idx: number) => {
-  let before = 0
-  let total = 0
-
-  const letters = [...word]
-  letters.forEach((c, i) => {
-    if (c === letter) {
-      total++
-      if (i < idx) {
-        before++
-      }
-    }
-  })
-
-  console.log({ word, letter, idx, before, total })
-
-  return before < total
 }
 
 const getCell = (
@@ -49,33 +22,19 @@ const getCell = (
     return <Cell key={key} className='bg-slate-700' />
   }
 
-  const { word, guesses } = state
-  const guess = guesses[rowIdx]
-  const letter = guess[cellIdx]
-  const upper = letter.toLocaleUpperCase()
+  // Determine cell color
+  const result = getCellColors(state, rowIdx)
+  const colorClasses = ['sky-400', 'slate-700', 'green-600', 'yellow-600']
+  const cellResult = result[cellIdx]
 
-  const inWord = word.includes(letter) && isInWord(word, letter, cellIdx)
-  const correct = word[cellIdx] === letter
+  // Get lett for this cell
+  const guess = state.guesses[rowIdx]
+  const letter = guess[cellIdx].toLocaleUpperCase()
 
-  if (correct) {
-    return (
-      <Cell key={key} className='bg-green-600'>
-        {upper}
-      </Cell>
-    )
-  }
-
-  if (inWord) {
-    return (
-      <Cell key={key} className='bg-yellow-600'>
-        {upper}
-      </Cell>
-    )
-  }
-
+  // Correctly colored cell
   return (
-    <Cell key={key} className='bg-slate-700'>
-      {upper}
+    <Cell key={key} className={`bg-${colorClasses[cellResult]}`}>
+      {letter}
     </Cell>
   )
 }
@@ -213,9 +172,6 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
   return (
     <div className='flex items-center justify-center flex-col w-full overflow-auto'>
-      {/* TODO: Remove this debug */}
-      <div className='text-red-600 my-4'>{state.word}</div>
-
       {new Array(state.maxRound).fill(0).map((_, rowIdx) => (
         <div
           key={rowIdx}

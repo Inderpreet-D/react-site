@@ -10,7 +10,7 @@
     "heroku-postbuild": "yarn run build",
     "tsc": "tsc",
     "cypress": "cypress open",
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
