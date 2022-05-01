@@ -225,6 +225,31 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         </>
       )}
 
+      {!state.done && (
+        <>
+          <div>Unused Letters</div>
+
+          <div className='flex w-full flex-wrap justify-center'>
+            {new Array(26).fill(0).map((_, i) => {
+              const allGuesses = state.guesses.flat().join('')
+              const char = String.fromCharCode(i + 97)
+
+              return (
+                <div
+                  key={i}
+                  className={clsx(
+                    'mr-2 last:mr-0 text-sky-400 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
+                    allGuesses.includes(char) && 'bg-slate-600 text-slate-800'
+                  )}
+                >
+                  {char}
+                </div>
+              )
+            })}
+          </div>
+        </>
+      )}
+
       {/* Hidden input */}
       <input
         ref={inputRef}
