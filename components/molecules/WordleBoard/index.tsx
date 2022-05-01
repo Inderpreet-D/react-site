@@ -6,7 +6,7 @@ import Button from '../../atoms/Button'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
 import { useWordleState } from '../../../providers/WordleStateProvider'
-import { getCellColors } from './utils'
+import { getCellColors, Result } from './utils'
 
 type WordleBoardProps = {
   reset: () => void
@@ -24,16 +24,42 @@ const getCell = (
 
   // Determine cell color
   const result = getCellColors(state, rowIdx)
-  const colorClasses = ['sky-400', 'slate-700', 'green-600', 'yellow-600']
   const cellResult = result[cellIdx]
 
   // Get lett for this cell
   const guess = state.guesses[rowIdx]
   const letter = guess[cellIdx].toLocaleUpperCase()
 
-  // Correctly colored cell
+  // Unchecked cell (should never happen)
+  if (cellResult === Result.Unchecked) {
+    return (
+      <Cell key={key} className='bg-sky-400'>
+        {letter}
+      </Cell>
+    )
+  }
+
+  // Incorrect cell
+  if (cellResult === Result.Incorrect) {
+    return (
+      <Cell key={key} className='bg-slate-700'>
+        {letter}
+      </Cell>
+    )
+  }
+
+  // Correct cell
+  if (cellResult === Result.Correct) {
+    return (
+      <Cell key={key} className='bg-green-600'>
+        {letter}
+      </Cell>
+    )
+  }
+
+  // Wrong place cell
   return (
-    <Cell key={key} className={`bg-${colorClasses[cellResult]}`}>
+    <Cell key={key} className='bg-yellow-600'>
       {letter}
     </Cell>
   )
