@@ -6,6 +6,7 @@ import Button from '../../atoms/Button'
 
 import { State } from '../../../providers/WordleStateProvider/reducer'
 import { useWordleState } from '../../../providers/WordleStateProvider'
+import { getCellColors } from './utils'
 
 type WordleBoardProps = {
   reset: () => void
@@ -21,32 +22,19 @@ const getCell = (
     return <Cell key={key} className='bg-slate-700' />
   }
 
-  // TODO: Update this logic to sweep better
+  // Determine cell color
+  const result = getCellColors(state, rowIdx)
+  const colorClasses = ['sky-400', 'slate-700', 'green-600', 'yellow-600']
+  const cellResult = result[cellIdx]
+
+  // Get lett for this cell
   const guess = state.guesses[rowIdx]
-  const letter = guess[cellIdx]
-  const inWord = state.word.includes(letter)
-  const correct = state.word[cellIdx] === letter
-  const upper = letter.toLocaleUpperCase()
+  const letter = guess[cellIdx].toLocaleUpperCase()
 
-  if (correct) {
-    return (
-      <Cell key={key} className='bg-green-600'>
-        {upper}
-      </Cell>
-    )
-  }
-
-  if (inWord) {
-    return (
-      <Cell key={key} className='bg-yellow-600'>
-        {upper}
-      </Cell>
-    )
-  }
-
+  // Correctly colored cell
   return (
-    <Cell key={key} className='bg-slate-700'>
-      {upper}
+    <Cell key={key} className={`bg-${colorClasses[cellResult]}`}>
+      {letter}
     </Cell>
   )
 }
@@ -234,6 +222,31 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
           >
             NEW GAME
           </Button>
+        </>
+      )}
+
+      {!state.done && (
+        <>
+          <div>Unused Letters</div>
+
+          <div className='flex w-full flex-wrap justify-center'>
+            {new Array(26).fill(0).map((_, i) => {
+              const allGuesses = state.guesses.flat().join('')
+              const char = String.fromCharCode(i + 97)
+
+              return (
+                <div
+                  key={i}
+                  className={clsx(
+                    'mr-2 last:mr-0 text-sky-400 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
+                    allGuesses.includes(char) && 'bg-slate-600 text-slate-800'
+                  )}
+                >
+                  {char}
+                </div>
+              )
+            })}
+          </div>
         </>
       )}
 

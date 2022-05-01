@@ -3,11 +3,11 @@ import axios from 'axios'
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
+import Select from '../../atoms/Select'
 import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
 import { useWordleState } from '../../../providers/WordleStateProvider'
-import Select from '../../atoms/Select'
 
 const Page = () => {
   const { startGame } = useWordleState()
