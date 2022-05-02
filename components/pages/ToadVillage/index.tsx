@@ -64,6 +64,7 @@ const Page = () => {
         <UploadButton
           onFileSelected={handleFileSelect}
           aria-label='Extract List'
+          accept='.json'
         >
           Extract List from JSON
         </UploadButton>
