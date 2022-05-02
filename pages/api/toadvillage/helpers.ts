@@ -98,7 +98,11 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
         const token: ScryfallCard = await fetchToken(uri)
         tokens.push({
           amount: 1,
-          card: { name, image: token.image_uris.normal }
+          card: {
+            name,
+            image: token.image_uris.normal,
+            prices: { usd: '0' }
+          }
         })
       } catch (err) {
         console.error('Token Fetch Error: ', (err as Error).message)
@@ -150,7 +154,11 @@ const isCommander = (
 // Convert Scryfall card to my own
 const formatCard = (card: ScryfallCard): Card => {
   const image: BasicImage = card.image_uris || card.card_faces[0].image_uris
-  const newCard: Card = { name: card.name, image: image.normal }
+  const newCard: Card = {
+    name: card.name,
+    image: image.normal,
+    prices: card.prices
+  }
 
   // Add faces to card if needed
   if (card.card_faces) {

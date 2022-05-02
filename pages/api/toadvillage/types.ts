@@ -21,6 +21,7 @@ export interface ScryfallCard {
   image_uris: BasicImage
   name: string
   type_line: string
+  prices: { usd: string }
 }
 
 export interface MatchedCard {
