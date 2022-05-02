@@ -190,7 +190,10 @@ const formatCards = (cards: MatchedCard[], identity: Set<string>): Deck => {
 }
 
 // Combines cards based on name
-const coalesce = (cards: FormattedCard[]): FormattedCard[] => {
+const coalesce = (
+  cards: FormattedCard[],
+  collapseAmount = false
+): FormattedCard[] => {
   const coalesced: { [name: string]: FormattedCard } = {}
 
   // Update count
@@ -201,6 +204,12 @@ const coalesce = (cards: FormattedCard[]): FormattedCard[] => {
     }
     coalesced[name].amount += amount
   })
+
+  if (collapseAmount) {
+    Object.keys(coalesced).forEach(key => {
+      coalesced[key] = { ...coalesced[key], amount: 1 }
+    })
+  }
 
   return Object.values(coalesced)
 }
@@ -218,7 +227,7 @@ const handleRequest = async (cardNames: ReqCard[]): Promise<QueueType> => {
     status: 'DONE',
     commanders: coalesce(commanders),
     others: coalesce(others),
-    tokens: coalesce(tokens),
+    tokens: coalesce(tokens, true),
     unmatched: [...new Set(filteredUnmatches)]
   }
 }
