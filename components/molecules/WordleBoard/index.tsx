@@ -65,64 +65,15 @@ const getCell = (
   )
 }
 
-const isAlphaKey = (key: string) => key.length === 1 && key.match(/[a-zA-Z]/i)
-
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
-  const { state, makeGuess } = useWordleState()
-
-  const inputRef = React.useRef<HTMLInputElement | null>(null)
-  const [currentWord, setCurrentWord] = React.useState<string[]>(
-    new Array(state.wordLength).fill('')
-  )
-  const [currentIdx, setCurrentIdx] = React.useState(0)
+  const { state, makeGuess, pressKey, nextGuess: startNext } = useWordleState()
 
   const nextGuess = React.useCallback(() => {
-    setCurrentIdx(0)
-    setCurrentWord(new Array(state.wordLength).fill(''))
-  }, [state.wordLength])
-
-  const focus = React.useCallback(() => {
-    if (inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [])
-
-  React.useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (!inputRef.current) {
-        return
-      }
-
-      const focused = inputRef.current === document.activeElement
-      if (focused) {
-        return
-      }
-
-      inputRef.current.focus()
-
-      const key = e.key
-      if (!isAlphaKey(key)) {
-        setCurrentIdx(0)
-        return
-      }
-
-      setCurrentIdx(1)
-      setCurrentWord(old => {
-        const copy = [...old]
-        copy[0] = key
-        return copy
-      })
-    }
-
-    document.addEventListener('keydown', onKey)
-
-    return () => {
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [])
+    startNext()
+  }, [startNext])
 
   const handleEnter = React.useCallback(async () => {
-    const word = currentWord.join('')
+    const word = state.currentGuess
     const guess = word.trim().toLocaleLowerCase()
 
     const lengthMatch = guess.length === state.wordLength
@@ -138,63 +89,36 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
       makeGuess(guess)
       nextGuess()
     }
-  }, [currentWord, state.wordLength, state.guesses, makeGuess, nextGuess])
+  }, [
+    state.currentGuess,
+    state.wordLength,
+    state.guesses,
+    makeGuess,
+    nextGuess
+  ])
 
-  const handleBackspace = React.useCallback(() => {
-    setCurrentWord(old => {
-      const copy = [...old]
-      copy[currentIdx] = ''
-      return copy
-    })
-
-    setCurrentIdx(old => {
-      if (old === 0) {
-        return 0
-      }
-
-      return old - 1
-    })
-  }, [currentIdx])
-
-  const handleLetter = React.useCallback(
-    (key: string) => {
-      setCurrentWord(old => {
-        const copy = [...old]
-        copy[currentIdx] = key
-        return copy
-      })
-
-      setCurrentIdx(old => {
-        if (old === state.wordLength - 1) {
-          return state.wordLength - 1
-        }
-
-        return old + 1
-      })
-    },
-    [currentIdx, state.wordLength]
-  )
-
-  const handleKeyDown = React.useCallback(
-    async (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKey = React.useCallback(
+    (e: KeyboardEvent) => {
       const key = e.key
 
-      if (key === 'Enter' && currentIdx === state.wordLength - 1) {
-        await handleEnter()
+      if (key === 'Enter' && state.currentGuess.length === state.wordLength) {
+        handleEnter()
+
         return
       }
 
-      if (key === 'Backspace') {
-        handleBackspace()
-        return
-      }
-
-      if (isAlphaKey(key)) {
-        handleLetter(key)
-      }
+      pressKey(key)
     },
-    [currentIdx, state.wordLength, handleEnter, handleBackspace, handleLetter]
+    [state.currentGuess, state.wordLength, handleEnter, pressKey]
   )
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', onKey)
+
+    return () => {
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [onKey])
 
   return (
     <div className='flex items-center justify-center flex-col w-full overflow-auto'>
@@ -208,20 +132,8 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
             if (rowIdx === state.round) {
               return (
-                <Cell
-                  key={key}
-                  onClick={() => {
-                    focus()
-                    setCurrentIdx(cellIdx)
-                  }}
-                  className={clsx(
-                    'bg-transparent',
-                    cellIdx === currentIdx
-                      ? 'border-b-white'
-                      : 'border-b-slate-900'
-                  )}
-                >
-                  {(currentWord[cellIdx] ?? '').toLocaleUpperCase()}
+                <Cell key={key}>
+                  {(state.currentGuess[cellIdx] ?? '').toLocaleUpperCase()}
                 </Cell>
               )
             }
@@ -242,7 +154,6 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
 
           <Button
             onClick={() => {
-              focus()
               reset()
             }}
           >
@@ -264,8 +175,12 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
                 <div
                   key={i}
                   className={clsx(
-                    'mr-2 last:mr-0 text-sky-400 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
-                    allGuesses.includes(char) && 'bg-slate-600 text-slate-800'
+                    'mr-2 last:mr-0 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
+                    state.word.includes(char) && allGuesses.includes(char)
+                      ? 'bg-green-600 text-white'
+                      : allGuesses.includes(char)
+                      ? 'bg-slate-600 text-slate-800'
+                      : 'bg-transparent text-sky-400'
                   )}
                 >
                   {char}
@@ -275,18 +190,6 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
           </div>
         </>
       )}
-
-      {/* Hidden input */}
-      <input
-        ref={inputRef}
-        value={currentWord.join('').toLocaleUpperCase()}
-        onKeyDown={handleKeyDown}
-        maxLength={state.wordLength}
-        disabled={state.done}
-        onChange={() => {}}
-        className='absolute -z-10'
-        autoFocus
-      />
     </div>
   )
 }

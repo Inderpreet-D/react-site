@@ -4,6 +4,8 @@ type ContextType = {
   state: State
   startGame: (word: string) => void
   makeGuess: (guess: string) => void
+  pressKey: (key: string) => void
+  nextGuess: () => void
 }
 
 type Props = {
@@ -23,8 +25,18 @@ const WordleStateProvider: React.FC<Props> = ({ children }) => {
     dispatch({ type: 'MAKE_GUESS', guess })
   }, [])
 
+  const pressKey = React.useCallback((key: string) => {
+    dispatch({ type: 'PRESS_KEY', key })
+  }, [])
+
+  const nextGuess = React.useCallback(() => {
+    dispatch({ type: 'NEXT_GUESS' })
+  }, [])
+
   return (
-    <WordleStateContext.Provider value={{ state, startGame, makeGuess }}>
+    <WordleStateContext.Provider
+      value={{ state, startGame, makeGuess, pressKey, nextGuess }}
+    >
       {children}
     </WordleStateContext.Provider>
   )
