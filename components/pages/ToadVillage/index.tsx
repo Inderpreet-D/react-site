@@ -115,7 +115,7 @@ const Page = () => {
 
             {!isLoadingMoney && (
               <div className='ml-4'>
-                Total Price: ${(price ?? 0).toFixed(2)} USD
+                Total Price: ${(price ?? 0).toFixed(2)} CAD
               </div>
             )}
           </div>
