@@ -34,7 +34,42 @@ const handleMakeGuess: Func = (state, action) => {
   }
 }
 
+const handlePressKey: Func = (state, action) => {
+  const { key } = action as { key: string }
+
+  if (key === 'Backspace') {
+    if (state.currentGuess.length === 0) {
+      return state
+    }
+
+    return {
+      ...state,
+      currentGuess: state.currentGuess.slice(0, state.currentGuess.length - 1)
+    }
+  }
+
+  const isAlphaKey = key.length === 1 && key.match(/[a-zA-Z]/i)
+
+  if (isAlphaKey) {
+    if (state.currentGuess.length === state.wordLength) {
+      return state
+    }
+
+    return {
+      ...state,
+      currentGuess: `${state.currentGuess}${key}`
+    }
+  }
+
+  return state
+}
+
+const handleNextGuess: Func = (state, _) => {
+  return { ...state, currentGuess: '' }
+}
+
 export type State = {
+  currentGuess: string
   word: string
   wordLength: number
   guesses: string[]
@@ -48,10 +83,13 @@ export type State = {
 type Action =
   | { type: 'START'; word: string }
   | { type: 'MAKE_GUESS'; guess: string }
+  | { type: 'PRESS_KEY'; key: string }
+  | { type: 'NEXT_GUESS' }
 
 type Func = ReducerFunc<State, Action>
 
 export const initialState: State = {
+  currentGuess: '',
   word: '',
   wordLength: 0,
   guesses: [],
@@ -64,7 +102,9 @@ export const initialState: State = {
 
 const Handlers: Handler<Func> = {
   START: handleStart,
-  MAKE_GUESS: handleMakeGuess
+  MAKE_GUESS: handleMakeGuess,
+  PRESS_KEY: handlePressKey,
+  NEXT_GUESS: handleNextGuess
 }
 
 export const reducer: Func = (state, action) => {
