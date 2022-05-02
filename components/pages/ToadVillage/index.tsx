@@ -15,8 +15,10 @@ const Dialog = dynamic(() => import('../../molecules/Dialog'))
 
 import { nameSort } from '../../../utilities/helpers/toadvillage'
 import { useToadVillageState } from '../../../providers/ToadVillageStateProvider'
+import useSWR from '../../../hooks/useSWR'
 
-const titleClassName = 'mx-0 my-5 text-3xl font-light underline'
+const titleClassName =
+  'flex items-center justify-left mx-0 my-5 text-3xl font-light underline'
 const cardBlockClassName =
   'grid grid-cols-1 w-full p-0 sm:grid-cols-2 md:grid-cols-3'
 
@@ -37,6 +39,28 @@ const Page = () => {
     handleCancel,
     handleSetCards
   } = useToadVillageState()
+
+  const combinedCards = React.useMemo(
+    () => [
+      ...(state.cardObjs?.commanders ?? []),
+      ...(state.cardObjs?.others ?? [])
+    ],
+    [state.cardObjs]
+  )
+
+  const totalPrice = React.useMemo(() => {
+    let total = 0
+
+    combinedCards.forEach(card => {
+      total += card.amount * +card.card.prices.usd
+    })
+
+    return total
+  }, [combinedCards])
+
+  const { data: price, isLoading: isLoadingMoney } = useSWR<number>(() =>
+    totalPrice > 0 ? `/money?amount=${totalPrice}` : null
+  )
 
   return (
     <Container>
@@ -87,7 +111,13 @@ const Page = () => {
       {!state.loading && state.cardObjs.commanders && state.cardObjs.others && (
         <>
           <div className={titleClassName}>
-            Total Cards ({commanderCount + otherCount})
+            <div>Total Cards ({commanderCount + otherCount})</div>
+
+            {!isLoadingMoney && (
+              <div className='ml-4'>
+                Total Price: ${(price ?? 0).toFixed(2)} USD
+              </div>
+            )}
           </div>
 
           <div className={titleClassName}>
