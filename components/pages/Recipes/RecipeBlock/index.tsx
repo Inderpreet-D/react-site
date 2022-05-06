@@ -9,7 +9,8 @@ import Card from '../../../atoms/Card'
 import Control from '../../../atoms/Control'
 import Section from '../../../atoms/Section'
 
-import { useRecipeState } from '../../../../providers/RecipeStateProvider'
+import { selectRecipe, updateIndex } from '../../../../slices/recipe'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
 type ButtonType = 'ingredients' | 'recipe'
 type HoverType = ButtonType | ''
@@ -23,12 +24,11 @@ const components = {
 }
 
 const RecipeBlock = ({ recipe }: PropType) => {
+  const dispatch = useAppDispatch()
+  const { index } = useAppSelector(selectRecipe)
+
   const [selected, setSelected] = React.useState<ButtonType>('ingredients')
   const [hovering, setHovering] = React.useState<HoverType>('')
-  const {
-    state: { index },
-    update
-  } = useRecipeState()
 
   const Component = components[selected]
 
@@ -58,8 +58,8 @@ const RecipeBlock = ({ recipe }: PropType) => {
           <Control
             current={index}
             last={recipe.pages.length}
-            onForward={() => update(index + 1)}
-            onBack={() => update(index - 1)}
+            onForward={() => dispatch(updateIndex(index + 1))}
+            onBack={() => dispatch(updateIndex(index - 1))}
             className='mb-6'
           />
         )}

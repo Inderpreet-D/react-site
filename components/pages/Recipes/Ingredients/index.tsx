@@ -3,13 +3,12 @@ import { PropType } from '../types'
 import ContainerSection from '../../../atoms/ContainerSection'
 import ListItem from '../../../atoms/ListItem'
 
-import { useRecipeState } from '../../../../providers/RecipeStateProvider'
+import { selectRecipe, toggleCheck } from '../../../../slices/recipe'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
 const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
-  const {
-    state: { checked },
-    check
-  } = useRecipeState()
+  const dispatch = useAppDispatch()
+  const { checked } = useAppSelector(selectRecipe)
 
   return (
     <ContainerSection>
@@ -20,7 +19,7 @@ const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
           <ListItem
             key={key}
             checked={checked.includes(key)}
-            onCheck={() => check(key)}
+            onCheck={() => dispatch(toggleCheck(key))}
             className='mb-4'
           >
             {ing.amount} - {ing.type}
