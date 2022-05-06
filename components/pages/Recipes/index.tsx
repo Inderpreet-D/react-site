@@ -5,14 +5,16 @@ import HorizontalList from '../../atoms/HorizontalList'
 import HorizontalListButton from '../../atoms/HorizontalListButton'
 import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
 
-import { useRecipeState } from '../../../providers/RecipeStateProvider'
+import { reset } from '../../../slices/recipe'
+import { useAppDispatch } from '../../../hooks/redux'
 
 import recipes from './Data'
 
 const Page = () => {
+  const dispatch = useAppDispatch()
+
   const [selected, setSelected] = React.useState('')
   const [hovering, setHovering] = React.useState('')
-  const { reset } = useRecipeState()
 
   const toggleSelect = React.useCallback(
     (name: string) => () => {
@@ -21,11 +23,11 @@ const Page = () => {
           return ''
         }
 
-        reset()
+        dispatch(reset())
         return name
       })
     },
-    [reset]
+    [dispatch]
   )
 
   return (

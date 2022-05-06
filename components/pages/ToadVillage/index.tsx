@@ -1,5 +1,3 @@
-import dynamic from 'next/dynamic'
-
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -8,10 +6,9 @@ import UploadButton from '../../atoms/UploadButton'
 import ContainerError from '../../atoms/ContainerError'
 import TextField from '../../atoms/TextField'
 import TextArea from '../../atoms/TextArea'
-
-const MTGCard = dynamic(() => import('../../molecules/MTGCard'))
-const LoadingIcon = dynamic(() => import('../../atoms/LoadingIcon'))
-const Dialog = dynamic(() => import('../../molecules/Dialog'))
+import MTGCard from '../../molecules/MTGCard'
+import LoadingIcon from '../../atoms/LoadingIcon'
+import Dialog from '../../molecules/Dialog'
 
 import { nameSort } from '../../../utilities/helpers/toadvillage'
 import { useToadVillageState } from '../../../providers/ToadVillageStateProvider'
