@@ -3,6 +3,7 @@ import '@testing-library/jest-dom'
 import { Result, getCellColors } from '../utils'
 
 type State = {
+  currentGuess: string
   word: string
   wordLength: number
   guesses: string[]
@@ -17,6 +18,7 @@ let state: State
 
 beforeEach(() => {
   state = {
+    currentGuess: '',
     word: '',
     wordLength: 0,
     round: 0,
