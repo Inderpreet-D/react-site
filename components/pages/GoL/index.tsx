@@ -3,35 +3,36 @@ import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
 import Canvas from '../../atoms/Canvas'
 
-import { useLife } from '../../../providers/LifeProvider'
+import {
+  selectLife,
+  tick,
+  changeWidth,
+  changeHeight,
+  toggle,
+  reset
+} from '../../../slices/life'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 const DELAY = 10
 
 const GoL = () => {
+  const dispatch = useAppDispatch()
+  const { board, width, height } = useAppSelector(selectLife)
+
   const [running, setRunning] = React.useState(false)
   const [delay, setDelay] = React.useState(DELAY)
-  const {
-    board,
-    width,
-    height,
-    tick,
-    changeWidth,
-    changeHeight,
-    toggle,
-    reset
-  } = useLife()
 
   React.useEffect(() => {
     const timer = setInterval(() => {
       if (running) {
-        tick()
+        dispatch(tick())
       }
     }, delay)
 
     return () => {
       clearInterval(timer)
     }
-  }, [running, tick, delay])
+  }, [running, dispatch, delay])
 
   const draw = React.useCallback(
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, _: number) => {
@@ -65,9 +66,11 @@ const GoL = () => {
       const cellWidth = elem.width / width
       const cellHeight = elem.height / height
 
-      toggle(Math.floor(x / cellWidth), Math.floor(y / cellHeight))
+      dispatch(
+        toggle({ x: Math.floor(x / cellWidth), y: Math.floor(y / cellHeight) })
+      )
     },
-    [width, height, toggle]
+    [width, height, dispatch]
   )
 
   return (
@@ -78,14 +81,14 @@ const GoL = () => {
             value={width}
             placeholder='Width'
             type='number'
-            onChange={e => changeWidth(+e.target.value)}
+            onChange={e => dispatch(changeWidth(+e.target.value))}
           />
 
           <TextField
             value={height}
             placeholder='Height'
             type='number'
-            onChange={e => changeHeight(+e.target.value)}
+            onChange={e => dispatch(changeHeight(+e.target.value))}
             className='mx-0 my-3'
           />
         </div>
@@ -94,6 +97,7 @@ const GoL = () => {
           value={delay}
           placeholder='Delay'
           type='number'
+          min={0}
           onChange={e => setDelay(+e.target.value)}
         />
 
@@ -105,7 +109,7 @@ const GoL = () => {
           <Button
             onClick={() => {
               setRunning(false)
-              reset()
+              dispatch(reset())
             }}
           >
             Reset
