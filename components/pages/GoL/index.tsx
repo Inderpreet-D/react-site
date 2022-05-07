@@ -5,11 +5,12 @@ import Canvas from '../../atoms/Canvas'
 
 import {
   selectLife,
-  tick,
   changeWidth,
   changeHeight,
   toggle,
-  reset
+  reset,
+  toggleRunning,
+  stopRunning
 } from '../../../slices/life'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
@@ -17,22 +18,9 @@ const DELAY = 10
 
 const GoL = () => {
   const dispatch = useAppDispatch()
-  const { board, width, height } = useAppSelector(selectLife)
+  const { board, width, height, running } = useAppSelector(selectLife)
 
-  const [running, setRunning] = React.useState(false)
   const [delay, setDelay] = React.useState(DELAY)
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      if (running) {
-        dispatch(tick())
-      }
-    }, delay)
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [running, dispatch, delay])
 
   const draw = React.useCallback(
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, _: number) => {
@@ -55,8 +43,6 @@ const GoL = () => {
 
   const handleClick: React.MouseEventHandler<HTMLCanvasElement> = React.useCallback(
     e => {
-      setRunning(false)
-
       const elem = e.target as HTMLCanvasElement
 
       const rect = elem.getBoundingClientRect()
@@ -98,22 +84,21 @@ const GoL = () => {
           placeholder='Delay'
           type='number'
           min={0}
-          onChange={e => setDelay(+e.target.value)}
+          onChange={e => {
+            setDelay(+e.target.value)
+            dispatch(stopRunning())
+          }}
         />
 
         <div className='flex my-3'>
-          <Button onClick={() => setRunning(old => !old)} className='mr-3'>
+          <Button
+            onClick={() => dispatch(toggleRunning(delay))}
+            className='mr-3'
+          >
             {running ? 'Stop' : 'Start'}
           </Button>
 
-          <Button
-            onClick={() => {
-              setRunning(false)
-              dispatch(reset())
-            }}
-          >
-            Reset
-          </Button>
+          <Button onClick={() => dispatch(reset())}>Reset</Button>
         </div>
       </div>
 

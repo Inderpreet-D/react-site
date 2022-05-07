@@ -6,6 +6,8 @@ type LifeState = {
   board: boolean[][]
   width: number
   height: number
+  timer: NodeJS.Timer | null
+  running: boolean
 }
 
 const INITIAL = {
@@ -18,8 +20,45 @@ const initialState: LifeState = {
     .fill(0)
     .map(_ => new Array(INITIAL.width).fill(false)),
   width: INITIAL.width,
-  height: INITIAL.height
+  height: INITIAL.height,
+  timer: null,
+  running: false
 }
+
+export const changeWidth = createAsyncThunk(
+  'life/changeWidth',
+  async (width: number, { dispatch, getState }) => {
+    const { height } = (getState() as RootState).life
+    dispatch(resize({ width, height }))
+  }
+)
+
+export const changeHeight = createAsyncThunk(
+  'life/changeHeight',
+  async (height: number, { dispatch, getState }) => {
+    const { width } = (getState() as RootState).life
+    dispatch(resize({ width, height }))
+  }
+)
+
+export const toggleRunning = createAsyncThunk(
+  'life/toggleRunning',
+  async (delay: number, { dispatch, getState }) => {
+    const { running, timer } = (getState() as RootState).life
+
+    if (timer) {
+      clearInterval(timer)
+    }
+
+    if (running) {
+      return { timer: null, running: false }
+    }
+
+    const newTimer = setInterval(() => dispatch(tick()), delay)
+
+    return { timer: newTimer, running: true }
+  }
+)
 
 const lifeSlice = createSlice({
   name: 'life',
@@ -67,6 +106,7 @@ const lifeSlice = createSlice({
         }
       }
     },
+
     resize: (
       state,
       action: PayloadAction<{ width: number; height: number }>
@@ -86,36 +126,55 @@ const lifeSlice = createSlice({
 
       state.board = newBoard
     },
+
     toggle: (state, action: PayloadAction<{ x: number; y: number }>) => {
       const { x, y } = action.payload
       state.board[y][x] = !state.board[y][x]
+
+      if (state.timer) {
+        clearInterval(state.timer)
+      }
+      state.timer = null
+      state.running = false
     },
+
     reset: state => {
-      const { height, width } = state
-      state.board = new Array(height)
-        .fill(0)
-        .map(_ => new Array(width).fill(false))
+      if (state.timer) {
+        clearInterval(state.timer)
+      }
+
+      return initialState
+    },
+
+    stopRunning: state => {
+      if (state.timer) {
+        clearInterval(state.timer)
+      }
+
+      state.running = false
     }
+  },
+
+  extraReducers: builder => {
+    builder.addCase(
+      toggleRunning.fulfilled,
+      (
+        state,
+        action: PayloadAction<{
+          timer: NodeJS.Timer | null
+          running: boolean
+        }>
+      ) => {
+        const { timer, running } = action.payload
+        state.timer = timer
+        state.running = running
+      }
+    )
   }
 })
 
-export const { tick, toggle, reset } = lifeSlice.actions
-const { resize } = lifeSlice.actions
-
-export const changeWidth = createAsyncThunk(
-  'life/changeWidth',
-  async (width: number, { dispatch, getState }) => {
-    const { height } = (getState() as RootState).life
-    dispatch(resize({ width, height }))
-  }
-)
-export const changeHeight = createAsyncThunk(
-  'life/changeHeight',
-  async (height: number, { dispatch, getState }) => {
-    const { width } = (getState() as RootState).life
-    dispatch(resize({ width, height }))
-  }
-)
+export const { toggle, reset, stopRunning } = lifeSlice.actions
+const { resize, tick } = lifeSlice.actions
 
 export const selectLife = (state: RootState) => state.life
 
