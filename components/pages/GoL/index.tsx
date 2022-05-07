@@ -10,7 +10,8 @@ import {
   toggle,
   reset,
   toggleRunning,
-  stopRunning
+  stopRunning,
+  tick
 } from '../../../slices/life'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
@@ -96,6 +97,10 @@ const GoL = () => {
             className='mr-3'
           >
             {running ? 'Stop' : 'Start'}
+          </Button>
+
+          <Button onClick={() => dispatch(tick())} className='mr-3'>
+            Step
           </Button>
 
           <Button onClick={() => dispatch(reset())}>Reset</Button>

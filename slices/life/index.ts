@@ -165,6 +165,10 @@ const lifeSlice = createSlice({
           running: boolean
         }>
       ) => {
+        if (state.timer) {
+          clearInterval(state.timer)
+        }
+
         const { timer, running } = action.payload
         state.timer = timer
         state.running = running
@@ -173,8 +177,8 @@ const lifeSlice = createSlice({
   }
 })
 
-export const { toggle, reset, stopRunning } = lifeSlice.actions
-const { resize, tick } = lifeSlice.actions
+export const { toggle, reset, stopRunning, tick } = lifeSlice.actions
+const { resize } = lifeSlice.actions
 
 export const selectLife = (state: RootState) => state.life
 
