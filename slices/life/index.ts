@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { cloneDeep } from 'lodash'
 
 import { RootState } from '../../store'
 
@@ -66,11 +67,9 @@ const lifeSlice = createSlice({
   reducers: {
     tick: state => {
       const { height, width, board } = state
-      const newCells: boolean[][] = []
+      const newCells = cloneDeep(board)
 
       for (let y = 0; y < height; y++) {
-        newCells.push(new Array(width).fill(false))
-
         for (let x = 0; x < width; x++) {
           const indices = [
             [y - 1, x - 1],
@@ -82,29 +81,23 @@ const lifeSlice = createSlice({
             [y + 1, x],
             [y + 1, x + 1]
           ]
-          const surrounding = indices
-            .map(([y, x]) => (board[y] ? board[y][x] : false))
-            .filter(Boolean).length
 
-          const val = board[y][x]
-          let newVal: boolean
-          if (val && [2, 3].includes(surrounding)) {
-            newVal = true
-          } else if (!val && surrounding === 3) {
-            newVal = true
-          } else {
-            newVal = false
+          let surrounding = 0
+          for (let i = 0; i < indices.length; i++) {
+            const [vy, vx] = indices[i]
+            const val = board[vy] ? board[vy][vx] : false
+            if (val) {
+              surrounding++
+            }
           }
 
-          newCells[y][x] = newVal
+          const val = board[y][x]
+          newCells[y][x] =
+            (val && [2, 3].includes(surrounding)) || (!val && surrounding === 3)
         }
       }
 
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          state.board[y][x] = newCells[y][x]
-        }
-      }
+      state.board = newCells
     },
 
     resize: (
