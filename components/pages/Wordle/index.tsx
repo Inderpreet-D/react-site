@@ -7,10 +7,11 @@ import Select from '../../atoms/Select'
 import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
-import { useWordleState } from '../../../providers/WordleStateProvider'
+import { start } from '../../../slices/wordle'
+import { useAppDispatch } from '../../../hooks/redux'
 
 const Page = () => {
-  const { startGame } = useWordleState()
+  const dispatch = useAppDispatch()
 
   const [length, setLength] = React.useState(5)
   const [fetched, setFetched] = React.useState(false)
@@ -38,7 +39,7 @@ const Page = () => {
         data: { word: string }
       }
       const word = wordResponse.data.word
-      startGame(word)
+      dispatch(start(word))
       mounted && setFetched(true)
     }
 
@@ -47,7 +48,7 @@ const Page = () => {
     return () => {
       mounted = false
     }
-  }, [isLoadingOptions, fetched, length, startGame])
+  }, [isLoadingOptions, fetched, length, dispatch])
 
   return (
     <Container>
