@@ -3,12 +3,14 @@ import { ThunkAction, Action, configureStore } from '@reduxjs/toolkit'
 import recipeReducer from '../slices/recipe'
 import lifeReducer from '../slices/life'
 import wordleReducer from '../slices/wordle'
+import toadVillageReducer from '../slices/toadVillage'
 
 export const store = configureStore({
   reducer: {
     recipe: recipeReducer,
     life: lifeReducer,
-    wordle: wordleReducer
+    wordle: wordleReducer,
+    toadVillage: toadVillageReducer
   }
 })
 
