@@ -4,16 +4,23 @@ import clsx from 'clsx'
 import Cell from './Cell'
 import Button from '../../atoms/Button'
 
-import { State } from '../../../providers/WordleStateProvider/reducer'
-import { useWordleState } from '../../../providers/WordleStateProvider'
 import { getCellColors, Result } from './utils'
+
+import {
+  WordleState,
+  selectWordle,
+  nextGuess as startNext,
+  makeGuess,
+  pressKey
+} from '../../../slices/wordle'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 type WordleBoardProps = {
   reset: () => void
 }
 
 const getCell = (
-  state: State,
+  state: WordleState,
   rowIdx: number,
   cellIdx: number,
   key: string
@@ -66,11 +73,12 @@ const getCell = (
 }
 
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
-  const { state, makeGuess, pressKey, nextGuess: startNext } = useWordleState()
+  const dispatch = useAppDispatch()
+  const state = useAppSelector(selectWordle)
 
   const nextGuess = React.useCallback(() => {
-    startNext()
-  }, [startNext])
+    dispatch(startNext())
+  }, [dispatch])
 
   const handleEnter = React.useCallback(async () => {
     const word = state.currentGuess
@@ -86,16 +94,10 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
     const isValid = val.data.valid
 
     if (lengthMatch && !alreadyGuessed && isValid) {
-      makeGuess(guess)
+      dispatch(makeGuess(guess))
       nextGuess()
     }
-  }, [
-    state.currentGuess,
-    state.wordLength,
-    state.guesses,
-    makeGuess,
-    nextGuess
-  ])
+  }, [state.currentGuess, state.wordLength, state.guesses, dispatch, nextGuess])
 
   const onKey = React.useCallback(
     (e: KeyboardEvent) => {
@@ -107,9 +109,9 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
         return
       }
 
-      pressKey(key)
+      dispatch(pressKey(key))
     },
-    [state.currentGuess, state.wordLength, handleEnter, pressKey]
+    [state.currentGuess, state.wordLength, handleEnter, dispatch]
   )
 
   React.useEffect(() => {

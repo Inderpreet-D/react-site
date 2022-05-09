@@ -3,35 +3,25 @@ import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
 import Canvas from '../../atoms/Canvas'
 
-import { useLife } from '../../../providers/LifeProvider'
+import {
+  selectLife,
+  changeWidth,
+  changeHeight,
+  toggle,
+  reset,
+  toggleRunning,
+  stopRunning,
+  tick
+} from '../../../slices/life'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 const DELAY = 10
 
 const GoL = () => {
-  const [running, setRunning] = React.useState(false)
+  const dispatch = useAppDispatch()
+  const { board, width, height, running } = useAppSelector(selectLife)
+
   const [delay, setDelay] = React.useState(DELAY)
-  const {
-    board,
-    width,
-    height,
-    tick,
-    changeWidth,
-    changeHeight,
-    toggle,
-    reset
-  } = useLife()
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      if (running) {
-        tick()
-      }
-    }, delay)
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [running, tick, delay])
 
   const draw = React.useCallback(
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, _: number) => {
@@ -54,8 +44,6 @@ const GoL = () => {
 
   const handleClick: React.MouseEventHandler<HTMLCanvasElement> = React.useCallback(
     e => {
-      setRunning(false)
-
       const elem = e.target as HTMLCanvasElement
 
       const rect = elem.getBoundingClientRect()
@@ -65,9 +53,11 @@ const GoL = () => {
       const cellWidth = elem.width / width
       const cellHeight = elem.height / height
 
-      toggle(Math.floor(x / cellWidth), Math.floor(y / cellHeight))
+      dispatch(
+        toggle({ x: Math.floor(x / cellWidth), y: Math.floor(y / cellHeight) })
+      )
     },
-    [width, height, toggle]
+    [width, height, dispatch]
   )
 
   return (
@@ -78,14 +68,14 @@ const GoL = () => {
             value={width}
             placeholder='Width'
             type='number'
-            onChange={e => changeWidth(+e.target.value)}
+            onChange={e => dispatch(changeWidth(+e.target.value))}
           />
 
           <TextField
             value={height}
             placeholder='Height'
             type='number'
-            onChange={e => changeHeight(+e.target.value)}
+            onChange={e => dispatch(changeHeight(+e.target.value))}
             className='mx-0 my-3'
           />
         </div>
@@ -94,22 +84,26 @@ const GoL = () => {
           value={delay}
           placeholder='Delay'
           type='number'
-          onChange={e => setDelay(+e.target.value)}
+          min={0}
+          onChange={e => {
+            setDelay(+e.target.value)
+            dispatch(stopRunning())
+          }}
         />
 
         <div className='flex my-3'>
-          <Button onClick={() => setRunning(old => !old)} className='mr-3'>
+          <Button
+            onClick={() => dispatch(toggleRunning(delay))}
+            className='mr-3'
+          >
             {running ? 'Stop' : 'Start'}
           </Button>
 
-          <Button
-            onClick={() => {
-              setRunning(false)
-              reset()
-            }}
-          >
-            Reset
+          <Button onClick={() => dispatch(tick())} className='mr-3'>
+            Step
           </Button>
+
+          <Button onClick={() => dispatch(reset())}>Reset</Button>
         </div>
       </div>
 

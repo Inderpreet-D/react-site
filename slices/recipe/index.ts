@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { RootState } from '../../store'
 
-export type RecipeState = {
+type RecipeState = {
   index: number
   checked: string[]
 }
@@ -12,7 +12,7 @@ const initialState: RecipeState = {
   checked: []
 }
 
-export const recipeSlice = createSlice({
+const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {

@@ -1,4 +1,4 @@
-import { State } from '../../../providers/WordleStateProvider/reducer'
+import { WordleState } from '../../../slices/wordle'
 
 export enum Result {
   Unchecked = 0,
@@ -7,7 +7,7 @@ export enum Result {
   WrongPlace
 }
 
-export const getCellColors = (state: State, rowIdx: number) => {
+export const getCellColors = (state: WordleState, rowIdx: number) => {
   const result = new Array(state.wordLength).fill(Result.Unchecked)
 
   const wordLetters = state.word.split('')

@@ -1,3 +1,5 @@
+import { FormattedCard } from '../../../shared/toadvillage'
+
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -11,7 +13,21 @@ import LoadingIcon from '../../atoms/LoadingIcon'
 import Dialog from '../../molecules/Dialog'
 
 import { nameSort } from '../../../utilities/helpers/toadvillage'
-import { useToadVillageState } from '../../../providers/ToadVillageStateProvider'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import {
+  addCard,
+  cancel,
+  close,
+  download,
+  moveCard,
+  open,
+  removeCard,
+  selectFile,
+  selectToadVillage,
+  setCardString,
+  setName,
+  startApiWork
+} from '../../../slices/toadVillage'
 import useSWR from '../../../hooks/useSWR'
 
 const titleClassName =
@@ -20,30 +36,41 @@ const cardBlockClassName =
   'grid grid-cols-1 w-full p-0 sm:grid-cols-2 md:grid-cols-3'
 
 const Page = () => {
+  // const {
+  //   state,
+  //   showDialog,
+  //   handleOpen,
+  //   handleDownload,
+  //   handleFileSelect,
+  //   handleSetName,
+  //   handleMove,
+  //   handleAdd,
+  //   handleRemove,
+  //   commanderCount,
+  //   otherCount,
+  //   handleClose,
+  //   handleCancel,
+  //   handleSetCards
+  // } = useToadVillageState()
+  const dispatch = useAppDispatch()
   const {
-    state,
+    cardObjs,
+    error,
+    name,
+    loading,
     showDialog,
-    handleOpen,
-    handleDownload,
-    handleFileSelect,
-    handleSetName,
-    handleMove,
-    handleAdd,
-    handleRemove,
-    commanderCount,
-    otherCount,
-    handleClose,
-    handleCancel,
-    handleSetCards
-  } = useToadVillageState()
+    cardListString
+  } = useAppSelector(selectToadVillage)
 
-  const combinedCards = React.useMemo(
-    () => [
-      ...(state.cardObjs?.commanders ?? []),
-      ...(state.cardObjs?.others ?? [])
-    ],
-    [state.cardObjs]
-  )
+  const [commanderCount, otherCount, combinedCards] = React.useMemo(() => {
+    const { commanders = [], others = [] } = cardObjs
+    const reducer = (t: number, { amount }: FormattedCard) => t + amount
+    return [
+      commanders.reduce(reducer, 0),
+      others.reduce(reducer, 0),
+      [...commanders, ...others]
+    ]
+  }, [cardObjs])
 
   const totalPrice = React.useMemo(() => {
     let total = 0
@@ -67,7 +94,7 @@ const Page = () => {
 
       <div className='flex flex-col justify-center mb-5 sm:flex-row'>
         <Button
-          onClick={handleOpen}
+          onClick={() => dispatch(open())}
           aria-label='Import Deck'
           className='w-full mr-0 mb-4 sm:w-auto sm:mr-4 sm:mb-0'
         >
@@ -75,7 +102,7 @@ const Page = () => {
         </Button>
 
         <Button
-          onClick={handleDownload}
+          onClick={() => dispatch(download())}
           aria-label='Download'
           className='w-full mr-0 mb-4 sm:w-auto sm:mr-4 sm:mb-0'
         >
@@ -83,7 +110,7 @@ const Page = () => {
         </Button>
 
         <UploadButton
-          onFileSelected={handleFileSelect}
+          onFileSelected={files => dispatch(selectFile(files))}
           aria-label='Extract List'
           accept='.json'
         >
@@ -91,21 +118,21 @@ const Page = () => {
         </UploadButton>
       </div>
 
-      {state.error && <ContainerError>{state.error}</ContainerError>}
+      {error && <ContainerError>{error}</ContainerError>}
 
       <div className='flex justify-center mb-5'>
         <TextField
-          value={state.name}
-          onChange={e => handleSetName(e.target.value)}
+          value={name}
+          onChange={e => dispatch(setName(e.target.value))}
           placeholder='Enter your deck name'
           aria-label='Deck name'
           className='w-full sm:w-9/12'
         />
       </div>
 
-      {state.loading && <LoadingIcon />}
+      {loading && <LoadingIcon />}
 
-      {!state.loading && state.cardObjs.commanders && state.cardObjs.others && (
+      {!loading && cardObjs.commanders && cardObjs.others && (
         <>
           <div className={titleClassName}>
             <div>Total Cards ({commanderCount + otherCount})</div>
@@ -122,12 +149,18 @@ const Page = () => {
           </div>
 
           <div className={cardBlockClassName}>
-            {state.cardObjs.commanders.sort(nameSort).map((card, i) => (
+            {cardObjs.commanders.sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
-                onClickMove={handleMove}
-                onClickAdd={handleAdd}
-                onClickRemove={handleRemove}
+                onClickMove={(name, isCommander) => {
+                  dispatch(moveCard({ name, isCommander }))
+                }}
+                onClickAdd={(name, isCommander) => {
+                  dispatch(addCard({ name, isCommander }))
+                }}
+                onClickRemove={(name, isCommander) => {
+                  dispatch(removeCard({ name, isCommander }))
+                }}
                 isCommander={true}
                 {...card}
               />
@@ -137,12 +170,18 @@ const Page = () => {
           <div className={titleClassName}>Deck ({otherCount})</div>
 
           <div className={cardBlockClassName}>
-            {state.cardObjs.others.sort(nameSort).map((card, i) => (
+            {[...cardObjs.others].sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
-                onClickMove={handleMove}
-                onClickAdd={handleAdd}
-                onClickRemove={handleRemove}
+                onClickMove={(name, isCommander) => {
+                  dispatch(moveCard({ name, isCommander }))
+                }}
+                onClickAdd={(name, isCommander) => {
+                  dispatch(addCard({ name, isCommander }))
+                }}
+                onClickRemove={(name, isCommander) => {
+                  dispatch(removeCard({ name, isCommander }))
+                }}
                 isCommander={false}
                 {...card}
               />
@@ -154,25 +193,25 @@ const Page = () => {
       {showDialog && (
         <Dialog
           open={showDialog}
-          onClose={handleClose}
+          onClose={() => dispatch(close())}
           title='Enter Decklist'
           actions={
             <div className='flex flex-col justify-center w-full sm:flex-row'>
               <Button
-                onClick={handleCancel}
+                onClick={() => dispatch(cancel())}
                 className='mb-4 w-full sm:mb-0 sm:w-auto sm:mr-4'
               >
                 Cancel
               </Button>
 
-              <Button onClick={handleClose}>Submit</Button>
+              <Button onClick={() => dispatch(startApiWork())}>Submit</Button>
             </div>
           }
         >
           <TextArea
             autoFocus
-            onChange={e => handleSetCards(e.target.value)}
-            value={state.cardListString}
+            onChange={e => dispatch(setCardString(e.target.value))}
+            value={cardListString}
             rows={20}
             placeholder="Enter your cards, one per line, in the format of 'NUMBER NAME'"
             className='w-full h-full'

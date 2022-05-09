@@ -1,20 +1,9 @@
 import '@testing-library/jest-dom'
 
+import { WordleState } from '../../../../slices/wordle'
 import { Result, getCellColors } from '../utils'
 
-type State = {
-  currentGuess: string
-  word: string
-  wordLength: number
-  guesses: string[]
-  round: number
-  maxRound: number
-  started: boolean
-  done: boolean
-  won: boolean
-}
-
-let state: State
+let state: WordleState
 
 beforeEach(() => {
   state = {
