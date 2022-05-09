@@ -36,22 +36,6 @@ const cardBlockClassName =
   'grid grid-cols-1 w-full p-0 sm:grid-cols-2 md:grid-cols-3'
 
 const Page = () => {
-  // const {
-  //   state,
-  //   showDialog,
-  //   handleOpen,
-  //   handleDownload,
-  //   handleFileSelect,
-  //   handleSetName,
-  //   handleMove,
-  //   handleAdd,
-  //   handleRemove,
-  //   commanderCount,
-  //   otherCount,
-  //   handleClose,
-  //   handleCancel,
-  //   handleSetCards
-  // } = useToadVillageState()
   const dispatch = useAppDispatch()
   const {
     cardObjs,
