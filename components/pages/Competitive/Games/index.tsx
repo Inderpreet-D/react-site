@@ -88,6 +88,11 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
     return [showTheme, showTribe, showCompanion]
   }, [game])
 
+  // De-select when changing seasons
+  React.useEffect(() => {
+    setGame(null)
+  }, [games])
+
   return (
     <>
       <ContainerSubTitle style={{ marginBottom: '1rem' }}>
