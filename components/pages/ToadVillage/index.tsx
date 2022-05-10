@@ -133,7 +133,7 @@ const Page = () => {
           </div>
 
           <div className={cardBlockClassName}>
-            {cardObjs.commanders.sort(nameSort).map((card, i) => (
+            {[...cardObjs.commanders].sort(nameSort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={(name, isCommander) => {

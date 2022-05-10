@@ -237,16 +237,17 @@ const toadVillageSlice = createSlice({
     ) => {
       const { cardObj, isCommander } = action.payload
 
-      let others = state.cardObjs.others.filter(card => card !== cardObj)
-      let commanders = [...state.cardObjs.commanders, cardObj]
-
       if (isCommander) {
-        commanders = state.cardObjs.commanders.filter(card => card !== cardObj)
-        others = [...state.cardObjs.others, cardObj]
+        state.cardObjs.others = [...state.cardObjs.others, cardObj]
+        state.cardObjs.commanders = state.cardObjs.commanders.filter(
+          card => card.card.name !== cardObj.card.name
+        )
+      } else {
+        state.cardObjs.commanders = [...state.cardObjs.commanders, cardObj]
+        state.cardObjs.others = state.cardObjs.others.filter(
+          card => card.card.name !== cardObj.card.name
+        )
       }
-
-      state.cardObjs.commanders = commanders
-      state.cardObjs.others = others
     },
 
     changeCount: (
@@ -262,7 +263,7 @@ const toadVillageSlice = createSlice({
       const list = isCommander
         ? state.cardObjs.commanders
         : state.cardObjs.others
-      const filtered = list.filter(card => card !== cardObj)
+      const filtered = list.filter(card => card.card.name !== cardObj.card.name)
 
       const newList = [
         ...filtered,
