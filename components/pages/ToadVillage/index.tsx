@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 import { FormattedCard } from '../../../shared/toadvillage'
 
 import Container from '../../atoms/Container'
@@ -66,6 +68,17 @@ const Page = () => {
     return total
   }, [combinedCards])
 
+  const topCards = React.useMemo(() => {
+    const copy = [...combinedCards]
+
+    const sorted = copy.sort((a, b) => +b.card.prices.usd - +a.card.prices.usd)
+
+    return sorted.slice(0, 5).map(card => ({
+      name: card.card.name,
+      url: encodeURIComponent(`card:'${card.card.name}'`)
+    }))
+  }, [combinedCards])
+
   const { data: price, isLoading: isLoadingMoney } = useSWR<number>(() =>
     totalPrice > 0 ? `/money?amount=${totalPrice}` : null
   )
@@ -126,6 +139,22 @@ const Page = () => {
                 Total Price: ${(price ?? 0).toFixed(2)} CAD
               </div>
             )}
+          </div>
+
+          <div className={clsx(titleClassName, 'flex-col !items-start')}>
+            <div className='mb-4'>Possible Combos</div>
+
+            {topCards.map((data, i) => (
+              <a
+                key={data.name}
+                href={`https://commanderspellbook.com/search/?q=${data.url}`}
+                target='_blank'
+                rel='noreferrer noopener'
+                className='ml-8 mb-4 list-decimal decoration-sky-400 last:mb-0'
+              >
+                {i + 1} - {data.name}
+              </a>
+            ))}
           </div>
 
           <div className={titleClassName}>
