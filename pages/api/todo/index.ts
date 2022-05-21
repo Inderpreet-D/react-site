@@ -21,8 +21,15 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
   // Get case
   const data = await get(DATA_URL)
   const val = data.val()
-  console.log({ DATA_URL, val })
-  res.status(200).send(val ?? [])
+  const resVal = (val ?? []) as TodoItem[]
+
+  const cleaned = resVal.map(item => ({
+    ...item,
+    parent: item.parent ?? null,
+    checked: item.checked ?? false
+  }))
+
+  res.status(200).send(cleaned)
 }
 
 export default api
