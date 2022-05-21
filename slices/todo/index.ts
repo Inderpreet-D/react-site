@@ -33,8 +33,13 @@ export const loadTodos = createAsyncThunk(
 
       const id = localStorage.getItem(ID_KEY)!
       const items = await todo({ id })
+      const data = items.data.map(item => ({
+        ...item,
+        parent: item.parent ?? null,
+        checked: item.checked ?? false
+      }))
 
-      dispatch(endLoad(items.data))
+      dispatch(endLoad(data))
     } catch (err) {
       console.error('Error loading', err)
     }
