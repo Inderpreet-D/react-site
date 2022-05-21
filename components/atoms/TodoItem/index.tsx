@@ -1,11 +1,19 @@
 import { DivProps } from 'react-html-props'
 import clsx from 'clsx'
 
+import { MdAdd } from '@react-icons/all-files/md/MdAdd'
+import { MdDelete } from '@react-icons/all-files/md/MdDelete'
+
 import { TodoItem as TodoItemType } from '../../../shared/todo'
 
 import Checkbox from '../Checkbox'
 
-import { selectTodo, setChecked, setText } from '../../../slices/todo'
+import {
+  removeItem,
+  selectTodo,
+  setChecked,
+  setText
+} from '../../../slices/todo'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 type TodoItemProps = DivProps & {
@@ -21,6 +29,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
 
   const [editing, setEditing] = React.useState(false)
   const [newText, setNewText] = React.useState(item.text)
+  const [hovering, setHovering] = React.useState(false)
 
   React.useEffect(() => {
     setNewText(item.text)
@@ -41,6 +50,10 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
     setEditing(false)
   }, [newText, dispatch, item.id, item.text])
 
+  const handleDelete = React.useCallback(() => {
+    dispatch(removeItem(item.id))
+  }, [dispatch, item.id])
+
   return (
     <div className={className} style={{ marginLeft: `${depth * 8}px` }}>
       <Checkbox checked={item.checked} onCheck={handleCheck} />
@@ -50,9 +63,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
           autoFocus
           value={newText}
           onChange={e => setNewText(e.target.value)}
-          onBlur={() => {
-            handleTextChange()
-          }}
+          onBlur={() => handleTextChange()}
           onKeyDown={e => {
             if (e.key === 'Enter') {
               handleTextChange()
@@ -68,13 +79,34 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
                 setEditing(true)
               }
             }}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
             className={clsx(
-              'ml-2 flex-1 cursor-text transition-all',
+              'ml-2 flex items-center flex-1 cursor-text transition-all',
               item.checked &&
                 'line-through text-sky-600 decoration-sky-400 cursor-default'
             )}
           >
             {item.text}
+
+            {hovering && (
+              <div className='ml-4 text-white flex items-center'>
+                <MdAdd
+                  onClick={e => {
+                    e.stopPropagation()
+                  }}
+                  className='cursor-pointer'
+                />
+
+                <MdDelete
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleDelete()
+                  }}
+                  className='ml-2 cursor-pointer'
+                />
+              </div>
+            )}
           </div>
         </>
       )}

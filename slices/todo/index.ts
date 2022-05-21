@@ -82,12 +82,18 @@ const todoSlice = createSlice({
     removeItem: (state, action: PayloadAction<string>) => {
       const id = action.payload
 
-      const idx = state.items.findIndex(item => item.id === id)
-
-      if (idx >= 0) {
-        state.dirty = true
-        state.items.splice(idx, 1)
+      if (!id) {
+        return
       }
+
+      const startingCount = state.items.length
+
+      // Remove this and it's children
+      state.items = state.items.filter(
+        item => ![item.id, item.parent].includes(id)
+      )
+
+      state.dirty = startingCount !== state.items.length
     },
 
     setParent: (

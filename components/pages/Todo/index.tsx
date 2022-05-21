@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 const Page = () => {
   const dispatch = useAppDispatch()
-  const { loaded, loading, saving, dirty } = useAppSelector(selectTodo)
+  const { loaded, loading, saving, dirty, items } = useAppSelector(selectTodo)
 
   const [newNote, setNewNote] = React.useState('')
 
@@ -36,7 +36,11 @@ const Page = () => {
       ) : (
         <>
           <div className='flex flex-col'>
-            <TodoItems parent={null} depth={-1} />
+            {items.length > 0 ? (
+              <TodoItems parent={null} depth={-1} />
+            ) : (
+              <div>No items yet.</div>
+            )}
           </div>
 
           <TextInput
