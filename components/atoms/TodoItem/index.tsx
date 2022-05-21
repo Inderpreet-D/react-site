@@ -31,12 +31,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
   }, [dispatch, item.id, item.checked])
 
   const handleTextChange = React.useCallback(() => {
-    if (item.text !== newText) {
-      dispatch(setText({ id: item.id, text: newText }))
+    const trimmed = newText.trim()
+    if (trimmed.length > 0) {
+      dispatch(setText({ id: item.id, text: trimmed }))
+    } else {
+      setNewText(item.text)
     }
 
     setEditing(false)
-  }, [item.text, newText, dispatch, item.id])
+  }, [newText, dispatch, item.id, item.text])
 
   return (
     <div className={className} style={{ marginLeft: `${depth * 8}px` }}>

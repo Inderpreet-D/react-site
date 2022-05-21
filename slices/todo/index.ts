@@ -7,25 +7,19 @@ import { TodoItem } from '../../shared/todo'
 import { ID_KEY } from '../../shared/constants'
 import { todo } from '../../lib/api'
 
-type TimerType = NodeJS.Timeout | null
-
 type TodoState = {
   loaded: boolean
   loading: boolean
   saving: boolean
   dirty: boolean
-  saveTimer: TimerType
   items: TodoItem[]
 }
-
-const SAVE_DELAY = 100
 
 const initialState: TodoState = {
   loaded: false,
   loading: false,
   saving: false,
   dirty: false,
-  saveTimer: null,
   items: []
 }
 
@@ -48,21 +42,17 @@ export const loadTodos = createAsyncThunk(
 export const saveTodos = createAsyncThunk(
   'todo/save',
   async (_, { dispatch, getState }) => {
-    const timer = setTimeout(async () => {
-      try {
-        dispatch(startSave())
+    try {
+      dispatch(startSave())
 
-        const id = localStorage.getItem(ID_KEY)!
-        const { items } = (getState() as RootState).todo
-        await todo({ id, items })
+      const id = localStorage.getItem(ID_KEY)!
+      const { items } = (getState() as RootState).todo
+      await todo({ id, items })
 
-        dispatch(endSave())
-      } catch (err) {
-        console.error('Error saving', err)
-      }
-    }, SAVE_DELAY)
-
-    dispatch(beginSave(timer))
+      dispatch(endSave())
+    } catch (err) {
+      console.error('Error saving', err)
+    }
   }
 )
 
@@ -153,15 +143,6 @@ const todoSlice = createSlice({
 
     // Saving actions
 
-    beginSave: (state, action: PayloadAction<TimerType>) => {
-      if (state.saveTimer) {
-        clearTimeout(state.saveTimer)
-      }
-
-      state.saveTimer = action.payload
-      state.saving = false
-    },
-
     startSave: state => {
       state.saving = true
     },
@@ -169,11 +150,6 @@ const todoSlice = createSlice({
     endSave: state => {
       state.saving = false
       state.dirty = false
-
-      if (state.saveTimer) {
-        clearTimeout(state.saveTimer)
-      }
-      state.saveTimer = null
     }
   }
 })
@@ -185,7 +161,7 @@ export const {
   setText,
   setChecked
 } = todoSlice.actions
-const { startLoad, endLoad, beginSave, startSave, endSave } = todoSlice.actions
+const { startLoad, endLoad, startSave, endSave } = todoSlice.actions
 
 export const selectTodo = (state: RootState) => state.todo
 
