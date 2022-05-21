@@ -88,10 +88,27 @@ const todoSlice = createSlice({
 
       const startingCount = state.items.length
 
-      // Remove this and it's children
-      state.items = state.items.filter(
-        item => ![item.id, item.parent].includes(id)
-      )
+      // Gather all nodes to remove (this and it's children and grand-children etc.)
+      const toRemove = [id]
+      let adds = 1
+
+      while (adds > 0) {
+        adds = 0
+
+        // Add children of nodes in the toRemove list
+        state.items.forEach(item => {
+          if (
+            item.parent &&
+            toRemove.includes(item.parent) &&
+            !toRemove.includes(item.id)
+          ) {
+            toRemove.push(item.id)
+            adds++
+          }
+        })
+      }
+
+      state.items = state.items.filter(item => !toRemove.includes(item.id))
 
       state.dirty = startingCount !== state.items.length
     },

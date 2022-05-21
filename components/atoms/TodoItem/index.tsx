@@ -9,12 +9,14 @@ import { TodoItem as TodoItemType } from '../../../shared/todo'
 import Checkbox from '../Checkbox'
 
 import {
+  addItem,
   removeItem,
   selectTodo,
   setChecked,
   setText
 } from '../../../slices/todo'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import TextInput from '../TextInput'
 
 type TodoItemProps = DivProps & {
   item: TodoItemType
@@ -30,6 +32,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
   const [editing, setEditing] = React.useState(false)
   const [newText, setNewText] = React.useState(item.text)
   const [hovering, setHovering] = React.useState(false)
+  const [addingNew, setAddingNew] = React.useState(false)
+  const [newItemText, setNewItemText] = React.useState('')
 
   React.useEffect(() => {
     setNewText(item.text)
@@ -50,67 +54,102 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
     setEditing(false)
   }, [newText, dispatch, item.id, item.text])
 
+  const finishAddingNew = React.useCallback(() => {
+    setAddingNew(false)
+    setNewItemText('')
+  }, [])
+
+  const handleAdd = React.useCallback(() => {
+    const trimmed = newItemText.trim()
+    if (trimmed.length > 0) {
+      dispatch(addItem({ text: newItemText, parent: item.id }))
+      finishAddingNew()
+    }
+  }, [dispatch, newItemText, item.id, finishAddingNew])
+
   const handleDelete = React.useCallback(() => {
     dispatch(removeItem(item.id))
   }, [dispatch, item.id])
 
-  return (
-    <div className={className} style={{ marginLeft: `${depth * 8}px` }}>
-      <Checkbox checked={item.checked} onCheck={handleCheck} />
+  const depthAdjust = React.useMemo(() => depth * 16, [depth])
 
-      {editing ? (
-        <input
-          autoFocus
-          value={newText}
-          onChange={e => setNewText(e.target.value)}
-          onBlur={() => handleTextChange()}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              handleTextChange()
-            }
-          }}
-          className='ml-2 outline-none border-none bg-transparent'
-        />
-      ) : (
-        <>
-          <div
-            onClick={() => {
-              if (!item.checked) {
-                setEditing(true)
+  return (
+    <>
+      <div className={className} style={{ marginLeft: `${depthAdjust}px` }}>
+        <Checkbox checked={item.checked} onCheck={handleCheck} />
+
+        {editing ? (
+          <input
+            autoFocus
+            value={newText}
+            onChange={e => setNewText(e.target.value)}
+            onBlur={() => handleTextChange()}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleTextChange()
               }
             }}
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
-            className={clsx(
-              'ml-2 flex items-center flex-1 cursor-text transition-all',
-              item.checked &&
-                'line-through text-sky-600 decoration-sky-400 cursor-default'
-            )}
-          >
-            {item.text}
+            className='ml-2 outline-none border-none bg-transparent'
+          />
+        ) : (
+          <>
+            <div
+              onClick={() => {
+                if (!item.checked) {
+                  setEditing(true)
+                }
+              }}
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              className={clsx(
+                'ml-2 flex items-center flex-1 cursor-text transition-all',
+                item.checked &&
+                  'line-through text-sky-600 decoration-sky-400 cursor-default'
+              )}
+            >
+              {item.text}
 
-            {hovering && (
-              <div className='ml-4 text-white flex items-center'>
-                <MdAdd
-                  onClick={e => {
-                    e.stopPropagation()
-                  }}
-                  className='cursor-pointer'
-                />
+              {hovering && (
+                <div className='ml-4 text-white flex items-center'>
+                  <MdAdd
+                    onClick={e => {
+                      e.stopPropagation()
+                      setAddingNew(true)
+                    }}
+                    className='cursor-pointer'
+                  />
 
-                <MdDelete
-                  onClick={e => {
-                    e.stopPropagation()
-                    handleDelete()
-                  }}
-                  className='ml-2 cursor-pointer'
-                />
-              </div>
-            )}
-          </div>
-        </>
+                  <MdDelete
+                    onClick={e => {
+                      e.stopPropagation()
+                      handleDelete()
+                    }}
+                    className='ml-2 cursor-pointer'
+                  />
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      {addingNew && (
+        <TextInput
+          autoFocus
+          value={newItemText}
+          onChange={e => setNewItemText(e.target.value)}
+          onBlur={() => finishAddingNew()}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              handleAdd()
+            }
+          }}
+          placeholder='Add new sub-note'
+          className='mb-4'
+          style={{ marginLeft: `${depthAdjust}px` }}
+        />
       )}
-    </div>
+    </>
   )
 }
 
