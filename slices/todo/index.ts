@@ -66,6 +66,8 @@ const todoSlice = createSlice({
   name: 'todo',
   initialState,
   reducers: {
+    // Edit actions
+
     addItem: (
       state,
       action: PayloadAction<{ text: string; parent: string | null }>
@@ -126,6 +128,8 @@ const todoSlice = createSlice({
       }
     },
 
+    // Loading actions
+
     startLoad: state => {
       state.loading = true
     },
@@ -135,6 +139,8 @@ const todoSlice = createSlice({
       state.loaded = true
       state.items = action.payload
     },
+
+    // Saving actions
 
     beginSave: (state, action: PayloadAction<TimerType>) => {
       if (state.saveTimer) {
