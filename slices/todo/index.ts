@@ -13,15 +13,19 @@ type TodoState = {
   loaded: boolean
   loading: boolean
   saving: boolean
+  dirty: boolean
   saveTimer: TimerType
   items: TodoItem[]
 }
 
+const SAVE_DELAY = 100
+
 const initialState: TodoState = {
   loaded: false,
   loading: false,
-  saveTimer: null,
   saving: false,
+  dirty: false,
+  saveTimer: null,
   items: []
 }
 
@@ -56,7 +60,7 @@ export const saveTodos = createAsyncThunk(
       } catch (err) {
         console.error('Error saving', err)
       }
-    }, 1500)
+    }, SAVE_DELAY)
 
     dispatch(beginSave(timer))
   }
@@ -81,6 +85,7 @@ const todoSlice = createSlice({
         checked: false
       }
 
+      state.dirty = true
       state.items.push(newItem)
     },
 
@@ -89,7 +94,10 @@ const todoSlice = createSlice({
 
       const idx = state.items.findIndex(item => item.id === id)
 
-      state.items.splice(idx, 1)
+      if (idx >= 0) {
+        state.dirty = true
+        state.items.splice(idx, 1)
+      }
     },
 
     setParent: (
@@ -100,7 +108,8 @@ const todoSlice = createSlice({
 
       const item = state.items.find(item => item.id === id)
 
-      if (item) {
+      if (item && item.parent !== parent) {
+        state.dirty = true
         item.parent = parent
       }
     },
@@ -110,7 +119,8 @@ const todoSlice = createSlice({
 
       const item = state.items.find(item => item.id === id)
 
-      if (item) {
+      if (item && item.text !== text) {
+        state.dirty = true
         item.text = text
       }
     },
@@ -123,7 +133,8 @@ const todoSlice = createSlice({
 
       const item = state.items.find(item => item.id === id)
 
-      if (item) {
+      if (item && item.checked !== checked) {
+        state.dirty = true
         item.checked = checked
       }
     },
@@ -157,6 +168,7 @@ const todoSlice = createSlice({
 
     endSave: state => {
       state.saving = false
+      state.dirty = false
 
       if (state.saveTimer) {
         clearTimeout(state.saveTimer)
