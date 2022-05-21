@@ -20,9 +20,17 @@ const TodoItems: React.FC<TodoItemsProps> = ({ parent, depth }) => {
 
   const newDepth = React.useMemo(() => depth + 1, [depth])
 
+  const item = React.useMemo(() => {
+    if (!parent) {
+      return null
+    }
+
+    return items.find(item => item.id === parent)!
+  }, [parent, items])
+
   return (
     <>
-      <TodoItem itemId={parent} depth={depth} />
+      {item && <TodoItem item={item} depth={depth} />}
 
       {children.map(child => (
         <TodoItems key={child.id} parent={child.id} depth={newDepth} />
