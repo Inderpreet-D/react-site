@@ -4,8 +4,8 @@ import LoadingIcon from '../../atoms/LoadingIcon'
 import TodoItems from '../../molecules/TodoItems'
 import TextInput from '../../atoms/TextInput'
 
-import { selectTodo, loadTodos, saveTodos, addItem } from '../../../slices/todo'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { selectTodo, loadTodos, saveTodos, addItem } from '../../../slices/todo'
 
 const Page = () => {
   const dispatch = useAppDispatch()

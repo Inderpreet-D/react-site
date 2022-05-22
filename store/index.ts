@@ -1,10 +1,16 @@
-import { ThunkAction, Action, configureStore } from '@reduxjs/toolkit'
+import {
+  ThunkAction,
+  Action,
+  configureStore,
+  getDefaultMiddleware
+} from '@reduxjs/toolkit'
 
 import recipeReducer from '../slices/recipe'
 import lifeReducer from '../slices/life'
 import wordleReducer from '../slices/wordle'
 import toadVillageReducer from '../slices/toadVillage'
 import todoReducer from '../slices/todo'
+import sureReducer from '../slices/sure'
 
 export const store = configureStore({
   reducer: {
@@ -12,8 +18,10 @@ export const store = configureStore({
     life: lifeReducer,
     wordle: wordleReducer,
     toadVillage: toadVillageReducer,
-    todo: todoReducer
-  }
+    todo: todoReducer,
+    sure: sureReducer
+  },
+  middleware: getDefaultMiddleware({ serializableCheck: false })
 })
 
 export type AppDispatch = typeof store.dispatch

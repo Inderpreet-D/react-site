@@ -7,7 +7,9 @@ import { MdDelete } from '@react-icons/all-files/md/MdDelete'
 import { TodoItem as TodoItemType } from '../../../shared/todo'
 
 import Checkbox from '../Checkbox'
+import TextInput from '../TextInput'
 
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import {
   addItem,
   removeItem,
@@ -15,8 +17,7 @@ import {
   setChecked,
   setText
 } from '../../../slices/todo'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import TextInput from '../TextInput'
+import { checkSure } from '../../../slices/sure'
 
 type TodoItemProps = DivProps & {
   item: TodoItemType
@@ -27,13 +28,36 @@ const className = 'flex mb-4 last:mb-0 items-center'
 
 const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
   const dispatch = useAppDispatch()
-  const {} = useAppSelector(selectTodo)
+  const { items } = useAppSelector(selectTodo)
 
   const [editing, setEditing] = React.useState(false)
   const [newText, setNewText] = React.useState(item.text)
   const [hovering, setHovering] = React.useState(false)
   const [addingNew, setAddingNew] = React.useState(false)
   const [newItemText, setNewItemText] = React.useState('')
+
+  const childCount = React.useMemo(() => {
+    const children = [item.id]
+    let adds = 1
+
+    while (adds > 0) {
+      adds = 0
+
+      // Add children of nodes in the toRemove list
+      items.forEach(item => {
+        if (
+          item.parent &&
+          children.includes(item.parent) &&
+          !children.includes(item.id)
+        ) {
+          children.push(item.id)
+          adds++
+        }
+      })
+    }
+
+    return children.length - 1
+  }, [item.id, items])
 
   React.useEffect(() => {
     setNewText(item.text)
@@ -68,8 +92,24 @@ const TodoItem: React.FC<TodoItemProps> = ({ item, depth }) => {
   }, [dispatch, newItemText, item.id, finishAddingNew])
 
   const handleDelete = React.useCallback(() => {
-    dispatch(removeItem(item.id))
-  }, [dispatch, item.id])
+    const action = () => dispatch(removeItem(item.id))
+
+    if (childCount === 0) {
+      action()
+    } else {
+      dispatch(
+        checkSure({
+          title: 'Are you sure you want to delete this note?',
+          subtitle: `Doing so will also delete ${childCount} sub-note${
+            childCount === 1 ? '' : 's'
+          }`,
+          acceptText: 'YES, DELETE',
+          declineText: 'CANCEL',
+          onAccept: action
+        })
+      )
+    }
+  }, [dispatch, item.id, childCount])
 
   const depthAdjust = React.useMemo(() => depth * 16, [depth])
 
