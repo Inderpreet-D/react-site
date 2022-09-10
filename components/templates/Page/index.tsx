@@ -29,7 +29,7 @@ const Page = ({ children, title, hideHeader, hideFooter }: PageProps) => {
       <div className='flex flex-col w-screen h-screen'>
         {!hideHeader && <Header />}
 
-        <div className='flex-grow overflow-auto'>{children}</div>
+        <main className='flex-grow overflow-auto'>{children}</main>
 
         {!hideFooter && <Footer />}
       </div>
