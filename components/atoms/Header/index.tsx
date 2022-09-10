@@ -12,13 +12,13 @@ const className = 'flex border-b border-b-slate-400 box-border bg-slate-800'
 
 const Header = () => {
   return (
-    <div className={className}>
-      <div className='hidden overflow-auto lg:flex'>{HEADER_ITEMS}</div>
+    <header className={className}>
+      <nav className='hidden overflow-auto lg:flex'>{HEADER_ITEMS}</nav>
 
       <div className='flex lg:hidden'>
         <Sidebar>{HEADER_ITEMS}</Sidebar>
       </div>
-    </div>
+    </header>
   )
 }
 
