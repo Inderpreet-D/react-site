@@ -178,6 +178,28 @@ export const nameSort = (c1: FormattedCard, c2: FormattedCard): number => {
   }
 }
 
+export const reverseNameSort = (
+  c1: FormattedCard,
+  c2: FormattedCard
+): number => {
+  const textA = c1.card.name
+  const textB = c2.card.name
+
+  if (textA < textB) {
+    return 1
+  } else if (textA > textB) {
+    return -1
+  } else {
+    return c1.amount - c2.amount
+  }
+}
+
+export const costSort = (c1: FormattedCard, c2: FormattedCard): number =>
+  +c1.card.prices.usd - +c2.card.prices.usd
+
+export const reverseCostSort = (c1: FormattedCard, c2: FormattedCard): number =>
+  +c2.card.prices.usd - +c1.card.prices.usd
+
 export const downloadDecklist = (list: string[], file: File): void => {
   const fullName: string[] = file.name.split('.')
   fullName.splice(fullName.length - 1, 1, 'LIST', 'txt')

@@ -13,8 +13,14 @@ import TextArea from '../../atoms/TextArea'
 import MTGCard from '../../molecules/MTGCard'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import Dialog from '../../molecules/Dialog'
+import Select from '../../atoms/Select'
 
-import { nameSort } from '../../../utilities/helpers/toadvillage'
+import {
+  costSort,
+  nameSort,
+  reverseCostSort,
+  reverseNameSort
+} from '../../../utilities/helpers/toadvillage'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import {
   addCard,
@@ -32,8 +38,17 @@ import {
 } from '../../../slices/toadVillage'
 import useSWR from '../../../hooks/useSWR'
 
+const sortMap: {
+  [x: string]: (a: FormattedCard, b: FormattedCard) => number
+} = {
+  'Alphabetical (a-z)': nameSort,
+  'Alphabetical (z-a)': reverseNameSort,
+  'Cost (ascending)': costSort,
+  'Cost (descending)': reverseCostSort
+}
+
 const titleClassName =
-  'flex items-center justify-left mx-0 my-5 text-3xl font-light underline'
+  'flex items-center justify-left mx-0 my-5 text-3xl font-light'
 const cardBlockClassName =
   'grid grid-cols-1 w-full p-0 sm:grid-cols-2 md:grid-cols-3'
 
@@ -48,6 +63,7 @@ const Page = () => {
     cardListString
   } = useAppSelector(selectToadVillage)
 
+  const [selectedSort, setSelectedSort] = React.useState({ sort: nameSort })
   const [commanderCount, otherCount, combinedCards] = React.useMemo(() => {
     const { commanders = [], others = [] } = cardObjs
     const reducer = (t: number, { amount }: FormattedCard) => t + amount
@@ -71,7 +87,7 @@ const Page = () => {
   const topCards = React.useMemo(() => {
     const copy = [...combinedCards]
 
-    const sorted = copy.sort((a, b) => +b.card.prices.usd - +a.card.prices.usd)
+    const sorted = copy.sort(reverseCostSort)
 
     return sorted.slice(0, 5).map(card => ({
       name: card.card.name,
@@ -132,13 +148,26 @@ const Page = () => {
       {!loading && cardObjs.commanders && cardObjs.others && (
         <>
           <div className={titleClassName}>
-            <div>Total Cards ({commanderCount + otherCount})</div>
+            <div className='underline'>
+              Total Cards ({commanderCount + otherCount})
+            </div>
 
             {!isLoadingMoney && (
-              <div className='ml-4'>
+              <div className='ml-4 underline'>
                 Total Price: ${(price ?? 0).toFixed(2)} CAD
               </div>
             )}
+
+            <Select
+              label='Sort'
+              labelClass='text-3xl'
+              options={Object.keys(sortMap)}
+              value='Alphabetical (a-z)'
+              onChange={val =>
+                setSelectedSort({ sort: sortMap[val as string] })
+              }
+              className='flex-1 justify-end'
+            />
           </div>
 
           <div className={clsx(titleClassName, 'flex-col !items-start')}>
@@ -162,7 +191,7 @@ const Page = () => {
           </div>
 
           <div className={cardBlockClassName}>
-            {[...cardObjs.commanders].sort(nameSort).map((card, i) => (
+            {[...cardObjs.commanders].sort(selectedSort.sort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={(name, isCommander) => {
@@ -183,7 +212,7 @@ const Page = () => {
           <div className={titleClassName}>Deck ({otherCount})</div>
 
           <div className={cardBlockClassName}>
-            {[...cardObjs.others].sort(nameSort).map((card, i) => (
+            {[...cardObjs.others].sort(selectedSort.sort).map((card, i) => (
               <MTGCard
                 key={i}
                 onClickMove={(name, isCommander) => {
