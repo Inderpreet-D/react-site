@@ -13,7 +13,7 @@ const getClassName = (box: DOMRect | undefined) => {
   }
 
   const className =
-    'absolute flex ml-2 border-2 border-slate-700 rounded-2xl rounded-tl-none box-border p-2 max-w-[15rem] bg-slate-800 shadow-slate-400 shadow-sm'
+    'absolute flex flex-wrap break-all ml-2 border-2 border-slate-700 rounded-2xl rounded-tl-none box-border p-2 max-w-[15rem] bg-slate-800 shadow-slate-400 shadow-sm'
   return className
 }
 
