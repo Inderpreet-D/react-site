@@ -1,24 +1,25 @@
-import { ThunkAction, Action, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 
-import recipeReducer from '../slices/recipe'
+import authReducer from '../slices/auth'
 import lifeReducer from '../slices/life'
-import wordleReducer from '../slices/wordle'
+import recipeReducer from '../slices/recipe'
 import toadVillageReducer from '../slices/toadVillage'
+import wordleReducer from '../slices/wordle'
 
 export const store = configureStore({
   reducer: {
-    recipe: recipeReducer,
+    auth: authReducer,
+
     life: lifeReducer,
-    wordle: wordleReducer,
-    toadVillage: toadVillageReducer
+
+    recipe: recipeReducer,
+
+    toadVillage: toadVillageReducer,
+
+    wordle: wordleReducer
   }
 })
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->
+export type GetState = typeof store.getState
