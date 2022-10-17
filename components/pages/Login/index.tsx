@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Container from '../../atoms/Container'
 import TextField from '../../atoms/TextField'
-import Checkbox from '../../atoms/Checkbox'
 import Button from '../../atoms/Button'
 
 import { attemptLogin, selectAuth, toggleRegister } from '../../../slices/auth'
