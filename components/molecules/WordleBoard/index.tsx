@@ -1,5 +1,6 @@
 import axios from 'axios'
 import clsx from 'clsx'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Cell from './Cell'
 import Button from '../../atoms/Button'
@@ -13,7 +14,6 @@ import {
   makeGuess,
   pressKey
 } from '../../../slices/wordle'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 type WordleBoardProps = {
   reset: () => void

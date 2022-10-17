@@ -5,11 +5,13 @@ import { RootState, AppDispatch, GetState } from '../../store'
 type AuthState = {
   registering: boolean
   token: string | null
+  loading: boolean
 }
 
 const initialState: AuthState = {
   registering: false,
-  token: null
+  token: null,
+  loading: false
 }
 
 const TOKEN_KEY = 'inderpreetd.token'
@@ -33,14 +35,41 @@ const authSlice = createSlice({
 
     toggleRegister: (state: AuthState) => {
       state.registering = !state.registering
+    },
+
+    startLogin: (state: AuthState) => {
+      state.loading = true
+    },
+
+    finishLogin: (state: AuthState) => {
+      state.loading = false
     }
   }
 })
 
 export const { loadSavedToken, toggleRegister } = authSlice.actions
-const { setSavedToken } = authSlice.actions
+const { setSavedToken, startLogin, finishLogin } = authSlice.actions
 
-// TODO: Add login and register methods
+export const attemptLogin = (username: string, password: string) => {
+  return async (dispatch: AppDispatch, getState: GetState) => {
+    const { registering } = selectAuth(getState())
+
+    dispatch(startLogin())
+
+    try {
+      const toSend = { username, password }
+      console.log({ toSend })
+
+      if (registering) {
+      } else {
+      }
+    } catch (err) {
+      console.log({ err })
+    } finally {
+      dispatch(finishLogin())
+    }
+  }
+}
 
 export const logout = () => {
   return async (dispatch: AppDispatch, getState: GetState) => {

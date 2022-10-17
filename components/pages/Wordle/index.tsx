@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useAppDispatch } from '../../../hooks/redux'
 
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -8,7 +9,6 @@ import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
 import { start } from '../../../slices/wordle'
-import { useAppDispatch } from '../../../hooks/redux'
 
 const Page = () => {
   const dispatch = useAppDispatch()

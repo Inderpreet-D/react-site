@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+
 import Container from '../../atoms/Container'
 import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
@@ -13,7 +15,6 @@ import {
   stopRunning,
   tick
 } from '../../../slices/life'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 const DELAY = 10
 
