@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { RootState, AppDispatch, GetState } from '../../store'
+import { setAlert } from '../alert'
 
 type AuthState = {
   registering: boolean
@@ -63,6 +64,8 @@ export const attemptLogin = (username: string, password: string) => {
       if (registering) {
       } else {
       }
+
+      dispatch(setAlert('SOMETHING HERE', true))
     } catch (err) {
       console.log({ err })
     } finally {

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
+import alertReducer from '../slices/alert'
 import authReducer from '../slices/auth'
 import lifeReducer from '../slices/life'
 import recipeReducer from '../slices/recipe'
@@ -8,6 +9,8 @@ import wordleReducer from '../slices/wordle'
 
 export const store = configureStore({
   reducer: {
+    alert: alertReducer,
+
     auth: authReducer,
 
     life: lifeReducer,
