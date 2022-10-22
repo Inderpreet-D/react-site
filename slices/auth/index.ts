@@ -65,7 +65,7 @@ export const attemptLogin = (username: string, password: string) => {
       } else {
       }
 
-      dispatch(setAlert('SOMETHING HERE', true))
+      dispatch(setAlert('SOMETHING HERE'))
     } catch (err) {
       console.log({ err })
     } finally {

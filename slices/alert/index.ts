@@ -1,19 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { RootState, AppDispatch, GetState } from '../../store'
-
-const DURATION = 5000
+import { RootState, AppDispatch } from '../../store'
 
 type AlertState = {
   alert: string
   isError: boolean
-  timer: NodeJS.Timeout | null
 }
 
 const initialState: AlertState = {
   alert: '',
-  isError: true,
-  timer: null
+  isError: true
 }
 
 const alertSlice = createSlice({
@@ -25,35 +21,20 @@ const alertSlice = createSlice({
       action: PayloadAction<{
         alert: string
         isError: boolean
-        timer: NodeJS.Timeout | null
       }>
     ) => {
-      const { alert, isError, timer } = action.payload
+      const { alert, isError } = action.payload
       state.alert = alert
       state.isError = isError
-      state.timer = timer
     }
   }
 })
 
 const { updateAlert } = alertSlice.actions
 
-export const setAlert = (
-  alert: string,
-  isError: boolean,
-  duration = DURATION
-) => {
-  return async (dispatch: AppDispatch, getState: GetState) => {
-    const { timer } = selectAlert(getState())
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-
-    const newTimer = setTimeout(() => {
-      dispatch(updateAlert({ alert: '', isError, timer: null }))
-    }, duration)
-    dispatch(updateAlert({ alert, isError, timer: newTimer }))
+export const setAlert = (alert: string, isError: boolean = true) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(updateAlert({ alert, isError }))
   }
 }
 
