@@ -1,21 +1,25 @@
-import axios from 'axios'
 import useBaseSWR from 'swr'
+
+import { wrapCall } from '../../lib/api'
 
 type SWRType = string | (() => string | null)
 
 const useSWR = <T>(url: SWRType) => {
-  const { data, error } = useBaseSWR(() => {
-    if (typeof url === 'string') {
-      return `/api/${url}`
-    }
+  const { data, error } = useBaseSWR(
+    () => {
+      if (typeof url === 'string') {
+        return `/${url}`
+      }
 
-    const val = url()
-    if (val) {
-      return `/api/${val}`
-    }
+      const val = url()
+      if (val) {
+        return `/${val}`
+      }
 
-    return null
-  }, axios.get)
+      return null
+    },
+    async uri => await wrapCall<T>({ method: 'GET', uri, unpack: false })
+  )
 
   return {
     data: (data as any)?.data as T,

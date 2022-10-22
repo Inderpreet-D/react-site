@@ -12,6 +12,7 @@ const handle = app.getRequestHandler()
     await app.prepare()
     const server = express()
 
+    // HTTP to HTTPS re-routing
     server.use((req, res, next) => {
       if (req.headers['x-forwarded-proto'] === 'http') {
         res.redirect(301, `https://${req.hostname}${req.url}`)
@@ -25,8 +26,16 @@ const handle = app.getRequestHandler()
       }
     })
 
+    // Auth token verification
+    // server.use((req, res, next) => {})
+
     server.get('*', (req, res) => handle(req, res))
     server.post('*', (req, res) => handle(req, res))
+    server.put('*', (req, res) => handle(req, res))
+    server.delete('*', (req, res) => handle(req, res))
+
+    // Handles errors gracefully
+    // server.use((req, res, next) => {})
 
     server.listen(port, error => {
       if (error) throw error

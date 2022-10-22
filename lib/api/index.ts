@@ -1,5 +1,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 
+import { TOKEN_KEY } from '../../slices/auth'
+
 // ~~~~~~ HELPER METHODS ~~~~~~
 const callGet = axios.get
 const callPost = axios.post
@@ -37,7 +39,21 @@ export const wrapCall = async <T>({
 }: WrappedParams) => {
   try {
     const func = METHOD_MAP[method]
-    const response = await func(`/api${uri}`, data)
+
+    const url = `/api${uri}`
+    const token = window.localStorage.getItem(TOKEN_KEY) ?? ''
+    const options = {
+      headers: {
+        Authorization: `token ${token}`
+      }
+    }
+
+    let response
+    if (['POST', 'PUT'].includes(method)) {
+      response = await func(url, data, options)
+    } else {
+      response = await func(url, options)
+    }
 
     if (unpack) {
       return (response.data?.data ?? null) as T

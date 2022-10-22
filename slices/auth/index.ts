@@ -15,7 +15,7 @@ const initialState: AuthState = {
   loading: false
 }
 
-const TOKEN_KEY = 'inderpreetd.token'
+export const TOKEN_KEY = 'inderpreetd.token'
 
 const authSlice = createSlice({
   name: 'auth',
