@@ -11,6 +11,7 @@ const handle = app.getRequestHandler()
   try {
     await app.prepare()
     const server = express()
+    server.use(express.json())
 
     // HTTP to HTTPS re-routing
     server.use((req, res, next) => {

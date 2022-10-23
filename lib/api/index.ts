@@ -23,19 +23,19 @@ const METHOD_MAP: { [x in MethodType]: AxiosFunc } = {
   DELETE: callDelete
 }
 
+const dataMethods: MethodType[] = ['POST', 'PUT']
+
 export type WrappedParams = {
   method: MethodType
   uri: string
   data?: any
-  unpack?: boolean
 }
 
 // Wraps a call to the appropriate method in a generic error handler
 export const wrapCall = async <T>({
   method,
   uri,
-  data = null,
-  unpack = true
+  data = null
 }: WrappedParams) => {
   try {
     const func = METHOD_MAP[method]
@@ -49,17 +49,13 @@ export const wrapCall = async <T>({
     }
 
     let response
-    if (['POST', 'PUT'].includes(method)) {
+    if (dataMethods.includes(method)) {
       response = await func(url, data, options)
     } else {
       response = await func(url, options)
     }
 
-    if (unpack) {
-      return (response.data?.data ?? null) as T
-    }
-
-    return (response as unknown) as T
+    return response.data as T
   } catch (err) {
     console.error(`Error on ${method} ${uri}`, err)
     throw err

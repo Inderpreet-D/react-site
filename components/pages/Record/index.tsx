@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import { Game, PlayerObj } from '../Competitive'
 
 import Container from '../../atoms/Container'
@@ -10,10 +8,12 @@ import Select from '../../atoms/Select'
 import TextInput from '../../atoms/TextInput'
 
 import { reducer, initialState, Players } from './reducer'
-
-const PASSWORD_URI = '/api/record/password'
-const SEASONS_URI = '/api/record/seasons'
-const RECORD_URI = '/api/record'
+import {
+  checkPassword,
+  getSeasons,
+  postRecord,
+  postSeason
+} from '../../../lib/api/competitive'
 
 const getPlayerObj = (players: Players) => {
   const playerObj: PlayerObj = {}
@@ -63,8 +63,7 @@ const Page = () => {
   React.useEffect(() => {
     const checkPass = async () => {
       try {
-        const result = await axios.post(PASSWORD_URI, { password })
-        const { match } = (result.data as unknown) as { match: boolean }
+        const match = await checkPassword(password)
         setPassValid(match)
       } catch (err) {
         console.error('Error checking password', err)
@@ -81,8 +80,7 @@ const Page = () => {
 
     const handleGetSeasons = async () => {
       try {
-        const result = await axios.get(SEASONS_URI)
-        const { seasons } = (result.data as unknown) as { seasons: string[] }
+        const seasons = await getSeasons()
         dispatch({ type: 'SET_SEASONS', seasons })
       } catch (err) {
         console.error('Error getting seasons', err)
@@ -136,13 +134,7 @@ const Page = () => {
 
               dispatch({ type: 'END_ADDING_SEASON' })
 
-              const result = await axios.post(SEASONS_URI, {
-                name: seasonName
-              })
-              const { seasons } = (result.data as unknown) as {
-                seasons: string[]
-              }
-
+              const seasons = await postSeason(seasonName)
               dispatch({ type: 'SET_SEASONS', seasons })
             }}
             onBlur={() => dispatch({ type: 'END_ADDING_SEASON' })}
@@ -223,7 +215,7 @@ const Page = () => {
             winner: gameWinner
           }
 
-          await axios.post(RECORD_URI, { season, game })
+          await postRecord(season, game)
           dispatch({ type: 'RESET' })
         }}
         className='mt-4'

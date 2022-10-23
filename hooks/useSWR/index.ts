@@ -18,11 +18,11 @@ const useSWR = <T>(url: SWRType) => {
 
       return null
     },
-    async uri => await wrapCall<T>({ method: 'GET', uri, unpack: false })
+    async uri => await wrapCall<T>({ method: 'GET', uri })
   )
 
   return {
-    data: (data as any)?.data as T,
+    data: data as T,
     isLoading: !error && !data,
     isError: Boolean(error)
   }

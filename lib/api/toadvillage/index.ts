@@ -6,13 +6,12 @@ import { wrapCall } from '..'
 type ParamsType = { id: string; cards?: ReqCard[] }
 
 const toadvillage = async (data: ParamsType) => {
-  const res = await wrapCall<{ data: QueueType }>({
+  const res = await wrapCall<QueueType>({
     method: 'POST',
     uri: '/toadvillage',
-    data,
-    unpack: false
+    data
   })
-  return res
+  return { data: res }
 }
 
 export default toadvillage
