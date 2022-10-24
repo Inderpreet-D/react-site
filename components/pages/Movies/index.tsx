@@ -12,7 +12,7 @@ const Page = () => {
 
   const [movie, setMovie] = React.useState<null | string>(null)
 
-  const { data: movieInfo } = useSWR<any>(() => {
+  const { data: movieInfo, isLoading } = useSWR<any>(() => {
     if (!movie) {
       return null
     }
@@ -24,6 +24,10 @@ const Page = () => {
     const idx = Math.floor(Math.random() * moviesList.length)
     setMovie(moviesList[idx])
   }, [moviesList])
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <Container>

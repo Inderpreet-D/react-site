@@ -39,6 +39,7 @@ const VisibleAlert = () => {
             : 'bg-green-300 border-green-500 text-green-900'
         )}
       >
+        <span className='font-bold'>{isError ? 'Error' : 'Success'}</span> --{' '}
         {alert}
       </div>
     </animated.div>
