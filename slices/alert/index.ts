@@ -32,9 +32,15 @@ const alertSlice = createSlice({
 
 const { updateAlert } = alertSlice.actions
 
-export const setAlert = (alert: string, isError: boolean = true) => {
+export const setAlert = (alert: string | any, isError: boolean = true) => {
   return async (dispatch: AppDispatch) => {
-    dispatch(updateAlert({ alert, isError }))
+    let message = ''
+    if (typeof alert === 'string') {
+      message = alert
+    } else {
+      message = alert.response.data
+    }
+    dispatch(updateAlert({ alert: message, isError }))
   }
 }
 

@@ -22,6 +22,15 @@ export const logout = async () => {
   return await wrapCall({ method: 'DELETE', uri: `/auth/token` })
 }
 
+export const verify = async () => {
+  const { valid } = await wrapCall<{ valid: boolean }>({
+    method: 'GET',
+    uri: '/auth/token'
+  })
+  return valid
+}
+
+// TODO: Add this to api
 export const deactivate = async () => {
   return await wrapCall({ method: 'DELETE', uri: '/auth' })
 }

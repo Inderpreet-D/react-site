@@ -1,18 +1,27 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { RootState, AppDispatch, GetState } from '../../store'
+
+import {
+  register,
+  login,
+  logout as apiLogout,
+  verify as apiVerify
+} from '../../lib/api/auth'
 import { setAlert } from '../alert'
 
 type AuthState = {
   registering: boolean
   token: string | null
   loading: boolean
+  isLoggedIn: boolean
 }
 
 const initialState: AuthState = {
   registering: false,
   token: null,
-  loading: false
+  loading: false,
+  isLoggedIn: false
 }
 
 export const TOKEN_KEY = 'inderpreetd.token'
@@ -42,49 +51,57 @@ const authSlice = createSlice({
       state.loading = true
     },
 
-    finishLogin: (state: AuthState) => {
+    finishLogin: (state: AuthState, action: PayloadAction<boolean>) => {
       state.loading = false
+      state.isLoggedIn = action.payload
+    },
+
+    finishLogout: (state: AuthState) => {
+      state.isLoggedIn = false
     }
   }
 })
 
 export const { loadSavedToken, toggleRegister } = authSlice.actions
-const { setSavedToken, startLogin, finishLogin } = authSlice.actions
+const {
+  setSavedToken,
+  startLogin,
+  finishLogin,
+  finishLogout
+} = authSlice.actions
 
 export const attemptLogin = (username: string, password: string) => {
   return async (dispatch: AppDispatch, getState: GetState) => {
     const { registering } = selectAuth(getState())
 
     dispatch(startLogin())
+    let success = false
 
     try {
-      const toSend = { username, password }
-      console.log({ toSend })
-
-      if (registering) {
-      } else {
-      }
-
-      dispatch(setAlert('SOMETHING HERE'))
+      console.log({ toSend: { username, password } })
+      const token = await (registering ? register : login)(username, password)
+      dispatch(setSavedToken(token))
+      success = true
     } catch (err) {
-      console.log({ err })
+      dispatch(setAlert(err))
     } finally {
-      dispatch(finishLogin())
+      dispatch(finishLogin(success))
     }
   }
 }
 
 export const logout = () => {
-  return async (dispatch: AppDispatch, getState: GetState) => {
-    const { token } = selectAuth(getState())
-    if (token) {
-      console.log({ revoke: token })
-    } else {
-      console.log('No token')
-    }
+  return async (dispatch: AppDispatch) => {
+    // TODO: Make api request to revoke token
 
-    // TODO: Revoke token
     dispatch(setSavedToken(null))
+    dispatch(finishLogout())
+  }
+}
+
+export const verify = () => {
+  return async (dispatch: AppDispatch) => {
+    // TODO: Make api request to verify token
   }
 }
 
