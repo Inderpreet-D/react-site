@@ -6,7 +6,9 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
     password: string
   }
   console.log('AT API', { username, password })
-  res.status(200).send({ token: 'TEST TOKEN' })
+  // res.status(200).send({ token: 'TEST TOKEN' })
+
+  res.status(400).send('Get shit on')
 }
 
 export default api
