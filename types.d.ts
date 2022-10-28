@@ -11,20 +11,20 @@ type Account = {
 
 type AccountsTable = Record<ID, Account>
 
+type Token = ID[]
+
+type TokensTable = Record<ID, Token>
+
 type User = {
   name: string
 }
 
 type UsersTable = Record<ID, User>
 
-type Token = ID[]
-
-type TokensTable = Record<ID, Token>
-
 type AuthenticationTable = {
   accounts: AccountsTable
-  users: UsersTable
   tokens: TokensTable
+  users: UsersTable
 }
 
 //* Competitive
