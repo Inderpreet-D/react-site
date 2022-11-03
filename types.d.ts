@@ -3,26 +3,29 @@ type KVPair = Record<string, string>
 type ID = string
 
 //* Authentication
-type Account = {
-  userID: ID
-  hashedPassword: string
-  salt: string
+type Profile = {
+  id: ID
 }
 
-type AccountsTable = Record<ID, Account>
+type ProfilesTable = Record<ID, Profile>
 
 type Token = ID[]
 
 type TokensTable = Record<ID, Token>
 
 type User = {
+  hashedPassword: string
+  id: ID
+  iterations: number
   name: string
+  profile: ID
+  salt: string
 }
 
 type UsersTable = Record<ID, User>
 
 type AuthenticationTable = {
-  accounts: AccountsTable
+  profiles: ProfilesTable
   tokens: TokensTable
   users: UsersTable
 }

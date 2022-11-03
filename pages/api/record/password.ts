@@ -6,8 +6,8 @@ const URL = 'recordPassword'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { password } = req.body as { password: string }
-  const storedPass = await get(URL)
-  res.send({ match: password === storedPass.val() })
+  const storedPass = await get<string>(URL)
+  res.send({ match: password === storedPass })
 }
 
 export default api
