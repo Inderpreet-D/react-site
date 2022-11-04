@@ -18,7 +18,7 @@ if (!admin.apps.length) {
 const Database = admin.database()
 
 export const get = async <T>(path: string) => {
-  return (await (await Database.ref(path).get()).val()) as T
+  return (await (await Database.ref(path).get()).val()) as T | null
 }
 
 export const set = async (path: string, data: any) => {

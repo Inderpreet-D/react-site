@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { validate as uuidValidate, version as uuidVersion } from 'uuid'
 
+import { findUserByToken } from '../pages/api/auth/helpers'
+
 const parseToken = async (req: Request, res: Response) => {
   res.locals.token = null
   res.locals.user = null
@@ -18,11 +20,7 @@ const parseToken = async (req: Request, res: Response) => {
   }
 
   res.locals.token = uuid
-
-  // Get user from firebase
-  const user = 'SOMETHING'
-  console.log({ fetching: uuid, user })
-  res.locals.user = user
+  res.locals.user = await findUserByToken(res.locals.token)
 }
 
 const processAuthToken = async (
@@ -30,7 +28,7 @@ const processAuthToken = async (
   res: Response,
   next: CallableFunction
 ) => {
-  parseToken(req, res)
+  await parseToken(req, res)
   next()
 }
 

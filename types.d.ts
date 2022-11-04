@@ -3,6 +3,13 @@ type KVPair = Record<string, string>
 type ID = string
 
 //* Authentication
+type Locals = {
+  locals: {
+    token: string | null
+    user: User | null
+  }
+}
+
 type Profile = {
   id: ID
 }

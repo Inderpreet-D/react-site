@@ -78,7 +78,6 @@ export const attemptLogin = (username: string, password: string) => {
     let success = false
 
     try {
-      console.log({ toSend: { username, password } })
       const token = await (registering ? register : login)(username, password)
       dispatch(setSavedToken(token))
       success = true
@@ -92,8 +91,7 @@ export const attemptLogin = (username: string, password: string) => {
 
 export const logout = () => {
   return async (dispatch: AppDispatch) => {
-    // TODO: Make api request to revoke token
-
+    await apiLogout()
     dispatch(setSavedToken(null))
     dispatch(finishLogout())
   }
@@ -101,7 +99,18 @@ export const logout = () => {
 
 export const verify = () => {
   return async (dispatch: AppDispatch) => {
-    // TODO: Make api request to verify token
+    dispatch(startLogin())
+    let valid = false
+
+    try {
+      valid = await apiVerify()
+      const token = window.localStorage.getItem(TOKEN_KEY)
+      dispatch(setSavedToken(token))
+    } catch {
+      dispatch(setSavedToken(null))
+    } finally {
+      dispatch(finishLogin(valid))
+    }
   }
 }
 

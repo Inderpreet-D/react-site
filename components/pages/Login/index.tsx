@@ -1,11 +1,15 @@
-import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Container from '../../atoms/Container'
 import TextField from '../../atoms/TextField'
 import Button from '../../atoms/Button'
 
-import { attemptLogin, selectAuth, toggleRegister } from '../../../slices/auth'
+import {
+  attemptLogin,
+  logout,
+  selectAuth,
+  toggleRegister
+} from '../../../slices/auth'
 import { ChangeEvent } from 'react'
 
 const defaultValues = {
@@ -15,10 +19,8 @@ const defaultValues = {
 }
 
 const Page = () => {
-  const router = useRouter()
-
   const dispatch = useAppDispatch()
-  const { registering, token, loading } = useAppSelector(selectAuth)
+  const { registering, loading, isLoggedIn } = useAppSelector(selectAuth)
 
   const [values, setValues] = React.useState(defaultValues)
   const [interacted, setInteracted] = React.useState(false)
@@ -42,15 +44,6 @@ const Page = () => {
     return ''
   }, [values, registering])
   const canLogin = React.useMemo(() => issue.length === 0, [issue.length])
-
-  // Redirect when a token is
-  React.useEffect(() => {
-    if (typeof token !== 'string' || token.length === 0) {
-      return
-    }
-
-    router.back()
-  }, [token, router])
 
   const handleChange = React.useCallback(
     (prop: string, trim = false) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -119,6 +112,14 @@ const Page = () => {
           .
         </div>
       </div>
+
+      {isLoggedIn ? 'LOGGED IN' : 'NOT LOGGED IN'}
+
+      {isLoggedIn && (
+        <Button onClick={() => dispatch(logout())} className='mt-4 w-full'>
+          Log out
+        </Button>
+      )}
     </Container>
   )
 }

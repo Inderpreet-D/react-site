@@ -1,4 +1,4 @@
-import { randomBytes, pbkdf2, pbkdf2Sync } from 'crypto'
+import { randomBytes, pbkdf2Sync } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
 import { get, set } from '../../../utilities/helpers/database'
@@ -19,6 +19,10 @@ export const getTokens = async () => {
   return await get<TokensTable>(TOKEN_BASE)
 }
 
+const setTokens = async (newTokens: TokensTable) => {
+  return await set(TOKEN_BASE, newTokens)
+}
+
 export const getUsers = async () => {
   return await get<UsersTable>(USER_BASE)
 }
@@ -29,8 +33,12 @@ export const getUserByID = async (id: string) => {
 
 export const getUserByName = async (username: string) => {
   const users = await getUsers()
-  const user = Object.values(users).find(u => u.name === username)
-  return user
+  if (users) {
+    const user = Object.values(users).find(u => u.name === username)
+    return user
+  } else {
+    return null
+  }
 }
 
 const createProfile = async () => {
@@ -79,6 +87,10 @@ export const createUser = async (username: string, password: string) => {
 export const findUserByToken = async (token: string) => {
   const tokens = await getTokens()
 
+  if (!tokens) {
+    return null
+  }
+
   const findResult = Object.entries(tokens).find(([_, inUse]) => {
     return inUse.includes(token)
   })
@@ -106,4 +118,19 @@ export const validateUser = async (username: string, password: string) => {
 
 export const doesUserExist = async (username: string) => {
   return Boolean(await getUserByName(username))
+}
+
+export const deleteToken = async (token: string) => {
+  const tokens = await getTokens()
+
+  if (!tokens) {
+    return
+  }
+
+  const updated = Object.entries(tokens).reduce((acc, [userID, tokens]) => {
+    acc[userID] = tokens.filter(t => t !== token)
+    return acc
+  }, {} as TokensTable)
+
+  await setTokens(updated)
 }
