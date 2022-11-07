@@ -4,13 +4,7 @@ import Container from '../../atoms/Container'
 import TextField from '../../atoms/TextField'
 import Button from '../../atoms/Button'
 
-import {
-  attemptLogin,
-  logout,
-  selectAuth,
-  toggleRegister
-} from '../../../slices/auth'
-import { ChangeEvent } from 'react'
+import { attemptLogin, selectAuth, toggleRegister } from '../../../slices/auth'
 
 const defaultValues = {
   username: '',
@@ -20,7 +14,7 @@ const defaultValues = {
 
 const Page = () => {
   const dispatch = useAppDispatch()
-  const { registering, loading, isLoggedIn } = useAppSelector(selectAuth)
+  const { registering, loading } = useAppSelector(selectAuth)
 
   const [values, setValues] = React.useState(defaultValues)
   const [interacted, setInteracted] = React.useState(false)
@@ -46,7 +40,9 @@ const Page = () => {
   const canLogin = React.useMemo(() => issue.length === 0, [issue.length])
 
   const handleChange = React.useCallback(
-    (prop: string, trim = false) => (e: ChangeEvent<HTMLInputElement>) => {
+    (prop: string, trim = false) => (
+      e: React.ChangeEvent<HTMLInputElement>
+    ) => {
       setInteracted(true)
       const val = trim ? e.target.value.trim() : e.target.value
       setValues(old => ({ ...old, [prop]: val }))
@@ -112,14 +108,6 @@ const Page = () => {
           .
         </div>
       </div>
-
-      {isLoggedIn ? 'LOGGED IN' : 'NOT LOGGED IN'}
-
-      {isLoggedIn && (
-        <Button onClick={() => dispatch(logout())} className='mt-4 w-full'>
-          Log out
-        </Button>
-      )}
     </Container>
   )
 }

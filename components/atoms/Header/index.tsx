@@ -1,22 +1,44 @@
+import { useAppSelector } from '../../../hooks/redux'
+
 import NavigationItem from '../NavigationItem'
 import Sidebar from '../Sidebar'
 import routes from '../../../utilities/routes'
+import Spacer from '../Spacer'
 
-const HEADER_ITEMS = Object.entries(routes).map(([key, link], i) => (
-  <NavigationItem key={i} link={link}>
-    {key}
-  </NavigationItem>
-))
+import { selectAuth } from '../../../slices/auth'
 
+const HeaderItems = () => {
+  const { isLoggedIn } = useAppSelector(selectAuth)
+
+  return (
+    <>
+      {Object.entries(routes).map(([key, link], i) => (
+        <NavigationItem key={i} link={link}>
+          {key}
+        </NavigationItem>
+      ))}
+
+      <Spacer />
+
+      <NavigationItem link='/account'>
+        {isLoggedIn ? 'Account' : 'Login'}
+      </NavigationItem>
+    </>
+  )
+}
 const className = 'flex border-b border-b-slate-400 box-border bg-slate-800'
 
 const Header = () => {
   return (
     <header className={className}>
-      <nav className='hidden overflow-auto lg:flex'>{HEADER_ITEMS}</nav>
+      <nav className='hidden overflow-auto w-full lg:flex'>
+        <HeaderItems />
+      </nav>
 
       <div className='flex lg:hidden'>
-        <Sidebar>{HEADER_ITEMS}</Sidebar>
+        <Sidebar>
+          <HeaderItems />
+        </Sidebar>
       </div>
     </header>
   )
