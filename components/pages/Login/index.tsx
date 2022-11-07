@@ -18,6 +18,7 @@ const Page = () => {
 
   const [values, setValues] = React.useState(defaultValues)
   const [interacted, setInteracted] = React.useState(false)
+  const [passwordTouched, setPasswordTouched] = React.useState(false)
   const issue = React.useMemo(() => {
     const { username, password, confirm } = values
 
@@ -25,7 +26,7 @@ const Page = () => {
       return 'Must enter a username'
     }
 
-    if (password.length < 6) {
+    if (passwordTouched && password.length < 6) {
       return 'Password must be at least 6 characters'
     }
 
@@ -36,8 +37,18 @@ const Page = () => {
     }
 
     return ''
+  }, [values, passwordTouched, registering])
+  const canLogin = React.useMemo(() => {
+    const { username, password, confirm } = values
+
+    const fieldsFilled = username.length > 0 && password.length >= 6
+
+    if (registering) {
+      return fieldsFilled && password === confirm
+    }
+
+    return fieldsFilled
   }, [values, registering])
-  const canLogin = React.useMemo(() => issue.length === 0, [issue.length])
 
   const handleChange = React.useCallback(
     (prop: string, trim = false) => (
@@ -46,6 +57,9 @@ const Page = () => {
       setInteracted(true)
       const val = trim ? e.target.value.trim() : e.target.value
       setValues(old => ({ ...old, [prop]: val }))
+      if (prop === 'password') {
+        setPasswordTouched(true)
+      }
     },
     []
   )
@@ -56,7 +70,7 @@ const Page = () => {
 
   return (
     <Container>
-      <div className='flex flex-col items-center w-1/3 mx-auto'>
+      <div className='flex flex-col items-center w-full lg:w-2/3 mx-auto'>
         <TextField
           value={values.username}
           onChange={handleChange('username', true)}
@@ -85,7 +99,7 @@ const Page = () => {
           />
         )}
 
-        {interacted && !canLogin && (
+        {interacted && !canLogin && issue.length > 0 && (
           <div className='mt-4 text-red-500 text-lg font-medium'>{issue}</div>
         )}
 
