@@ -49,6 +49,10 @@ const Page = () => {
 
     return fieldsFilled
   }, [values, registering])
+  const loginButtonDisabled = React.useMemo(() => !canLogin || loading, [
+    canLogin,
+    loading
+  ])
 
   const handleChange = React.useCallback(
     (prop: string, trim = false) => (
@@ -65,8 +69,10 @@ const Page = () => {
   )
 
   const handleLogin = React.useCallback(() => {
-    dispatch(attemptLogin(values.username, values.password))
-  }, [dispatch, values.username, values.password])
+    if (!loginButtonDisabled) {
+      dispatch(attemptLogin(values.username, values.password))
+    }
+  }, [loginButtonDisabled, dispatch, values.username, values.password])
 
   return (
     <Container>
@@ -74,6 +80,11 @@ const Page = () => {
         <TextField
           value={values.username}
           onChange={handleChange('username', true)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              handleLogin()
+            }
+          }}
           placeholder='Username'
           aria-label='Username'
           className='w-full'
@@ -82,6 +93,11 @@ const Page = () => {
         <TextField
           value={values.password}
           onChange={handleChange('password')}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              handleLogin()
+            }
+          }}
           placeholder='Password'
           aria-label='Password'
           type='password'
@@ -92,6 +108,11 @@ const Page = () => {
           <TextField
             value={values.confirm}
             onChange={handleChange('confirm')}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleLogin()
+              }
+            }}
             placeholder='Confirm Password'
             aria-label='Confirm Password'
             type='password'
@@ -105,7 +126,7 @@ const Page = () => {
 
         <Button
           onClick={handleLogin}
-          disabled={!canLogin || loading}
+          disabled={loginButtonDisabled}
           className='mt-4 w-full'
         >
           {registering ? 'Sign Up' : 'Login'}

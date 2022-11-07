@@ -11,7 +11,7 @@ const Page = () => {
 
   return (
     <Container>
-      <ContainerTitle>ACCOUNT PAGE</ContainerTitle>
+      <ContainerTitle>My Account</ContainerTitle>
 
       <Button onClick={() => dispatch(logout())} className='mt-4 w-full'>
         Log out
