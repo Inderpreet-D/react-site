@@ -19,7 +19,7 @@ export const login = async (username: string, password: string) => {
 }
 
 export const logout = async () => {
-  return await wrapCall({ method: 'DELETE', uri: `/auth/token` })
+  return await wrapCall({ method: 'DELETE', uri: '/auth/token' })
 }
 
 export const verify = async () => {
@@ -28,4 +28,12 @@ export const verify = async () => {
     uri: '/auth/token'
   })
   return valid
+}
+
+export const getFullUser = async () => {
+  const { user } = await wrapCall<{ user: FullUser }>({
+    method: 'GET',
+    uri: '/auth/user'
+  })
+  return user
 }

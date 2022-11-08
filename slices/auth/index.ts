@@ -6,7 +6,8 @@ import {
   register,
   login,
   logout as apiLogout,
-  verify as apiVerify
+  verify as apiVerify,
+  getFullUser
 } from '../../lib/api/auth'
 import { setAlert } from '../alert'
 
@@ -15,13 +16,15 @@ type AuthState = {
   token: string | null
   loading: boolean
   isLoggedIn: boolean
+  user: FullUser | null
 }
 
 const initialState: AuthState = {
   registering: false,
   token: null,
   loading: false,
-  isLoggedIn: false
+  isLoggedIn: false,
+  user: null
 }
 
 export const TOKEN_KEY = 'inderpreetd.token'
@@ -37,10 +40,10 @@ const authSlice = createSlice({
 
     setSavedToken: (
       state: AuthState,
-      { payload }: PayloadAction<string | null>
+      { payload: token }: PayloadAction<string | null>
     ) => {
-      state.token = payload
-      window.localStorage.setItem(TOKEN_KEY, payload ?? '')
+      state.token = token
+      window.localStorage.setItem(TOKEN_KEY, token ?? '')
     },
 
     toggleRegister: (state: AuthState) => {
@@ -51,13 +54,23 @@ const authSlice = createSlice({
       state.loading = true
     },
 
-    finishLogin: (state: AuthState, action: PayloadAction<boolean>) => {
+    finishLogin: (
+      state: AuthState,
+      { payload: isLoggedIn }: PayloadAction<boolean>
+    ) => {
       state.loading = false
-      state.isLoggedIn = action.payload
+      state.isLoggedIn = isLoggedIn
     },
 
     finishLogout: (state: AuthState) => {
       state.isLoggedIn = false
+    },
+
+    setUser: (
+      state: AuthState,
+      { payload: user }: PayloadAction<FullUser | null>
+    ) => {
+      state.user = user
     }
   }
 })
@@ -67,8 +80,27 @@ const {
   setSavedToken,
   startLogin,
   finishLogin,
-  finishLogout
+  finishLogout,
+  setUser
 } = authSlice.actions
+
+const endLogin = (result: boolean) => {
+  return async (dispatch: AppDispatch) => {
+    if (!result) {
+      dispatch(finishLogin(false))
+      return
+    }
+
+    try {
+      const user = await getFullUser()
+      dispatch(setUser(user))
+      dispatch(finishLogin(true))
+    } catch (err) {
+      dispatch(setAlert(err))
+      dispatch(finishLogin(false))
+    }
+  }
+}
 
 export const attemptLogin = (username: string, password: string) => {
   return async (dispatch: AppDispatch, getState: GetState) => {
@@ -84,7 +116,7 @@ export const attemptLogin = (username: string, password: string) => {
     } catch (err) {
       dispatch(setAlert(err))
     } finally {
-      dispatch(finishLogin(success))
+      dispatch(endLogin(success))
     }
   }
 }
@@ -93,6 +125,7 @@ export const logout = () => {
   return async (dispatch: AppDispatch) => {
     await apiLogout()
     dispatch(setSavedToken(null))
+    dispatch(setUser(null))
     dispatch(finishLogout())
   }
 }
@@ -109,7 +142,7 @@ export const verify = () => {
     } catch {
       dispatch(setSavedToken(null))
     } finally {
-      dispatch(finishLogin(valid))
+      dispatch(endLogin(valid))
     }
   }
 }

@@ -15,6 +15,10 @@ export const getProfiles = async () => {
   return await get<ProfilesTable>(PROFILE_BASE)
 }
 
+export const getProfileByID = async (id: string) => {
+  return await get<Profile>(`${PROFILE_BASE}/${id}`)
+}
+
 export const getTokens = async () => {
   return await get<TokensTable>(TOKEN_BASE)
 }

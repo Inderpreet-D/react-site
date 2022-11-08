@@ -2,6 +2,13 @@
 type KVPair = Record<string, string>
 type ID = string
 
+type FullUser = Omit<
+  User,
+  'hashedPassword' | 'iterations' | 'profile' | 'salt'
+> & {
+  profile: Omit<Profile, 'id'>
+}
+
 //* Authentication
 type Locals = {
   locals: {
