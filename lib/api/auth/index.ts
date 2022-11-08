@@ -29,8 +29,3 @@ export const verify = async () => {
   })
   return valid
 }
-
-// TODO: Add this to api
-export const deactivate = async () => {
-  return await wrapCall({ method: 'DELETE', uri: '/auth' })
-}
