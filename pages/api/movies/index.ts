@@ -6,8 +6,8 @@ const URL = 'movies'
 
 const api = async (_: NextApiRequest, res: NextApiResponse) => {
   const data = await get<MoviesTable>(URL)
-  const keys = Object.keys(data)
-  res.send(keys)
+  const titles = Object.keys(data ?? {})
+  res.send(titles)
 }
 
 export default api

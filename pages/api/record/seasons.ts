@@ -12,7 +12,7 @@ export const setSeasons = async (seasons: Season[]) => {
 
 const handleGet = async (_: NextApiRequest, res: NextApiResponse) => {
   const seasons = await getSeasons()
-  const names = seasons.map(v => v.name)
+  const names = seasons!.map(v => v.name)
   res.send({ seasons: names })
 }
 
@@ -21,12 +21,12 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const seasons = await getSeasons()
   let rules: string[] = []
-  if (seasons.length > 0) {
-    rules = seasons[seasons.length - 1].rules
+  if (seasons!.length > 0) {
+    rules = seasons![seasons!.length - 1].rules
   }
-  seasons.push({ name, year: new Date().getFullYear(), games: [], rules })
+  seasons!.push({ name, year: new Date().getFullYear(), games: [], rules })
 
-  await setSeasons(seasons)
+  await setSeasons(seasons!)
   handleGet(req, res)
 }
 
