@@ -37,3 +37,20 @@ export const getFullUser = async () => {
   })
   return user
 }
+
+export const changeUsername = async (name: string) => {
+  const { user } = await wrapCall<{ user: FullUser }>({
+    method: 'PUT',
+    uri: '/auth/name',
+    data: { name }
+  })
+  return user
+}
+
+export const changePassword = async (password: string) => {
+  return await wrapCall({
+    method: 'PUT',
+    uri: '/auth/password',
+    data: { password }
+  })
+}
