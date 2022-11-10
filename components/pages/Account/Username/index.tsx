@@ -3,10 +3,10 @@ import { FaTimes } from '@react-icons/all-files/fa/FaTimes'
 import { FaPencilAlt } from '@react-icons/all-files/fa/FaPencilAlt'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
+import TextInput from '../../../atoms/TextInput'
 import IconButton from '../../../atoms/IconButton'
 
 import { selectAuth, updateName } from '../../../../slices/auth'
-import TextInput from '../../../atoms/TextInput'
 
 const Username = () => {
   const dispatch = useAppDispatch()
@@ -32,7 +32,7 @@ const Username = () => {
   }, [dispatch, name, cancelEdit])
 
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex justify-center items-center mt-3'>
       <div className='text-4xl'>Username:</div>
 
       {editing ? (
