@@ -5,7 +5,7 @@ const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
 
   console.log({ password })
 
-  res.end()
+  res.send({})
 }
 
 export default api

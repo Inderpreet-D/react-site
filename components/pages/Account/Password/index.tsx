@@ -72,6 +72,7 @@ const Password = () => {
       {editing && (
         <>
           <TextInput
+            autoFocus
             placeholder='New Password'
             value={newPass}
             onChange={e => setNewPass(e.target.value)}
