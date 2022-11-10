@@ -126,9 +126,9 @@ export const attemptLogin = (username: string, password: string) => {
 export const logout = () => {
   return async (dispatch: AppDispatch) => {
     await apiLogout()
+    dispatch(finishLogout())
     dispatch(setSavedToken(null))
     dispatch(setUser(null))
-    dispatch(finishLogout())
   }
 }
 

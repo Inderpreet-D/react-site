@@ -49,6 +49,29 @@ const Password = () => {
 
   return (
     <div className='mt-8 flex flex-col justify-center'>
+      {editing && error && (
+        <div className='mb-4 text-red-500 text-lg font-medium'>{error}</div>
+      )}
+
+      {editing && (
+        <>
+          <TextInput
+            autoFocus
+            placeholder='New Password'
+            value={newPass}
+            onChange={e => setNewPass(e.target.value)}
+            className='mb-4'
+          />
+
+          <TextInput
+            placeholder='Confirm New Password'
+            value={confirm}
+            onChange={e => setConfirm(e.target.value)}
+            className='mb-4'
+          />
+        </>
+      )}
+
       <div className='flex items-center'>
         {editing ? (
           <>
@@ -64,29 +87,6 @@ const Password = () => {
           <Button onClick={startEdit}>Change Password</Button>
         )}
       </div>
-
-      {editing && error && (
-        <div className='mt-4 text-red-500 text-lg font-medium'>{error}</div>
-      )}
-
-      {editing && (
-        <>
-          <TextInput
-            autoFocus
-            placeholder='New Password'
-            value={newPass}
-            onChange={e => setNewPass(e.target.value)}
-            className='mt-4'
-          />
-
-          <TextInput
-            placeholder='Confirm New Password'
-            value={confirm}
-            onChange={e => setConfirm(e.target.value)}
-            className='mt-4'
-          />
-        </>
-      )}
     </div>
   )
 }

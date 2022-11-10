@@ -71,20 +71,22 @@ export const createToken = async (userID: string) => {
   return id
 }
 
-export const createUser = async (username: string, password: string) => {
+const hashPassword = (password: string) => {
   const salt = randomBytes(128).toString('base64')
   const iterations = 100000
   const hash = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST)
+  return { salt, iterations, hashedPassword: hash.toString('hex') }
+}
 
+export const createUser = async (username: string, password: string) => {
+  const passwordHash = hashPassword(password)
   const profile = await createProfile()
 
   const user: User = {
-    hashedPassword: hash.toString('hex'),
     id: uuidv4(),
-    iterations,
     name: username,
     profile,
-    salt
+    ...passwordHash
   }
 
   await saveUser(user)
@@ -177,4 +179,21 @@ export const isNameAvailable = async (name: string, id: string) => {
   )
 
   return matchingUsers.length === 0
+}
+
+export const changePassword = async (password: string, user: User | null) => {
+  if (!user) {
+    return 'User could not be found.'
+  }
+
+  const passwordHash = hashPassword(password)
+
+  const newUser: User = {
+    ...user,
+    ...passwordHash
+  }
+
+  await saveUser(newUser)
+
+  return true
 }
