@@ -7,7 +7,9 @@ import {
   login,
   logout as apiLogout,
   verify as apiVerify,
-  getFullUser
+  getFullUser,
+  changeUsername,
+  changePassword
 } from '../../lib/api/auth'
 import { setAlert } from '../alert'
 
@@ -143,6 +145,29 @@ export const verify = () => {
       dispatch(setSavedToken(null))
     } finally {
       dispatch(endLogin(valid))
+    }
+  }
+}
+
+export const updateName = (name: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const user = await changeUsername(name)
+      console.log({ user })
+
+      dispatch(setUser(user))
+    } catch (err) {
+      dispatch(setAlert(err))
+    }
+  }
+}
+
+export const updatePassword = (password: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await changePassword(password)
+    } catch (err) {
+      dispatch(setAlert(err))
     }
   }
 }

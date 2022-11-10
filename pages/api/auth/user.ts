@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { buildFullUser } from './helpers'
 
 const api = async (_: NextApiRequest, res: NextApiResponse & Locals) => {
   try {
-    const user = await buildFullUser(res)
+    const user = await buildFullUser(res.locals.user)
 
     if (typeof user === 'string') {
       res.status(400).send(user)

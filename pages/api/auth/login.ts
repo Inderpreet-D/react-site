@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import { createToken, getUserByName, validateUser } from './helpers'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {

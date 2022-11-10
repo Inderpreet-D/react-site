@@ -1,4 +1,3 @@
-import { NextApiResponse } from 'next'
 import { randomBytes, pbkdf2Sync } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -46,6 +45,10 @@ export const getUserByName = async (username: string) => {
   }
 }
 
+export const saveUser = async (user: User) => {
+  await set(`${USER_BASE}/${user.id}`, user)
+}
+
 const createProfile = async () => {
   const profile: Profile = {
     id: uuidv4()
@@ -84,7 +87,7 @@ export const createUser = async (username: string, password: string) => {
     salt
   }
 
-  await set(`${USER_BASE}/${user.id}`, user)
+  await saveUser(user)
 
   return await createToken(user.id)
 }
@@ -140,9 +143,7 @@ export const deleteToken = async (token: string) => {
   await setTokens(updated)
 }
 
-export const buildFullUser = async (res: NextApiResponse & Locals) => {
-  const { user } = res.locals
-
+export const buildFullUser = async (user: User | null) => {
   if (!user) {
     return 'User could not be found.'
   }
@@ -162,4 +163,18 @@ export const buildFullUser = async (res: NextApiResponse & Locals) => {
   }
 
   return fullUser
+}
+
+export const isNameAvailable = async (name: string, id: string) => {
+  const allUsers = await getUsers()
+
+  if (!allUsers) {
+    return true
+  }
+
+  const matchingUsers = Object.values(allUsers).filter(
+    user => user.name === name && user.id !== id
+  )
+
+  return matchingUsers.length === 0
 }
