@@ -19,7 +19,7 @@ const Page = () => {
 
       <Password />
 
-      <Button onClick={() => dispatch(logout())} className='mt-10 w-full'>
+      <Button onClick={() => dispatch(logout())} className='mt-8 w-full'>
         Log out
       </Button>
     </Container>
