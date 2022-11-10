@@ -1,3 +1,4 @@
+import { NextApiResponse } from 'next'
 import { randomBytes, pbkdf2Sync } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -137,4 +138,28 @@ export const deleteToken = async (token: string) => {
   }, {} as TokensTable)
 
   await setTokens(updated)
+}
+
+export const buildFullUser = async (res: NextApiResponse & Locals) => {
+  const { user } = res.locals
+
+  if (!user) {
+    return 'User could not be found.'
+  }
+
+  const profileInfo = await getProfileByID(user.profile)
+
+  if (!profileInfo) {
+    return 'User profile could not be found.'
+  }
+
+  const { id, ...profile } = profileInfo
+
+  const fullUser: FullUser = {
+    id: user.id,
+    name: user.name,
+    profile
+  }
+
+  return fullUser
 }
