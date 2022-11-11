@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { buildFullUser, isNameAvailable, saveUser } from './helpers'
+import { changeUsername, isNameAvailable } from './helpers'
 
 const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
   const { name } = req.body as { name: string }
@@ -19,10 +19,7 @@ const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
       return
     }
 
-    const newUser: User = { ...user, name }
-    await saveUser(newUser)
-
-    const fullUser = await buildFullUser(newUser)
+    const fullUser = await changeUsername(user, name)
 
     if (typeof fullUser === 'string') {
       res.status(400).send(fullUser)
