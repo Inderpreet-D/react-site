@@ -19,6 +19,7 @@ type AuthState = {
   loading: boolean
   isLoggedIn: boolean
   user: FullUser | null
+  verified: boolean
 }
 
 const initialState: AuthState = {
@@ -26,7 +27,8 @@ const initialState: AuthState = {
   token: null,
   loading: false,
   isLoggedIn: false,
-  user: null
+  user: null,
+  verified: false
 }
 
 export const TOKEN_KEY = 'inderpreetd.token'
@@ -73,6 +75,10 @@ const authSlice = createSlice({
       { payload: user }: PayloadAction<FullUser | null>
     ) => {
       state.user = user
+    },
+
+    finishVerify: (state: AuthState) => {
+      state.verified = true
     }
   }
 })
@@ -83,7 +89,8 @@ const {
   startLogin,
   finishLogin,
   finishLogout,
-  setUser
+  setUser,
+  finishVerify
 } = authSlice.actions
 
 const endLogin = (result: boolean) => {
@@ -145,6 +152,7 @@ export const verify = () => {
       dispatch(setSavedToken(null))
     } finally {
       dispatch(endLogin(valid))
+      dispatch(finishVerify())
     }
   }
 }
@@ -153,8 +161,6 @@ export const updateName = (name: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const user = await changeUsername(name)
-      console.log({ user })
-
       dispatch(setUser(user))
     } catch (err) {
       dispatch(setAlert(err))
