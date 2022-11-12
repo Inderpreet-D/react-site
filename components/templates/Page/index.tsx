@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { useSpring, animated } from 'react-spring'
@@ -9,7 +8,6 @@ import Header from '../../atoms/Header'
 import Footer from '../../atoms/Footer'
 import Alert from '../../atoms/Alert'
 
-import { ID_KEY } from '../../../shared/constants'
 import {
   selectAuth,
   verify,
@@ -45,13 +43,6 @@ const Page: React.FC<PageProps> = ({
     delay: 500,
     onRest: { opacity: () => setShowLoader(false) }
   })
-
-  if (typeof window !== 'undefined') {
-    if (!localStorage.getItem(ID_KEY)) {
-      // TODO: Remove this
-      localStorage.setItem(ID_KEY, uuidv4())
-    }
-  }
 
   // Checks if a stored auth token is valid
   React.useEffect(() => {
