@@ -3,10 +3,10 @@ import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import { TOKEN_KEY } from '../../slices/auth'
 
 // ~~~~~~ HELPER METHODS ~~~~~~
-const callGet = axios.get
-const callPost = axios.post
-const callPut = axios.put
-const callDelete = axios.delete
+const callGet = axios.get as AxiosFunc
+const callPost = axios.post as AxiosFunc
+const callPut = axios.put as AxiosFunc
+const callDelete = axios.delete as AxiosFunc
 
 type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
