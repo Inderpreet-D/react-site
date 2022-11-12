@@ -8,7 +8,7 @@ import path from 'path'
 if (process.env.GITHUB_ACTIONS === 'true') {
   const files = fs.readdirSync(process.cwd())
   console.log({ files })
-  const envPath = path.resolve(process.cwd(), '.env')
+  const envPath = path.resolve(process.cwd(), '.env.local')
   console.log({ envPath })
   dotenv.config({ path: envPath })
   const content = fs.readFileSync(envPath)
