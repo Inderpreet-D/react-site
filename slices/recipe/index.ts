@@ -19,6 +19,7 @@ const recipeSlice = createSlice({
     reset: () => {
       return initialState
     },
+
     toggleCheck: (state, action: PayloadAction<string>) => {
       const key = action.payload
 
@@ -29,6 +30,7 @@ const recipeSlice = createSlice({
         state.checked.push(key)
       }
     },
+
     updateIndex: (state, action: PayloadAction<number>) => {
       state.index = action.payload
     }

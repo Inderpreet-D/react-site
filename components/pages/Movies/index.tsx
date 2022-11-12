@@ -25,6 +25,10 @@ const Page = () => {
     setMovie(moviesList[idx])
   }, [moviesList])
 
+  if (isLoadingMovies) {
+    return null
+  }
+
   return (
     <Container>
       <ContainerTitle>Movie Picker</ContainerTitle>

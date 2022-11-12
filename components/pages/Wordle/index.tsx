@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { useAppDispatch } from '../../../hooks/redux'
 
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -8,7 +8,7 @@ import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
 import { start } from '../../../slices/wordle'
-import { useAppDispatch } from '../../../hooks/redux'
+import { getRandomWord } from '../../../lib/api/wordle'
 
 const Page = () => {
   const dispatch = useAppDispatch()
@@ -35,10 +35,7 @@ const Page = () => {
 
     // Fetch new word
     const handleGetWord = async () => {
-      const wordResponse = (await axios.get(`/api/words/${length}`)) as {
-        data: { word: string }
-      }
-      const word = wordResponse.data.word
+      const word = await getRandomWord(length)
       dispatch(start(word))
       mounted && setFetched(true)
     }

@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+
 import { PropType } from '../types'
 
 import Ingredients from '../Ingredients'
@@ -10,7 +12,6 @@ import Control from '../../../atoms/Control'
 import Section from '../../../atoms/Section'
 
 import { selectRecipe, updateIndex } from '../../../../slices/recipe'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
 type ButtonType = 'ingredients' | 'recipe'
 type HoverType = ButtonType | ''

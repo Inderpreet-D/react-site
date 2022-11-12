@@ -1,11 +1,11 @@
-import axios from 'axios'
 import clsx from 'clsx'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Cell from './Cell'
 import Button from '../../atoms/Button'
 
+import { checkValidWord } from '../../../lib/api/wordle'
 import { getCellColors, Result } from './utils'
-
 import {
   WordleState,
   selectWordle,
@@ -13,7 +13,6 @@ import {
   makeGuess,
   pressKey
 } from '../../../slices/wordle'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 type WordleBoardProps = {
   reset: () => void
@@ -88,10 +87,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
     const alreadyGuessed = state.guesses.includes(guess)
 
     // Check that the guess is a real word
-    const val = (await axios.get(`/api/words/valid/${guess}`)) as {
-      data: { valid: boolean }
-    }
-    const isValid = val.data.valid
+    const isValid = await checkValidWord(guess)
 
     if (lengthMatch && !alreadyGuessed && isValid) {
       dispatch(makeGuess(guess))

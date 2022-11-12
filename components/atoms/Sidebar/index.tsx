@@ -38,7 +38,7 @@ const Sidebar: React.FC<SideBarProps> = ({ children }) => {
 
       <div
         className={clsx(
-          'absolute z-20 top-0 -left-1/4 transition-all duration-500 border-r border-r-slate-400 box-border w-1/4 h-screen bg-slate-900',
+          'absolute z-20 top-0 -left-1/4 transition-all duration-500 border-r border-r-slate-400 box-border w-1/4 h-screen flex flex-col bg-slate-900',
           open && '!left-0'
         )}
       >

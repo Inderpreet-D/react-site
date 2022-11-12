@@ -1,10 +1,11 @@
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+
 import { PropType } from '../types'
 
 import ContainerSection from '../../../atoms/ContainerSection'
 import ListItem from '../../../atoms/ListItem'
 
 import { selectRecipe, toggleCheck } from '../../../../slices/recipe'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
 const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
   const dispatch = useAppDispatch()

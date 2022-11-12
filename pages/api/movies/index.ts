@@ -5,10 +5,9 @@ import { get } from '../../../utilities/helpers/database'
 const URL = 'movies'
 
 const api = async (_: NextApiRequest, res: NextApiResponse) => {
-  const data = await get(URL)
-  const val = data.val()
-  const keys = Object.keys(val)
-  res.send(keys)
+  const data = await get<MoviesTable>(URL)
+  const titles = Object.keys(data ?? {})
+  res.send(titles)
 }
 
 export default api

@@ -13,7 +13,6 @@ import mtgDownload, {
   parseJSON,
   downloadDecklist
 } from '../../utilities/helpers/toadvillage'
-import { ID_KEY } from '../../shared/constants'
 import { toadvillage } from '../../lib/api'
 
 type ToadVillageState = {
@@ -24,6 +23,7 @@ type ToadVillageState = {
   error: string
   loading: boolean
   showDialog: boolean
+  doneFetch: boolean
 }
 
 type CardChange = {
@@ -38,7 +38,8 @@ const initialState: ToadVillageState = {
   name: randomName(),
   error: '',
   loading: false,
-  showDialog: false
+  showDialog: false,
+  doneFetch: false
 }
 
 const findCard = (
@@ -135,11 +136,10 @@ export const startApiWork = createAsyncThunk(
     dispatch(startFetch())
     dispatch(close())
 
-    const id = localStorage.getItem(ID_KEY)!
-    await toadvillage({ id, cards: cardList })
+    await toadvillage({ cards: cardList })
 
     const interval = setInterval(async () => {
-      const { data } = await toadvillage({ id })
+      const { data } = await toadvillage({})
       const { status, ...rest } = data
 
       if (status === 'DONE') {
@@ -175,8 +175,11 @@ const toadVillageSlice = createSlice({
         state.error = `Could not find the following card${suffix}: ${cardNames}`
       }
 
-      state.cardObjs = data
+      if (!state.doneFetch) {
+        state.cardObjs = data
+      }
       state.loading = false
+      state.doneFetch = true
     },
 
     resetCardObjs: state => {
@@ -186,6 +189,7 @@ const toadVillageSlice = createSlice({
     startFetch: state => {
       state.loading = true
       state.error = ''
+      state.doneFetch = false
     },
 
     download: state => {

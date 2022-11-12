@@ -1,3 +1,5 @@
+import { useAppDispatch } from '../../../hooks/redux'
+
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import RecipeBlock from './RecipeBlock'
@@ -6,7 +8,6 @@ import HorizontalListButton from '../../atoms/HorizontalListButton'
 import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
 
 import { reset } from '../../../slices/recipe'
-import { useAppDispatch } from '../../../hooks/redux'
 
 import recipes from './Data'
 

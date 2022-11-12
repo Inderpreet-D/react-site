@@ -54,6 +54,10 @@ const Page = () => {
 
   const [season, setSeason] = React.useState<Season | null>(null)
 
+  if (isLoading) {
+    return null
+  }
+
   return (
     <Container>
       <ContainerBackButton to='mtg' />
@@ -65,7 +69,7 @@ const Page = () => {
       ) : (
         <>
           <HorizontalList>
-            {seasons.map((s, i) => (
+            {(seasons ?? []).map((s, i) => (
               <HorizontalListButton
                 key={i}
                 active={isEqual(s, season)}

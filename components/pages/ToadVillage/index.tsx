@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import { FormattedCard } from '../../../shared/toadvillage'
 
@@ -21,7 +22,6 @@ import {
   reverseCostSort,
   reverseNameSort
 } from '../../../utilities/helpers/toadvillage'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import {
   addCard,
   cancel,

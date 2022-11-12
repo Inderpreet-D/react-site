@@ -1,3 +1,7 @@
+import qs from 'qs'
+
+import { wrapCall } from '..'
+
 import {
   CreateResponse,
   RoomResponse,
@@ -5,38 +9,39 @@ import {
   JoinResponse
 } from '../../../pages/api/treachery/types'
 
-import qs from 'qs'
-import axios from 'axios'
-
 const getUrl = (params: any) => {
   const paramString = qs.stringify(params, { addQueryPrefix: true })
   return `/api/treachery${paramString}`
 }
 
 export const createRoom = async (numPlayers: number, rarity: string) => {
-  const params = { action: 'create', numPlayers, rarity }
-  const uri = getUrl(params)
-  const data = await axios.get(uri)
-  return (data.data as unknown) as CreateResponse
+  const { data } = await wrapCall<{ data: CreateResponse }>({
+    method: 'GET',
+    uri: getUrl({ action: 'create', numPlayers, rarity })
+  })
+  return data
 }
 
 export const waitRoom = async (roomCode: string) => {
-  const params = { action: 'room', roomCode }
-  const uri = getUrl(params)
-  const data = await axios.get(uri)
-  return (data.data as unknown) as RoomResponse
+  const { data } = await wrapCall<{ data: RoomResponse }>({
+    method: 'GET',
+    uri: getUrl({ action: 'room', roomCode })
+  })
+  return data
 }
 
 export const getCard = async (roomCode: string, id: string) => {
-  const params = { action: 'card', roomCode, id }
-  const uri = getUrl(params)
-  const data = await axios.get(uri)
-  return (data.data as unknown) as CardResponse
+  const { data } = await wrapCall<{ data: CardResponse }>({
+    method: 'GET',
+    uri: getUrl({ action: 'card', roomCode, id })
+  })
+  return data
 }
 
 export const joinRoom = async (roomCode: string, id: string) => {
-  const params = { action: 'join', roomCode, id }
-  const uri = getUrl(params)
-  const data = await axios.get(uri)
-  return (data.data as unknown) as JoinResponse
+  const { data } = await wrapCall<{ data: JoinResponse }>({
+    method: 'GET',
+    uri: getUrl({ action: 'join', roomCode, id })
+  })
+  return data
 }

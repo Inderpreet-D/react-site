@@ -9,6 +9,7 @@ import Button from '../../atoms/Button'
 
 import { reddit } from '../../../lib/api'
 import parsePoems, { pickRandomPoem } from '../../../utilities/helpers/poetry'
+import { RedditResponse } from '../../../shared/reddit'
 
 const titleClassName =
   'flex justify-center text-4xl font-bold tracking-wide text-sky-400'
@@ -27,7 +28,7 @@ const Page = () => {
       try {
         const res = await reddit()
 
-        const poems = parsePoems(res)
+        const poems = parsePoems((res as unknown) as RedditResponse)
         const { name, body, url } = pickRandomPoem(poems)
 
         if (name && body && url) {
