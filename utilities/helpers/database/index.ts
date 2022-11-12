@@ -4,10 +4,13 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 if (!admin.apps.length) {
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n')
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL
+  console.log({ privateKey, clientEmail })
   const credential = admin.credential.cert({
     projectId: 'react-site-inder',
-    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, '\n'),
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+    privateKey,
+    clientEmail
   })
 
   const databaseURL = 'https://react-site-inder.firebaseio.com'
