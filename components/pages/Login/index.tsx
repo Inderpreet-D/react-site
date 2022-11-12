@@ -14,7 +14,7 @@ const defaultValues = {
 
 const Page = () => {
   const dispatch = useAppDispatch()
-  const { registering, loading } = useAppSelector(selectAuth)
+  const { registering, loading, redirect } = useAppSelector(selectAuth)
 
   const [values, setValues] = React.useState(defaultValues)
   const [interacted, setInteracted] = React.useState(false)
@@ -77,6 +77,12 @@ const Page = () => {
   return (
     <Container>
       <div className='flex flex-col items-center w-full lg:w-2/3 mx-auto'>
+        {redirect && (
+          <div className='mb-4 mt-4 text-red-500 font-medium'>
+            You must login to view that page.
+          </div>
+        )}
+
         <TextField
           value={values.username}
           onChange={handleChange('username', true)}

@@ -20,6 +20,7 @@ type AuthState = {
   isLoggedIn: boolean
   user: FullUser | null
   verified: boolean
+  redirect: string | null
 }
 
 const initialState: AuthState = {
@@ -28,7 +29,8 @@ const initialState: AuthState = {
   loading: false,
   isLoggedIn: false,
   user: null,
-  verified: false
+  verified: false,
+  redirect: null
 }
 
 export const TOKEN_KEY = 'inderpreetd.token'
@@ -79,11 +81,24 @@ const authSlice = createSlice({
 
     finishVerify: (state: AuthState) => {
       state.verified = true
+    },
+
+    setRedirect: (state: AuthState, action: PayloadAction<string>) => {
+      state.redirect = action.payload
+    },
+
+    clearRedirect: (state: AuthState) => {
+      state.redirect = null
     }
   }
 })
 
-export const { loadSavedToken, toggleRegister } = authSlice.actions
+export const {
+  loadSavedToken,
+  toggleRegister,
+  setRedirect,
+  clearRedirect
+} = authSlice.actions
 const {
   setSavedToken,
   startLogin,
