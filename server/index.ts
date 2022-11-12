@@ -1,5 +1,7 @@
 import express from 'express'
 import next from 'next'
+import dotenv from 'dotenv'
+dotenv.config()
 
 console.log({ process: process.env })
 
