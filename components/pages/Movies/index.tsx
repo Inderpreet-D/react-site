@@ -12,7 +12,7 @@ const Page = () => {
 
   const [movie, setMovie] = React.useState<null | string>(null)
 
-  const { data: movieInfo, isLoading } = useSWR<any>(() => {
+  const { data: movieInfo } = useSWR<any>(() => {
     if (!movie) {
       return null
     }
@@ -25,7 +25,7 @@ const Page = () => {
     setMovie(moviesList[idx])
   }, [moviesList])
 
-  if (isLoading) {
+  if (isLoadingMovies) {
     return null
   }
 
