@@ -16,6 +16,7 @@ jobs:
           touch .env
           echo FIREBASE_PRIVATE_KEY=${{ secrets.FIREBASE_PRIVATE_KEY }} >> .env
           echo FIREBASE_CLIENT_EMAIL=${{ secrets.FIREBASE_CLIENT_EMAIL }} >> .env
+          echo ${{secrets}}
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:

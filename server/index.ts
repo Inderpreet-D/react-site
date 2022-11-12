@@ -4,6 +4,8 @@ import next from 'next'
 import processHttps from './http'
 import processAuthToken from './auth'
 
+console.log({ process: process.env })
+
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const port = process.env.PORT || 3000
