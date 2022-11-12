@@ -3,12 +3,15 @@ import next from 'next'
 
 import dotenv from 'dotenv'
 import fs from 'fs'
+import path from 'path'
 
 if (process.env.GITHUB_ACTIONS === 'true') {
   const files = fs.readdirSync(process.cwd())
   console.log({ files })
+  const envPath = path.resolve(process.cwd(), '.env')
+  console.log({ envPath })
+  dotenv.config({ path: envPath })
   console.log({ process: process.env })
-  dotenv.config()
 }
 
 import processHttps from './http'
