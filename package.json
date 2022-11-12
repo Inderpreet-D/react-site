@@ -6,7 +6,7 @@
     "dev": "nodemon",
     "lint": "next lint --no-cache",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "NODE_ENV=production node server/index.js",
     "heroku-postbuild": "yarn run build",
     "tsc": "tsc",
     "cypress": "cypress open",
