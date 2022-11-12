@@ -13,7 +13,6 @@ if (process.env.GITHUB_ACTIONS === 'true') {
   // dotenv.config({ path: envPath })
   // const content = fs.readFileSync(envPath)
   // console.log({ c: content.toString() })
-
   console.log({ process: process.env })
 }
 
