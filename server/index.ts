@@ -1,9 +1,15 @@
 import express from 'express'
 import next from 'next'
-import dotenv from 'dotenv'
-dotenv.config()
 
-console.log({ process: process.env })
+import dotenv from 'dotenv'
+import fs from 'fs'
+
+if (process.env.GITHUB_ACTIONS === 'true') {
+  const files = fs.readdirSync(process.cwd())
+  console.log({ files })
+  console.log({ process: process.env })
+  dotenv.config()
+}
 
 import processHttps from './http'
 import processAuthToken from './auth'
