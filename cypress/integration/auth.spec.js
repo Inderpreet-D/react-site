@@ -28,7 +28,10 @@ describe('Authentication', () => {
       .type(user.invalidPassword)
       .type('{enter}')
 
-    cy.contains('Username or password is incorrect.').should('exist')
+    cy.contains('Username or password is incorrect.')
+      .should('exist')
+      .wait(5000)
+      .should('not.exist')
   })
 
   // Login success
