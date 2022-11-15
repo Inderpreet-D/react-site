@@ -1,4 +1,4 @@
-import { randomBytes, pbkdf2Sync } from 'crypto'
+import { randomBytes, pbkdf2Sync, timingSafeEqual } from 'crypto'
 import { v4 as uuidv4 } from 'uuid'
 
 import { createProfile } from './profile'
@@ -100,10 +100,10 @@ export const validateUser = async (username: string, password: string) => {
   }
 
   const { hashedPassword, iterations, salt } = user
-  return (
-    hashedPassword ===
-    pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST).toString('hex')
-  )
+  const toTest = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST)
+  const stored = Buffer.from(hashedPassword, 'hex')
+
+  return timingSafeEqual(stored, toTest)
 }
 
 export const doesUserExist = async (username: string) => {
