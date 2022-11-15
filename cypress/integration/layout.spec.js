@@ -2,7 +2,7 @@
 
 describe('Layout', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.viewport('macbook-16')
   })
 
   it('should show Header', () => {

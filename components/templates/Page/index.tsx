@@ -78,6 +78,7 @@ const Page: React.FC<PageProps> = ({
 
         {showLoader && (
           <animated.div
+            id='page-spinner'
             className='absolute bg-black w-screen h-screen flex justify-center'
             style={props}
           >

@@ -19,3 +19,12 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 import '@cypress/code-coverage/support'
+
+import 'cypress-plugin-tab'
+
+export const waitForVerify = () => {
+  cy.get('#page-spinner').should('not.exist', { timeout: 10000 })
+}
+
+export const getTitle = text =>
+  cy.get('[data-cy=title]').should('have.text', text)
