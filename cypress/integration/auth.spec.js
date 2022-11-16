@@ -1,19 +1,17 @@
 /// <reference types="Cypress" />
 
-import { waitForVerify, getTitle } from '../support'
+import { goto, getTitle } from '../support'
 
 import user from '../fixtures/user.json'
 
 describe('Authentication', () => {
   beforeEach(() => {
-    cy.visit('/')
     cy.viewport('macbook-16')
   })
 
   // Login failure
   it('should show error alert', () => {
-    cy.visit('/account')
-    waitForVerify()
+    goto('/account')
 
     cy.contains('Username')
       .click()
@@ -36,8 +34,7 @@ describe('Authentication', () => {
 
   // Login success
   it('should login', () => {
-    cy.visit('/account')
-    waitForVerify()
+    goto('/account')
 
     cy.contains('Username')
       .click()

@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { waitForVerify, getTitle } from '../support'
+import { goto, getTitle } from '../support'
 
 describe('Navigation', () => {
   beforeEach(() => {
@@ -9,8 +9,7 @@ describe('Navigation', () => {
 
   // Home page
   it('should show Home', () => {
-    cy.visit('/')
-    waitForVerify()
+    goto('/')
 
     cy.title().should('equal', 'Home')
 
@@ -19,16 +18,14 @@ describe('Navigation', () => {
 
   // Projects
   it('should show Projects', () => {
-    cy.visit('/projects')
-    waitForVerify()
+    goto('/projects')
 
     cy.title().should('equal', 'Projects')
   })
 
   // MTG hub
   it('should show MTG', () => {
-    cy.visit('/mtg')
-    waitForVerify()
+    goto('/mtg')
 
     cy.title().should('equal', 'MTG Hub')
 
@@ -37,15 +34,14 @@ describe('Navigation', () => {
 
   // MTG Toad village
   it('should show MTG toad village', () => {
-    cy.visit('/mtg/toadvillage')
-    waitForVerify()
+    goto('/mtg/toadvillage')
 
     cy.title().should('equal', 'Toad Village')
 
     getTitle('Toad Village')
 
     // Redirect test
-    cy.visit('/mtg/toadvillage')
+    goto('/mtg/toadvillage')
 
     cy.title().should('equal', 'Toad Village')
 
@@ -54,8 +50,7 @@ describe('Navigation', () => {
 
   // MTG Competitive
   it('should show MTG competitive', () => {
-    cy.visit('/mtg/competitive')
-    waitForVerify()
+    goto('/mtg/competitive')
 
     cy.title().should('equal', 'Competitive')
 
@@ -64,8 +59,7 @@ describe('Navigation', () => {
 
   // MTG Treachery
   it('should show MTG Treachery', () => {
-    cy.visit('/mtg/treachery')
-    waitForVerify()
+    goto('/mtg/treachery')
 
     cy.title().should('equal', 'Treachery')
 
@@ -76,8 +70,7 @@ describe('Navigation', () => {
   it('should show Poetry', () => {
     cy.intercept('GET', '/api/reddit', { fixture: 'redditPoem.json' })
 
-    cy.visit('/poetry')
-    waitForVerify()
+    goto('/poetry')
 
     cy.title().should('equal', 'Poetry')
 
@@ -86,8 +79,7 @@ describe('Navigation', () => {
 
   // Recipes
   it('should show Recipes', () => {
-    cy.visit('/recipes')
-    waitForVerify()
+    goto('/recipes')
 
     cy.title().should('equal', 'Recipes')
 
@@ -96,8 +88,7 @@ describe('Navigation', () => {
 
   // Movies
   it('should show Movies', () => {
-    cy.visit('/movies')
-    waitForVerify()
+    goto('/movies')
 
     cy.title().should('equal', 'Movies')
 
@@ -106,14 +97,12 @@ describe('Navigation', () => {
 
   // Secret
   it('should show Secret', () => {
-    cy.visit('/secret')
-    waitForVerify()
+    goto('/secret')
   })
 
   // 404
   it('should show 404', () => {
-    cy.visit('/adwas', { failOnStatusCode: false })
-    waitForVerify()
+    goto('/adwas', { failOnStatusCode: false })
 
     cy.title().should('equal', '404 - Page Not Found')
 
@@ -124,8 +113,7 @@ describe('Navigation', () => {
 
   // Login
   it('should show login', () => {
-    cy.visit('/account')
-    waitForVerify()
+    goto('/account')
 
     cy.title().should('equal', 'Login')
 

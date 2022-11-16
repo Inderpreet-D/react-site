@@ -84,6 +84,7 @@ const Page = () => {
         )}
 
         <TextField
+          id='username'
           value={values.username}
           onChange={handleChange('username', true)}
           onKeyDown={e => {
@@ -97,6 +98,7 @@ const Page = () => {
         />
 
         <TextField
+          id='password'
           value={values.password}
           onChange={handleChange('password')}
           onKeyDown={e => {
