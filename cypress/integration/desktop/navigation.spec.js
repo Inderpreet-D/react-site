@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto, getTitle } from '../support'
+import { goto, getTitle } from '../../support'
 
 describe('Navigation', () => {
   beforeEach(() => {
