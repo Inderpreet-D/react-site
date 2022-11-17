@@ -22,14 +22,31 @@ import '@cypress/code-coverage/support'
 
 import 'cypress-plugin-tab'
 
-const waitForVerify = () => {
-  cy.get('#page-spinner').should('not.exist', { timeout: 10000 })
-}
+import user from '../fixtures/user.json'
 
 export const goto = (...args) => {
   cy.visit(...args)
-  waitForVerify()
 }
 
-export const getTitle = text =>
-  cy.get('[data-cy=title]').should('have.text', text)
+export const getTitle = text => {
+  return cy.get('[data-cy=title]').should('have.text', text)
+}
+
+export const login = () => {
+  goto('/account')
+
+  cy.contains('Username')
+    .click()
+    .type(user.username)
+
+  // Select password input
+  cy.get('body')
+    .tab()
+    .tab()
+
+  cy.focused()
+    .type(user.password)
+    .type('{enter}')
+
+  getTitle('My Account')
+}

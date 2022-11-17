@@ -9,8 +9,8 @@
     "start": "NODE_ENV=production yarn run dev",
     "heroku-postbuild": "yarn run build",
     "tsc": "tsc",
-    "cypress": "cypress open",
-    "test": "jest --watchAll",
+    "test:ui": "cypress open",
+    "test:code": "jest --watchAll",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
