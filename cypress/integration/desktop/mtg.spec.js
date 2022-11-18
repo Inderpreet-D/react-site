@@ -12,15 +12,11 @@ describe('MTG', () => {
   it('should go between pages', () => {
     cy.contains('Competitive').click()
 
-    getTitle('Competitive')
-
     cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
 
     cy.location('pathname', { timeout: 60000 })
       .should('include', '/mtg')
       .should('not.include', '/competitive')
-
-    getTitle('MTG Hub')
   })
 
   // Check cards
