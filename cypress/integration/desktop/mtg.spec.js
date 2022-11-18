@@ -10,6 +10,7 @@ describe('MTG', () => {
 
   // Check back button
   it('should go between pages', () => {
+    cy.wait(500)
     cy.contains('Competitive').click()
 
     cy.get('button[aria-label="Back"]').click()
