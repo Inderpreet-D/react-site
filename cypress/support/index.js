@@ -24,8 +24,9 @@ import 'cypress-plugin-tab'
 
 import user from '../fixtures/user.json'
 
-export const goto = (...args) => {
-  cy.visit(...args)
+export const goto = (path, ...args) => {
+  cy.visit(path, ...args)
+  cy.location('pathname', { timeout: 60000 }).should('include', path)
 }
 
 export const getTitle = text => {

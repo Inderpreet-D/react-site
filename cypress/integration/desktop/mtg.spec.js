@@ -10,7 +10,6 @@ describe('MTG', () => {
 
   // Check back button
   it('should go between pages', () => {
-    cy.wait(500)
     cy.contains('Competitive').click()
 
     cy.get('button[aria-label="Back"]').click()
@@ -42,7 +41,7 @@ describe('MTG', () => {
       .should('exist')
     getCardButtons()
       .first()
-      .click()
+      .click({ force: true })
     getCard()
       .contains('0')
       .should('exist')
@@ -53,7 +52,7 @@ describe('MTG', () => {
       .next()
       .next()
       .click()
-      .click()
+      .click({ force: true })
     getCard()
       .contains('2')
       .should('exist')
@@ -62,7 +61,7 @@ describe('MTG', () => {
     getCardButtons()
       .first()
       .next()
-      .click()
+      .click({ force: true })
     cy.contains('Commander Options / Sideboard (2)').should('exist')
   })
 
