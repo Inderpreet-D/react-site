@@ -13,10 +13,6 @@ describe('MTG', () => {
     cy.contains('Competitive').click()
 
     cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
-
-    cy.location('pathname', { timeout: 60000 })
-      .should('include', '/mtg')
-      .should('not.include', '/competitive')
   })
 
   // Check cards
