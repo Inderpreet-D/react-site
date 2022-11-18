@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto, login } from '../../support'
+import { getTitle, goto, login } from '../../support'
 
 describe('MTG', () => {
   beforeEach(() => {
@@ -12,9 +12,11 @@ describe('MTG', () => {
   it('should go between pages', () => {
     cy.contains('Competitive').click()
 
-    cy.get('button[aria-label="Back"]', { timeout: 10000 }).click()
+    getTitle('Competitive')
 
-    cy.contains('MTG Hub').should('exist')
+    cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
+
+    getTitle('MTG Hub')
   })
 
   // Check cards
