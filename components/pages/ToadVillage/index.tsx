@@ -234,7 +234,6 @@ const Page = () => {
 
       {showDialog && (
         <Dialog
-          open={showDialog}
           onClose={() => dispatch(close())}
           title='Enter Decklist'
           actions={

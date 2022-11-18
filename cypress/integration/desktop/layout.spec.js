@@ -1,8 +1,11 @@
 /// <reference types="Cypress" />
 
+import { goto } from '../../support'
+
 describe('Layout', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.viewport('macbook-16')
+    goto('/')
   })
 
   it('should show Header', () => {

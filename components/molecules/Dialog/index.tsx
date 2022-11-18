@@ -2,7 +2,6 @@ import Portal from '../../atoms/Portal'
 import Container from '../../atoms/Container'
 
 type DialogProps = {
-  open: boolean
   onClose: () => void
   title: string
   actions: React.ReactNode
@@ -12,7 +11,6 @@ type DialogProps = {
 type MEH = React.MouseEventHandler<HTMLDivElement>
 
 const Dialog: React.FC<DialogProps> = ({
-  open,
   onClose,
   title,
   actions,
@@ -29,10 +27,6 @@ const Dialog: React.FC<DialogProps> = ({
     },
     [onClose]
   )
-
-  if (!open) {
-    return null
-  }
 
   return (
     <Portal>

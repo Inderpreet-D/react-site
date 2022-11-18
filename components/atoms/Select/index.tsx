@@ -2,6 +2,7 @@ import { DivProps } from 'react-html-props'
 import clsx from 'clsx'
 
 import Button from '../Button'
+import Portal from '../Portal'
 
 type SelectProps = DivProps & {
   label?: string
@@ -59,7 +60,10 @@ const Select: React.FC<SelectProps> = ({
 
         {open && (
           <>
-            <div className='z-20 absolute top-12 flex flex-col border border-sky-400 rounded-xl py-2 bg-sky-800 text-white w-auto'>
+            <div
+              data-cy='select-options'
+              className='z-20 absolute top-12 flex flex-col border border-sky-400 rounded-xl py-2 bg-sky-800 text-white w-auto'
+            >
               {options.map(opt => (
                 <div
                   key={opt}
@@ -82,14 +86,16 @@ const Select: React.FC<SelectProps> = ({
       </div>
 
       {open && (
-        <div
-          onClick={e => {
-            e.preventDefault()
-            e.stopPropagation()
-            handleBackdropClick()
-          }}
-          className='bg-transparent z-10 absolute top-0 left-0 right-0 bottom-0'
-        />
+        <Portal>
+          <div
+            onClick={e => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleBackdropClick()
+            }}
+            className='bg-transparent z-10 absolute top-0 left-0 right-0 bottom-0'
+          />
+        </Portal>
       )}
     </div>
   )

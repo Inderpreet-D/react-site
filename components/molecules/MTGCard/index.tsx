@@ -97,7 +97,10 @@ const MTGCard: React.FC<MTGCardProps> = ({
       }
       className='ml-7'
     >
-      <div className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'>
+      <div
+        data-cy={card.name}
+        className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'
+      >
         <div className='group relative flex justify-center w-full hover:z-10'>
           <div className='relative w-11/12 h-full'>
             {(!faces || !flipped) && <CardImage src={image} />}

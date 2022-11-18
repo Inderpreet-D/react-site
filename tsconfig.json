@@ -25,8 +25,19 @@
     "jsx": "preserve",
     "downlevelIteration": true,
     "allowUmdGlobalAccess": true,
-    "incremental": true
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "scripts"]
+  "exclude": [
+    "dist",
+    ".next",
+    "out",
+    "next.config.js",
+    "node_modules",
+    "scripts"
+  ]
 }

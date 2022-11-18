@@ -5,7 +5,7 @@ import { folderPath, getFileList } from '.'
 import { sample } from 'lodash'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { length } = req.query
+  const { length } = req.query as { length: string }
 
   if (isNaN(+length)) {
     res.send({ word: 'invalid' })
