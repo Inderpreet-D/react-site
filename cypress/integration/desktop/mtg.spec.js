@@ -16,7 +16,9 @@ describe('MTG', () => {
 
     cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
 
-    cy.wait(1000)
+    cy.location('pathname', { timeout: 60000 })
+      .should('include', '/mtg')
+      .should('not.include', '/competitive')
 
     getTitle('MTG Hub')
   })
