@@ -16,6 +16,8 @@ describe('MTG', () => {
 
     cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
 
+    cy.wait(1000)
+
     getTitle('MTG Hub')
   })
 
