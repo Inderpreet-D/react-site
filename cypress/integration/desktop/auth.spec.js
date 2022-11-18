@@ -42,6 +42,8 @@ describe('Authentication', () => {
     cy.get('header').should('contain', 'Login')
     login()
     cy.get('header').should('contain', 'Account')
+    cy.contains('Change Password').click()
+    cy.contains('Cancel').click()
   })
 
   it('should logout', () => {
