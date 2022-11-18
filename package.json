@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
-    "build": "next build",
-    "lint": "next lint --no-cache",
-    "start": "NODE_ENV=production yarn run dev",
-    "heroku-postbuild": "yarn run build",
-    "tsc": "tsc",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "cross-env NODE_ENV=production node dist/server/index.js",
     "test:ui": "cypress open",
     "test:code": "jest --watchAll",
+    "lint": "next lint --no-cache",
+    "tsc": "tsc",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
@@ -30,6 +29,7 @@
     "babel-plugin-istanbul": "^6.1.1",
     "clsx": "^1.1.1",
     "color-alpha": "^1.1.2",
+    "cross-env": "^7.0.3",
     "cypress": "^9.4.1",
     "cypress-plugin-tab": "^1.0.5",
     "date-fns": "^2.28.0",
