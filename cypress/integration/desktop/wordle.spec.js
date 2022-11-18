@@ -5,12 +5,13 @@ import { goto, getTitle } from '../../support'
 describe('Wordle', () => {
   beforeEach(() => {
     cy.viewport('macbook-16')
-    goto('/games/wordle')
   })
 
   // Failed guess
   it('should lose after too many attempts', () => {
     cy.intercept('/api/words/5', { word: 'fails' })
+
+    goto('/games/wordle')
 
     cy.get('body').click()
     cy.wait(500)
@@ -33,6 +34,8 @@ describe('Wordle', () => {
   // Win testing
   it('should succeed', () => {
     cy.intercept('/api/words/5', { word: 'seeds' })
+
+    goto('/games/wordle')
 
     cy.get('body').click()
     cy.wait(500)
