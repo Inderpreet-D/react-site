@@ -7,8 +7,6 @@ const className =
 const TextInput: React.FC<InputProps> = ({
   className: extraClass,
   ...props
-}) => {
-  return <input className={clsx(className, extraClass)} {...props} />
-}
+}) => <input className={clsx(className, extraClass)} {...props} />
 
 export default TextInput
