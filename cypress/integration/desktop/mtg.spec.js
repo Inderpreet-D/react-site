@@ -12,7 +12,7 @@ describe('MTG', () => {
   it('should go between pages', () => {
     cy.contains('Competitive').click()
 
-    cy.get('button[aria-label="Back"]').click()
+    cy.get('button[aria-label="Back"]', { timeout: 10000 }).click()
 
     cy.contains('MTG Hub').should('exist')
   })
