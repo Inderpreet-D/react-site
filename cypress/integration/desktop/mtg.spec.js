@@ -10,9 +10,11 @@ describe('MTG', () => {
 
   // Check back button
   it('should go between pages', () => {
-    cy.contains('Competitive').click()
+    goto('/mtg/competitive')
 
     cy.get('[aria-label="Back"]', { timeout: 10000 }).click()
+
+    getTitle('MTG Hub')
   })
 
   // Check cards
