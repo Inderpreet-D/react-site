@@ -1,6 +1,9 @@
 import express from 'express'
 import next from 'next'
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 import processHttps from './http'
 import processAuthToken from './auth'
 
