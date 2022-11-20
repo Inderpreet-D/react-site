@@ -1,4 +1,4 @@
-import { WordleState } from '../../../slices/wordle'
+import { WordleState } from '../../../../slices/wordle'
 
 export enum Result {
   Unchecked = 0,
