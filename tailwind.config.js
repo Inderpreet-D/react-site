@@ -10,6 +10,9 @@ module.exports = {
       fontFamily: {
         sans: ['Roboto Mono', ...defaultTheme.fontFamily.sans]
       }
+    },
+    colors: {
+      test: '#ff0000'
     }
   },
   plugins: []
