@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -9,11 +10,21 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Roboto Mono', ...defaultTheme.fontFamily.sans]
+      },
+      colors: {
+        test: '#ff0000',
+        error: {
+          light: colors.red[300],
+          main: colors.red[500],
+          dark: colors.red[900]
+        },
+        success: {
+          light: colors.green[300],
+          main: colors.green[500],
+          dark: colors.green[900]
+        }
       }
     },
-    colors: {
-      test: '#ff0000'
-    }
   },
   plugins: []
 }

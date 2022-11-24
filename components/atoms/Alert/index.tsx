@@ -35,8 +35,8 @@ const VisibleAlert = () => {
         className={clsx(
           'border rounded-md shadow-inner  p-4',
           isError
-            ? 'bg-red-300 border-red-500 text-red-900'
-            : 'bg-green-300 border-green-500 text-green-900'
+            ? 'bg-error-light border-error-main text-error-dark'
+            : 'bg-success-light border-success-main text-success-dark'
         )}
       >
         <span className='font-bold'>{isError ? 'Error' : 'Success'}</span> --{' '}

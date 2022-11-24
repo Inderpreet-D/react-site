@@ -78,7 +78,7 @@ const Page = () => {
     <Container>
       <div className='flex flex-col items-center w-full lg:w-2/3 mx-auto'>
         {redirect && (
-          <div className='mb-4 mt-4 text-red-500 font-medium'>
+          <div className='mb-4 mt-4 text-error-main font-medium'>
             You must login to view that page.
           </div>
         )}
