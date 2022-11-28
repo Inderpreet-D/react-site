@@ -2,12 +2,11 @@ import clsx from 'clsx'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Cell from './Cell'
+import LetterCell from './LetterCell'
 import Button from '../../atoms/Button'
 
 import { checkValidWord } from '../../../lib/api/wordle'
-import { getCellColors, Result } from './utils'
 import {
-  WordleState,
   selectWordle,
   nextGuess as startNext,
   makeGuess,
@@ -16,59 +15,6 @@ import {
 
 type WordleBoardProps = {
   reset: () => void
-}
-
-const getCell = (
-  state: WordleState,
-  rowIdx: number,
-  cellIdx: number,
-  key: string
-) => {
-  if (rowIdx > state.round) {
-    return <Cell key={key} className='bg-slate-700' />
-  }
-
-  // Determine cell color
-  const result = getCellColors(state, rowIdx)
-  const cellResult = result[cellIdx]
-
-  // Get lett for this cell
-  const guess = state.guesses[rowIdx]
-  const letter = guess[cellIdx].toLocaleUpperCase()
-
-  // Unchecked cell (should never happen)
-  if (cellResult === Result.Unchecked) {
-    return (
-      <Cell key={key} className='bg-sky-400'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Incorrect cell
-  if (cellResult === Result.Incorrect) {
-    return (
-      <Cell key={key} className='bg-slate-700'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Correct cell
-  if (cellResult === Result.Correct) {
-    return (
-      <Cell key={key} className='bg-green-600'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Wrong place cell
-  return (
-    <Cell key={key} className='bg-yellow-600'>
-      {letter}
-    </Cell>
-  )
 }
 
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
@@ -136,7 +82,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
               )
             }
 
-            return getCell(state, rowIdx, cellIdx, key)
+            return <LetterCell key={key} rowIdx={rowIdx} cellIdx={cellIdx} />
           })}
         </div>
       ))}

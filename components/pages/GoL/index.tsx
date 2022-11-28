@@ -66,6 +66,7 @@ const GoL = () => {
       <div className='flex flex-col items-center justify-center mb-5'>
         <div>
           <TextField
+            id='width-input'
             value={width}
             placeholder='Width'
             type='number'
@@ -73,6 +74,7 @@ const GoL = () => {
           />
 
           <TextField
+            id='height-input'
             value={height}
             placeholder='Height'
             type='number'
@@ -82,6 +84,7 @@ const GoL = () => {
         </div>
 
         <TextField
+          id='delay-input'
           value={delay}
           placeholder='Delay'
           type='number'
