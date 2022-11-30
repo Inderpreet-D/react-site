@@ -12,7 +12,6 @@ module.exports = {
         sans: ['Roboto Mono', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        test: '#ff0000',
         error: {
           light: colors.red[300],
           main: colors.red[500],
