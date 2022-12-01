@@ -21,9 +21,16 @@ module.exports = {
           light: colors.green[300],
           main: colors.green[500],
           dark: colors.green[900]
-        }
+        },
+        primary: {
+          light: colors.sky[400],
+          main: colors.sky[500],
+          dark: colors.sky[800]
+        },
+        secondary: {},
+        dark: {}
       }
-    },
+    }
   },
   plugins: []
 }
