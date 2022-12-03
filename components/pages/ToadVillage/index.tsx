@@ -54,14 +54,8 @@ const cardBlockClassName =
 
 const Page = () => {
   const dispatch = useAppDispatch()
-  const {
-    cardObjs,
-    error,
-    name,
-    loading,
-    showDialog,
-    cardListString
-  } = useAppSelector(selectToadVillage)
+  const { cardObjs, error, name, loading, showDialog, cardListString } =
+    useAppSelector(selectToadVillage)
 
   const [selectedSort, setSelectedSort] = React.useState({ sort: nameSort })
   const [commanderCount, otherCount, combinedCards] = React.useMemo(() => {
@@ -179,7 +173,7 @@ const Page = () => {
                 href={`https://commanderspellbook.com/search/?q=${data.url}`}
                 target='_blank'
                 rel='noreferrer noopener'
-                className='ml-8 mb-4 list-decimal decoration-sky-400 last:mb-0'
+                className='ml-8 mb-4 list-decimal decoration-primary-light last:mb-0'
               >
                 {i + 1} - {data.name}
               </a>

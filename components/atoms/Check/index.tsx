@@ -6,7 +6,7 @@ type CheckProps = DivProps & {
 }
 
 const className =
-  'absolute top-1/2 left-1/2 w-[0.35rem] h-[0.35rem] -translate-x-1/2 -translate-y-1/2 rounded-[50%] box-border bg-sky-800 transition-all duration-500 group-hover:bg-sky-400'
+  'absolute top-1/2 left-1/2 w-[0.35rem] h-[0.35rem] -translate-x-1/2 -translate-y-1/2 rounded-circle box-border bg-primary-dark transition-all duration-500 group-hover:bg-primary-light'
 
 const Check: React.FC<CheckProps> = ({
   checked,

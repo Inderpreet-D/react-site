@@ -12,7 +12,7 @@ import parsePoems, { pickRandomPoem } from '../../../utilities/helpers/poetry'
 import { RedditResponse } from '../../../shared/reddit'
 
 const titleClassName =
-  'flex justify-center text-4xl font-bold tracking-wide text-sky-400'
+  'flex justify-center text-4xl font-bold tracking-wide text-primary-light'
 
 const Page = () => {
   const [poem, setPoem] = React.useState<Poem | null>(null)
@@ -28,7 +28,7 @@ const Page = () => {
       try {
         const res = await reddit()
 
-        const poems = parsePoems((res as unknown) as RedditResponse)
+        const poems = parsePoems(res as unknown as RedditResponse)
         const { name, body, url } = pickRandomPoem(poems)
 
         if (name && body && url) {

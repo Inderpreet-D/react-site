@@ -17,9 +17,9 @@ const MyCard: React.FC<MyCardProps> = ({
   description,
   actionProps = { alignRight: true }
 }) => (
-  <div className='flex flex-col border-2 border-sky-800 rounded-2xl box-border p-5 bg-slate-900'>
+  <div className='flex flex-col border-2 border-primary-dark rounded-2xl box-border p-5 bg-dark-dark'>
     <div className='flex flex-col mb-2'>
-      <div className='flex items-center justify-center mb-4 text-2xl text-sky-400 tracking-[0.00735em] underline'>
+      <div className='flex items-center justify-center mb-4 text-2xl text-primary-light tracking-[0.00735em] underline'>
         {title}
       </div>
 

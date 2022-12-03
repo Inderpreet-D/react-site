@@ -6,7 +6,7 @@ type TextFieldProps = InputPropsWithoutRef & {
 }
 
 const className =
-  'group relative flex justify-center border border-slate-700 rounded box-border pt-4 pb-3 cursor-text text-white hover:border-sky-800 focus-within:border-sky-400'
+  'group relative flex justify-center border border-dark-dark rounded box-border pt-4 pb-3 cursor-text text-white hover:border-primary-dark focus-within:border-primary-light'
 
 const TextField: React.FC<TextFieldProps> = ({
   className: extraClass,
@@ -32,7 +32,7 @@ const TextField: React.FC<TextFieldProps> = ({
       <input
         id={id}
         ref={inputRef}
-        className='origin-top-left transition-all duration-100 mt-4 border-none box-border w-7/12 p-0 bg-transparent text-base text-center decoration-transparent no-underline text-sky-800 outline-none appearance-none group-focus-within:scale-150 group-focus-within:mt-2 group-focus-within:mb-2 group-focus-within:-ml-[42.75%] group-focus-within:text-sky-400'
+        className='origin-top-left transition-all duration-100 mt-4 border-none box-border w-7/12 p-0 bg-transparent text-base text-center decoration-transparent no-underline text-primary-dark outline-none appearance-none group-focus-within:scale-150 group-focus-within:mt-2 group-focus-within:mb-2 group-focus-within:-ml-[42.75%] group-focus-within:text-primary-light'
         {...props}
       />
     </div>

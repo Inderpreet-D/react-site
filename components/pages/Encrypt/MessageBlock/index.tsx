@@ -13,7 +13,7 @@ const MessageBlock: React.FC<MessageBlockProps> = ({
   onChange,
   secret
 }) => (
-  <div className='flex flex-col items-center justify-center mr-4 my-2 rounded-2xl box-border w-full p-4 transition-all duration-1000 hover:bg-slate-900 focus-within:bg-slate-900'>
+  <div className='flex flex-col items-center justify-center mr-4 my-2 rounded-2xl box-border w-full p-4 transition-all duration-1000 hover:bg-dark-dark focus-within:bg-dark-dark'>
     <TextField
       value={value}
       onChange={e => onChange(e.target.value)}

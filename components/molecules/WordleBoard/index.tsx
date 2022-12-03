@@ -119,12 +119,12 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
                 <div
                   key={i}
                   className={clsx(
-                    'mr-2 last:mr-0 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
+                    'mr-2 last:mr-0 uppercase p-2 border border-primary-dark rounded-md w-8 flex items-center justify-center mt-4',
                     state.word.includes(char) && allGuesses.includes(char)
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-success-main text-white'
                       : allGuesses.includes(char)
-                      ? 'bg-slate-600 text-slate-800'
-                      : 'bg-transparent text-sky-400'
+                      ? 'bg-dark-main text-dark-dark'
+                      : 'bg-transparent text-primary-light'
                   )}
                 >
                   {char}

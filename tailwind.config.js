@@ -27,8 +27,19 @@ module.exports = {
           main: colors.sky[500],
           dark: colors.sky[800]
         },
-        secondary: {},
-        dark: {}
+        secondary: {
+          light: colors.orange[500],
+          main: colors.orange[600],
+          dark: colors.orange[700]
+        },
+        dark: {
+          light: colors.slate[400],
+          main: colors.slate[600],
+          dark: colors.slate[900]
+        }
+      },
+      borderRadius: {
+        circle: '50%'
       }
     }
   },

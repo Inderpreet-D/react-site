@@ -49,22 +49,21 @@ const Page = () => {
 
     return fieldsFilled
   }, [values, registering])
-  const loginButtonDisabled = React.useMemo(() => !canLogin || loading, [
-    canLogin,
-    loading
-  ])
+  const loginButtonDisabled = React.useMemo(
+    () => !canLogin || loading,
+    [canLogin, loading]
+  )
 
   const handleChange = React.useCallback(
-    (prop: string, trim = false) => (
-      e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setInteracted(true)
-      const val = trim ? e.target.value.trim() : e.target.value
-      setValues(old => ({ ...old, [prop]: val }))
-      if (prop === 'password') {
-        setPasswordTouched(true)
-      }
-    },
+    (prop: string, trim = false) =>
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInteracted(true)
+        const val = trim ? e.target.value.trim() : e.target.value
+        setValues(old => ({ ...old, [prop]: val }))
+        if (prop === 'password') {
+          setPasswordTouched(true)
+        }
+      },
     []
   )
 
@@ -129,7 +128,9 @@ const Page = () => {
         )}
 
         {interacted && !canLogin && issue.length > 0 && (
-          <div className='mt-4 text-red-500 text-lg font-medium'>{issue}</div>
+          <div className='mt-4 text-error-main text-lg font-medium'>
+            {issue}
+          </div>
         )}
 
         <Button
@@ -144,7 +145,7 @@ const Page = () => {
           {registering ? 'Have an account?' : 'New here?'}
           <span
             onClick={() => dispatch(toggleRegister())}
-            className='ml-1 text-sky-500 hover:text-sky-700 cursor-pointer hover:underline select-none'
+            className='ml-1 text-primary-main hover:text-primary-dark cursor-pointer hover:underline select-none'
           >
             {registering ? 'Sign in' : 'Create an account'}
           </span>

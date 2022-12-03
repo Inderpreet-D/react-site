@@ -115,7 +115,7 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
         <div className='overflow-x-auto'>
           <table className='mx-0 my-4 w-full border-collapse'>
             <thead>
-              <tr className='bg-slate-800 text-slate-400'>
+              <tr className='bg-dark-dark text-dark-light'>
                 <th className={cellClassName}>Player</th>
 
                 <th className={cellClassName}>Commander</th>
@@ -142,9 +142,9 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
                   <tr
                     key={name}
                     className={clsx(
-                      'border-b border-b-slate-900 text-white transition-all duration-500',
-                      name === game.winner && 'bg-sky-400 text-slate-700',
-                      'hover:bg-slate-900 hover:text-white'
+                      'border-b border-b-dark-dark text-white transition-all duration-500',
+                      name === game.winner && 'bg-primary-light text-dark-dark',
+                      'hover:bg-dark-dark hover:text-white'
                     )}
                   >
                     <td className={cellClassName}>{name}</td>

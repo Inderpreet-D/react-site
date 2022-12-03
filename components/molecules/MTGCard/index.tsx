@@ -99,7 +99,7 @@ const MTGCard: React.FC<MTGCardProps> = ({
     >
       <div
         data-cy={card.name}
-        className='flex flex-col m-1 border-2 border-sky-400 rounded-lg bg-transparent'
+        className='flex flex-col m-1 border-2 border-primary-light rounded-lg bg-transparent'
       >
         <div className='group relative flex justify-center w-full hover:z-10'>
           <div className='relative w-11/12 h-full'>
@@ -110,8 +110,8 @@ const MTGCard: React.FC<MTGCardProps> = ({
 
           <div
             className={clsx(
-              'absolute top-1/3 left-1/2 border border-slate-200 rounded-full p-4 bg-slate-800 -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-sky-400 pointer-events-none group-hover:opacity-0',
-              amount === 0 && 'border-red-600 text-red-600'
+              'absolute top-1/3 left-1/2 border border-dark-light rounded-full p-4 bg-dark-dark -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-primary-light pointer-events-none group-hover:opacity-0',
+              amount === 0 && 'border-error-main text-error-main'
             )}
           >
             {amount}

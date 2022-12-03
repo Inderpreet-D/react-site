@@ -8,9 +8,9 @@ type NavigationItemProps = {
 }
 
 const className =
-  'flex items-center justify-center transition-all duration-700 border-4 border-transparent box-border w-full h-full px-1 py-0 text-center hover:text-sky-400 active:text-sky-400 hover:border-r-sky-800 active:border-r-sky-800 hover:border-l-sky-800 active:border-l-sky-800 hover:bg-slate-800 active:bg-slate-800 lg:hover:border-transparent lg:hover:border-b-sky-800 lg:active:border-b-sky-800 lg:hover:bg-slate-900 lg:active:bg-slate-900 lg:hover:pb-3 lg:hover:duration-200'
+  'flex items-center justify-center transition-all duration-700 border-4 border-transparent box-border w-full h-full px-1 py-0 text-center hover:text-primary-light active:text-primary-light hover:border-r-primary-dark active:border-r-primary-dark hover:border-l-primary-dark active:border-l-primary-dark hover:bg-dark-dark active:bg-dark-dark lg:hover:border-transparent lg:hover:border-b-primary-dark lg:active:border-b-primary-dark lg:hover:bg-dark-dark lg:active:bg-dark-dark lg:hover:pb-3 lg:hover:duration-200'
 const className2 =
-  'text-sky-400 border-r-sky-800 border-l-sky-800 bg-slate-800 lg:border-transparent lg:border-b-sky-800 lg:bg-slate-900'
+  'text-primary-light border-r-primary-dark border-l-primary-dark bg-dark-dark lg:border-transparent lg:border-b-primary-dark lg:bg-dark-dark'
 
 const NavigationItem: React.FC<NavigationItemProps> = ({ link, children }) => {
   const { pathname } = useRouter()
