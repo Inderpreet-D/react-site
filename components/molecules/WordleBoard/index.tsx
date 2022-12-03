@@ -12,6 +12,7 @@ import {
   makeGuess,
   pressKey
 } from '../../../slices/wordle'
+import useDocumentListener from '../../../hooks/useDocumentListener'
 
 type WordleBoardProps = {
   reset: () => void
@@ -56,13 +57,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
     [state.currentGuess, state.wordLength, handleEnter, dispatch]
   )
 
-  React.useEffect(() => {
-    document.addEventListener('keydown', onKey)
-
-    return () => {
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [onKey])
+  useDocumentListener('keydown', onKey)
 
   return (
     <div className='flex items-center justify-center flex-col w-full overflow-auto'>

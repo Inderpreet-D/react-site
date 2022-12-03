@@ -8,8 +8,10 @@ import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
 import Button from '../../../atoms/Button'
 
 type GamesProps = {
+  game: Game | null
   games: Game[]
   year: number
+  selectGame: (newVal: Game | null) => void
 }
 
 type DeckType = {
@@ -55,9 +57,7 @@ const extractDeckData = (deck: string): DeckType => {
 
 const cellClassName = 'p-2 text-left'
 
-const Games: React.FC<GamesProps> = ({ games, year }) => {
-  const [game, setGame] = React.useState<Game | null>(null)
-
+const Games: React.FC<GamesProps> = ({ game, games, year, selectGame }) => {
   const formattedGames = React.useMemo(() => {
     const withDate = games.map(g => {
       const { month, day } = g
@@ -88,11 +88,6 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
     return [showTheme, showTribe, showCompanion]
   }, [game])
 
-  // De-select when changing seasons
-  React.useEffect(() => {
-    setGame(null)
-  }, [games])
-
   return (
     <>
       <ContainerSubTitle style={{ marginBottom: '1rem' }}>
@@ -104,7 +99,7 @@ const Games: React.FC<GamesProps> = ({ games, year }) => {
           <Button
             key={i}
             active={isEqual(g, game)}
-            onClick={() => setGame(old => (isEqual(old, g) ? null : g))}
+            onClick={() => selectGame(g)}
           >
             {getDate(g.date)}
           </Button>

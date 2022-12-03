@@ -11,41 +11,12 @@ import { start } from '../../../slices/wordle'
 import { getRandomWord } from '../../../lib/api/wordle'
 
 const Page = () => {
-  const dispatch = useAppDispatch()
-
   const [length, setLength] = React.useState(5)
-  const [fetched, setFetched] = React.useState(false)
 
-  const { data: options, isLoading: isLoadingOptions } = useSWR<number[]>(
-    'words'
-  )
+  const { data: options, isLoading: isLoadingOptions } =
+    useSWR<number[]>('words')
 
-  // Trigger re-fetch when length changes
-  React.useEffect(() => {
-    setFetched(false)
-  }, [length])
-
-  // Fetche new word when required
-  React.useEffect(() => {
-    if (isLoadingOptions || fetched) {
-      return
-    }
-
-    let mounted = true
-
-    // Fetch new word
-    const handleGetWord = async () => {
-      const word = await getRandomWord(length)
-      dispatch(start(word))
-      mounted && setFetched(true)
-    }
-
-    handleGetWord()
-
-    return () => {
-      mounted = false
-    }
-  }, [isLoadingOptions, fetched, length, dispatch])
+  const { reload } = useWordleSetup(isLoadingOptions, length)
 
   return (
     <Container>
@@ -59,15 +30,45 @@ const Page = () => {
             label='Word Length'
             options={options.map(opt => `${opt}`)}
             value={length.toString()}
-            onChange={val => setLength(+val)}
+            onChange={val => {
+              setLength(+val)
+              // Trigger re-fetch when length changes
+              reload()
+            }}
             className='mt-2 mb-4 mx-0'
           />
         )}
 
-        <WordleBoard reset={() => setFetched(false)} />
+        <WordleBoard reset={() => reload()} />
       </div>
     </Container>
   )
 }
 
 export default Page
+
+const useWordleSetup = (isLoadingOptions: boolean, length: number) => {
+  const dispatch = useAppDispatch()
+
+  const [fetched, setFetched] = React.useState(false)
+
+  // Fetche new word when required
+  React.useEffect(() => {
+    if (isLoadingOptions || fetched) {
+      return
+    }
+
+    // Fetch new word
+    ;(async () => {
+      const word = await getRandomWord(length)
+      dispatch(start(word))
+      setFetched(true)
+    })()
+  }, [isLoadingOptions, fetched, length, dispatch])
+
+  const reload = React.useCallback(() => {
+    setFetched(false)
+  }, [])
+
+  return { reload }
+}

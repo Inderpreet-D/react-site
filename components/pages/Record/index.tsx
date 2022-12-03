@@ -57,37 +57,22 @@ const Page = () => {
     },
     dispatch
   ] = React.useReducer(reducer, initialState)
-  const [passValid, setPassValid] = React.useState(false)
 
-  // Checks password
-  React.useEffect(() => {
-    const checkPass = async () => {
-      try {
-        const match = await checkPassword(password)
-        setPassValid(match)
-      } catch (err) {
-        console.error('Error checking password', err)
-      }
-    }
-
-    checkPass()
-  }, [password])
+  const passValid = useRecordPassword(password)
 
   React.useEffect(() => {
     if (seasonsLoaded) {
       return
     }
 
-    const handleGetSeasons = async () => {
+    ;(async () => {
       try {
         const seasons = await getSeasons()
         dispatch({ type: 'SET_SEASONS', seasons })
       } catch (err) {
         console.error('Error getting seasons', err)
       }
-    }
-
-    handleGetSeasons()
+    })()
   }, [seasonsLoaded])
 
   return (
@@ -227,3 +212,21 @@ const Page = () => {
 }
 
 export default Page
+
+const useRecordPassword = (password: string) => {
+  const [passValid, setPassValid] = React.useState(false)
+
+  // Checks password
+  React.useEffect(() => {
+    ;(async () => {
+      try {
+        const match = await checkPassword(password)
+        setPassValid(match)
+      } catch (err) {
+        console.error('Error checking password', err)
+      }
+    })()
+  }, [password])
+
+  return passValid
+}
