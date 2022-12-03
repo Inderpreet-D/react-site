@@ -1,5 +1,3 @@
-import { useAppDispatch } from '../../../hooks/redux'
-
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
@@ -7,16 +5,12 @@ import Select from '../../atoms/Select'
 import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
-import { start } from '../../../slices/wordle'
-import { getRandomWord } from '../../../lib/api/wordle'
+import useWordleSetup from '../../../hooks/useWordleSetup'
 
 const Page = () => {
-  const [length, setLength] = React.useState(5)
-
   const { data: options, isLoading: isLoadingOptions } =
     useSWR<number[]>('words')
-
-  const { reload } = useWordleSetup(isLoadingOptions, length)
+  const { reload, length, setLength } = useWordleSetup(isLoadingOptions)
 
   return (
     <Container>
@@ -32,8 +26,6 @@ const Page = () => {
             value={length.toString()}
             onChange={val => {
               setLength(+val)
-              // Trigger re-fetch when length changes
-              reload()
             }}
             className='mt-2 mb-4 mx-0'
           />
@@ -46,29 +38,3 @@ const Page = () => {
 }
 
 export default Page
-
-const useWordleSetup = (isLoadingOptions: boolean, length: number) => {
-  const dispatch = useAppDispatch()
-
-  const [fetched, setFetched] = React.useState(false)
-
-  // Fetche new word when required
-  React.useEffect(() => {
-    if (isLoadingOptions || fetched) {
-      return
-    }
-
-    // Fetch new word
-    ;(async () => {
-      const word = await getRandomWord(length)
-      dispatch(start(word))
-      setFetched(true)
-    })()
-  }, [isLoadingOptions, fetched, length, dispatch])
-
-  const reload = React.useCallback(() => {
-    setFetched(false)
-  }, [])
-
-  return { reload }
-}
