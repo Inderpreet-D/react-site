@@ -11,11 +11,11 @@ import {
 
 const getUrl = (params: any) => {
   const paramString = qs.stringify(params, { addQueryPrefix: true })
-  return `/api/treachery${paramString}`
+  return `/treachery${paramString}`
 }
 
 export const createRoom = async (numPlayers: number, rarity: string) => {
-  const { data } = await wrapCall<{ data: CreateResponse }>({
+  const data = await wrapCall<CreateResponse>({
     method: 'GET',
     uri: getUrl({ action: 'create', numPlayers, rarity })
   })
@@ -23,7 +23,7 @@ export const createRoom = async (numPlayers: number, rarity: string) => {
 }
 
 export const waitRoom = async (roomCode: string) => {
-  const { data } = await wrapCall<{ data: RoomResponse }>({
+  const data = await wrapCall<RoomResponse>({
     method: 'GET',
     uri: getUrl({ action: 'room', roomCode })
   })
@@ -31,7 +31,7 @@ export const waitRoom = async (roomCode: string) => {
 }
 
 export const getCard = async (roomCode: string, id: string) => {
-  const { data } = await wrapCall<{ data: CardResponse }>({
+  const data = await wrapCall<CardResponse>({
     method: 'GET',
     uri: getUrl({ action: 'card', roomCode, id })
   })
@@ -39,7 +39,7 @@ export const getCard = async (roomCode: string, id: string) => {
 }
 
 export const joinRoom = async (roomCode: string, id: string) => {
-  const { data } = await wrapCall<{ data: JoinResponse }>({
+  const data = await wrapCall<JoinResponse>({
     method: 'GET',
     uri: getUrl({ action: 'join', roomCode, id })
   })
