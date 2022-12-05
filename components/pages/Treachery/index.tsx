@@ -17,6 +17,7 @@ import {
   joinRoom,
   waitRoom
 } from '../../../lib/api/treachery'
+import useTreacherySetup from '../../../hooks/useTreacherySetup'
 
 enum State {
   Main,
@@ -26,6 +27,8 @@ enum State {
 }
 
 const Page = () => {
+  useTreacherySetup()
+
   const [state, setState] = React.useState<State>(State.Main)
   const [roomState, setRoomState] = React.useState<RoomState>({
     roomCode: '',
@@ -123,8 +126,7 @@ const Page = () => {
     async (numPlayers: number, rarity: Rarity) => {
       startLoading()
 
-      const data = await createRoom(numPlayers, rarity)
-      const { roomCode, id } = data
+      const { roomCode, id } = await createRoom(numPlayers, rarity)
 
       setRoomState({ roomCode, roomSize: numPlayers, numPlayers: 1 })
       showRoom(id, roomCode)

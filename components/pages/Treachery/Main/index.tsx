@@ -1,8 +1,12 @@
+import { useAppSelector } from '../../../../hooks/redux'
+
 import { Rarity } from '../../../../shared/treachery'
 
 import Button from '../../../atoms/Button'
 import JoinRoomForm from './Forms/JoinRoomForm'
 import CreateRoomForm from './Forms/CreateRoomForm'
+
+import { selectTreachery } from '../../../../slices/treachery'
 
 const rarityOptions = ['Uncommon', 'Rare', 'Mythic']
 const playerOptions = [4, 5, 6, 7, 8]
@@ -22,17 +26,14 @@ export type Values = {
 export type ChangeHandler = (prop: string) => (val: string) => void
 
 const Main: React.FC<MainProps> = ({ onJoin, onCreate, resetError }) => {
+  const { canRejoin } = useAppSelector(selectTreachery)
+
   const [isJoining, setIsJoining] = React.useState(true)
-  const [canRejoin, setCanRejoin] = React.useState(false)
   const [values, setValues] = React.useState<Values>({
     code: '',
     rarity: rarityOptions[0],
     players: playerOptions[0]
   })
-
-  React.useEffect(() => {
-    setCanRejoin(window.sessionStorage.getItem('id') !== null)
-  }, [])
 
   const handleSwitch = React.useCallback(
     (val: boolean) => () => {

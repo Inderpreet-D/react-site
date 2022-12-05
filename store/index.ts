@@ -5,6 +5,7 @@ import authReducer from '../slices/auth'
 import lifeReducer from '../slices/life'
 import recipeReducer from '../slices/recipe'
 import toadVillageReducer from '../slices/toadVillage'
+import treacheryReducer from '../slices/treachery'
 import wordleReducer from '../slices/wordle'
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     recipe: recipeReducer,
 
     toadVillage: toadVillageReducer,
+    treachery: treacheryReducer,
 
     wordle: wordleReducer
   }
