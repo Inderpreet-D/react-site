@@ -52,7 +52,7 @@ const initialState: TreacheryState = {
   cardState: {} as CardResponse,
   error: null,
   canRejoin: false,
-  isJoining: false,
+  isJoining: true,
   values: {
     code: '',
     rarity: rarityOptions[0],
@@ -183,12 +183,7 @@ export const joinRoom = (roomCode: string) => {
   return async (dispatch: AppDispatch) => {
     dispatch(startLoading())
 
-    const id = window.sessionStorage.getItem(ID_KEY)
-
-    if (!id) {
-      return
-    }
-
+    const id = window.sessionStorage.getItem(ID_KEY)!
     const data = await joinRoomAPI(roomCode, id)
     const {
       error,
