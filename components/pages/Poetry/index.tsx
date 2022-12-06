@@ -5,7 +5,7 @@ import Container from '../../atoms/Container'
 import LoadingIcon from '../../atoms/LoadingIcon'
 import Button from '../../atoms/Button'
 
-import useRedditPoems from '../../../hooks/useRedditPoems'
+import useRedditPoems from './hooks/useRedditPoems'
 
 const titleClassName =
   'flex justify-center text-4xl font-bold tracking-wide text-primary-light'

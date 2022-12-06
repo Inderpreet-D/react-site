@@ -17,7 +17,7 @@ const Page = () => {
   useTreacherySetup()
   useTreacheryPolling()
 
-  const { state, roomState, cardState, error } = useAppSelector(selectTreachery)
+  const { state, error } = useAppSelector(selectTreachery)
 
   return (
     <Container>
@@ -29,9 +29,9 @@ const Page = () => {
 
       {state === State.Main && <Main />}
 
-      {state === State.Room && <Room {...roomState} />}
+      {state === State.Room && <Room />}
 
-      {state === State.Card && <Card {...cardState} />}
+      {state === State.Card && <Card />}
 
       {state === State.Load && <LoadingIcon />}
     </Container>

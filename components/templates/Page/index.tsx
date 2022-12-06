@@ -9,7 +9,7 @@ import Footer from '../../atoms/Footer'
 import Alert from '../../atoms/Alert'
 
 import { selectAuth, clearRedirect } from '../../../slices/auth'
-import useAccountVerification from '../../../hooks/useAccountVerification'
+import useAccountVerification from './hooks/useAccountVerification'
 
 type PageProps = {
   children: React.ReactNode

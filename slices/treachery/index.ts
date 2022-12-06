@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { AppDispatch, GetState, RootState } from '../../store'
-import { RoomState } from '../../components/pages/Treachery/Room'
 import { CardResponse } from '../../pages/api/treachery/types'
 import { Card, Rarity } from '../../shared/treachery'
 
@@ -19,20 +18,22 @@ export enum State {
   Load
 }
 
-export type Values = {
-  code: string
-  rarity: string
-  players: number
-}
-
 type TreacheryState = {
   state: State
-  roomState: RoomState
+  roomState: {
+    roomCode: string
+    numPlayers: number
+    roomSize: number
+  }
   cardState: CardResponse
   error: string | null
   canRejoin: boolean
   isJoining: boolean
-  values: Values
+  values: {
+    code: string
+    rarity: string
+    players: number
+  }
 }
 
 export const rarityOptions = ['Uncommon', 'Rare', 'Mythic']
@@ -146,19 +147,12 @@ const treacherySlice = createSlice({
   }
 })
 
-export const {
-  setup,
-  updateRoomData,
-  startLoading,
-  showError,
-  showRoom,
-  resetError,
-  setJoining,
-  setValues
-} = treacherySlice.actions
-const { updateCard } = treacherySlice.actions
+export const { setup, resetError, setJoining, setValues } =
+  treacherySlice.actions
+const { updateRoomData, updateCard, startLoading, showError, showRoom } =
+  treacherySlice.actions
 
-export const loadCard = () => {
+const loadCard = () => {
   return async (dispatch: AppDispatch, getState: GetState) => {
     const { roomState } = selectTreachery(getState())
 

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import { useAppDispatch, useAppSelector } from '../redux'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 
-import { selectAuth, verify, setRedirect } from '../../slices/auth'
+import { selectAuth, verify, setRedirect } from '../../../../slices/auth'
 
 const useAccountVerification = (options: {
   isProtected?: boolean

@@ -86,9 +86,9 @@ const Main = () => {
 
       <form onSubmit={submitForm} className='flex items-center justify-center'>
         {isJoining ? (
-          <JoinRoomForm values={values} onChange={handleChange} />
+          <JoinRoomForm onChange={handleChange} />
         ) : (
-          <CreateRoomForm values={values} onChange={handleChange} />
+          <CreateRoomForm onChange={handleChange} />
         )}
 
         <Button
