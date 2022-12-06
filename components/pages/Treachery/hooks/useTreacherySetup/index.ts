@@ -1,6 +1,6 @@
-import { useAppDispatch } from '../redux'
+import { useAppDispatch } from '../../../../../hooks/redux'
 
-import { setup } from '../../slices/treachery'
+import { setup } from '../../../../../slices/treachery'
 
 const useTreacherySetup = () => {
   const dispatch = useAppDispatch()

@@ -1,6 +1,6 @@
-import { useAppDispatch } from '../redux'
+import { useAppDispatch } from '../../../../../hooks/redux'
 
-import { restart } from '../../slices/wordle'
+import { restart } from '../../../../../slices/wordle'
 
 const useWordleSetup = (isLoadingOptions: boolean) => {
   const dispatch = useAppDispatch()

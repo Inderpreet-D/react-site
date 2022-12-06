@@ -2,16 +2,14 @@ import { FormProps } from '../types'
 
 import Select from '../../../../../atoms/Select'
 
-type CreateRoomProps = FormProps & {
-  playerOptions: number[]
-  rarityOptions: string[]
-}
-
-const CreateRoomForm: React.FC<CreateRoomProps> = ({
-  values: { rarity, players },
-  onChange,
+import {
   playerOptions,
   rarityOptions
+} from '../../../../../../slices/treachery'
+
+const CreateRoomForm: React.FC<FormProps> = ({
+  values: { rarity, players },
+  onChange
 }) => (
   <div className='flex flex-col lg:flex-row'>
     <Select

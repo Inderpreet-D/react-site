@@ -5,7 +5,7 @@ import Select from '../../atoms/Select'
 import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
-import useWordleSetup from '../../../hooks/useWordleSetup'
+import useWordleSetup from './hooks/useWordleSetup'
 
 const Page = () => {
   const { data: options, isLoading: isLoadingOptions } =
