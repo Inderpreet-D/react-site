@@ -43,27 +43,23 @@ const GoL = () => {
     [width, height, board]
   )
 
-  const handleClick: React.MouseEventHandler<HTMLCanvasElement> =
-    React.useCallback(
-      e => {
-        const elem = e.target as HTMLCanvasElement
+  const handleClick: React.MouseEventHandler<HTMLCanvasElement> = React.useCallback(
+    e => {
+      const elem = e.target as HTMLCanvasElement
 
-        const rect = elem.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
+      const rect = elem.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
 
-        const cellWidth = elem.width / width
-        const cellHeight = elem.height / height
+      const cellWidth = elem.width / width
+      const cellHeight = elem.height / height
 
-        dispatch(
-          toggle({
-            x: Math.floor(x / cellWidth),
-            y: Math.floor(y / cellHeight)
-          })
-        )
-      },
-      [width, height, dispatch]
-    )
+      dispatch(
+        toggle({ x: Math.floor(x / cellWidth), y: Math.floor(y / cellHeight) })
+      )
+    },
+    [width, height, dispatch]
+  )
 
   return (
     <Container style={{ width: '95%' }}>

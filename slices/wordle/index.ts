@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { getRandomWord } from '../lib/api/wordle'
+import { getRandomWord } from '../../lib/api/wordle'
 
-import { AppDispatch, RootState } from '../store'
+import { AppDispatch, RootState } from '../../store'
 
 export type WordleState = {
   currentGuess: string

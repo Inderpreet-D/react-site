@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { RootState, AppDispatch } from '../store'
+import { RootState, AppDispatch } from '../../store'
 
 type AlertState = {
   alert: string
