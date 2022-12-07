@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { RootState, AppDispatch, GetState } from '../../store'
+import { RootState, AppDispatch, GetState } from '../store'
 
 import {
   register,
@@ -10,8 +10,8 @@ import {
   getFullUser,
   changeUsername,
   changePassword
-} from '../../lib/api/auth'
-import { setAlert } from '../alert'
+} from '../lib/api/auth'
+import { setAlert } from './alert'
 
 type AuthState = {
   registering: boolean
@@ -93,12 +93,8 @@ const authSlice = createSlice({
   }
 })
 
-export const {
-  loadSavedToken,
-  toggleRegister,
-  setRedirect,
-  clearRedirect
-} = authSlice.actions
+export const { loadSavedToken, toggleRegister, setRedirect, clearRedirect } =
+  authSlice.actions
 const {
   setSavedToken,
   startLogin,

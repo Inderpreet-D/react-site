@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { cloneDeep } from 'lodash'
 
-import { AppDispatch, GetState, RootState } from '../../store'
+import { AppDispatch, GetState, RootState } from '../store'
 
 type LifeState = {
   board: boolean[][]

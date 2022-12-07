@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { AppDispatch, GetState, RootState } from '../../store'
-import { CardResponse } from '../../pages/api/treachery/types'
-import { Card, Rarity } from '../../shared/treachery'
+import { AppDispatch, GetState, RootState } from '../store'
+import { CardResponse } from '../pages/api/treachery/types'
+import { Card, Rarity } from '../shared/treachery'
 
 import {
   getCard,
   waitRoom,
   joinRoom as joinRoomAPI,
   createRoom as createRoomAPI
-} from '../../lib/api/treachery'
+} from '../lib/api/treachery'
 
 export enum State {
   Main,
