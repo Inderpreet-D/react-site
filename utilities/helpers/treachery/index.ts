@@ -1,11 +1,10 @@
 import fs from 'fs'
-import { NextApiResponse } from 'next'
 
 import { Rooms, Rarity, RoleName, Card } from '../../../shared/treachery'
 import { Roles, WinConditions } from './types'
 
 const readFile = (name: string): any => {
-  const data = (fs.readFileSync(name) as unknown) as string
+  const data = fs.readFileSync(name) as unknown as string
   return JSON.parse(data)
 }
 
@@ -20,11 +19,6 @@ const ROOM_PATH: string = 'public/treacheryRooms.json'
 
 export const readRooms = (): Rooms => readFile(ROOM_PATH) as Rooms
 export const writeRooms = (rooms: Rooms): void => writeFile(ROOM_PATH, rooms)
-
-export const send = (res: NextApiResponse, data: any): void => {
-  res.setHeader('Content-Type', 'application/json')
-  res.status(200).send(JSON.stringify(data))
-}
 
 export const generateUniqueCode = (codeSet: { [x: string]: any }): string => {
   let code = ''
