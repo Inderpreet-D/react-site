@@ -74,6 +74,22 @@ type TodoItem = {
 
 type TodosTable = Record<ID, TodoItem>
 
+//* Treachery
+type Room = {
+  numPlayers: number
+  currentPlayers: number
+  cards: string[]
+  ids: Record<string, number>
+  nextIDX: number
+}
+
+type Rooms = Record<string, Room>
+
+type TreacheryTable = {
+  rooms: string[]
+  room: Rooms
+}
+
 //* Full DB
 type DBSchema = {
   authentication: AuthenticationTable
@@ -81,4 +97,5 @@ type DBSchema = {
   movies: MoviesTable
   recordPassword: string
   todos: TodosTable
+  treachery: TreacheryTable
 }

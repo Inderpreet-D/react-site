@@ -1,37 +1,4 @@
-import fs from 'fs'
-
-import { Rooms, Rarity, RoleName, Card } from '../../../shared/treachery'
-import { Roles, WinConditions } from './types'
-
-const readFile = (name: string): any => {
-  const data = fs.readFileSync(name) as unknown as string
-  return JSON.parse(data)
-}
-
-const writeFile = (name: string, data: any): void =>
-  fs.writeFileSync(name, JSON.stringify(data))
-
-const ROLES: Roles = readFile('public/treacheryRoles.json')
-const WIN_CONDITIONS: WinConditions = readFile(
-  'public/treacheryWinConditions.json'
-)
-const ROOM_PATH: string = 'public/treacheryRooms.json'
-
-export const readRooms = (): Rooms => readFile(ROOM_PATH) as Rooms
-export const writeRooms = (rooms: Rooms): void => writeFile(ROOM_PATH, rooms)
-
-export const generateUniqueCode = (codeSet: { [x: string]: any }): string => {
-  let code = ''
-  for (let i = 0; i < 4; i++) {
-    code += String.fromCharCode(65 + Math.floor(Math.random() * 26))
-  }
-
-  if (code in codeSet) {
-    return generateUniqueCode(codeSet)
-  } else {
-    return code
-  }
-}
+import { Rarity, RoleName, Card } from '../../../shared/treachery'
 
 const chooseN = (
   cardType: RoleName,

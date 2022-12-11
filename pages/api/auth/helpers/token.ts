@@ -4,7 +4,7 @@ import {
   getTokensForUser,
   saveTokensForUser,
   getTokens,
-  setTokens
+  saveTokens
 } from './storage'
 
 export const createToken = async (userID: string) => {
@@ -33,5 +33,5 @@ export const deleteToken = async (token: string) => {
     return acc
   }, {} as TokensTable)
 
-  await setTokens(updated)
+  await saveTokens(updated)
 }

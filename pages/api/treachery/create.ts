@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { Room, Rarity } from '../../../shared/treachery'
+import { Rarity } from '../../../shared/treachery'
 
 import {
   readRooms,
