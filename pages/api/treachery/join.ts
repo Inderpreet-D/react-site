@@ -2,15 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { JoinVal } from './types'
 
-import {
-  readRooms,
-  generateUniqueCode,
-  writeRooms
-} from '../../../utilities/helpers/treachery'
+import { getRooms, saveRooms } from './helpers/storage'
+import { generateUniqueCode } from './helpers'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { roomCode, id } = req.body as { roomCode: string; id?: string }
-  const rooms = readRooms()
+  const rooms = await getRooms()
 
   if (!(roomCode in rooms)) {
     res.send({ error: 'Room not found' })
@@ -26,13 +23,13 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (!id || !(id in ids)) {
-    const newId = generateUniqueCode(ids)
+    const newId = generateUniqueCode(Object.keys(ids))
 
     rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX
     rooms[roomCode].nextIDX++
     rooms[roomCode].currentPlayers++
 
-    writeRooms(rooms)
+    await saveRooms(rooms)
 
     returnVal.id = newId
   }

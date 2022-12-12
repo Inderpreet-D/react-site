@@ -2,33 +2,29 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Rarity } from '../../../shared/treachery'
 
-import {
-  readRooms,
-  generateUniqueCode,
-  getCards,
-  writeRooms
-} from '../../../utilities/helpers/treachery'
+import { getRooms, saveRooms } from './helpers/storage'
+import { generateUniqueCode, getCards } from './helpers'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { numPlayers, rarity } = req.body as {
     numPlayers: number
     rarity: string
   }
-  const rooms = readRooms()
+  const rooms = await getRooms()
 
-  const roomCode = generateUniqueCode(rooms)
-  const id = generateUniqueCode({})
+  const roomCode = generateUniqueCode(Object.keys(rooms))
+  const id = generateUniqueCode()
 
   const newRoom: Room = {
     numPlayers,
     currentPlayers: 1,
-    cards: getCards(numPlayers, rarity as Rarity),
+    cards: await getCards(numPlayers, rarity as Rarity),
     ids: { [id]: 0 },
     nextIDX: 1
   }
 
   rooms[roomCode] = newRoom
-  writeRooms(rooms)
+  await saveRooms(rooms)
 
   res.send({ roomCode, id })
 }

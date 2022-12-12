@@ -1,10 +1,19 @@
 import fs from 'fs'
 import { promisify } from 'util'
 
-import {
-  Roles,
-  WinConditions
-} from '../../../../utilities/helpers/treachery/types'
+import { Rarity, RoleName } from '../../../../shared/treachery'
+
+type Cards = {
+  [x in Rarity]: string[]
+}
+
+type Roles = {
+  [x in RoleName]: Cards
+}
+
+type WinConditions = {
+  [x in RoleName]: string
+}
 
 const read = promisify(fs.readFile)
 const write = promisify(fs.writeFile)

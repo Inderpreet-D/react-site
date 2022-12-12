@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { readRooms } from '../../../utilities/helpers/treachery'
+import { getRooms } from './helpers/storage'
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { roomCode } = req.body as { roomCode: string }
-  const rooms = readRooms()
+  const rooms = await getRooms()
 
   const { numPlayers, currentPlayers } = rooms[roomCode]
 
