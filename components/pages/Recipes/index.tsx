@@ -38,24 +38,29 @@ const Page = () => {
   // Select based on url
   React.useEffect(() => {
     if (router.query.id) {
-      toggleSelect(router.query.id as string)
+      const key = router.query.id as string
+      if (!(key in recipes)) {
+        router.replace('/recipes')
+      } else {
+        toggleSelect(router.query.id as string)
+      }
     }
-  }, [toggleSelect, router.query])
+  }, [toggleSelect, router])
 
   return (
     <Container>
       <ContainerTitle>Recipes</ContainerTitle>
 
       <HorizontalList>
-        {Object.keys(recipes).map(name => (
+        {Object.entries(recipes).map(([key, recipe]) => (
           <HorizontalListButton
-            key={name}
-            active={[selected, hovering].includes(name)}
-            onClick={() => router.push(`/recipes/${name}`)}
-            onMouseEnter={() => setHovering(name)}
+            key={key}
+            active={[selected, hovering].includes(key)}
+            onClick={() => router.push(`/recipes/${key}`)}
+            onMouseEnter={() => setHovering(key)}
             onMouseLeave={() => setHovering('')}
           >
-            {name}
+            {recipe.title}
           </HorizontalListButton>
         ))}
       </HorizontalList>
