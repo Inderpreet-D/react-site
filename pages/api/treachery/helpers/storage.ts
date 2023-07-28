@@ -1,7 +1,6 @@
-import fs from 'fs'
-import { promisify } from 'util'
-
 import { Rarity, RoleName } from '../../../../shared/treachery'
+
+import { get, set } from '../../../../utilities/helpers/database'
 
 type Cards = {
   [x in Rarity]: string[]
@@ -15,34 +14,32 @@ type WinConditions = {
   [x in RoleName]: string
 }
 
-const read = promisify(fs.readFile)
-const write = promisify(fs.writeFile)
-
-const readFile = async (path: string) => {
-  const contents = await read(path)
-  return JSON.parse(contents.toString()) as unknown
-}
-
 //* Rooms
 
-const ROOM_PATH: string = 'public/treacheryRooms.json'
+const BASE_PATH = 'treachery'
+const ROOM_PATH = `${BASE_PATH}/rooms`
+const ROLES_PATH = `${BASE_PATH}/roles`
+const WINS_PATH = `${BASE_PATH}/winConditions`
 
 export const getRooms = async () => {
-  return (await readFile(ROOM_PATH)) as Rooms
+  const rooms = await get<Rooms>(ROOM_PATH)
+  return rooms ?? ({} as Rooms)
 }
 
 export const saveRooms = async (rooms: Rooms) => {
-  await write(ROOM_PATH, JSON.stringify(rooms))
+  await set(ROOM_PATH, rooms)
 }
 
 //* Roles
 
 export const getRoles = async () => {
-  return (await readFile('public/treacheryRoles.json')) as Roles
+  const roles = await get<Roles>(ROLES_PATH)
+  return roles!
 }
 
 //* Win Conditions
 
 export const getWinConditions = async () => {
-  return (await readFile('public/treacheryWinConditions.json')) as WinConditions
+  const conditions = await get<WinConditions>(WINS_PATH)
+  return conditions!
 }
