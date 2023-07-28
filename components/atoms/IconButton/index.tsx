@@ -17,10 +17,7 @@ const IconButton: React.FC<MyIconButtonProps> = ({
   ...props
 }) => (
   <Button className={clsx(className, extraClass)} {...props}>
-    <Icon
-      size={size}
-      className='text-primary-main group-active:text-dark-dark group-focus:text-dark-dark'
-    />
+    <Icon size={size} className='text-primary-main' />
   </Button>
 )
 
