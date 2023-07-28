@@ -27,6 +27,8 @@ type Token = ID[]
 
 type TokensTable = Record<ID, Token>
 
+type Permission = 'admin' | 'user'
+
 type User = {
   hashedPassword: string
   id: ID
@@ -34,6 +36,7 @@ type User = {
   name: string
   profile: ID
   salt: string
+  permissions: Permission[]
 }
 
 type UsersTable = Record<ID, User>

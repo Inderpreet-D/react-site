@@ -55,6 +55,7 @@ export const createUser = async (username: string, password: string) => {
   const user: User = {
     id: uuidv4(),
     name: username,
+    permissions: ['user'],
     profile,
     ...passwordHash
   }
@@ -76,7 +77,14 @@ export const findUserByToken = async (token: string) => {
   })
 
   if (findResult) {
-    return await getUserByID(findResult[0])
+    const user = await getUserByID(findResult[0])
+    if (user) {
+      return {
+        ...user,
+        permissions: user.permissions ?? ['user']
+      } as User
+    }
+    return null
   } else {
     return null
   }
@@ -126,6 +134,7 @@ export const buildFullUser = async (user: User | null) => {
   const fullUser: FullUser = {
     id: user.id,
     name: user.name,
+    permissions: user.permissions,
     profile
   }
 
