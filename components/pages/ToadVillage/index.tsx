@@ -1,4 +1,6 @@
 import clsx from 'clsx'
+import { FaAngleDown } from '@react-icons/all-files/fa/FaAngleDown'
+import { FaAngleRight } from '@react-icons/all-files/fa/FaAngleRight'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import { FormattedCard } from '../../../shared/toadvillage'
@@ -48,9 +50,10 @@ const sortMap: {
 }
 
 const titleClassName =
-  'flex items-center justify-left mx-0 my-5 text-3xl font-light'
+  'flex items-center justify-left mx-0 my-5 text-3xl font-light cursor-pointer select-none'
 const cardBlockClassName =
   'grid grid-cols-1 w-full p-0 sm:grid-cols-2 md:grid-cols-3'
+const iconClassName = 'mr-2'
 
 const Page = () => {
   const dispatch = useAppDispatch()
@@ -58,17 +61,20 @@ const Page = () => {
     useAppSelector(selectToadVillage)
 
   const [selectedSort, setSelectedSort] = React.useState({ sort: nameSort })
-  const [commanderCount, otherCount, combinedCards, tokenCount] =
+  const { commanderCount, otherCount, combinedCards, tokenCount } =
     React.useMemo(() => {
       const { commanders = [], others = [], tokens = [] } = cardObjs
       const reducer = (t: number, { amount }: FormattedCard) => t + amount
-      return [
-        commanders.reduce(reducer, 0),
-        others.reduce(reducer, 0),
-        [...commanders, ...others],
-        tokens.reduce(reducer, 0)
-      ]
+      return {
+        commanderCount: commanders.reduce(reducer, 0),
+        otherCount: others.reduce(reducer, 0),
+        combinedCards: [...commanders, ...others],
+        tokenCount: tokens.reduce(reducer, 0)
+      }
     }, [cardObjs])
+  const [showCommanders, setShowCommanders] = React.useState(true)
+  const [showOthers, setShowOthers] = React.useState(true)
+  const [showTokens, setShowTokens] = React.useState(true)
 
   const totalPrice = React.useMemo(() => {
     let total = 0
@@ -182,57 +188,93 @@ const Page = () => {
             ))}
           </div>
 
-          <div className={titleClassName}>
+          <div
+            onClick={() => setShowCommanders(old => !old)}
+            className={titleClassName}
+          >
+            {showCommanders ? (
+              <FaAngleDown className={iconClassName} />
+            ) : (
+              <FaAngleRight className={iconClassName} />
+            )}
             Commander Options / Sideboard ({commanderCount})
           </div>
 
-          <div className={cardBlockClassName}>
-            {[...cardObjs.commanders].sort(selectedSort.sort).map((card, i) => (
-              <MTGCard
-                key={i}
-                onClickMove={(name, isCommander) => {
-                  dispatch(moveCard({ name, isCommander }))
-                }}
-                onClickAdd={(name, isCommander) => {
-                  dispatch(addCard({ name, isCommander }))
-                }}
-                onClickRemove={(name, isCommander) => {
-                  dispatch(removeCard({ name, isCommander }))
-                }}
-                isCommander={true}
-                {...card}
-              />
-            ))}
+          {showCommanders && (
+            <div className={cardBlockClassName}>
+              {[...cardObjs.commanders]
+                .sort(selectedSort.sort)
+                .map((card, i) => (
+                  <MTGCard
+                    key={i}
+                    onClickMove={(name, isCommander) => {
+                      dispatch(moveCard({ name, isCommander }))
+                    }}
+                    onClickAdd={(name, isCommander) => {
+                      dispatch(addCard({ name, isCommander }))
+                    }}
+                    onClickRemove={(name, isCommander) => {
+                      dispatch(removeCard({ name, isCommander }))
+                    }}
+                    isCommander={true}
+                    {...card}
+                  />
+                ))}
+            </div>
+          )}
+
+          <div
+            onClick={() => setShowOthers(old => !old)}
+            className={titleClassName}
+          >
+            {showOthers ? (
+              <FaAngleDown className={iconClassName} />
+            ) : (
+              <FaAngleRight className={iconClassName} />
+            )}
+            Deck ({otherCount})
           </div>
 
-          <div className={titleClassName}>Deck ({otherCount})</div>
+          {showOthers && (
+            <div className={cardBlockClassName}>
+              {[...cardObjs.others].sort(selectedSort.sort).map((card, i) => (
+                <MTGCard
+                  key={i}
+                  onClickMove={(name, isCommander) => {
+                    dispatch(moveCard({ name, isCommander }))
+                  }}
+                  onClickAdd={(name, isCommander) => {
+                    dispatch(addCard({ name, isCommander }))
+                  }}
+                  onClickRemove={(name, isCommander) => {
+                    dispatch(removeCard({ name, isCommander }))
+                  }}
+                  isCommander={false}
+                  {...card}
+                />
+              ))}
+            </div>
+          )}
 
-          <div className={cardBlockClassName}>
-            {[...cardObjs.others].sort(selectedSort.sort).map((card, i) => (
-              <MTGCard
-                key={i}
-                onClickMove={(name, isCommander) => {
-                  dispatch(moveCard({ name, isCommander }))
-                }}
-                onClickAdd={(name, isCommander) => {
-                  dispatch(addCard({ name, isCommander }))
-                }}
-                onClickRemove={(name, isCommander) => {
-                  dispatch(removeCard({ name, isCommander }))
-                }}
-                isCommander={false}
-                {...card}
-              />
-            ))}
+          <div
+            onClick={() => setShowTokens(old => !old)}
+            className={titleClassName}
+          >
+            {showTokens ? (
+              <FaAngleDown className={iconClassName} />
+            ) : (
+              <FaAngleRight className={iconClassName} />
+            )}
+            Tokens ({tokenCount})
           </div>
 
-          <div className={titleClassName}>Tokens ({tokenCount})</div>
-
-          <div className={cardBlockClassName}>
-            {[...cardObjs.tokens].sort(selectedSort.sort).map((card, i) => (
-              <MTGCard key={i} hideCount isCommander={false} {...card} />
-            ))}
-          </div>
+          {showTokens && (
+            <div className={cardBlockClassName}>
+              {[...cardObjs.tokens].sort(selectedSort.sort).map((card, i) => (
+                <MTGCard key={i} hideCount isCommander={false} {...card} />
+              ))}
+            </div>
+          )}
         </>
       )}
 
