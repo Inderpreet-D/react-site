@@ -27,6 +27,8 @@ type Token = ID[]
 
 type TokensTable = Record<ID, Token>
 
+type Permission = 'admin' | 'user'
+
 type User = {
   hashedPassword: string
   id: ID
@@ -34,6 +36,7 @@ type User = {
   name: string
   profile: ID
   salt: string
+  permissions: Permission[]
 }
 
 type UsersTable = Record<ID, User>
@@ -74,6 +77,22 @@ type TodoItem = {
 
 type TodosTable = Record<ID, TodoItem>
 
+//* Treachery
+type Room = {
+  numPlayers: number
+  currentPlayers: number
+  cards: string[]
+  ids: Record<string, number>
+  nextIDX: number
+}
+
+type Rooms = Record<string, Room>
+
+type TreacheryTable = {
+  rooms: string[]
+  room: Rooms
+}
+
 //* Full DB
 type DBSchema = {
   authentication: AuthenticationTable
@@ -81,4 +100,5 @@ type DBSchema = {
   movies: MoviesTable
   recordPassword: string
   todos: TodosTable
+  treachery: TreacheryTable
 }

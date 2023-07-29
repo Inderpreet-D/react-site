@@ -48,13 +48,12 @@ export const wrapCall = async <T>({
       }
     }
 
-    let response
-    if (dataMethods.includes(method)) {
-      response = await func(url, data, options)
-    } else {
-      response = await func(url, options)
+    if (!dataMethods.includes(method)) {
+      const response = await func(url, options)
+      return response.data as T
     }
 
+    const response = await func(url, data, options)
     return response.data as T
   } catch (err) {
     console.error(`Error on ${method} ${uri}`, err)

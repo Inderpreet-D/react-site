@@ -29,7 +29,7 @@ export const getTokensForUser = async (userID: string) => {
   return await get<Token>(`${TOKEN_BASE}/${userID}`)
 }
 
-export const setTokens = async (newTokens: TokensTable) => {
+export const saveTokens = async (newTokens: TokensTable) => {
   return await set(TOKEN_BASE, newTokens)
 }
 

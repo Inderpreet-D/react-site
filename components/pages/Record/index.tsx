@@ -1,4 +1,6 @@
-import { Game, PlayerObj } from '../Competitive'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+
+import { Game } from '../Competitive'
 
 import Container from '../../atoms/Container'
 import ContainerBackButton from '../../atoms/ContainerBackButton'
@@ -7,88 +9,36 @@ import Button from '../../atoms/Button'
 import Select from '../../atoms/Select'
 import TextInput from '../../atoms/TextInput'
 
-import { reducer, initialState, Players } from './reducer'
+import { getPlayerObj } from './helpers'
+import { postRecord, postSeason } from '../../../lib/api/competitive'
+import { selectAuth } from '../../../slices/auth'
 import {
-  checkPassword,
-  getSeasons,
-  postRecord,
-  postSeason
-} from '../../../lib/api/competitive'
-
-const getPlayerObj = (players: Players) => {
-  const playerObj: PlayerObj = {}
-
-  Object.values(players).forEach(vals => {
-    const { name, commander, theme, tribe, companion } = vals
-
-    if (commander.length && name.length) {
-      const transformedVals = [commander]
-
-      if (theme.length) {
-        transformedVals.push(`T::${theme}`)
-      }
-
-      if (tribe.length) {
-        transformedVals.push(`G::${tribe}`)
-      }
-
-      if (companion.length) {
-        transformedVals.push(`C::${companion}`)
-      }
-
-      playerObj[name] = transformedVals.join(' -- ')
-    }
-  })
-
-  return playerObj
-}
+  selectMTGRecord,
+  reset,
+  setSeasonName,
+  startAddingSeason,
+  endAddingSeason,
+  setSeason,
+  setSeasons,
+  updateValue,
+  addPlayer,
+  setWinner
+} from '../../../slices/mtgRecord'
+import useRecordSeasons from './hooks/useRecordSeasons'
 
 const Page = () => {
-  const [
-    {
-      addingSeason,
-      seasonName,
-      season,
-      seasons,
-      seasonsLoaded,
-      players,
-      winner,
-      password
-    },
-    dispatch
-  ] = React.useReducer(reducer, initialState)
-  const [passValid, setPassValid] = React.useState(false)
+  const dispatch = useAppDispatch()
 
-  // Checks password
-  React.useEffect(() => {
-    const checkPass = async () => {
-      try {
-        const match = await checkPassword(password)
-        setPassValid(match)
-      } catch (err) {
-        console.error('Error checking password', err)
-      }
-    }
+  const { user } = useAppSelector(selectAuth)
+  const { addingSeason, seasonName, season, seasons, players, winner } =
+    useAppSelector(selectMTGRecord)
 
-    checkPass()
-  }, [password])
+  useRecordSeasons()
 
-  React.useEffect(() => {
-    if (seasonsLoaded) {
-      return
-    }
-
-    const handleGetSeasons = async () => {
-      try {
-        const seasons = await getSeasons()
-        dispatch({ type: 'SET_SEASONS', seasons })
-      } catch (err) {
-        console.error('Error getting seasons', err)
-      }
-    }
-
-    handleGetSeasons()
-  }, [seasonsLoaded])
+  const isAdmin = React.useMemo(
+    () => user?.permissions.includes('admin'),
+    [user]
+  )
 
   return (
     <Container>
@@ -96,30 +46,19 @@ const Page = () => {
 
       <ContainerTitle>Add Competitive Record</ContainerTitle>
 
-      <TextInput
-        placeholder='Password'
-        value={password}
-        onChange={e =>
-          dispatch({ type: 'SET_PASSWORD', password: e.target.value })
-        }
-        className='mt-4 mb-8'
-      />
-
       <div className='flex items-center mb-4'>
         <Select
           label='Season:'
           options={seasons}
           value={season}
-          onChange={val =>
-            dispatch({ type: 'SET_SEASON', season: val as string })
-          }
+          onChange={val => dispatch(setSeason(val as string))}
           className='mr-8'
         />
 
         {!addingSeason ? (
           <Button
-            onClick={() => dispatch({ type: 'START_ADDING_SEASON' })}
-            disabled={!passValid}
+            onClick={() => dispatch(startAddingSeason())}
+            disabled={!isAdmin}
           >
             Add Season
           </Button>
@@ -132,16 +71,14 @@ const Page = () => {
                 return
               }
 
-              dispatch({ type: 'END_ADDING_SEASON' })
+              dispatch(endAddingSeason())
 
               const seasons = await postSeason(seasonName)
-              dispatch({ type: 'SET_SEASONS', seasons })
+              dispatch(setSeasons(seasons))
             }}
-            onBlur={() => dispatch({ type: 'END_ADDING_SEASON' })}
+            onBlur={() => dispatch(endAddingSeason())}
             value={seasonName}
-            onChange={e =>
-              dispatch({ type: 'SET_SEASON_NAME', name: e.target.value })
-            }
+            onChange={e => dispatch(setSeasonName(e.target.value))}
           />
         )}
       </div>
@@ -166,12 +103,13 @@ const Page = () => {
                     value={value}
                     placeholder={key2[0].toLocaleUpperCase() + key2.slice(1)}
                     onChange={e =>
-                      dispatch({
-                        type: 'UPDATE_VALUE',
-                        key: key2,
-                        player: key,
-                        value: e.target.value
-                      })
+                      dispatch(
+                        updateValue({
+                          key: key2,
+                          player: key,
+                          value: e.target.value
+                        })
+                      )
                     }
                     className='w-full text-sm'
                   />
@@ -182,7 +120,7 @@ const Page = () => {
         </div>
       </div>
 
-      <Button onClick={() => dispatch({ type: 'ADD_PLAYER' })} className='mt-4'>
+      <Button onClick={() => dispatch(addPlayer())} className='mt-4'>
         Add Player
       </Button>
 
@@ -193,14 +131,12 @@ const Page = () => {
           ...Object.values(players).map(player => player.name)
         ]}
         value={winner}
-        onChange={val =>
-          dispatch({ type: 'SET_WINNER', winner: val as string })
-        }
+        onChange={val => dispatch(setWinner(val as string))}
         className='mt-8'
       />
 
       <Button
-        disabled={!passValid}
+        disabled={!isAdmin}
         onClick={async () => {
           const now = new Date()
           const month = now.getMonth() + 1
@@ -216,7 +152,7 @@ const Page = () => {
           }
 
           await postRecord(season, game)
-          dispatch({ type: 'RESET' })
+          dispatch(reset())
         }}
         className='mt-4'
       >

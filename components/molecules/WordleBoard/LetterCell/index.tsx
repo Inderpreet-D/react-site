@@ -14,7 +14,7 @@ const LetterCell: React.FC<LetterCellProps> = ({ rowIdx, cellIdx }) => {
   const state = useAppSelector(selectWordle)
 
   if (rowIdx > state.round) {
-    return <Cell className='bg-slate-700' />
+    return <Cell className='bg-dark-dark' />
   }
 
   // Determine cell color
@@ -27,17 +27,17 @@ const LetterCell: React.FC<LetterCellProps> = ({ rowIdx, cellIdx }) => {
 
   // Unchecked cell (should never happen)
   if (cellResult === Result.Unchecked) {
-    return <Cell className='bg-sky-400'>{letter}</Cell>
+    return <Cell className='bg-primary-light'>{letter}</Cell>
   }
 
   // Incorrect cell
   if (cellResult === Result.Incorrect) {
-    return <Cell className='bg-slate-700'>{letter}</Cell>
+    return <Cell className='bg-dark-dark'>{letter}</Cell>
   }
 
   // Correct cell
   if (cellResult === Result.Correct) {
-    return <Cell className='bg-green-600'>{letter}</Cell>
+    return <Cell className='bg-success-main'>{letter}</Cell>
   }
 
   // Wrong place cell

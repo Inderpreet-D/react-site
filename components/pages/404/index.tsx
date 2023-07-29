@@ -7,7 +7,7 @@ const Page = () => (
     <h1>Page Not Found</h1>
 
     <NextLink href='/' replace passHref>
-      <a className='text-sky-400 hover:underline'>Go back home</a>
+      <a className='text-primary-light hover:underline'>Go back home</a>
     </NextLink>
   </Container>
 )

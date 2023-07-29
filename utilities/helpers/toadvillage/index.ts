@@ -78,14 +78,14 @@ const listAsDeck = (
       DeckIDs: ids,
       ContainedObjects: contained
     }
-  } else {
-    return {
-      Name: 'Card',
-      CustomDeck: deck,
-      Transform: deckTransform,
-      CardID: 100,
-      Nickname: list[0].card.name
-    }
+  }
+
+  return {
+    Name: 'Card',
+    CustomDeck: deck,
+    Transform: deckTransform,
+    CardID: 100,
+    Nickname: list[0].card.name
   }
 }
 
@@ -109,23 +109,24 @@ const convertToTTS = (cardObjs: DownloadInput): string => {
 
   allCards.forEach((cardList, i) => {
     const deck: TTSDeck = listAsDeck(cardList, nextNum, cardList === flipCards)
-    if (i !== 0) {
-      const newDeck: TTSDeck = { ...deck }
+    nextNum++
 
-      if (newDeck.DeckIDs) {
-        newDeck.DeckIDs = newDeck.DeckIDs.reverse()
-      }
-
-      if (newDeck.ContainedObjects) {
-        newDeck.ContainedObjects = newDeck.ContainedObjects.reverse()
-      }
-
-      states.push(newDeck)
-    } else {
+    if (i === 0) {
       states.push(deck)
+      return
     }
 
-    nextNum++
+    const newDeck: TTSDeck = { ...deck }
+
+    if (newDeck.DeckIDs) {
+      newDeck.DeckIDs = newDeck.DeckIDs.reverse()
+    }
+
+    if (newDeck.ContainedObjects) {
+      newDeck.ContainedObjects = newDeck.ContainedObjects.reverse()
+    }
+
+    states.push(newDeck)
   })
 
   const obj: TTSObjectStates = { ObjectStates: states.filter(Boolean) }
@@ -142,18 +143,18 @@ export const downloadBlob = (blob: Blob, name: string): void => {
 }
 
 const download = (cardObjs: DownloadInput, name: string): string | void => {
-  if (cardObjs.others) {
-    if (cardObjs.others.length === 0) {
-      return "You're missing a deck"
-    } else {
-      const blob: Blob = new Blob([convertToTTS(cardObjs)], {
-        type: 'application/json'
-      })
-      downloadBlob(blob, `${name}.json`)
-    }
-  } else {
+  if (!cardObjs.others) {
     return 'You must build a deck before downloading'
   }
+
+  if (cardObjs.others.length === 0) {
+    return "You're missing a deck"
+  }
+
+  const blob: Blob = new Blob([convertToTTS(cardObjs)], {
+    type: 'application/json'
+  })
+  downloadBlob(blob, `${name}.json`)
 }
 
 export const randomName = (): string => {
@@ -171,11 +172,13 @@ export const nameSort = (c1: FormattedCard, c2: FormattedCard): number => {
 
   if (textA < textB) {
     return -1
-  } else if (textA > textB) {
-    return 1
-  } else {
-    return c1.amount - c2.amount
   }
+
+  if (textA > textB) {
+    return 1
+  }
+
+  return c1.amount - c2.amount
 }
 
 export const reverseNameSort = (
@@ -187,11 +190,13 @@ export const reverseNameSort = (
 
   if (textA < textB) {
     return 1
-  } else if (textA > textB) {
-    return -1
-  } else {
-    return c1.amount - c2.amount
   }
+
+  if (textA > textB) {
+    return -1
+  }
+
+  return c1.amount - c2.amount
 }
 
 export const costSort = (c1: FormattedCard, c2: FormattedCard): number =>
@@ -240,11 +245,13 @@ export const parseJSON = (data: TTSObjectStates): string[] => {
   const kvSort = (a: [string, number], b: [string, number]): -1 | 1 | 0 => {
     if (a[0] < b[0]) {
       return -1
-    } else if (a[0] > b[0]) {
-      return 1
-    } else {
-      return 0
     }
+
+    if (a[0] > b[0]) {
+      return 1
+    }
+
+    return 0
   }
 
   const deckList = Object.entries(listObj)

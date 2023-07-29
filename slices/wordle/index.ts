@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { getRandomWord } from '../../lib/api/wordle'
 
-import { RootState } from '../../store'
+import { AppDispatch, RootState } from '../../store'
 
 export type WordleState = {
   currentGuess: string
@@ -93,7 +94,15 @@ const wordleSlice = createSlice({
   }
 })
 
-export const { start, makeGuess, pressKey, nextGuess } = wordleSlice.actions
+export const { makeGuess, pressKey, nextGuess } = wordleSlice.actions
+const { start } = wordleSlice.actions
+
+export const restart = (length: number) => {
+  return async (dispatch: AppDispatch) => {
+    const word = await getRandomWord(length)
+    dispatch(start(word))
+  }
+}
 
 export const selectWordle = (state: RootState) => state.wordle
 

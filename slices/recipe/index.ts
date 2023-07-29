@@ -22,13 +22,14 @@ const recipeSlice = createSlice({
 
     toggleCheck: (state: RecipeState, action: PayloadAction<string>) => {
       const key = action.payload
-
       const idx = state.checked.indexOf(key)
-      if (idx >= 0) {
-        state.checked.splice(idx, 1)
-      } else {
+
+      if (idx === -1) {
         state.checked.push(key)
+        return
       }
+
+      state.checked.splice(idx, 1)
     },
 
     updateIndex: (state: RecipeState, action: PayloadAction<number>) => {

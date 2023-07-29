@@ -26,7 +26,7 @@ const HeaderItems = () => {
     </>
   )
 }
-const className = 'flex border-b border-b-slate-400 box-border bg-slate-800'
+const className = 'flex border-b border-b-dark-light box-border bg-dark-dark'
 
 const Header = () => {
   return (

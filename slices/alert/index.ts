@@ -34,13 +34,12 @@ const { updateAlert } = alertSlice.actions
 
 export const setAlert = (alert: string | any, isError: boolean = true) => {
   return async (dispatch: AppDispatch) => {
-    let message = ''
-    if (typeof alert === 'string') {
-      message = alert
-    } else {
-      message = alert.response.data
-    }
-    dispatch(updateAlert({ alert: message, isError }))
+    dispatch(
+      updateAlert({
+        alert: typeof alert === 'string' ? alert : alert.response.data,
+        isError
+      })
+    )
   }
 }
 

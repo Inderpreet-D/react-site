@@ -1,5 +1,3 @@
-import { useAppDispatch } from '../../../hooks/redux'
-
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
 import LoadingIcon from '../../atoms/LoadingIcon'
@@ -7,45 +5,12 @@ import Select from '../../atoms/Select'
 import WordleBoard from '../../molecules/WordleBoard'
 
 import useSWR from '../../../hooks/useSWR'
-import { start } from '../../../slices/wordle'
-import { getRandomWord } from '../../../lib/api/wordle'
+import useWordleSetup from './hooks/useWordleSetup'
 
 const Page = () => {
-  const dispatch = useAppDispatch()
-
-  const [length, setLength] = React.useState(5)
-  const [fetched, setFetched] = React.useState(false)
-
-  const { data: options, isLoading: isLoadingOptions } = useSWR<number[]>(
-    'words'
-  )
-
-  // Trigger re-fetch when length changes
-  React.useEffect(() => {
-    setFetched(false)
-  }, [length])
-
-  // Fetche new word when required
-  React.useEffect(() => {
-    if (isLoadingOptions || fetched) {
-      return
-    }
-
-    let mounted = true
-
-    // Fetch new word
-    const handleGetWord = async () => {
-      const word = await getRandomWord(length)
-      dispatch(start(word))
-      mounted && setFetched(true)
-    }
-
-    handleGetWord()
-
-    return () => {
-      mounted = false
-    }
-  }, [isLoadingOptions, fetched, length, dispatch])
+  const { data: options, isLoading: isLoadingOptions } =
+    useSWR<number[]>('words')
+  const { reload, length, setLength } = useWordleSetup(isLoadingOptions)
 
   return (
     <Container>
@@ -59,12 +24,14 @@ const Page = () => {
             label='Word Length'
             options={options.map(opt => `${opt}`)}
             value={length.toString()}
-            onChange={val => setLength(+val)}
+            onChange={val => {
+              setLength(+val)
+            }}
             className='mt-2 mb-4 mx-0'
           />
         )}
 
-        <WordleBoard reset={() => setFetched(false)} />
+        <WordleBoard reset={() => reload()} />
       </div>
     </Container>
   )

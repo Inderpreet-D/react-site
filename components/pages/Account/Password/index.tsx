@@ -50,7 +50,7 @@ const Password = () => {
   return (
     <div className='mt-8 flex flex-col justify-center'>
       {editing && error && (
-        <div className='mb-4 text-red-500 text-lg font-medium'>{error}</div>
+        <div className='mb-4 text-error-main text-lg font-medium'>{error}</div>
       )}
 
       {editing && (

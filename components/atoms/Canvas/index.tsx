@@ -1,44 +1,16 @@
 import { CanvasProps } from 'react-html-props'
 
+import useDrawingCanvas, { DrawType } from '../../../hooks/useDrawingCanvas'
+
 type MyCanvasProps = CanvasProps & {
-  draw: (
-    context: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement,
-    frameCount: number
-  ) => void
+  draw: DrawType
   style?: React.CSSProperties
   width?: string
   height?: string
 }
 
 const Canvas: React.FC<MyCanvasProps> = ({ draw, ...props }) => {
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
-
-  React.useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) {
-      return
-    }
-
-    const context = canvas.getContext('2d')
-    if (!context) {
-      return
-    }
-
-    let frameCount = 0
-    let animationFrameID: number
-
-    const render = () => {
-      frameCount++
-      draw(context, canvas, frameCount)
-      animationFrameID = window.requestAnimationFrame(render)
-    }
-    render()
-
-    return () => {
-      window.cancelAnimationFrame(animationFrameID)
-    }
-  }, [draw])
+  const canvasRef = useDrawingCanvas(draw)
 
   return <canvas ref={canvasRef} {...props} />
 }

@@ -8,12 +8,8 @@ import Header from '../../atoms/Header'
 import Footer from '../../atoms/Footer'
 import Alert from '../../atoms/Alert'
 
-import {
-  selectAuth,
-  verify,
-  setRedirect,
-  clearRedirect
-} from '../../../slices/auth'
+import { selectAuth, clearRedirect } from '../../../slices/auth'
+import useAccountVerification from './hooks/useAccountVerification'
 
 type PageProps = {
   children: React.ReactNode
@@ -44,18 +40,7 @@ const Page: React.FC<PageProps> = ({
     onRest: { opacity: () => setShowLoader(false) }
   })
 
-  // Checks if a stored auth token is valid
-  React.useEffect(() => {
-    dispatch(verify())
-  }, [dispatch])
-
-  // Page requires login so redirect there and back on success
-  React.useEffect(() => {
-    if (isProtected && verified && !isLoggedIn && !showLoader) {
-      dispatch(setRedirect(router.route))
-      router.replace('/account')
-    }
-  }, [isProtected, verified, isLoggedIn, showLoader, dispatch, router])
+  useAccountVerification({ isProtected, showLoader })
 
   // Redirect back to protected page
   if (isLoggedIn && redirect) {

@@ -82,7 +82,7 @@ const toadVillageSlice = createSlice({
     },
 
     download: (state: ToadVillageState) => {
-      const objs = (state.cardObjs as unknown) as DownloadInput
+      const objs = state.cardObjs as unknown as DownloadInput
       const error = mtgDownload(objs, state.name) ?? ''
 
       if (error) {
@@ -118,10 +118,11 @@ const toadVillageSlice = createSlice({
       if (error) {
         state.error = error
         state.cardList = []
-      } else {
-        state.error = ''
-        state.cardList = cardList
+        return
       }
+
+      state.error = ''
+      state.cardList = cardList
     },
 
     move: (
@@ -135,12 +136,13 @@ const toadVillageSlice = createSlice({
         state.cardObjs.commanders = state.cardObjs.commanders.filter(
           card => card.card.name !== cardObj.card.name
         )
-      } else {
-        state.cardObjs.commanders = [...state.cardObjs.commanders, cardObj]
-        state.cardObjs.others = state.cardObjs.others.filter(
-          card => card.card.name !== cardObj.card.name
-        )
+        return
       }
+
+      state.cardObjs.commanders = [...state.cardObjs.commanders, cardObj]
+      state.cardObjs.others = state.cardObjs.others.filter(
+        card => card.card.name !== cardObj.card.name
+      )
     },
 
     changeCount: (
@@ -165,9 +167,10 @@ const toadVillageSlice = createSlice({
 
       if (isCommander) {
         state.cardObjs.commanders = newList
-      } else {
-        state.cardObjs.others = newList
+        return
       }
+
+      state.cardObjs.others = newList
     },
 
     clearError: (state: ToadVillageState) => {
@@ -184,22 +187,10 @@ const toadVillageSlice = createSlice({
   }
 })
 
-export const {
-  open,
-  close,
-  download,
-  cancel,
-  setCardString,
-  setName
-} = toadVillageSlice.actions
-const {
-  changeCount,
-  move,
-  clearError,
-  setError,
-  startFetch,
-  deckResponse
-} = toadVillageSlice.actions
+export const { open, close, download, cancel, setCardString, setName } =
+  toadVillageSlice.actions
+const { changeCount, move, clearError, setError, startFetch, deckResponse } =
+  toadVillageSlice.actions
 
 const countChange = ({
   name,

@@ -12,7 +12,7 @@ const Article: React.FC<SectionProps> = ({ data, idx }) => {
         href={href}
         target='_blank'
         rel='noreferrer'
-        className='transition-all duration-200 text-2xl text-center text-sky-800 hover:text-sky-400'
+        className='transition-all duration-200 text-2xl text-center text-primary-dark hover:text-primary-light'
       >
         {title}
       </a>
@@ -24,7 +24,7 @@ const Article: React.FC<SectionProps> = ({ data, idx }) => {
             className={clsx(
               'mr-2 text-lg italic',
               author === me
-                ? 'font-bold text-sky-800'
+                ? 'font-bold text-primary-dark'
                 : 'font-normal text-white'
             )}
           >

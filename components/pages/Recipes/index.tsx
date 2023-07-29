@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../../hooks/redux'
+import { useRouter } from 'next/router'
 
 import Container from '../../atoms/Container'
 import ContainerTitle from '../../atoms/ContainerTitle'
@@ -7,44 +7,30 @@ import HorizontalList from '../../atoms/HorizontalList'
 import HorizontalListButton from '../../atoms/HorizontalListButton'
 import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
 
-import { reset } from '../../../slices/recipe'
-
 import recipes from './Data'
+import useRecipeSelect from './hooks/useRecipeSelect'
 
 const Page = () => {
-  const dispatch = useAppDispatch()
+  const router = useRouter()
 
-  const [selected, setSelected] = React.useState('')
+  const selected = useRecipeSelect()
+
   const [hovering, setHovering] = React.useState('')
-
-  const toggleSelect = React.useCallback(
-    (name: string) => () => {
-      setSelected(old => {
-        if (old === name) {
-          return ''
-        }
-
-        dispatch(reset())
-        return name
-      })
-    },
-    [dispatch]
-  )
 
   return (
     <Container>
       <ContainerTitle>Recipes</ContainerTitle>
 
       <HorizontalList>
-        {Object.keys(recipes).map(name => (
+        {Object.entries(recipes).map(([key, recipe]) => (
           <HorizontalListButton
-            key={name}
-            active={[selected, hovering].includes(name)}
-            onClick={toggleSelect(name)}
-            onMouseEnter={() => setHovering(name)}
+            key={key}
+            active={[selected, hovering].includes(key)}
+            onClick={() => router.push(`/recipes/${key}`)}
+            onMouseEnter={() => setHovering(key)}
             onMouseLeave={() => setHovering('')}
           >
-            {name}
+            {recipe.title}
           </HorizontalListButton>
         ))}
       </HorizontalList>

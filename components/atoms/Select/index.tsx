@@ -62,7 +62,7 @@ const Select: React.FC<SelectProps> = ({
           <>
             <div
               data-cy='select-options'
-              className='z-20 absolute top-12 flex flex-col border border-sky-400 rounded-xl py-2 bg-sky-800 text-white w-auto'
+              className='z-20 absolute top-12 flex flex-col border border-primary-light rounded-xl py-2 bg-primary-dark text-white w-auto'
             >
               {options.map(opt => (
                 <div
@@ -73,8 +73,8 @@ const Select: React.FC<SelectProps> = ({
                     handleSelect(opt)
                   }}
                   className={clsx(
-                    'text-sm mb-1 px-3 py-1 last:mb-0 hover:text-black hover:bg-slate-400 transition-all duration-300 text-center cursor-pointer w-full whitespace-nowrap',
-                    value === opt && 'bg-slate-400 text-black'
+                    'text-sm mb-1 px-3 py-1 last:mb-0 hover:text-black hover:bg-dark-light transition-all duration-300 text-center cursor-pointer w-full whitespace-nowrap',
+                    value === opt && 'bg-dark-light text-black'
                   )}
                 >
                   {opt}

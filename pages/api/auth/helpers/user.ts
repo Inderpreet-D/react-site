@@ -55,6 +55,7 @@ export const createUser = async (username: string, password: string) => {
   const user: User = {
     id: uuidv4(),
     name: username,
+    permissions: ['user'],
     profile,
     ...passwordHash
   }
@@ -75,21 +76,31 @@ export const findUserByToken = async (token: string) => {
     return inUse.includes(token)
   })
 
-  if (findResult) {
-    return await getUserByID(findResult[0])
-  } else {
+  if (!findResult) {
     return null
   }
+
+  const user = await getUserByID(findResult[0])
+
+  if (!user) {
+    return null
+  }
+
+  return {
+    ...user,
+    permissions: user.permissions ?? ['user']
+  } as User
 }
 
 export const getUserByName = async (username: string) => {
   const users = await getUsers()
-  if (users) {
-    const user = Object.values(users).find(u => u.name === username)
-    return user
-  } else {
+
+  if (!users) {
     return null
   }
+
+  const user = Object.values(users).find(u => u.name === username)
+  return user
 }
 
 export const validateUser = async (username: string, password: string) => {
@@ -126,6 +137,7 @@ export const buildFullUser = async (user: User | null) => {
   const fullUser: FullUser = {
     id: user.id,
     name: user.name,
+    permissions: user.permissions,
     profile
   }
 

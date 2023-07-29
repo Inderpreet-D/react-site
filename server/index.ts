@@ -1,10 +1,10 @@
 import express from 'express'
 import next from 'next'
+import sslRedirect from 'heroku-ssl-redirect'
 
 import dotenv from 'dotenv'
 dotenv.config()
 
-import processHttps from './http'
 import processAuthToken from './auth'
 
 const dev = process.env.NODE_ENV !== 'production'
@@ -19,16 +19,13 @@ const runServer = async () => {
     server.use(express.json())
 
     // HTTP to HTTPS re-routing
-    server.use(processHttps)
+    server.use(sslRedirect())
 
     // Auth token verification
     server.use(processAuthToken)
 
     const handle = app.getRequestHandler()
-    server.get('*', (req, res) => handle(req, res))
-    server.post('*', (req, res) => handle(req, res))
-    server.put('*', (req, res) => handle(req, res))
-    server.delete('*', (req, res) => handle(req, res))
+    server.all('*', (req, res) => handle(req, res))
 
     server.listen(port, () => {
       console.log(`⚡ Listening on port ${port}`)

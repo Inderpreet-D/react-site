@@ -14,10 +14,6 @@ describe('Recipes', () => {
     cy.contains('button', 'Ingredients').should('exist')
     cy.contains('button', 'Recipe').should('exist')
 
-    cy.contains('Brown Butter Cookies').click()
-    cy.contains('button', 'Ingredients').should('not.exist')
-    cy.contains('button', 'Recipe').should('not.exist')
-
     cy.contains('Pizza Dough').click()
     cy.contains('Makes: 2 personal size pizzas').should('exist')
   })

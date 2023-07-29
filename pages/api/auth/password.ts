@@ -7,11 +7,12 @@ const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
 
   try {
     const result = changePassword(password, res.locals.user)
-    if (typeof result === 'string') {
-      res.status(400).send(result)
-    } else {
+    if (typeof result !== 'string') {
       res.send({})
+      return
     }
+
+    res.status(400).send(result)
   } catch (err) {
     res.status(500).send((err as Error).message)
     console.error('Error changing password: ', err)
