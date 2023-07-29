@@ -52,22 +52,18 @@ const shuffle = <T>(array: T[]) => {
 export const getCards = async (numPlayers: number, rarity: Rarity) => {
   let chosen = await chooseN(RoleName.Leader, rarity, 1)
 
-  if (numPlayers === 8) {
-    chosen = chosen.concat(await chooseN(RoleName.Traitor, rarity, 2))
-  } else {
-    chosen = chosen.concat(await chooseN(RoleName.Traitor, rarity, 1))
-  }
+  chosen = chosen.concat(
+    await chooseN(RoleName.Traitor, rarity, numPlayers === 8 ? 2 : 1)
+  )
 
-  if (numPlayers >= 6) {
-    chosen = chosen.concat(await chooseN(RoleName.Assassin, rarity, 3))
-  } else {
-    chosen = chosen.concat(await chooseN(RoleName.Assassin, rarity, 2))
-  }
+  chosen = chosen.concat(
+    await chooseN(RoleName.Assassin, rarity, numPlayers >= 6 ? 3 : 2)
+  )
 
-  if (numPlayers >= 7) {
-    chosen = chosen.concat(await chooseN(RoleName.Guardian, rarity, 2))
-  } else if (numPlayers >= 5) {
-    chosen = chosen.concat(await chooseN(RoleName.Guardian, rarity, 1))
+  if (numPlayers >= 5) {
+    chosen = chosen.concat(
+      await chooseN(RoleName.Guardian, rarity, numPlayers >= 7 ? 2 : 1)
+    )
   }
 
   return shuffle(chosen)

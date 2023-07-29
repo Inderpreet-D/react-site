@@ -22,14 +22,14 @@ const useRedditPoems = () => {
 
         const poems = parsePoems(res as unknown as RedditResponse)
         const { name, body, url } = pickRandomPoem(poems)
+        setLoaded(true)
 
         if (name && body && url) {
           setPoem({ name, body, url })
-        } else {
-          setError(true)
+          return
         }
 
-        setLoaded(true)
+        setError(true)
       } catch (err) {
         setError(true)
         setLoaded(true)

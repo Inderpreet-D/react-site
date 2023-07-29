@@ -35,11 +35,15 @@ const api = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (method === 'GET') {
     await handleGet(req, res)
-  } else if (method === 'POST') {
-    await handlePost(req, res)
-  } else {
-    res.status(404).end()
+    return
   }
+
+  if (method === 'POST') {
+    await handlePost(req, res)
+    return
+  }
+
+  res.status(404).end()
 }
 
 export default api

@@ -48,10 +48,11 @@ export const getCellColors = (state: WordleState, rowIdx: number) => {
 
       if (wordCountDict[guessLetter] === 0) {
         result[i] = Result.Incorrect
-      } else {
-        result[i] = Result.WrongPlace
-        wordCountDict[guessLetter]--
+        continue
       }
+
+      result[i] = Result.WrongPlace
+      wordCountDict[guessLetter]--
     }
   }
 

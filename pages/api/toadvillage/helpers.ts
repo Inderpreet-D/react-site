@@ -25,20 +25,18 @@ type PromiseExecutor<T> = (
 type FetchFunc<T> = (name: string) => PromiseExecutor<T>
 
 // Gets a single card by name from Scryfall
-const handleFetchCard: FetchFunc<ScryfallCard> = (name: string) => (
-  resolve,
-  reject
-) => {
-  setTimeout(async () => {
-    try {
-      const { data } = await axios.get(SEARCH_URL(name))
-      const card = (data as unknown) as { data: ScryfallCard[] }
-      resolve(card.data[0])
-    } catch (err) {
-      reject(err)
-    }
-  }, DELAY)
-}
+const handleFetchCard: FetchFunc<ScryfallCard> =
+  (name: string) => (resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const { data } = await axios.get(SEARCH_URL(name))
+        const card = data as unknown as { data: ScryfallCard[] }
+        resolve(card.data[0])
+      } catch (err) {
+        reject(err)
+      }
+    }, DELAY)
+  }
 
 // Wrapper for fetch
 const fetchCard = async (name: string) => {
@@ -189,9 +187,10 @@ const formatCards = (cards: MatchedCard[], identity: Set<string>): Deck => {
 
     if (isCommander(identity, card)) {
       commanders.push(val)
-    } else {
-      others.push(val)
+      return
     }
+
+    others.push(val)
   })
 
   return { commanders, others }

@@ -21,11 +21,12 @@ const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
 
     const fullUser = await changeUsername(user, name)
 
-    if (typeof fullUser === 'string') {
-      res.status(400).send(fullUser)
-    } else {
+    if (typeof fullUser !== 'string') {
       res.send({ user: fullUser })
+      return
     }
+
+    res.status(400).send(fullUser)
   } catch (err) {
     console.error('Error changing username: ', err)
     res.status(500).send((err as Error).message)

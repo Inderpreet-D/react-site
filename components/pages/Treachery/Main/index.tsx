@@ -48,9 +48,10 @@ const Main = () => {
 
       if (isJoining) {
         dispatch(joinRoom(code))
-      } else {
-        dispatch(createRoom(players, rarity as Rarity))
+        return
       }
+
+      dispatch(createRoom(players, rarity as Rarity))
     },
     [values, isJoining, dispatch]
   )

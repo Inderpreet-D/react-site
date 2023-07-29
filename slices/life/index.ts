@@ -160,10 +160,11 @@ export const toggleRunning = (delay: number) => {
 
     if (running) {
       dispatch(finishToggleRunning({ timer: null, running: false }))
-    } else {
-      const newTimer = setInterval(() => dispatch(tick()), delay)
-      dispatch(finishToggleRunning({ timer: newTimer, running: true }))
+      return
     }
+
+    const newTimer = setInterval(() => dispatch(tick()), delay)
+    dispatch(finishToggleRunning({ timer: newTimer, running: true }))
   }
 }
 

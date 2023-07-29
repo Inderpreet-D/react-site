@@ -133,16 +133,17 @@ const treacherySlice = createSlice({
 
       const key = prop as 'code' | 'rarity' | 'players'
 
-      if (key !== 'code') {
-        if (key === 'players') {
-          state.values.players = +val
-        } else {
-          state.values.rarity = val
-        }
+      if (key === 'code') {
+        state.values.code = (val as string).toLocaleUpperCase().trim()
         return
       }
 
-      state.values.code = (val as string).toLocaleUpperCase().trim()
+      if (key === 'players') {
+        state.values.players = +val
+        return
+      }
+
+      state.values.rarity = val
     }
   }
 })
