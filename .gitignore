@@ -48,3 +48,4 @@ scripts/mtg/save.json
 
 tsconfig.tsbuildinfo
 dist
+.vscode
