@@ -16,7 +16,7 @@ const Page = () => {
   const [userInput, setUserInput] = React.useState('')
 
   return (
-    <Container className='flex flex-col overflow-hidden m-4 !w-screen !h-screen my-0 rounded-none'>
+    <Container className='flex flex-col overflow-hidden m-4 !w-screen !h-[100svh] my-0 rounded-none'>
       <div
         className={clsx(
           textClassName,
