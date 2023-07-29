@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux'
 
-import { getSeasons } from '../../../../lib/api/competitive'
-import { selectMTGRecord, setSeasons } from '../../../../slices/mtgRecord'
+import { getSeasons } from '../../../../../lib/api/competitive'
+import { selectMTGRecord, setSeasons } from '../../../../../slices/mtgRecord'
 
 const useRecordSeasons = () => {
   const dispatch = useAppDispatch()

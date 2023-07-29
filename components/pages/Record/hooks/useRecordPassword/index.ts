@@ -1,4 +1,4 @@
-import { checkPassword } from '../../../../lib/api/competitive'
+import { checkPassword } from '../../../../../lib/api/competitive'
 
 const useRecordPassword = (password: string) => {
   const [passValid, setPassValid] = React.useState(false)

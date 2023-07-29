@@ -1,10 +1,10 @@
-import { Poem } from '../../../../utilities/helpers/poetry/types'
-import { RedditResponse } from '../../../../shared/reddit'
+import { Poem } from '../../../../../utilities/helpers/poetry/types'
+import { RedditResponse } from '../../../../../shared/reddit'
 
-import { reddit } from '../../../../lib/api'
+import { reddit } from '../../../../../lib/api'
 import parsePoems, {
   pickRandomPoem
-} from '../../../../utilities/helpers/poetry'
+} from '../../../../../utilities/helpers/poetry'
 
 const useRedditPoems = () => {
   const [poem, setPoem] = React.useState<Poem | null>(null)

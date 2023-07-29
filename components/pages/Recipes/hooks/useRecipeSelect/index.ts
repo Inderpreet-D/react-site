@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
-import { useAppDispatch } from '../../../../hooks/redux'
+import { useAppDispatch } from '../../../../../hooks/redux'
 
-import recipes from '../Data'
-import { reset } from '../../../../slices/recipe'
+import recipes from '../../Data'
+import { reset } from '../../../../../slices/recipe'
 
 const useRecipeSelect = () => {
   const router = useRouter()
