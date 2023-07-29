@@ -11,6 +11,7 @@ import TextInput from '../../atoms/TextInput'
 
 import { getPlayerObj } from './helpers'
 import { postRecord, postSeason } from '../../../lib/api/competitive'
+import { selectAuth } from '../../../slices/auth'
 import {
   selectMTGRecord,
   reset,
@@ -21,40 +22,29 @@ import {
   setSeasons,
   updateValue,
   addPlayer,
-  setWinner,
-  setPassword
+  setWinner
 } from '../../../slices/mtgRecord'
-import useRecordPassword from './hooks/useRecordPassword'
 import useRecordSeasons from './hooks/useRecordSeasons'
 
 const Page = () => {
   const dispatch = useAppDispatch()
 
-  const {
-    addingSeason,
-    seasonName,
-    season,
-    seasons,
-    players,
-    winner,
-    password
-  } = useAppSelector(selectMTGRecord)
+  const { user } = useAppSelector(selectAuth)
+  const { addingSeason, seasonName, season, seasons, players, winner } =
+    useAppSelector(selectMTGRecord)
 
-  const passValid = useRecordPassword(password)
   useRecordSeasons()
+
+  const isAdmin = React.useMemo(
+    () => user?.permissions.includes('admin'),
+    [user]
+  )
 
   return (
     <Container>
       <ContainerBackButton to='mtg' />
 
       <ContainerTitle>Add Competitive Record</ContainerTitle>
-
-      <TextInput
-        placeholder='Password'
-        value={password}
-        onChange={e => dispatch(setPassword(e.target.value))}
-        className='mt-4 mb-8'
-      />
 
       <div className='flex items-center mb-4'>
         <Select
@@ -68,7 +58,7 @@ const Page = () => {
         {!addingSeason ? (
           <Button
             onClick={() => dispatch(startAddingSeason())}
-            disabled={!passValid}
+            disabled={!isAdmin}
           >
             Add Season
           </Button>
@@ -146,7 +136,7 @@ const Page = () => {
       />
 
       <Button
-        disabled={!passValid}
+        disabled={!isAdmin}
         onClick={async () => {
           const now = new Date()
           const month = now.getMonth() + 1

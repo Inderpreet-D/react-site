@@ -12,7 +12,6 @@ type MTGRecordState = {
   seasonsLoaded: boolean
   players: Players
   winner: string
-  password: string
 }
 
 const initialState: MTGRecordState = {
@@ -22,8 +21,7 @@ const initialState: MTGRecordState = {
   seasons: [],
   seasonsLoaded: false,
   players: getDefaultPlayers(),
-  winner: 'No Winner',
-  password: ''
+  winner: 'No Winner'
 }
 
 const mtgRecordSlice = createSlice({
@@ -80,10 +78,6 @@ const mtgRecordSlice = createSlice({
 
     setWinner: (state: MTGRecordState, action: PayloadAction<string>) => {
       state.winner = action.payload
-    },
-
-    setPassword: (state: MTGRecordState, action: PayloadAction<string>) => {
-      state.password = action.payload
     }
   }
 })
@@ -97,8 +91,7 @@ export const {
   setSeasons,
   updateValue,
   addPlayer,
-  setWinner,
-  setPassword
+  setWinner
 } = mtgRecordSlice.actions
 
 export const selectMTGRecord = (state: RootState) => state.mtgRecord
