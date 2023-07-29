@@ -54,7 +54,7 @@ const Page: React.FC<PageProps> = ({
         <title>{title}</title>
       </Head>
 
-      <div className='relative flex flex-col w-screen h-screen'>
+      <div className='relative flex flex-col w-screen h-[100svh]'>
         {!hideHeader && <Header />}
 
         <main className='flex-grow overflow-auto'>{children}</main>
@@ -63,7 +63,7 @@ const Page: React.FC<PageProps> = ({
 
         {showLoader && (
           <animated.div
-            className='absolute bg-black w-screen h-screen flex justify-center'
+            className='absolute bg-black w-screen h-[100svh] flex justify-center'
             style={props}
           >
             <LoadingIcon />

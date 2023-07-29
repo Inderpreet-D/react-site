@@ -47,7 +47,7 @@ const Dialog: React.FC<DialogProps> = ({
       <div
         ref={bgRef}
         onClick={handleBGClick}
-        className='absolute top-0 left-0 z-10 w-screen h-screen opacity-50 bg-black'
+        className='absolute top-0 left-0 z-10 w-screen h-[100svh] opacity-50 bg-black'
       />
     </Portal>
   )
