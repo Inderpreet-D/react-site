@@ -19,3 +19,35 @@ import './commands'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 import '@cypress/code-coverage/support'
+
+import 'cypress-plugin-tab'
+
+import user from '../fixtures/user.json'
+
+export const goto = (path, ...args) => {
+  cy.visit(path, ...args)
+  cy.location('pathname', { timeout: 60000 }).should('include', path)
+}
+
+export const getTitle = text => {
+  return cy.get('[data-cy=title]').should('have.text', text)
+}
+
+export const login = () => {
+  goto('/account')
+
+  cy.contains('Username')
+    .click()
+    .type(user.username)
+
+  // Select password input
+  cy.get('body')
+    .tab()
+    .tab()
+
+  cy.focused()
+    .type(user.password)
+    .type('{enter}')
+
+  getTitle('My Account')
+}

@@ -1,6 +1,5 @@
-import { Values, ChangeHandler } from '..'
+type ChangeHandler = (prop: string) => (val: string) => void
 
 export type FormProps = {
-  values: Values
   onChange: ChangeHandler
 }

@@ -30,7 +30,7 @@ module.exports = withBundleAnalyzer({
       {
         source: '/toadvillage',
         destination: '/mtg/toadvillage',
-        permanent: false
+        permanent: true
       }
     ]
   }

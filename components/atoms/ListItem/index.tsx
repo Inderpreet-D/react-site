@@ -22,14 +22,14 @@ const ListItem: React.FC<ListItemProps> = ({
       <Checkbox
         checked={checked}
         onCheck={onCheck}
-        className='mr-3 group-hover:border-sky-800'
+        className='mr-3 group-hover:border-primary-dark'
       />
 
       <div
         onClick={onCheck}
         className={clsx(
-          'cursor-pointer transition-all duration-700 text-white hover:text-sky-400',
-          checked && 'line-through text-sky-800 hover:text-sky-800'
+          'cursor-pointer transition-all duration-700 text-white hover:text-primary-light',
+          checked && 'line-through text-primary-dark hover:text-primary-dark'
         )}
       >
         {children}

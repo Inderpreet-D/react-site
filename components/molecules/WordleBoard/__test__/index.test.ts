@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 
 import { WordleState } from '../../../../slices/wordle'
-import { Result, getCellColors } from '../utils'
+import { Result, getCellColors } from '../LetterCell/helpers'
 
 let state: WordleState
 

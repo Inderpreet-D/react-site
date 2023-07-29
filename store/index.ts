@@ -1,34 +1,34 @@
-import {
-  ThunkAction,
-  Action,
-  configureStore,
-  getDefaultMiddleware
-} from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 
-import recipeReducer from '../slices/recipe'
+import alertReducer from '../slices/alert'
+import authReducer from '../slices/auth'
 import lifeReducer from '../slices/life'
-import wordleReducer from '../slices/wordle'
+import mtgRecordReducer from '../slices/mtgRecord'
+import recipeReducer from '../slices/recipe'
 import toadVillageReducer from '../slices/toadVillage'
 import todoReducer from '../slices/todo'
-import sureReducer from '../slices/sure'
+import treacheryReducer from '../slices/treachery'
+import wordleReducer from '../slices/wordle'
 
 export const store = configureStore({
   reducer: {
-    recipe: recipeReducer,
+    alert: alertReducer,
+    auth: authReducer,
+
     life: lifeReducer,
-    wordle: wordleReducer,
+
+    mtgRecord: mtgRecordReducer,
+
+    recipe: recipeReducer,
+
     toadVillage: toadVillageReducer,
     todo: todoReducer,
-    sure: sureReducer
-  },
-  middleware: getDefaultMiddleware({ serializableCheck: false })
+    treachery: treacheryReducer,
+
+    wordle: wordleReducer
+  }
 })
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->
+export type GetState = typeof store.getState

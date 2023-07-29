@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import Separator from '../Separator'
 
-const className = 'mt-2 rounded-[50%]'
+const className = 'mt-2 rounded-circle'
 
 const ContainerSectionSeparator: React.FC<DivProps> = ({
   className: extraClass,

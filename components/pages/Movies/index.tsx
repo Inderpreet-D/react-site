@@ -6,9 +6,8 @@ import LoadingIcon from '../../atoms/LoadingIcon'
 import useSWR from '../../../hooks/useSWR'
 
 const Page = () => {
-  const { data: moviesList, isLoading: isLoadingMovies } = useSWR<string[]>(
-    'movies'
-  )
+  const { data: moviesList, isLoading: isLoadingMovies } =
+    useSWR<string[]>('movies')
 
   const [movie, setMovie] = React.useState<null | string>(null)
 
@@ -25,6 +24,10 @@ const Page = () => {
     setMovie(moviesList[idx])
   }, [moviesList])
 
+  if (isLoadingMovies) {
+    return null
+  }
+
   return (
     <Container>
       <ContainerTitle>Movie Picker</ContainerTitle>
@@ -40,7 +43,7 @@ const Page = () => {
       {isLoadingMovies && <LoadingIcon />}
 
       {movie && (
-        <div className='mt-8 mb-4 mx-0 text-center text-5xl underline text-sky-400'>
+        <div className='mt-8 mb-4 mx-0 text-center text-5xl underline text-primary-light'>
           {movie}
         </div>
       )}

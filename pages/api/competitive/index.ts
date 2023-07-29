@@ -6,9 +6,7 @@ import { get } from '../../../utilities/helpers/database'
 const URL = 'competitive'
 
 export const getSeasons = async () => {
-  const data = await get(URL)
-  const seasons = data.val() as Season[]
-  return seasons
+  return await get<Season[]>(URL)
 }
 
 const api = async (_: NextApiRequest, res: NextApiResponse) => {

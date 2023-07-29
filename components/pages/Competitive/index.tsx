@@ -53,6 +53,15 @@ const Page = () => {
   const { data: seasons, isLoading } = useSWR<Season[]>('competitive')
 
   const [season, setSeason] = React.useState<Season | null>(null)
+  const [game, setGame] = React.useState<Game | null>(null)
+
+  const selectGame = React.useCallback((newVal: Game | null) => {
+    setGame(old => (isEqual(old, newVal) ? null : newVal))
+  }, [])
+
+  if (isLoading) {
+    return null
+  }
 
   return (
     <Container>
@@ -65,15 +74,22 @@ const Page = () => {
       ) : (
         <>
           <HorizontalList>
-            {seasons.map((s, i) => (
-              <HorizontalListButton
-                key={i}
-                active={isEqual(s, season)}
-                onClick={() => setSeason(old => (isEqual(old, s) ? null : s))}
-              >
-                {s.name ?? `Season ${i + 1}`}
-              </HorizontalListButton>
-            ))}
+            {(seasons ?? []).map((s, i) => {
+              const selected = isEqual(s, season)
+
+              return (
+                <HorizontalListButton
+                  key={i}
+                  active={selected}
+                  onClick={() => {
+                    setSeason(selected ? null : s)
+                    setGame(null)
+                  }}
+                >
+                  {s.name ?? `Season ${i + 1}`}
+                </HorizontalListButton>
+              )
+            })}
           </HorizontalList>
 
           <ContainerSectionSeparator />
@@ -86,7 +102,12 @@ const Page = () => {
 
               {season.games ? (
                 <>
-                  <Games games={season.games} year={season.year} />
+                  <Games
+                    game={game}
+                    games={season.games}
+                    year={season.year}
+                    selectGame={selectGame}
+                  />
 
                   <ContainerSectionSeparator />
 

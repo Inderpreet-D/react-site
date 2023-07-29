@@ -32,13 +32,13 @@ const Sidebar: React.FC<SideBarProps> = ({ children }) => {
       {open && (
         <div
           onClick={handleClose}
-          className='absolute z-10 top-0 left-0 w-screen h-screen bg-black opacity-50'
+          className='absolute z-10 top-0 left-0 w-screen h-[100svh] bg-black opacity-50'
         />
       )}
 
       <div
         className={clsx(
-          'absolute z-20 top-0 -left-1/4 transition-all duration-500 border-r border-r-slate-400 box-border w-1/4 h-screen bg-slate-900',
+          'absolute z-20 top-0 -left-1/4 transition-all duration-500 border-r border-r-dark-light box-border w-1/4 h-[100svh] flex flex-col bg-dark-dark',
           open && '!left-0'
         )}
       >

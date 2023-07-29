@@ -1,3 +1,5 @@
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+
 import Container from '../../atoms/Container'
 import Button from '../../atoms/Button'
 import TextField from '../../atoms/TextField'
@@ -13,7 +15,6 @@ import {
   stopRunning,
   tick
 } from '../../../slices/life'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 const DELAY = 10
 
@@ -65,6 +66,7 @@ const GoL = () => {
       <div className='flex flex-col items-center justify-center mb-5'>
         <div>
           <TextField
+            id='width-input'
             value={width}
             placeholder='Width'
             type='number'
@@ -72,6 +74,7 @@ const GoL = () => {
           />
 
           <TextField
+            id='height-input'
             value={height}
             placeholder='Height'
             type='number'
@@ -81,6 +84,7 @@ const GoL = () => {
         </div>
 
         <TextField
+          id='delay-input'
           value={delay}
           placeholder='Delay'
           type='number'

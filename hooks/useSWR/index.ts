@@ -1,24 +1,40 @@
-import axios from 'axios'
 import useBaseSWR from 'swr'
+import { useAppDispatch } from '../redux'
+
+import { wrapCall } from '../../lib/api'
+import { setAlert } from '../../slices/alert'
 
 type SWRType = string | (() => string | null)
 
 const useSWR = <T>(url: SWRType) => {
-  const { data, error } = useBaseSWR(() => {
-    if (typeof url === 'string') {
-      return `/api/${url}`
-    }
+  const dispatch = useAppDispatch()
 
-    const val = url()
-    if (val) {
-      return `/api/${val}`
-    }
+  const { data, error } = useBaseSWR(
+    () => {
+      if (typeof url === 'string') {
+        return `/${url}`
+      }
 
-    return null
-  }, axios.get)
+      const val = url()
+      if (val) {
+        return `/${val}`
+      }
+
+      return null
+    },
+    async uri => await wrapCall<T>({ method: 'GET', uri })
+  )
+
+  // Show errors
+  React.useEffect(() => {
+    if (error) {
+      const message = error.response.data
+      dispatch(setAlert(message))
+    }
+  }, [error, dispatch])
 
   return {
-    data: (data as any)?.data as T,
+    data: data as T,
     isLoading: !error && !data,
     isError: Boolean(error)
   }

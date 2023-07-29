@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { getRandomWord } from '../../lib/api/wordle'
 
-import { RootState } from '../../store'
+import { AppDispatch, RootState } from '../../store'
 
 export type WordleState = {
   currentGuess: string
@@ -45,7 +46,7 @@ const wordleSlice = createSlice({
       }
     },
 
-    makeGuess: (state, action: PayloadAction<string>) => {
+    makeGuess: (state: WordleState, action: PayloadAction<string>) => {
       const guess = action.payload
 
       const fixedGuess = guess.trim().toLocaleLowerCase()
@@ -61,46 +62,47 @@ const wordleSlice = createSlice({
       state.won = newWon
     },
 
-    pressKey: (state, action: PayloadAction<string>) => {
+    pressKey: (state: WordleState, action: PayloadAction<string>) => {
       const key = action.payload
 
       if (key === 'Backspace') {
         if (state.currentGuess.length === 0) {
-          return state
+          return
         }
 
-        return {
-          ...state,
-          currentGuess: state.currentGuess.slice(
-            0,
-            state.currentGuess.length - 1
-          )
-        }
+        state.currentGuess = state.currentGuess.slice(
+          0,
+          state.currentGuess.length - 1
+        )
+        return
       }
 
       const isAlphaKey = key.length === 1 && key.match(/[a-zA-Z]/i)
 
       if (isAlphaKey) {
         if (state.currentGuess.length === state.wordLength) {
-          return state
+          return
         }
 
-        return {
-          ...state,
-          currentGuess: `${state.currentGuess}${key}`
-        }
+        state.currentGuess = `${state.currentGuess}${key}`
       }
-
-      return state
     },
 
-    nextGuess: state => {
+    nextGuess: (state: WordleState) => {
       state.currentGuess = ''
     }
   }
 })
 
-export const { start, makeGuess, pressKey, nextGuess } = wordleSlice.actions
+export const { makeGuess, pressKey, nextGuess } = wordleSlice.actions
+const { start } = wordleSlice.actions
+
+export const restart = (length: number) => {
+  return async (dispatch: AppDispatch) => {
+    const word = await getRandomWord(length)
+    dispatch(start(word))
+  }
+}
 
 export const selectWordle = (state: RootState) => state.wordle
 

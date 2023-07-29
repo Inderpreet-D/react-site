@@ -1,75 +1,21 @@
-import axios from 'axios'
 import clsx from 'clsx'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 import Cell from './Cell'
+import LetterCell from './LetterCell'
 import Button from '../../atoms/Button'
 
-import { getCellColors, Result } from './utils'
-
+import { checkValidWord } from '../../../lib/api/wordle'
 import {
-  WordleState,
   selectWordle,
   nextGuess as startNext,
   makeGuess,
   pressKey
 } from '../../../slices/wordle'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import useDocumentListener from '../../../hooks/useDocumentListener'
 
 type WordleBoardProps = {
   reset: () => void
-}
-
-const getCell = (
-  state: WordleState,
-  rowIdx: number,
-  cellIdx: number,
-  key: string
-) => {
-  if (rowIdx > state.round) {
-    return <Cell key={key} className='bg-slate-700' />
-  }
-
-  // Determine cell color
-  const result = getCellColors(state, rowIdx)
-  const cellResult = result[cellIdx]
-
-  // Get lett for this cell
-  const guess = state.guesses[rowIdx]
-  const letter = guess[cellIdx].toLocaleUpperCase()
-
-  // Unchecked cell (should never happen)
-  if (cellResult === Result.Unchecked) {
-    return (
-      <Cell key={key} className='bg-sky-400'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Incorrect cell
-  if (cellResult === Result.Incorrect) {
-    return (
-      <Cell key={key} className='bg-slate-700'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Correct cell
-  if (cellResult === Result.Correct) {
-    return (
-      <Cell key={key} className='bg-green-600'>
-        {letter}
-      </Cell>
-    )
-  }
-
-  // Wrong place cell
-  return (
-    <Cell key={key} className='bg-yellow-600'>
-      {letter}
-    </Cell>
-  )
 }
 
 const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
@@ -88,10 +34,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
     const alreadyGuessed = state.guesses.includes(guess)
 
     // Check that the guess is a real word
-    const val = (await axios.get(`/api/words/valid/${guess}`)) as {
-      data: { valid: boolean }
-    }
-    const isValid = val.data.valid
+    const isValid = await checkValidWord(guess)
 
     if (lengthMatch && !alreadyGuessed && isValid) {
       dispatch(makeGuess(guess))
@@ -114,13 +57,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
     [state.currentGuess, state.wordLength, handleEnter, dispatch]
   )
 
-  React.useEffect(() => {
-    document.addEventListener('keydown', onKey)
-
-    return () => {
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [onKey])
+  useDocumentListener('keydown', onKey)
 
   return (
     <div className='flex items-center justify-center flex-col w-full overflow-auto'>
@@ -140,7 +77,7 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
               )
             }
 
-            return getCell(state, rowIdx, cellIdx, key)
+            return <LetterCell key={key} rowIdx={rowIdx} cellIdx={cellIdx} />
           })}
         </div>
       ))}
@@ -177,12 +114,12 @@ const WordleBoard: React.FC<WordleBoardProps> = ({ reset }) => {
                 <div
                   key={i}
                   className={clsx(
-                    'mr-2 last:mr-0 uppercase p-2 border border-sky-800 rounded-md w-8 flex items-center justify-center mt-4',
+                    'mr-2 last:mr-0 uppercase p-2 border border-primary-dark rounded-md w-8 flex items-center justify-center mt-4',
                     state.word.includes(char) && allGuesses.includes(char)
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-success-main text-white'
                       : allGuesses.includes(char)
-                      ? 'bg-slate-600 text-slate-800'
-                      : 'bg-transparent text-sky-400'
+                      ? 'bg-dark-main text-dark-dark'
+                      : 'bg-transparent text-primary-light'
                   )}
                 >
                   {char}

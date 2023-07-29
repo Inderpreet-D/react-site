@@ -47,3 +47,5 @@ scripts/mtg/react-site-inder-competitive-export.json
 scripts/mtg/save.json
 
 tsconfig.tsbuildinfo
+dist
+.vscode

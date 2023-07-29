@@ -16,11 +16,11 @@ const Page = () => {
   const [userInput, setUserInput] = React.useState('')
 
   return (
-    <Container className='flex flex-col overflow-hidden m-4 !w-screen !h-screen my-0 rounded-none'>
+    <Container className='flex flex-col overflow-hidden m-4 !w-screen !h-[100svh] my-0 rounded-none'>
       <div
         className={clsx(
           textClassName,
-          'flex justify-center text-7xl font-bold tracking-wide text-sky-400 mb-4'
+          'flex justify-center text-7xl font-bold tracking-wide text-primary-light mb-4'
         )}
       >
         {decode(userInput, part1)}
@@ -32,7 +32,7 @@ const Page = () => {
             key={i}
             className={clsx(
               textClassName,
-              'flex-shrink transition-all duration-1000 rounded-2xl text-xl !p-4 hover:bg-slate-900'
+              'flex-shrink transition-all duration-1000 rounded-2xl text-xl !p-4 hover:bg-dark-dark'
             )}
           >
             {decode(userInput, part)}
@@ -43,7 +43,7 @@ const Page = () => {
       <div
         className={clsx(
           textClassName,
-          'flex justify-center text-base text-sky-800'
+          'flex justify-center text-base text-primary-dark'
         )}
       >
         {decode(userInput, part3)}

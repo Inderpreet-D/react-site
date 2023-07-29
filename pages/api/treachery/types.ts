@@ -10,12 +10,14 @@ export type Payload = {
 type ErrorVal = {
   error: string
 }
+
 type JoinData = {
   roomCode: string
   id: string
   numPlayers: number
   currentPlayers: number
 }
+
 export type JoinVal = ErrorVal | JoinData
 
 export type ApiRequest = Payload & { action: string }

@@ -1,7 +1,4 @@
 import admin from 'firebase-admin'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 if (!admin.apps.length) {
   const credential = admin.credential.cert({
@@ -17,8 +14,8 @@ if (!admin.apps.length) {
 
 const Database = admin.database()
 
-export const get = async (path: string) => {
-  return await Database.ref(path).get()
+export const get = async <T>(path: string) => {
+  return (await (await Database.ref(path).get()).val()) as T | null
 }
 
 export const set = async (path: string, data: any) => {

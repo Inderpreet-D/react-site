@@ -1,7 +1,7 @@
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { cloneDeep } from 'lodash'
 
-import { RootState } from '../../store'
+import { AppDispatch, GetState, RootState } from '../../store'
 
 type LifeState = {
   board: boolean[][]
@@ -26,46 +26,11 @@ const initialState: LifeState = {
   running: false
 }
 
-export const changeWidth = createAsyncThunk(
-  'life/changeWidth',
-  async (width: number, { dispatch, getState }) => {
-    const { height } = (getState() as RootState).life
-    dispatch(resize({ width, height }))
-  }
-)
-
-export const changeHeight = createAsyncThunk(
-  'life/changeHeight',
-  async (height: number, { dispatch, getState }) => {
-    const { width } = (getState() as RootState).life
-    dispatch(resize({ width, height }))
-  }
-)
-
-export const toggleRunning = createAsyncThunk(
-  'life/toggleRunning',
-  async (delay: number, { dispatch, getState }) => {
-    const { running, timer } = (getState() as RootState).life
-
-    if (timer) {
-      clearInterval(timer)
-    }
-
-    if (running) {
-      return { timer: null, running: false }
-    }
-
-    const newTimer = setInterval(() => dispatch(tick()), delay)
-
-    return { timer: newTimer, running: true }
-  }
-)
-
 const lifeSlice = createSlice({
   name: 'life',
   initialState,
   reducers: {
-    tick: state => {
+    tick: (state: LifeState) => {
       const { height, width, board } = state
       const newCells = cloneDeep(board)
 
@@ -101,7 +66,7 @@ const lifeSlice = createSlice({
     },
 
     resize: (
-      state,
+      state: LifeState,
       action: PayloadAction<{ width: number; height: number }>
     ) => {
       const { width, height } = action.payload
@@ -120,7 +85,10 @@ const lifeSlice = createSlice({
       state.board = newBoard
     },
 
-    toggle: (state, action: PayloadAction<{ x: number; y: number }>) => {
+    toggle: (
+      state: LifeState,
+      action: PayloadAction<{ x: number; y: number }>
+    ) => {
       const { x, y } = action.payload
       state.board[y][x] = !state.board[y][x]
 
@@ -131,7 +99,7 @@ const lifeSlice = createSlice({
       state.running = false
     },
 
-    reset: state => {
+    reset: (state: LifeState) => {
       if (state.timer) {
         clearInterval(state.timer)
       }
@@ -139,39 +107,66 @@ const lifeSlice = createSlice({
       return initialState
     },
 
-    stopRunning: state => {
+    stopRunning: (state: LifeState) => {
       if (state.timer) {
         clearInterval(state.timer)
       }
 
       state.running = false
-    }
-  },
+    },
 
-  extraReducers: builder => {
-    builder.addCase(
-      toggleRunning.fulfilled,
-      (
-        state,
-        action: PayloadAction<{
-          timer: NodeJS.Timer | null
-          running: boolean
-        }>
-      ) => {
-        if (state.timer) {
-          clearInterval(state.timer)
-        }
-
-        const { timer, running } = action.payload
-        state.timer = timer
-        state.running = running
+    finishToggleRunning: (
+      state: LifeState,
+      action: PayloadAction<{
+        timer: NodeJS.Timer | null
+        running: boolean
+      }>
+    ) => {
+      if (state.timer) {
+        clearInterval(state.timer)
       }
-    )
+
+      const { timer, running } = action.payload
+      state.timer = timer
+      state.running = running
+    }
   }
 })
 
 export const { toggle, reset, stopRunning, tick } = lifeSlice.actions
-const { resize } = lifeSlice.actions
+const { resize, finishToggleRunning } = lifeSlice.actions
+
+export const changeWidth = (width: number) => {
+  return async (dispatch: AppDispatch, getState: GetState) => {
+    const { height } = selectLife(getState())
+    dispatch(resize({ width, height }))
+  }
+}
+
+export const changeHeight = (height: number) => {
+  return async (dispatch: AppDispatch, getState: GetState) => {
+    const { width } = selectLife(getState())
+    dispatch(resize({ width, height }))
+  }
+}
+
+export const toggleRunning = (delay: number) => {
+  return async (dispatch: AppDispatch, getState: GetState) => {
+    const { running, timer } = selectLife(getState())
+
+    if (timer) {
+      clearInterval(timer)
+    }
+
+    if (running) {
+      dispatch(finishToggleRunning({ timer: null, running: false }))
+      return
+    }
+
+    const newTimer = setInterval(() => dispatch(tick()), delay)
+    dispatch(finishToggleRunning({ timer: newTimer, running: true }))
+  }
+}
 
 export const selectLife = (state: RootState) => state.life
 

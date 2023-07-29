@@ -8,9 +8,14 @@ import handleRequest from './helpers'
 const QUEUE: { [id: string]: QueueType } = {}
 const STARTED: Set<string> = new Set<string>()
 
-const api = async (req: NextApiRequest, res: NextApiResponse) => {
+const api = async (req: NextApiRequest, res: NextApiResponse & Locals) => {
   const cardNames: ReqCard[] = req.body.cards
-  const id: string = req.body.id
+  const id = res.locals.token
+
+  if (!id) {
+    res.status(400).send('User could not be found.')
+    return
+  }
 
   // Normal download request case
   if (cardNames) {
