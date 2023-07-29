@@ -41,7 +41,7 @@ module.exports = {
       borderRadius: {
         circle: '50%'
       }
-    }
+    },
   },
   plugins: []
 }
