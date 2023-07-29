@@ -13,15 +13,17 @@ type MTGCardProps = {
   amount: number
   isCommander: boolean
   card: Card
-  onClickMove: (name: string, isCommander: boolean) => void
-  onClickAdd: (name: string, isCommander: boolean) => void
-  onClickRemove: (name: string, isCommander: boolean) => void
+  hideCount?: boolean
+  onClickMove?: (name: string, isCommander: boolean) => void
+  onClickAdd?: (name: string, isCommander: boolean) => void
+  onClickRemove?: (name: string, isCommander: boolean) => void
 }
 
 const MTGCard: React.FC<MTGCardProps> = ({
   amount,
   isCommander,
   card,
+  hideCount,
   onClickMove,
   onClickAdd,
   onClickRemove
@@ -32,16 +34,16 @@ const MTGCard: React.FC<MTGCardProps> = ({
 
   const handleSub = React.useCallback(() => {
     if (amount > 0) {
-      onClickRemove(name, isCommander)
+      onClickRemove && onClickRemove(name, isCommander)
     }
   }, [amount, onClickRemove, name, isCommander])
 
   const handleMove = React.useCallback(() => {
-    onClickMove(name, isCommander)
+    onClickMove && onClickMove(name, isCommander)
   }, [onClickMove, name, isCommander])
 
   const handleAdd = React.useCallback(() => {
-    onClickAdd(name, isCommander)
+    onClickAdd && onClickAdd(name, isCommander)
   }, [onClickAdd, name, isCommander])
 
   const handleFlip = React.useCallback(() => {
@@ -108,38 +110,46 @@ const MTGCard: React.FC<MTGCardProps> = ({
             {faces && flipped && <CardImage src={faces[1].image} />}
           </div>
 
-          <div
-            className={clsx(
-              'absolute top-1/3 left-1/2 border border-dark-light rounded-full p-4 bg-dark-dark -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-primary-light pointer-events-none group-hover:opacity-0',
-              amount === 0 && 'border-error-main text-error-main'
-            )}
-          >
-            {amount}
-          </div>
+          {!hideCount && (
+            <div
+              className={clsx(
+                'absolute top-1/3 left-1/2 border border-dark-light rounded-full p-4 bg-dark-dark -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 text-5xl font-bold text-primary-light pointer-events-none group-hover:opacity-0',
+                amount === 0 && 'border-error-main text-error-main'
+              )}
+            >
+              {amount}
+            </div>
+          )}
         </div>
 
         <div className='flex items-center justify-around mx-auto my-2 w-full'>
-          <Button
-            onClick={handleSub}
-            disabled={amount === 0}
-            className='h-10 min-w-[2.5rem] max-w-[4rem] '
-          >
-            <FaMinus />
-          </Button>
+          {onClickRemove && (
+            <Button
+              onClick={handleSub}
+              disabled={amount === 0}
+              className='h-10 min-w-[2.5rem] max-w-[4rem] '
+            >
+              <FaMinus />
+            </Button>
+          )}
 
-          <Button
-            onClick={handleMove}
-            className='h-10 min-w-[2.5rem] max-w-[4rem] font-bold'
-          >
-            Move
-          </Button>
+          {onClickMove && (
+            <Button
+              onClick={handleMove}
+              className='h-10 min-w-[2.5rem] max-w-[4rem] font-bold'
+            >
+              Move
+            </Button>
+          )}
 
-          <Button
-            onClick={handleAdd}
-            className='h-10 min-w-[2.5rem] max-w-[4rem] '
-          >
-            <FaPlus />
-          </Button>
+          {onClickAdd && (
+            <Button
+              onClick={handleAdd}
+              className='h-10 min-w-[2.5rem] max-w-[4rem] '
+            >
+              <FaPlus />
+            </Button>
+          )}
 
           {faces && (
             <Button

@@ -58,15 +58,17 @@ const Page = () => {
     useAppSelector(selectToadVillage)
 
   const [selectedSort, setSelectedSort] = React.useState({ sort: nameSort })
-  const [commanderCount, otherCount, combinedCards] = React.useMemo(() => {
-    const { commanders = [], others = [] } = cardObjs
-    const reducer = (t: number, { amount }: FormattedCard) => t + amount
-    return [
-      commanders.reduce(reducer, 0),
-      others.reduce(reducer, 0),
-      [...commanders, ...others]
-    ]
-  }, [cardObjs])
+  const [commanderCount, otherCount, combinedCards, tokenCount] =
+    React.useMemo(() => {
+      const { commanders = [], others = [], tokens = [] } = cardObjs
+      const reducer = (t: number, { amount }: FormattedCard) => t + amount
+      return [
+        commanders.reduce(reducer, 0),
+        others.reduce(reducer, 0),
+        [...commanders, ...others],
+        tokens.reduce(reducer, 0)
+      ]
+    }, [cardObjs])
 
   const totalPrice = React.useMemo(() => {
     let total = 0
@@ -221,6 +223,14 @@ const Page = () => {
                 isCommander={false}
                 {...card}
               />
+            ))}
+          </div>
+
+          <div className={titleClassName}>Tokens ({tokenCount})</div>
+
+          <div className={cardBlockClassName}>
+            {[...cardObjs.tokens].sort(selectedSort.sort).map((card, i) => (
+              <MTGCard key={i} hideCount isCommander={false} {...card} />
             ))}
           </div>
         </>
