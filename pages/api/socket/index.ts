@@ -25,11 +25,7 @@ const api = async (_: NextApiRequest, res: NextApiResponseServerIO) => {
   res.socket.server.io = io
 
   // Socket io handlers
-  io.on('connect', socket => {
-    socket.on('idx', val => {
-      socket.broadcast.emit('idx_change', val)
-    })
-  })
+  io.on('connection', socket => {})
 
   // Prevent stalled requests
   res.end()

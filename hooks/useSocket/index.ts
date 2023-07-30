@@ -5,12 +5,15 @@ const useSocket = () => {
 
   React.useEffect(() => {
     let currentSocket: Socket
-    ;(async () => {
+
+    const connectToSocket = async () => {
       // Connect to socket
       await fetch('/api/socket')
       currentSocket = io()
       setSocket(currentSocket)
-    })()
+    }
+
+    connectToSocket()
 
     // Disconnect socket and free resource
     return () => {
