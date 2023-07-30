@@ -16,7 +16,15 @@ const sslRedirect = (environments = ['production'], status = 302) => {
   const isCurrentEnv = environments.includes(currentEnv)
   return (req: Request, res: Response, next: NextFunction) => {
     if (isCurrentEnv && req.headers['x-forwarded-proto'] !== 'https') {
-      res.redirect(status, 'https://' + req.hostname + req.originalUrl)
+      const newUrl = 'https://' + req.hostname + req.originalUrl
+      console.log({
+        newUrl,
+        host: req.get('host'),
+        orig: req.originalUrl,
+        url: req.url
+      })
+
+      res.redirect(status, newUrl)
     } else {
       next()
     }
