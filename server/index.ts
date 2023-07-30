@@ -21,7 +21,10 @@ const sslRedirect = (environments = ['production'], status = 302) => {
         newUrl,
         host: req.get('host'),
         orig: req.originalUrl,
-        url: req.url
+        url: req.url,
+        path: req.path,
+        route: req.route,
+        subs: req.subdomains
       })
 
       res.redirect(status, newUrl)
