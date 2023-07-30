@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto, getTitle, login } from '../../support'
+import { goto, getTitle, login } from '../../support/e2e'
 
 import user from '../../fixtures/user.json'
 
@@ -18,18 +18,12 @@ describe('Authentication', () => {
   it('should show error alert', () => {
     goto('/account')
 
-    cy.contains('Username')
-      .click()
-      .type(user.username)
+    cy.contains('Username').click().type(user.username)
 
     // Select password input
-    cy.get('body')
-      .tab()
-      .tab()
+    cy.get('body').tab().tab()
 
-    cy.focused()
-      .type(user.invalidPassword)
-      .type('{enter}')
+    cy.focused().type(user.invalidPassword).type('{enter}')
 
     cy.contains('Username or password is incorrect.')
       .should('exist')

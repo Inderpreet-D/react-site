@@ -28,7 +28,11 @@ type ContextType = {
 
 const CardStateContext = React.createContext<ContextType | null>(null)
 
-const CardStateProvider: React.FC = ({ children }) => {
+type CardStateProviderProps = {
+  children: React.ReactNode
+}
+
+const CardStateProvider: React.FC<CardStateProviderProps> = ({ children }) => {
   const { cardObjs } = useAppSelector(selectToadVillage)
 
   const [selectedSort, setSelectedSort] = React.useState<SortType>({

@@ -15,7 +15,7 @@ const Portal: React.FC<Props> = ({ children }) => {
   }
 
   const portal = document.querySelector(`#${PORTAL_ID}`)!
-  return createPortal(children, portal)
+  return createPortal(<>{children}</>, portal)
 }
 
 export default Portal

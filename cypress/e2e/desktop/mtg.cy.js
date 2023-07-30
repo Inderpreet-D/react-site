@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { getTitle, goto, login } from '../../support'
+import { getTitle, goto, login } from '../../support/e2e'
 
 describe('MTG', () => {
   beforeEach(() => {
@@ -36,32 +36,16 @@ describe('MTG', () => {
     getCard().should('exist')
 
     // Decrement
-    getCard()
-      .contains('1')
-      .should('exist')
-    getCardButtons()
-      .first()
-      .click({ force: true })
-    getCard()
-      .contains('0')
-      .should('exist')
+    getCard().contains('1').should('exist')
+    getCardButtons().first().click({ force: true })
+    getCard().contains('0').should('exist')
 
     // Increment
-    getCardButtons()
-      .first()
-      .next()
-      .next()
-      .click()
-      .click({ force: true })
-    getCard()
-      .contains('2')
-      .should('exist')
+    getCardButtons().first().next().next().click().click({ force: true })
+    getCard().contains('2').should('exist')
 
     // Move
-    getCardButtons()
-      .first()
-      .next()
-      .click({ force: true })
+    getCardButtons().first().next().click({ force: true })
     cy.contains('Commander Options / Sideboard (2)').should('exist')
   })
 
@@ -97,9 +81,7 @@ describe('MTG', () => {
     cy.contains('Season 1').click()
 
     cy.contains('Rules').should('exist')
-    cy.get('.list-decimal')
-      .children()
-      .should('have.length', 8)
+    cy.get('.list-decimal').children().should('have.length', 8)
     cy.get('.markdown').should('have.length', 8)
 
     cy.contains('Games').should('exist')
@@ -119,9 +101,7 @@ describe('MTG', () => {
     cy.contains('Number of Players').should('exist')
 
     cy.contains('4').click()
-    cy.get('[data-cy="select-options"]')
-      .children()
-      .should('have.length', '5')
+    cy.get('[data-cy="select-options"]').children().should('have.length', '5')
     cy.get('body').click(10, 10)
     cy.contains('4').click()
     cy.contains('5').click()

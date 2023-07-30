@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto } from '../../support'
+import { goto } from '../../support/e2e'
 
 describe('Layout', () => {
   beforeEach(() => {
@@ -13,9 +13,7 @@ describe('Layout', () => {
   })
 
   it('should have Nav', () => {
-    cy.get('header')
-      .get('nav')
-      .should('exist')
+    cy.get('header').get('nav').should('exist')
   })
 
   it('should have Main', () => {

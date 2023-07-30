@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto } from '../../support'
+import { goto } from '../../support/e2e'
 
 describe('Recipes', () => {
   beforeEach(() => {

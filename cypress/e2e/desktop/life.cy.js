@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-import { goto, getTitle } from '../../support'
+import { goto, getTitle } from '../../support/e2e'
 
 describe('Life', () => {
   beforeEach(() => {
@@ -11,14 +11,10 @@ describe('Life', () => {
   // Check that controls work
   it('should adjust controls', () => {
     cy.contains('Width').click()
-    cy.focused()
-      .type('{backspace}')
-      .should('have.value', '16')
+    cy.focused().type('{backspace}').should('have.value', '16')
 
     cy.tab()
-    cy.focused()
-      .type('4')
-      .should('have.value', '4')
+    cy.focused().type('4').should('have.value', '4')
 
     cy.tab()
     cy.focused()
@@ -33,10 +29,7 @@ describe('Life', () => {
     cy.get('canvas').click(110, 100, { force: true })
     cy.get('canvas').click(120, 100, { force: true })
 
-    cy.contains('Step')
-      .click()
-      .click()
-      .click()
+    cy.contains('Step').click().click().click()
 
     cy.contains('Start')
       .click()
@@ -54,9 +47,7 @@ describe('Life', () => {
     cy.contains('Start').click()
 
     cy.contains('Delay').click()
-    cy.focused()
-      .type('11')
-      .should('have.value', '11')
+    cy.focused().type('11').should('have.value', '11')
 
     cy.contains('Start').click()
 

@@ -25,7 +25,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ link, children }) => {
 
   return (
     <div className='w-full lg:w-fit h-[3.125rem] cursor-pointer select-none'>
-      <Link href={link} passHref>
+      <Link href={link} passHref legacyBehavior>
         <div className={clsx(className, isActive && className2)}>
           {children}
         </div>
