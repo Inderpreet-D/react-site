@@ -11,7 +11,7 @@ type LinkButtonProps = {
 
 const LinkButton: React.FC<LinkButtonProps> = ({ href, title, className }) => {
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       <a className='text-white visited:text-primary-light'>
         <Button className={clsx('underline', className)}>{title}</Button>
       </a>
