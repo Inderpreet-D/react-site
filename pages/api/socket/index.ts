@@ -2,6 +2,8 @@ import { Server as NetServer, Socket } from 'net'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Server } from 'socket.io'
 
+import handlers from './handlers'
+
 type NextApiResponseServerIO = NextApiResponse & {
   socket: Socket & {
     server: NetServer & {
@@ -25,7 +27,11 @@ const api = async (_: NextApiRequest, res: NextApiResponseServerIO) => {
   res.socket.server.io = io
 
   // Socket io handlers
-  io.on('connection', socket => {})
+  io.on('connection', socket => {
+    handlers.forEach(([eventName, handler]) => {
+      socket.on(eventName, (data, ack) => handler({ socket, data, ack }))
+    })
+  })
 
   // Prevent stalled requests
   res.end()
