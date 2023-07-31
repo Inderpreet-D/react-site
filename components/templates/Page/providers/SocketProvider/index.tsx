@@ -1,6 +1,14 @@
 import io, { Socket } from 'socket.io-client'
 
-const useSocket = () => {
+type ContextType = Socket | null
+
+const SocketContext = React.createContext<ContextType | null>(null)
+
+type SocketProviderProps = {
+  children: React.ReactNode
+}
+
+const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [socket, setSocket] = React.useState<Socket | null>(null)
 
   React.useEffect(() => {
@@ -24,7 +32,11 @@ const useSocket = () => {
     }
   }, [])
 
-  return socket
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  )
 }
 
-export default useSocket
+export default SocketProvider
+
+export const useSocket = () => React.useContext(SocketContext) as ContextType
