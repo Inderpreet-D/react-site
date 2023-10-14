@@ -1,11 +1,15 @@
 import { Handlers, SocketHandler } from '../../types'
 
-export const TREACHERY_TEST = 'treachery.test'
+export const TREACHERY_WAIT = 'treachery.wait'
 
-const handler: SocketHandler<any> = ({ data, ack }) => {
-  ack({ data, res: 'Here, test' })
+const waitHandler: SocketHandler<any> = ({ socket, data, ack }) => {
+  console.log('Test', { data, ack })
+
+  if (ack) {
+    ack({ data, res: 'Here, test' })
+  }
 }
 
-const handlers: Handlers = [[TREACHERY_TEST, handler]]
+const handlers: Handlers = [[TREACHERY_WAIT, waitHandler]]
 
 export default handlers
