@@ -1,28 +1,15 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 import next from 'next'
-// import sslRedirect from 'heroku-ssl-redirect'
 
 import dotenv from 'dotenv'
 dotenv.config()
 
+import sslRedirect from './redirect'
 import processAuthToken from './auth'
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const port = process.env.PORT || 3000
-
-const sslRedirect = (environments = ['production'], status = 302) => {
-  const currentEnv = process.env.NODE_ENV
-  const isCurrentEnv = environments.includes(currentEnv)
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (isCurrentEnv && req.headers['x-forwarded-proto'] !== 'https') {
-      const newUrl = 'https://' + req.hostname + req.originalUrl
-      res.redirect(status, newUrl)
-    } else {
-      next()
-    }
-  }
-}
 
 const runServer = async () => {
   try {
@@ -32,7 +19,6 @@ const runServer = async () => {
     server.use(express.json())
 
     // HTTP to HTTPS re-routing
-    // server.use(sslRedirect())
     server.use(sslRedirect())
 
     // Auth token verification

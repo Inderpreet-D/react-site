@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 import { useSpring, animated } from 'react-spring'
 
+import SocketProvider from './providers/SocketProvider'
+
 import LoadingIcon from '../../atoms/LoadingIcon'
 import Header from '../../atoms/Header'
 import Footer from '../../atoms/Footer'
@@ -49,7 +51,7 @@ const Page: React.FC<PageProps> = ({
   }
 
   return (
-    <>
+    <SocketProvider>
       <Head>
         <title>{title}</title>
       </Head>
@@ -72,7 +74,7 @@ const Page: React.FC<PageProps> = ({
 
         <Alert />
       </div>
-    </>
+    </SocketProvider>
   )
 }
 
