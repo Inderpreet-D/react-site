@@ -39,9 +39,9 @@ const SectionControls: React.FC = () => {
     return total
   }, [combinedCards])
 
-  const { data: price, isLoading: isLoadingMoney } = useSWR<number>(() =>
-    totalPrice > 0 ? `/money?amount=${totalPrice}` : null
-  )
+  // const { data: price, isLoading: isLoadingMoney } = useSWR<number>(() =>
+  //   totalPrice > 0 ? `/money?amount=${totalPrice}` : null
+  // )
 
   return (
     <div className={titleClassName}>
@@ -49,11 +49,11 @@ const SectionControls: React.FC = () => {
         Total Cards ({commanderCount + otherCount})
       </div>
 
-      {!isLoadingMoney && (
-        <div className='ml-4 underline'>
-          Total Price: ${(price ?? 0).toFixed(2)} CAD
-        </div>
-      )}
+      {/* {!isLoadingMoney && ( */}
+      <div className='ml-4 underline'>
+        Total Price: ${(totalPrice ?? 0).toFixed(2)} USD
+      </div>
+      {/* )} */}
 
       <Select
         label='Sort'
