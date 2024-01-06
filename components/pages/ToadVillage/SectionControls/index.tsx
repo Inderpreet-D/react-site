@@ -9,7 +9,7 @@ import {
   reverseCostSort
 } from '../../../../utilities/helpers/toadvillage'
 import { titleClassName, useCardState } from '../providers/CardStateProvider'
-import useSWR from '../../../../hooks/useSWR'
+// import useSWR from '../../../../hooks/useSWR'
 
 const sortMap: {
   [x: string]: (a: FormattedCard, b: FormattedCard) => number
