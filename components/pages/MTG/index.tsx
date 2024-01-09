@@ -25,6 +25,11 @@ const buttonData: ButtonData[] = [
     href: 'treachery',
     title: 'Treachery',
     description: 'Used for assigning roles in a game of Treachery'
+  },
+  {
+    href: 'cardDB',
+    title: 'Collection',
+    description: 'Database of your Magic the Gathering cards'
   }
 ]
 
