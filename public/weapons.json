@@ -1,0 +1,829 @@
+{
+	"taser": {
+		"title": "Taser",
+		"icon": "res://assets/sprites/taser-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.5,
+		"description": [
+			[
+				"Close range stun"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"+2 damage",
+				"-0.5s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "High Voltage",
+				"text": "Shocks arc between enemies"
+			},
+			{
+				"title": "Reflex",
+				"text": "Shock nearby enemies when taking damage"
+			}
+		]
+	},
+	"axe": {
+		"title": "Axe",
+		"icon": "res://assets/sprites/axe-icon.png",
+		"base damage": 6,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Chop nearby enemies"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Axe of Fire",
+				"text": "Has a chance to inflict burn"
+			},
+			{
+				"title": "Whirlwind Axe",
+				"text": "Greatly increase swing arc"
+			}
+		]
+	},
+	"baseball_bat": {
+		"title": "Baseball Bat",
+		"icon": "res://assets/sprites/baseball-bat-icon.png",
+		"base damage": 6,
+		"base attack delay": 2.75,
+		"description": [
+			[
+				"Swing in an arc and apply stun"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+4 damage"
+			]
+		],
+		"variants": [
+			{
+				"title": "Shattering Swing",
+				"text": "Inflict shatter every third swing"
+			},
+			{
+				"title": "Home Run",
+				"text": "Hit dingers with every swing"
+			}
+		]
+	},
+	"earth_magic": {
+		"title": "Earth Magic",
+		"icon": "res://assets/sprites/earth-magic-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.75,
+		"description": [
+			[
+				"Swing a tree branch around yourself"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+6 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Bone Breaker",
+				"text": "Deal increased damage to enemies that are affected by shatter"
+			},
+			{
+				"title": "Head Shaker",
+				"text": "Inflicts stun as well"
+			}
+		]
+	},
+	"pistol": {
+		"title": "Pistol",
+		"icon": "res://assets/sprites/pistol-icon.png",
+		"base damage": 4,
+		"base attack delay": 2.75,
+		"description": [
+			[
+				"Fire bullets with some spread"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Machine Pistol",
+				"text": "Shoot more bullets"
+			},
+			{
+				"title": "Snake Shooter",
+				"text": "Shoot more and have a chance to inflict poison"
+			}
+		]
+	},
+	"bomb": {
+		"title": "Bomb",
+		"icon": "res://assets/sprites/bomb.png",
+		"base damage": 8,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Throw a bomb that explodes after a delay"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage"
+			]
+		],
+		"variants": [
+			{
+				"title": "Baby Bomb Jr.",
+				"text": "Your bombs are filled with more bombs"
+			},
+			{
+				"title": "XXL Bomb",
+				"text": "Increased explosion size"
+			}
+		]
+	},
+	"shotgun": {
+		"title": "Shotgun",
+		"icon": "res://assets/sprites/shotgun-icon.png",
+		"base damage": 8,
+		"base attack delay": 3.25,
+		"description": [
+			[
+				"High damage but low accuracy"
+			],
+			[
+				"+6 damage"
+			],
+			[
+				"-0.5s attack delay",
+				"-15.0 degree spread"
+			],
+			[
+				"Attacks apply poison"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay",
+				"-7.5 degree spread"
+			]
+		],
+		"variants": [
+			{
+				"title": "BB12",
+				"text": "Fire more bullets and fire faster"
+			},
+			{
+				"title": "My Little Slugger",
+				"text": "Bullets fire in a straight line and are guaranteed to crit"
+			}
+		]
+	},
+	"sword": {
+		"title": "Sword",
+		"icon": "res://assets/sprites/sword-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.25,
+		"description": [
+			[
+				"Swings in an arc"
+			],
+			[
+				"+2 damage",
+				"+45% swing arc"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage",
+				"+90% swing arc"
+			],
+			[
+				"-0.5s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Sword Master",
+				"text": "Become a true swordsman"
+			},
+			{
+				"title": "Hinokami",
+				"text": "Attack with the power of the sun"
+			}
+		]
+	},
+	"hammer": {
+		"title": "Hammer",
+		"icon": "res://assets/sprites/hammer-icon.png",
+		"base damage": 6,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Hammer time"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage",
+				"+30% swing arc"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"+60% swing arc"
+			]
+		],
+		"variants": [
+			{
+				"title": "Strong Style Swing",
+				"text": "Greatly increase swing arc"
+			},
+			{
+				"title": "Hammer Push",
+				"text": "Knockback enemies"
+			}
+		]
+	},
+	"whip": {
+		"title": "Whip",
+		"icon": "res://assets/sprites/whip-icon.png",
+		"base damage": 8,
+		"base attack delay": 3.25,
+		"description": [
+			[
+				"Swing in a half circle"
+			],
+			[
+				"-0.8s attack delay"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay"
+			],
+			[
+				"Attacks apply bleed"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Bloody Whip",
+				"text": "Deal increased damage to enemies that are afflicted with bleed"
+			},
+			{
+				"title": "Sonic Boom",
+				"text": "Explode on hit"
+			}
+		]
+	},
+	"kunai": {
+		"title": "Kunai",
+		"icon": "res://assets/sprites/kunai.png",
+		"base damage": 4,
+		"base attack delay": 2.5,
+		"description": [
+			[
+				"Accurate and deadly"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"Attacks apply bleed"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Rainbow",
+				"text": "Inflict random status effects and fire more"
+			},
+			{
+				"title": "Bouncing Kunai",
+				"text": "Bounce between enemies"
+			}
+		]
+	},
+	"rpg": {
+		"title": "RPG",
+		"icon": "res://assets/sprites/rpg-icon.png",
+		"base damage": 10,
+		"base attack delay": 3.25,
+		"description": [
+			[
+				"Shoots rockets"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Tube Noob",
+				"text": "Fire bullets while reloading"
+			},
+			{
+				"title": "Ice Breaker",
+				"text": "Instantly kill enemies with full stacks of freeze"
+			}
+		]
+	},
+	"poison_dart": {
+		"title": "Poison Dart",
+		"icon": "res://assets/sprites/poison-dart-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.5,
+		"description": [
+			[
+				"Blow darts"
+			],
+			[
+				"+2 damage",
+				"-0.5s attack delay"
+			],
+			[
+				"Shoot more"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"-0.5s attack delay",
+				"Shoot more"
+			]
+		],
+		"variants": [
+			{
+				"title": "Lethal Poison",
+				"text": "+1 stack of poison, then double the amount of poison stacks"
+			},
+			{
+				"title": "Creeping Death",
+				"text": "+1 stack of poison and also apply more stacks of poison for each other status effects"
+			}
+		]
+	},
+	"smg": {
+		"title": "SMG",
+		"icon": "res://assets/sprites/smg-icon.png",
+		"base damage": 4,
+		"base attack delay": 3,
+		"description": [
+			[
+				"High rate of fire with low accuracy"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"Attacks apply burn"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay",
+				"-30.0 degree spread"
+			]
+		],
+		"variants": [
+			{
+				"title": "Golden UZI",
+				"text": "Increased accuracy and fire rate"
+			},
+			{
+				"title": "e-SMG",
+				"text": "Bullets explode on hit"
+			}
+		]
+	},
+	"shuriken": {
+		"title": "Shuriken",
+		"icon": "res://assets/sprites/shuriken-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.5,
+		"description": [
+			[
+				"Throw shurikens in a spread"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"Attacks apply shatter"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"-0.5s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Seeker",
+				"text": "Thrown shuriken will track and follow their targets"
+			},
+			{
+				"title": "Hunter",
+				"text": "Fire multiple in a line"
+			}
+		]
+	},
+	"ice_magic": {
+		"title": "Ice Magic",
+		"icon": "res://assets/sprites/ice-magic-icon.png",
+		"base damage": 4,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Throw ice shards"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage"
+			]
+		],
+		"variants": [
+			{
+				"title": "Contagion",
+				"text": "Enemies that die with freeze will pass it to nearby enemies"
+			},
+			{
+				"title": "Ice Age",
+				"text": "Inflict freeze to all nearby enemies when taking damage"
+			}
+		]
+	},
+	"fire_magic": {
+		"title": "Fire Magic",
+		"icon": "res://assets/sprites/fire-magic-icon.png",
+		"base damage": 6,
+		"base attack delay": 3,
+		"description": [
+			[
+				"You cast fireball"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Hellfire",
+				"text": "Shoot homing fireballs"
+			},
+			{
+				"title": "External Combustion",
+				"text": "Enemies killed by the fireball or its explosion will explode"
+			}
+		]
+	},
+	"assault_rifle": {
+		"title": "Assault Rifle",
+		"icon": "res://assets/sprites/ar-icon.png",
+		"base damage": 4,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Fully auto"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+4 damage"
+			]
+		],
+		"variants": [
+			{
+				"title": "Semi Auto",
+				"text": "Reduced spread and increased damage"
+			},
+			{
+				"title": "One Shot, One Kill",
+				"text": "Increased crit chance and damage"
+			}
+		]
+	},
+	"pirate_cannon": {
+		"title": "Pirate Cannon",
+		"icon": "res://assets/sprites/cannon-icon.png",
+		"base damage": 8,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Fire in the hole"
+			],
+			[
+				"Attacks apply poison"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Grapeshot",
+				"text": "Inflict shatter on exploded enemies"
+			},
+			{
+				"title": "Chainshot",
+				"text": "Bounce to a second enemy after exploding"
+			}
+		]
+	},
+	"sniper": {
+		"title": "Sniper",
+		"icon": "res://assets/sprites/sniper-icon.png",
+		"base damage": 8,
+		"base attack delay": 3.25,
+		"description": [
+			[
+				"High damage, low rate of fire, auto-target"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"+4 damage"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+2 damage"
+			]
+		],
+		"variants": [
+			{
+				"title": "Piercing Death",
+				"text": "Pierce through enemy defenses"
+			},
+			{
+				"title": "Full Auto",
+				"text": "Shoot more targets at once"
+			}
+		]
+	},
+	"boomerang": {
+		"title": "Boomerang",
+		"icon": "res://assets/sprites/boomerang.png",
+		"base damage": 6,
+		"base attack delay": 2.75,
+		"description": [
+			[
+				"Returns to sender"
+			],
+			[
+				"+4 damage",
+				"-0.5s attack delay"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+4 damage",
+				"-0.2s attack delay"
+			],
+			[
+				"Attacks apply madness"
+			]
+		],
+		"variants": [
+			{
+				"title": "Curserang",
+				"text": "Inflict complete madness on hit"
+			},
+			{
+				"title": "OPerang",
+				"text": "Instantly kill enemies and bosses with low health"
+			}
+		]
+	},
+	"wind_magic": {
+		"title": "Wind Magic",
+		"icon": "res://assets/sprites/wind-magic-icon.png",
+		"base damage": 2,
+		"base attack delay": 2.25,
+		"description": [
+			[
+				"Summon many tornadoes"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Accelerant",
+				"text": "Increased damage to enemies that are afflicted with burn, doesn't apply burn"
+			},
+			{
+				"title": "Tornado Trap",
+				"text": "Tornadoes also inflict stun"
+			}
+		]
+	},
+	"orbital_cannon": {
+		"title": "Orbital Cannon",
+		"icon": "res://assets/sprites/missile-silo-icon.png",
+		"base damage": 14,
+		"base attack delay": 3.25,
+		"description": [
+			[
+				"Fire a missile into the sky, it will come back down"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Space Program",
+				"text": "Fire more"
+			},
+			{
+				"title": "M.O.A.B",
+				"text": "Launch a mega bomb"
+			}
+		]
+	},
+	"millenium_eye": {
+		"title": "Millenium Eye",
+		"icon": "res://assets/sprites/pyramid-icon.png",
+		"base damage": 8,
+		"base attack delay": 3,
+		"description": [
+			[
+				"Make a pact with an ancient evil"
+			],
+			[
+				"-0.5s attack delay"
+			],
+			[
+				"+2 damage"
+			],
+			[
+				"-0.2s attack delay"
+			],
+			[
+				"+2 damage",
+				"-0.2s attack delay"
+			]
+		],
+		"variants": [
+			{
+				"title": "Chilling gaze",
+				"text": "Chance to inflict freeze"
+			},
+			{
+				"title": "New Contract",
+				"text": "A more powerful evil grants you sharks"
+			}
+		]
+	}
+}
