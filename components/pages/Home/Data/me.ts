@@ -47,12 +47,12 @@ const me: Me = [
         value: 3
       },
       {
-        key: 'JavaScript',
-        value: 2
+        key: 'JavaScript / TypeScript',
+        value: 5
       },
       {
         key: 'HTML / CSS',
-        value: 2
+        value: 5
       },
       {
         key: 'C#',
@@ -64,13 +64,13 @@ const me: Me = [
       },
       {
         key: 'SQL',
-        value: 1
+        value: 2
       },
       {
         key: 'Kotlin',
         value: 1
       }
-    ]
+    ].sort((a, b) => b.value - a.value)
   },
   {
     title: 'Technologies',
@@ -86,7 +86,11 @@ const me: Me = [
       },
       {
         key: 'Web Development',
-        value: 4
+        value: 5
+      },
+      {
+        key: 'ReactJS',
+        value: 5
       },
       {
         key: 'Unity',
@@ -101,18 +105,18 @@ const me: Me = [
         value: 1
       },
       {
+        key: 'Godot',
+        value: 2
+      },
+      {
         key: 'MySQL',
-        value: 1
+        value: 2
       },
       {
         key: 'NodeJS',
-        value: 1
-      },
-      {
-        key: 'ReactJS',
-        value: 1
+        value: 3
       }
-    ]
+    ].sort((a, b) => b.value - a.value)
   },
   {
     title: 'Education',
@@ -136,10 +140,22 @@ const me: Me = [
     type: 'Date',
     data: [
       {
+        name: 'SonarCX',
+        location: 'Calgary AB, Canada',
+        title: 'Frontend Developer',
+        date: "Jan '19 - Present",
+        points: [
+          'Used WebSockets to implement real-time communications between multiple channels',
+          'Used React to build and maintain multiple interconnected web apps with varying use cases',
+          "Responsible for designing and developing features to alleviate client's pain points related to chat and task management",
+          'Able to collaborate with team members in a fast paced environment to quickly resolve issues'
+        ]
+      },
+      {
         name: 'NeuroLab',
         location: 'Calgary AB, Canada',
         title: 'Lead Task Developer',
-        date: "May '18 - Present",
+        date: "May '18 - Jan '22",
         points: [
           'Used C# and C++ along with the Unity and Unreal game engines to develop tasks used for research and training',
           'Able to quickly comprehend and extend large code bases, such as websites and pre-existing Unreal and Unity projects',
@@ -183,7 +199,7 @@ const me: Me = [
           'Michael M. G.',
           'Ford B.',
           'Inderpreet D.',
-          'Adam R.',
+          'Adam L. D.',
           'Alberto U.',
           'Jaimy H.',
           'Kira D.',
@@ -192,8 +208,7 @@ const me: Me = [
         me: 'Inderpreet D.',
         description:
           'A study that used a task I developed to test the feasibility of training programs to assist users in cognitive map use and development.',
-        href:
-          'https://www.frontiersin.org/articles/10.3389/fnhum.2020.00005/full'
+        href: 'https://www.frontiersin.org/articles/10.3389/fnhum.2020.00005/full'
       },
       {
         title:

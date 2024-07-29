@@ -14,9 +14,9 @@ import Box from '../../atoms/Box'
 import meRaw, { Data } from './Data/me'
 
 const me = [
-  'Publications',
   'Experience',
   'Education',
+  'Publications',
   'Technologies',
   'Languages'
 ].map(title => meRaw.find(item => item.title === title)!)

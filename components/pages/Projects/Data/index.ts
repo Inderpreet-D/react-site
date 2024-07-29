@@ -14,6 +14,13 @@ const projects: Project[] = [
     hrefTitle: 'Source Code on Github'
   },
   {
+    title: 'Cult Survivors',
+    description:
+      "A game I worked on as the lead programmer. It's a 2D top-down survivor-like with roguelike elements.",
+    href: 'https://store.steampowered.com/app/3050540/Cult_Survivors/',
+    hrefTitle: 'Play on Steam'
+  },
+  {
     title: 'P2P Distributed File Sharing System',
     description:
       'A Bittorrent clone written in Java, able to anonymously transfer files between users in the system. Supports multi-threaded downloading and uploading, allowing for fast file transfer.',
