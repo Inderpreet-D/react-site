@@ -9,6 +9,8 @@ describe('Home', () => {
   })
 
   it('should show publications', () => {
+    cy.contains('Publications').click()
+
     cy.contains(
       'A Novel Training Program to Improve Human Spatial Orientation: Preliminary Findings'
     ).should('exist')
@@ -23,7 +25,7 @@ describe('Home', () => {
   it('should move between sections', () => {
     cy.contains('Experience').click()
 
-    cy.contains('1 / 3').should('exist')
+    cy.contains('1 / 4').should('exist')
 
     cy.contains('Education').click()
 
