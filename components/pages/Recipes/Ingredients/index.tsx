@@ -28,7 +28,9 @@ const Ingredients = ({ recipe: { bake, ingredients, makes } }: PropType) => {
         )
       })}
 
-      <div className='mb-4 font-bold'>Bake at: {bake}</div>
+      {bake &&
+        <div className='mb-4 font-bold'>Bake at: {bake}</div>
+      }
 
       <div className='mb-4 font-bold'>Makes: {makes}</div>
     </ContainerSection>

@@ -22,7 +22,7 @@ const pages: Page[] = [
 ]
 
 const pizzaDough: Recipe = {
-  title: 'Pizza Dough',
+  title: 'Personal Pizza Dough',
   bake: 'Max temp (500°F) for 8 minutes',
   makes: '2 personal size pizzas',
   ingredients,
