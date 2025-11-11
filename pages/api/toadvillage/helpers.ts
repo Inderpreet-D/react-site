@@ -72,8 +72,10 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
         matchedCards.push({ amount, card })
 
         card.all_parts
-          ?.filter(({ component }) => component === 'token')
-          .forEach(token => neededTokens.push(token))
+          ?.filter(({ component }) =>
+            ["token", "combo_piece"].includes(component)
+          )
+          .forEach((token) => neededTokens.push(token));
       } catch (err) {
         console.error('Card Fetch Error: ', (err as Error).message)
         unmatched.push(name)
