@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from "axios";
 
-import { Card, FormattedCard, ReqCard } from '../../../shared/toadvillage'
+import { Card, FormattedCard, ReqCard } from "../../../shared/toadvillage";
 import {
   ScryfallPart,
   ScryfallCard,
@@ -9,236 +9,241 @@ import {
   BasicImage,
   CardFace,
   Deck,
-  QueueType
-} from './types'
+  QueueType,
+} from "./types";
 
-const DELAY = 100
+const DELAY = 100;
 
 const SEARCH_URL = (name: string) =>
-  `https://api.scryfall.com/cards/search?q=!"${name}"`
+  `https://api.scryfall.com/cards/search?q=!"${name}"`;
 
 type PromiseExecutor<T> = (
   resolve: (value: T | PromiseLike<T>) => void,
   reject: (reason?: any) => void
-) => void
+) => void;
 
-type FetchFunc<T> = (name: string) => PromiseExecutor<T>
+type FetchFunc<T> = (name: string) => PromiseExecutor<T>;
 
 // Gets a single card by name from Scryfall
 const handleFetchCard: FetchFunc<ScryfallCard> =
   (name: string) => (resolve, reject) => {
     setTimeout(async () => {
       try {
-        const { data } = await axios.get(SEARCH_URL(name))
-        const card = data as unknown as { data: ScryfallCard[] }
-        resolve(card.data[0])
+        const { data } = await axios.get(SEARCH_URL(name));
+        const card = data as unknown as { data: ScryfallCard[] };
+        resolve(card.data[0]);
       } catch (err) {
-        reject(err)
+        reject(err);
       }
-    }, DELAY)
-  }
+    }, DELAY);
+  };
 
 // Wrapper for fetch
 const fetchCard = async (name: string) => {
-  return new Promise<ScryfallCard>(handleFetchCard(name))
-}
+  return new Promise<ScryfallCard>(handleFetchCard(name));
+};
 
 // Fetches a related token for a card from Scryfall
 const fetchToken = async (uri: string): Promise<ScryfallCard> => {
   return new Promise((resolve, reject) => {
     setTimeout(async () => {
       try {
-        const data = await axios.get(uri)
-        resolve(data.data)
+        const data = await axios.get(uri);
+        resolve(data.data);
       } catch (err) {
-        reject(err)
+        reject(err);
       }
-    }, DELAY)
-  })
-}
+    }, DELAY);
+  });
+};
 
 // Fetches a list of
 const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
-  const matchedCards: MatchedCard[] = []
-  const unmatched: string[] = []
-  const tokens: FormattedCard[] = []
-  const neededTokens: ScryfallPart[] = []
+  const matchedCards: MatchedCard[] = [];
+  const unmatched: string[] = [];
+  const tokens: FormattedCard[] = [];
+  const neededTokens: ScryfallPart[] = [];
 
   // Get each card and extra tokens if required
   await Promise.all(
     cards.map(async ({ amount, name }) => {
       try {
-        const card: ScryfallCard = await fetchCard(name)
-        matchedCards.push({ amount, card })
+        const card: ScryfallCard = await fetchCard(name);
+        matchedCards.push({ amount, card });
 
         card.all_parts
           ?.filter(({ component }) =>
-            ["token", "combo_piece"].includes(component)
+            ["token", "combo_piece", "meld_result"].includes(component)
           )
           .forEach((token) => neededTokens.push(token));
       } catch (err) {
-        console.error('Card Fetch Error: ', (err as Error).message)
-        unmatched.push(name)
+        console.error("Card Fetch Error: ", (err as Error).message);
+        unmatched.push(name);
       }
     })
-  )
+  );
 
   // Filtering out non-unique tokens
-  const uniqueNeeded: { [uri: string]: ScryfallPart } = {}
-  neededTokens.forEach(part => {
+  const uniqueNeeded: { [uri: string]: ScryfallPart } = {};
+  neededTokens.forEach((part) => {
     if (!(part.uri in uniqueNeeded)) {
-      uniqueNeeded[part.uri] = part
+      uniqueNeeded[part.uri] = part;
     }
-  })
+  });
 
   // Get needed tokens
   await Promise.all(
     Object.values(uniqueNeeded).map(async ({ name, uri }) => {
       try {
-        const token: ScryfallCard = await fetchToken(uri)
+        const token: ScryfallCard = await fetchToken(uri);
+        if (!token.image_uris) {
+          console.warn(`Token ${name} has no image URIs, skipping.`);
+          return;
+        }
+
         tokens.push({
           amount: 1,
           card: {
             name,
             image: token.image_uris.normal,
-            prices: { usd: '0' }
-          }
-        })
+            prices: { usd: "0" },
+          },
+        });
       } catch (err) {
-        console.error('Token Fetch Error: ', (err as Error).message)
+        console.error("Token Fetch Error: ", (err as Error).message);
       }
     })
-  )
+  );
 
-  return { matchedCards, unmatched, tokens }
-}
+  return { matchedCards, unmatched, tokens };
+};
 
 // Finds color identity for a list of cards
 const getColorIdentity = (cards: MatchedCard[]): Set<string> => {
-  const identity: Set<string> = new Set()
+  const identity: Set<string> = new Set();
   cards.forEach(({ card }) => {
-    card.color_identity.forEach((color: string) => identity.add(color))
-  })
-  return identity
-}
+    card.color_identity.forEach((color: string) => identity.add(color));
+  });
+  return identity;
+};
 
 // Checks if a card is a commander candidate
 const isCommander = (
   deckIdentity: Set<string>,
   card: ScryfallCard
 ): boolean => {
-  const types: string[] = card.type_line.split(' ')
+  const types: string[] = card.type_line.split(" ");
 
   // Only Legendary Creature/Planeswlaker can be commander usually
   if (
-    !types.includes('Legendary') ||
-    (!types.includes('Creature') && !types.includes('Planeswalker'))
+    !types.includes("Legendary") ||
+    (!types.includes("Creature") && !types.includes("Planeswalker"))
   ) {
-    return false
+    return false;
   }
 
   // Check that the identity of this crd matches the identity of the deck
-  const cardIdentity: Set<string> = new Set(card.color_identity)
+  const cardIdentity: Set<string> = new Set(card.color_identity);
   if (deckIdentity.size !== cardIdentity.size) {
-    return false
+    return false;
   }
   for (let color of deckIdentity) {
     if (!cardIdentity.has(color)) {
-      return false
+      return false;
     }
   }
 
-  return true
-}
+  return true;
+};
 
 // Convert Scryfall card to my own
 const formatCard = (card: ScryfallCard): Card => {
-  const image: BasicImage = card.image_uris || card.card_faces[0].image_uris
+  const image: BasicImage = card.image_uris || card.card_faces[0].image_uris;
   const newCard: Card = {
     name: card.name,
     image: image.normal,
-    prices: card.prices
-  }
+    prices: card.prices,
+  };
 
   // Add faces to card if needed
   if (card.card_faces) {
     const imageFaces: CardFace[] = card.card_faces.filter(
-      face => face.image_uris
-    )
+      (face) => face.image_uris
+    );
 
     if (imageFaces.length === 2) {
       newCard.faces = imageFaces.map(({ name, image_uris }) => ({
         name,
-        image: image_uris.normal
-      }))
+        image: image_uris.normal,
+      }));
     }
   }
 
-  return newCard
-}
+  return newCard;
+};
 
 // Splits cards between commanders and normal
 const formatCards = (cards: MatchedCard[], identity: Set<string>): Deck => {
-  const commanders: FormattedCard[] = []
-  const others: FormattedCard[] = []
+  const commanders: FormattedCard[] = [];
+  const others: FormattedCard[] = [];
 
   // Split cards
   cards.forEach(({ amount, card }) => {
-    const formatted: Card = formatCard(card)
-    const val: FormattedCard = { amount, card: formatted }
+    const formatted: Card = formatCard(card);
+    const val: FormattedCard = { amount, card: formatted };
 
     if (isCommander(identity, card)) {
-      commanders.push(val)
-      return
+      commanders.push(val);
+      return;
     }
 
-    others.push(val)
-  })
+    others.push(val);
+  });
 
-  return { commanders, others }
-}
+  return { commanders, others };
+};
 
 // Combines cards based on name
 const coalesce = (
   cards: FormattedCard[],
   collapseAmount = false
 ): FormattedCard[] => {
-  const coalesced: { [name: string]: FormattedCard } = {}
+  const coalesced: { [name: string]: FormattedCard } = {};
 
   // Update count
   cards.forEach(({ amount, card }) => {
-    const { name } = card
+    const { name } = card;
     if (!(name in coalesced)) {
-      coalesced[name] = { amount: 0, card }
+      coalesced[name] = { amount: 0, card };
     }
-    coalesced[name].amount += amount
-  })
+    coalesced[name].amount += amount;
+  });
 
   if (collapseAmount) {
-    Object.keys(coalesced).forEach(key => {
-      coalesced[key] = { ...coalesced[key], amount: 1 }
-    })
+    Object.keys(coalesced).forEach((key) => {
+      coalesced[key] = { ...coalesced[key], amount: 1 };
+    });
   }
 
-  return Object.values(coalesced)
-}
+  return Object.values(coalesced);
+};
 
 // Handles incoming request
 const handleRequest = async (cardNames: ReqCard[]): Promise<QueueType> => {
-  const { matchedCards, unmatched, tokens } = await fetchCards(cardNames)
-  const filteredMatches: MatchedCard[] = matchedCards.filter(Boolean)
-  const filteredUnmatches: string[] = unmatched.filter(Boolean)
+  const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
+  const filteredMatches: MatchedCard[] = matchedCards.filter(Boolean);
+  const filteredUnmatches: string[] = unmatched.filter(Boolean);
 
-  const identity: Set<string> = getColorIdentity(filteredMatches)
-  const { commanders, others } = formatCards(filteredMatches, identity)
+  const identity: Set<string> = getColorIdentity(filteredMatches);
+  const { commanders, others } = formatCards(filteredMatches, identity);
 
   return {
-    status: 'DONE',
+    status: "DONE",
     commanders: coalesce(commanders),
     others: coalesce(others),
     tokens: coalesce(tokens, true),
-    unmatched: [...new Set(filteredUnmatches)]
-  }
-}
+    unmatched: [...new Set(filteredUnmatches)],
+  };
+};
 
-export default handleRequest
+export default handleRequest;

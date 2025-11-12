@@ -1,10 +1,10 @@
-import Page from '../../components/templates/Page'
-import ToadVillagePage from '../../components/pages/ToadVillage'
+import Page from "../../components/templates/Page";
+import ToadVillagePage from "../../components/pages/ToadVillage";
 
 const ToadVillage = () => (
-  <Page title='Toad Village' isProtected>
+  <Page title="Toad Village" isProtected>
     <ToadVillagePage />
   </Page>
-)
+);
 
-export default ToadVillage
+export default ToadVillage;
