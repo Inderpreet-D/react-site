@@ -1,100 +1,100 @@
-import clsx from 'clsx'
-import { isEqual } from 'lodash'
-import { format as dateFormat } from 'date-fns'
+import clsx from "clsx";
+import { isEqual } from "lodash";
+import { format as dateFormat } from "date-fns";
 
-import { Game } from '..'
+import { Game } from "..";
 
-import ContainerSubTitle from '../../../atoms/ContainerSubTitle'
-import Button from '../../../atoms/Button'
+import ContainerSubTitle from "../../../atoms/ContainerSubTitle";
+import Button from "../../../atoms/Button";
 
 type GamesProps = {
-  game: Game | null
-  games: Game[]
-  year: number
-  selectGame: (newVal: Game | null) => void
-}
+  game: Game | null;
+  games: Game[];
+  year: number;
+  selectGame: (newVal: Game | null) => void;
+};
 
 type DeckType = {
-  commander: string
-  theme?: string
-  tribe?: string
-  companion?: string
-}
+  commander: string;
+  theme?: string;
+  tribe?: string;
+  companion?: string;
+};
 
 const getDate = (date: Date): string => {
-  return dateFormat(date, 'MMM do, y')
-}
+  return dateFormat(date, "MMM do, y");
+};
 
 const getTypePrefix = (type: string): string => {
-  return `${type}::`
-}
+  return `${type}::`;
+};
 
 const getNameForType = (type: string, types: string[]): string | undefined => {
-  const prefix = getTypePrefix(type)
-  const found = types.find(s => s.startsWith(prefix))
+  const prefix = getTypePrefix(type);
+  const found = types.find((s) => s.startsWith(prefix));
 
   if (!found) {
-    return undefined
+    return undefined;
   }
 
-  return found.split(prefix)[1]
-}
+  return found.split(prefix)[1];
+};
 
 const extractDeckData = (deck: string): DeckType => {
-  const [commander, ...rest] = deck.split('--').map(s => s.trim())
+  const [commander, ...rest] = deck.split("--").map((s) => s.trim());
 
-  const theme = getNameForType('T', rest)
-  const tribe = getNameForType('G', rest)
-  const companion = getNameForType('C', rest)
+  const theme = getNameForType("T", rest);
+  const tribe = getNameForType("G", rest);
+  const companion = getNameForType("C", rest);
 
   return {
     commander,
     theme,
     tribe,
-    companion
-  }
-}
+    companion,
+  };
+};
 
-const cellClassName = 'p-2 text-left'
+const cellClassName = "p-2 text-left";
 
 const Games: React.FC<GamesProps> = ({ game, games, year, selectGame }) => {
   const formattedGames = React.useMemo(() => {
-    const withDate = games.map(g => {
-      const { month, day } = g
-      const date = new Date(year, month - 1, day)
+    const withDate = games.map((g) => {
+      const { month, day } = g;
+      const date = new Date(year, month - 1, day);
 
       return {
         ...g,
-        date
-      }
-    })
+        date,
+      };
+    });
 
-    return withDate
-  }, [games, year])
+    return withDate;
+  }, [games, year]);
 
   const [showTheme, showTribe, showCompanion] = React.useMemo(() => {
     if (!game) {
-      return [false, false, false]
+      return [false, false, false];
     }
 
-    const decks = Object.values(game.players)
+    const decks = Object.values(game.players);
     const hasType = (type: string) =>
-      decks.some(deck => deck.includes(getTypePrefix(type)))
+      decks.some((deck) => deck.includes(getTypePrefix(type)));
 
-    const showTheme = hasType('T')
-    const showTribe = hasType('G')
-    const showCompanion = hasType('C')
+    const showTheme = hasType("T");
+    const showTribe = hasType("G");
+    const showCompanion = hasType("C");
 
-    return [showTheme, showTribe, showCompanion]
-  }, [game])
+    return [showTheme, showTribe, showCompanion];
+  }, [game]);
 
   return (
     <>
-      <ContainerSubTitle style={{ marginBottom: '1rem' }}>
+      <ContainerSubTitle style={{ marginBottom: "1rem" }}>
         Games
       </ContainerSubTitle>
 
-      <div className='grid grid-cols-1 gap-8 p-8 lg:grid-cols-3 sm:grid-cols-2'>
+      <div className="grid grid-cols-1 gap-8 p-8 lg:grid-cols-3 sm:grid-cols-2">
         {formattedGames.map((g, i) => (
           <Button
             key={i}
@@ -107,10 +107,10 @@ const Games: React.FC<GamesProps> = ({ game, games, year, selectGame }) => {
       </div>
 
       {game && (
-        <div className='overflow-x-auto'>
-          <table className='mx-0 my-4 w-full border-collapse'>
+        <div className="overflow-x-auto">
+          <table className="mx-0 my-4 w-full border-collapse">
             <thead>
-              <tr className='bg-dark-dark text-dark-light'>
+              <tr className="bg-dark-dark text-dark-light">
                 <th className={cellClassName}>Player</th>
 
                 <th className={cellClassName}>Commander</th>
@@ -124,22 +124,22 @@ const Games: React.FC<GamesProps> = ({ game, games, year, selectGame }) => {
             </thead>
 
             <tbody>
-              {Object.entries(game.players).map(data => {
-                const [name, deck] = data
+              {Object.entries(game.players).map((data) => {
+                const [name, deck] = data;
                 const {
                   commander,
-                  theme = 'N/A',
-                  tribe = 'N/A',
-                  companion = 'N/A'
-                } = extractDeckData(deck)
+                  theme = "N/A",
+                  tribe = "N/A",
+                  companion = "N/A",
+                } = extractDeckData(deck);
 
                 return (
                   <tr
                     key={name}
                     className={clsx(
-                      'border-b border-b-dark-dark text-white transition-all duration-500',
-                      name === game.winner && 'bg-primary-light text-dark-dark',
-                      'hover:bg-dark-dark hover:text-white'
+                      "border-b border-b-dark-dark text-white transition-all duration-500",
+                      name === game.winner && "bg-primary-light text-dark-dark",
+                      "hover:bg-dark-dark hover:text-white"
                     )}
                   >
                     <td className={cellClassName}>{name}</td>
@@ -154,14 +154,14 @@ const Games: React.FC<GamesProps> = ({ game, games, year, selectGame }) => {
                       <td className={cellClassName}>{companion}</td>
                     )}
                   </tr>
-                )
+                );
               })}
             </tbody>
           </table>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Games
+export default Games;

@@ -1,30 +1,30 @@
-import { Players } from '../../../slices/mtgRecord/helpers'
-import { PlayerObj } from '../Competitive'
+import { Players } from "../../../slices/mtgRecord/helpers";
+import { PlayerObj } from "../Competitive";
 
 export const getPlayerObj = (players: Players) => {
-  const playerObj: PlayerObj = {}
+  const playerObj: PlayerObj = {};
 
-  Object.values(players).forEach(vals => {
-    const { name, commander, theme, tribe, companion } = vals
+  Object.values(players).forEach((vals) => {
+    const { name, commander, theme, tribe, companion } = vals;
 
     if (commander.length && name.length) {
-      const transformedVals = [commander]
+      const transformedVals = [commander];
 
       if (theme.length) {
-        transformedVals.push(`T::${theme}`)
+        transformedVals.push(`T::${theme}`);
       }
 
       if (tribe.length) {
-        transformedVals.push(`G::${tribe}`)
+        transformedVals.push(`G::${tribe}`);
       }
 
       if (companion.length) {
-        transformedVals.push(`C::${companion}`)
+        transformedVals.push(`C::${companion}`);
       }
 
-      playerObj[name] = transformedVals.join(' -- ')
+      playerObj[name] = transformedVals.join(" -- ");
     }
-  })
+  });
 
-  return playerObj
-}
+  return playerObj;
+};

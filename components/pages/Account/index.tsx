@@ -1,15 +1,15 @@
-import { useAppDispatch } from '../../../hooks/redux'
+import { useAppDispatch } from "../../../hooks/redux";
 
-import Container from '../../atoms/Container'
-import ContainerTitle from '../../atoms/ContainerTitle'
-import Username from './Username'
-import Password from './Password'
-import Button from '../../atoms/Button'
+import Container from "../../atoms/Container";
+import ContainerTitle from "../../atoms/ContainerTitle";
+import Username from "./Username";
+import Password from "./Password";
+import Button from "../../atoms/Button";
 
-import { logout } from '../../../slices/auth'
+import { logout } from "../../../slices/auth";
 
 const Page = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   return (
     <Container>
@@ -19,11 +19,11 @@ const Page = () => {
 
       <Password />
 
-      <Button onClick={() => dispatch(logout())} className='mt-8 w-full'>
+      <Button onClick={() => dispatch(logout())} className="mt-8 w-full">
         Log out
       </Button>
     </Container>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

@@ -1,10 +1,10 @@
-import Page from '../../components/templates/Page'
-import GoLPage from '../../components/pages/GoL'
+import Page from "../../components/templates/Page";
+import GoLPage from "../../components/pages/GoL";
 
 const GoL = () => (
-  <Page title='Game of Life'>
+  <Page title="Game of Life">
     <GoLPage />
   </Page>
-)
+);
 
-export default GoL
+export default GoL;

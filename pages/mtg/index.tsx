@@ -1,10 +1,10 @@
-import Page from '../../components/templates/Page'
-import MTGPage from '../../components/pages/MTG'
+import Page from "../../components/templates/Page";
+import MTGPage from "../../components/pages/MTG";
 
 const MTG = () => (
-  <Page title='MTG Hub'>
+  <Page title="MTG Hub">
     <MTGPage />
   </Page>
-)
+);
 
-export default MTG
+export default MTG;

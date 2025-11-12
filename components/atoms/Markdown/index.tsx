@@ -1,11 +1,11 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
-import useSWR from '../../../hooks/useSWR'
+import useSWR from "../../../hooks/useSWR";
 
 type MarkdownProps = {
-  markdown: string
-  className?: string
-}
+  markdown: string;
+  className?: string;
+};
 
 const Markdown: React.FC<MarkdownProps> = ({
   markdown,
@@ -14,19 +14,19 @@ const Markdown: React.FC<MarkdownProps> = ({
 }) => {
   const { data, isLoading } = useSWR<string>(
     `/markdown?md=${encodeURIComponent(markdown)}`
-  )
+  );
 
   if (isLoading) {
-    return null
+    return null;
   }
 
   return (
     <div
       dangerouslySetInnerHTML={{ __html: data }}
-      className={clsx('markdown', extraClass)}
+      className={clsx("markdown", extraClass)}
       {...props}
     />
-  )
-}
+  );
+};
 
-export default Markdown
+export default Markdown;

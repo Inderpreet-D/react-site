@@ -1,29 +1,29 @@
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from "../../../../../hooks/redux";
 
-import { getSeasons } from '../../../../../lib/api/competitive'
-import { selectMTGRecord, setSeasons } from '../../../../../slices/mtgRecord'
+import { getSeasons } from "../../../../../lib/api/competitive";
+import { selectMTGRecord, setSeasons } from "../../../../../slices/mtgRecord";
 
 const useRecordSeasons = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const { seasonsLoaded } = useAppSelector(selectMTGRecord)
+  const { seasonsLoaded } = useAppSelector(selectMTGRecord);
 
   React.useEffect(() => {
     if (seasonsLoaded) {
-      return
+      return;
     }
 
-    ;(async () => {
+    (async () => {
       try {
-        const seasons = await getSeasons()
-        dispatch(setSeasons(seasons))
+        const seasons = await getSeasons();
+        dispatch(setSeasons(seasons));
       } catch (err) {
-        console.error('Error getting seasons', err)
+        console.error("Error getting seasons", err);
       }
-    })()
-  }, [seasonsLoaded, dispatch])
+    })();
+  }, [seasonsLoaded, dispatch]);
 
-  return null
-}
+  return null;
+};
 
-export default useRecordSeasons
+export default useRecordSeasons;

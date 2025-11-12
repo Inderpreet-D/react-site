@@ -1,7 +1,7 @@
-import { Handlers } from '../types'
+import { Handlers } from "../types";
 
-import treacheryHandlers from './treachery'
+import treacheryHandlers from "./treachery";
 
-const handlers: Handlers = [...treacheryHandlers]
+const handlers: Handlers = [...treacheryHandlers];
 
-export default handlers
+export default handlers;

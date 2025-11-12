@@ -1,79 +1,79 @@
-import { Rarity, RoleName, Card } from '../../../../shared/treachery'
-import { getRoles, getWinConditions } from './storage'
+import { Rarity, RoleName, Card } from "../../../../shared/treachery";
+import { getRoles, getWinConditions } from "./storage";
 
 export const generateUniqueCode = (codeSet: string[] = []) => {
-  let code = ''
+  let code = "";
   do {
-    code = ''
+    code = "";
 
     // Create code
     for (let i = 0; i < 4; i++) {
-      code += String.fromCharCode(65 + Math.floor(Math.random() * 26))
+      code += String.fromCharCode(65 + Math.floor(Math.random() * 26));
     }
-  } while (codeSet.includes(code))
+  } while (codeSet.includes(code));
 
   // Return unique code
-  return code
-}
+  return code;
+};
 
 const chooseN = async (cardType: RoleName, rarity: Rarity, amount: number) => {
-  const roles = await getRoles()
-  const chosen: string[] = []
-  const cards: string[] = roles[cardType][rarity]
+  const roles = await getRoles();
+  const chosen: string[] = [];
+  const cards: string[] = roles[cardType][rarity];
 
   while (chosen.length != amount) {
     const item = `/treachery/${cardType}/${rarity}/${
       cards[Math.floor(Math.random() * cards.length)]
-    }`
+    }`;
 
     if (!chosen.includes(item)) {
-      chosen.push(item)
+      chosen.push(item);
     }
   }
 
-  return chosen
-}
+  return chosen;
+};
 
 const shuffle = <T>(array: T[]) => {
-  let curr = array.length
+  let curr = array.length;
 
   while (curr !== 0) {
-    const rand = Math.floor(Math.random() * curr)
-    curr -= 1
+    const rand = Math.floor(Math.random() * curr);
+    curr -= 1;
 
-    const temp = array[curr]
-    array[curr] = array[rand]
-    array[rand] = temp
+    const temp = array[curr];
+    array[curr] = array[rand];
+    array[rand] = temp;
   }
 
-  return array
-}
+  return array;
+};
 
 export const getCards = async (numPlayers: number, rarity: Rarity) => {
-  let chosen = await chooseN(RoleName.Leader, rarity, 1)
+  let chosen = await chooseN(RoleName.Leader, rarity, 1);
 
   chosen = chosen.concat(
     await chooseN(RoleName.Traitor, rarity, numPlayers === 8 ? 2 : 1)
-  )
+  );
 
   chosen = chosen.concat(
     await chooseN(RoleName.Assassin, rarity, numPlayers >= 6 ? 3 : 2)
-  )
+  );
 
   if (numPlayers >= 5) {
     chosen = chosen.concat(
       await chooseN(RoleName.Guardian, rarity, numPlayers >= 7 ? 2 : 1)
-    )
+    );
   }
 
-  return shuffle(chosen)
-}
+  return shuffle(chosen);
+};
 
 export const parseCardData = async (card: string) => {
-  const WinConditions = await getWinConditions()
-  const imgSrc = card
-  const role: RoleName = card.split('/')[2] as RoleName
-  const winCondition: string = WinConditions[role]
-  const parsedCard: Card = { imgSrc, role, winCondition }
-  return parsedCard
-}
+  const WinConditions = await getWinConditions();
+  const imgSrc = card;
+  const role: RoleName = card.split("/")[2] as RoleName;
+  const winCondition: string = WinConditions[role];
+  const parsedCard: Card = { imgSrc, role, winCondition };
+  return parsedCard;
+};

@@ -1,28 +1,28 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { createToken, getUserByName, validateUser } from './helpers'
+import { createToken, getUserByName, validateUser } from "./helpers";
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
   const { username, password } = req.body as {
-    username: string
-    password: string
-  }
+    username: string;
+    password: string;
+  };
 
   try {
     if (await validateUser(username, password)) {
-      const user = await getUserByName(username)
+      const user = await getUserByName(username);
       if (user) {
-        const token = await createToken(user.id)
-        res.send({ token })
-        return
+        const token = await createToken(user.id);
+        res.send({ token });
+        return;
       }
     }
 
-    res.status(400).send('Username or password is incorrect.')
+    res.status(400).send("Username or password is incorrect.");
   } catch (err) {
-    console.error('Error logging in: ', err)
-    res.status(500).send((err as Error).message)
+    console.error("Error logging in: ", err);
+    res.status(500).send((err as Error).message);
   }
-}
+};
 
-export default api
+export default api;

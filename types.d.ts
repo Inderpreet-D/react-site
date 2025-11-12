@@ -1,104 +1,104 @@
 //* Common
-type KVPair = Record<string, string>
-type ID = string
+type KVPair = Record<string, string>;
+type ID = string;
 
 type FullUser = Omit<
   User,
-  'hashedPassword' | 'iterations' | 'profile' | 'salt'
+  "hashedPassword" | "iterations" | "profile" | "salt"
 > & {
-  profile: Omit<Profile, 'id'>
-}
+  profile: Omit<Profile, "id">;
+};
 
 //* Authentication
 type Locals = {
   locals: {
-    token: string | null
-    user: User | null
-  }
-}
+    token: string | null;
+    user: User | null;
+  };
+};
 
 type Profile = {
-  id: ID
-}
+  id: ID;
+};
 
-type ProfilesTable = Record<ID, Profile>
+type ProfilesTable = Record<ID, Profile>;
 
-type Token = ID[]
+type Token = ID[];
 
-type TokensTable = Record<ID, Token>
+type TokensTable = Record<ID, Token>;
 
-type Permission = 'admin' | 'user'
+type Permission = "admin" | "user";
 
 type User = {
-  hashedPassword: string
-  id: ID
-  iterations: number
-  name: string
-  profile: ID
-  salt: string
-  permissions: Permission[]
-}
+  hashedPassword: string;
+  id: ID;
+  iterations: number;
+  name: string;
+  profile: ID;
+  salt: string;
+  permissions: Permission[];
+};
 
-type UsersTable = Record<ID, User>
+type UsersTable = Record<ID, User>;
 
 type AuthenticationTable = {
-  profiles: ProfilesTable
-  tokens: TokensTable
-  users: UsersTable
-}
+  profiles: ProfilesTable;
+  tokens: TokensTable;
+  users: UsersTable;
+};
 
 //* Competitive
 type CompetitiveGame = {
-  day: number
-  month: number
-  players: KVPair
-  winner?: string
-}
+  day: number;
+  month: number;
+  players: KVPair;
+  winner?: string;
+};
 
 type CompetitiveSeason = {
-  games: CompetitiveGame[]
-  name: string
-  rules: string[]
-  year: number
-}
+  games: CompetitiveGame[];
+  name: string;
+  rules: string[];
+  year: number;
+};
 
-type CompetitiveTable = CompetitiveSeason[]
+type CompetitiveTable = CompetitiveSeason[];
 
 //* Movies
-type MoviesTable = KVPair
+type MoviesTable = KVPair;
 
 //* Todos
 type TodoItem = {
-  checked: boolean
-  id: ID
-  order: number
-  text: string
-}
+  checked: boolean;
+  id: ID;
+  order: number;
+  text: string;
+};
 
-type TodosTable = Record<ID, TodoItem>
+type TodosTable = Record<ID, TodoItem>;
 
 //* Treachery
 type Room = {
-  numPlayers: number
-  currentPlayers: number
-  cards: string[]
-  ids: Record<string, number>
-  nextIDX: number
-}
+  numPlayers: number;
+  currentPlayers: number;
+  cards: string[];
+  ids: Record<string, number>;
+  nextIDX: number;
+};
 
-type Rooms = Record<string, Room>
+type Rooms = Record<string, Room>;
 
 type TreacheryTable = {
-  rooms: string[]
-  room: Rooms
-}
+  rooms: string[];
+  room: Rooms;
+};
 
 //* Full DB
 type DBSchema = {
-  authentication: AuthenticationTable
-  competitive: CompetitiveTable
-  movies: MoviesTable
-  recordPassword: string
-  todos: TodosTable
-  treachery: TreacheryTable
-}
+  authentication: AuthenticationTable;
+  competitive: CompetitiveTable;
+  movies: MoviesTable;
+  recordPassword: string;
+  todos: TodosTable;
+  treachery: TreacheryTable;
+};

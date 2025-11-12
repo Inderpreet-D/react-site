@@ -1,43 +1,43 @@
-import useBaseSWR from 'swr'
-import { useAppDispatch } from '../redux'
+import useBaseSWR from "swr";
+import { useAppDispatch } from "../redux";
 
-import { wrapCall } from '../../lib/api'
-import { setAlert } from '../../slices/alert'
+import { wrapCall } from "../../lib/api";
+import { setAlert } from "../../slices/alert";
 
-type SWRType = string | (() => string | null)
+type SWRType = string | (() => string | null);
 
 const useSWR = <T>(url: SWRType) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   const { data, error } = useBaseSWR(
     () => {
-      if (typeof url === 'string') {
-        return `/${url}`
+      if (typeof url === "string") {
+        return `/${url}`;
       }
 
-      const val = url()
+      const val = url();
       if (val) {
-        return `/${val}`
+        return `/${val}`;
       }
 
-      return null
+      return null;
     },
-    async uri => await wrapCall<T>({ method: 'GET', uri })
-  )
+    async (uri) => await wrapCall<T>({ method: "GET", uri })
+  );
 
   // Show errors
   React.useEffect(() => {
     if (error) {
-      const message = error.response.data
-      dispatch(setAlert(message))
+      const message = error.response.data;
+      dispatch(setAlert(message));
     }
-  }, [error, dispatch])
+  }, [error, dispatch]);
 
   return {
     data: data as T,
     isLoading: !error && !data,
-    isError: Boolean(error)
-  }
-}
+    isError: Boolean(error),
+  };
+};
 
-export default useSWR
+export default useSWR;

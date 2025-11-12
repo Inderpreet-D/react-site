@@ -1,35 +1,35 @@
-import '@testing-library/jest-dom'
+import "@testing-library/jest-dom";
 
-import { WordleState } from '../../../../slices/wordle'
-import { Result, getCellColors } from '../LetterCell/helpers'
+import { WordleState } from "../../../../slices/wordle";
+import { Result, getCellColors } from "../LetterCell/helpers";
 
-let state: WordleState
+let state: WordleState;
 
 beforeEach(() => {
   state = {
-    currentGuess: '',
-    word: '',
+    currentGuess: "",
+    word: "",
     wordLength: 0,
     round: 0,
     maxRound: 6,
     guesses: [],
     started: true,
     done: false,
-    won: false
-  }
-})
+    won: false,
+  };
+});
 
-it('Checks positions', () => {
-  state = { ...state, word: 'sat', wordLength: 3, guesses: ['ass'] }
+it("Checks positions", () => {
+  state = { ...state, word: "sat", wordLength: 3, guesses: ["ass"] };
   expect(getCellColors(state, 0)).toStrictEqual([
     Result.WrongPlace,
     Result.WrongPlace,
-    Result.Incorrect
-  ])
-})
+    Result.Incorrect,
+  ]);
+});
 
-it('Passes on correct', () => {
-  state = { ...state, word: 'testing', wordLength: 7, guesses: ['testing'] }
+it("Passes on correct", () => {
+  state = { ...state, word: "testing", wordLength: 7, guesses: ["testing"] };
   expect(getCellColors(state, 0)).toStrictEqual([
     Result.Correct,
     Result.Correct,
@@ -37,17 +37,17 @@ it('Passes on correct', () => {
     Result.Correct,
     Result.Correct,
     Result.Correct,
-    Result.Correct
-  ])
-})
+    Result.Correct,
+  ]);
+});
 
-it('Passes on correct with previous', () => {
+it("Passes on correct with previous", () => {
   state = {
     ...state,
-    word: 'testing',
+    word: "testing",
     wordLength: 7,
-    guesses: ['failure', 'testing']
-  }
+    guesses: ["failure", "testing"],
+  };
   expect(getCellColors(state, 1)).toStrictEqual([
     Result.Correct,
     Result.Correct,
@@ -55,17 +55,17 @@ it('Passes on correct with previous', () => {
     Result.Correct,
     Result.Correct,
     Result.Correct,
-    Result.Correct
-  ])
-})
+    Result.Correct,
+  ]);
+});
 
-it('Handles multiple passes', () => {
-  state = { ...state, word: 'ketch', wordLength: 5, guesses: ['catch'] }
+it("Handles multiple passes", () => {
+  state = { ...state, word: "ketch", wordLength: 5, guesses: ["catch"] };
   expect(getCellColors(state, 0)).toStrictEqual([
     Result.Incorrect,
     Result.Incorrect,
     Result.Correct,
     Result.Correct,
-    Result.Correct
-  ])
-})
+    Result.Correct,
+  ]);
+});

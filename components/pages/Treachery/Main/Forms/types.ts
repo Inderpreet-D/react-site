@@ -1,5 +1,5 @@
-type ChangeHandler = (prop: string) => (val: string) => void
+type ChangeHandler = (prop: string) => (val: string) => void;
 
 export type FormProps = {
-  onChange: ChangeHandler
-}
+  onChange: ChangeHandler;
+};

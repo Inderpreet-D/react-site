@@ -1,27 +1,27 @@
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from "../../../hooks/redux";
 
-import Container from '../../atoms/Container'
-import ContainerBackButton from '../../atoms/ContainerBackButton'
-import ContainerTitle from '../../atoms/ContainerTitle'
-import ContainerError from '../../atoms/ContainerError'
-import Main from './Main'
-import Room from './Room'
-import Card from './Card'
-import LoadingIcon from '../../atoms/LoadingIcon'
+import Container from "../../atoms/Container";
+import ContainerBackButton from "../../atoms/ContainerBackButton";
+import ContainerTitle from "../../atoms/ContainerTitle";
+import ContainerError from "../../atoms/ContainerError";
+import Main from "./Main";
+import Room from "./Room";
+import Card from "./Card";
+import LoadingIcon from "../../atoms/LoadingIcon";
 
-import { State, selectTreachery } from '../../../slices/treachery'
-import useTreacherySetup from './hooks/useTreacherySetup'
-import useTreacheryPolling from './hooks/useTreacheryPolling'
+import { State, selectTreachery } from "../../../slices/treachery";
+import useTreacherySetup from "./hooks/useTreacherySetup";
+import useTreacheryPolling from "./hooks/useTreacheryPolling";
 
 const Page = () => {
-  useTreacherySetup()
-  useTreacheryPolling()
+  useTreacherySetup();
+  useTreacheryPolling();
 
-  const { state, error } = useAppSelector(selectTreachery)
+  const { state, error } = useAppSelector(selectTreachery);
 
   return (
     <Container>
-      <ContainerBackButton to='mtg' />
+      <ContainerBackButton to="mtg" />
 
       <ContainerTitle>MTG Treachery</ContainerTitle>
 
@@ -35,7 +35,7 @@ const Page = () => {
 
       {state === State.Load && <LoadingIcon />}
     </Container>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

@@ -1,45 +1,45 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { RootState } from '../../store'
+import { RootState } from "../../store";
 
 type RecipeState = {
-  index: number
-  checked: string[]
-}
+  index: number;
+  checked: string[];
+};
 
 const initialState: RecipeState = {
   index: 0,
-  checked: []
-}
+  checked: [],
+};
 
 const recipeSlice = createSlice({
-  name: 'recipe',
+  name: "recipe",
   initialState,
   reducers: {
     reset: () => {
-      return initialState
+      return initialState;
     },
 
     toggleCheck: (state: RecipeState, action: PayloadAction<string>) => {
-      const key = action.payload
-      const idx = state.checked.indexOf(key)
+      const key = action.payload;
+      const idx = state.checked.indexOf(key);
 
       if (idx === -1) {
-        state.checked.push(key)
-        return
+        state.checked.push(key);
+        return;
       }
 
-      state.checked.splice(idx, 1)
+      state.checked.splice(idx, 1);
     },
 
     updateIndex: (state: RecipeState, action: PayloadAction<number>) => {
-      state.index = action.payload
-    }
-  }
-})
+      state.index = action.payload;
+    },
+  },
+});
 
-export const { reset, toggleCheck, updateIndex } = recipeSlice.actions
+export const { reset, toggleCheck, updateIndex } = recipeSlice.actions;
 
-export const selectRecipe = (state: RootState) => state.recipe
+export const selectRecipe = (state: RootState) => state.recipe;
 
-export default recipeSlice.reducer
+export default recipeSlice.reducer;

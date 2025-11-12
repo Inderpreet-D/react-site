@@ -1,15 +1,15 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import axios from 'axios'
+import { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { title } = req.query
+  const { title } = req.query;
 
   try {
-    const data = await axios.get(`http://www.omdbapi.com/?t=${title}`)
-    res.send({ data })
+    const data = await axios.get(`http://www.omdbapi.com/?t=${title}`);
+    res.send({ data });
   } catch (err) {
-    res.send(null)
+    res.send(null);
   }
-}
+};
 
-export default api
+export default api;

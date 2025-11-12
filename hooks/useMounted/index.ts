@@ -1,16 +1,16 @@
 const useMounted = () => {
-  const [mounted, setMounted] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false);
 
   //  Updates mounted status
   React.useEffect(() => {
-    setMounted(true)
+    setMounted(true);
 
     return () => {
-      setMounted(false)
-    }
-  }, [])
+      setMounted(false);
+    };
+  }, []);
 
-  return mounted
-}
+  return mounted;
+};
 
-export default useMounted
+export default useMounted;

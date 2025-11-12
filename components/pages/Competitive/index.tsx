@@ -1,34 +1,34 @@
-import { isEqual } from 'lodash'
+import { isEqual } from "lodash";
 
-import Container from '../../atoms/Container'
-import ContainerBackButton from '../../atoms/ContainerBackButton'
-import ContainerTitle from '../../atoms/ContainerTitle'
-import LoadingIcon from '../../atoms/LoadingIcon'
-import HorizontalList from '../../atoms/HorizontalList'
-import HorizontalListButton from '../../atoms/HorizontalListButton'
-import ContainerSectionSeparator from '../../atoms/ContainerSectionSeparator'
-import Rules from './Rules'
-import Games from './Games'
-import Leaderboard from './Leaderboard'
+import Container from "../../atoms/Container";
+import ContainerBackButton from "../../atoms/ContainerBackButton";
+import ContainerTitle from "../../atoms/ContainerTitle";
+import LoadingIcon from "../../atoms/LoadingIcon";
+import HorizontalList from "../../atoms/HorizontalList";
+import HorizontalListButton from "../../atoms/HorizontalListButton";
+import ContainerSectionSeparator from "../../atoms/ContainerSectionSeparator";
+import Rules from "./Rules";
+import Games from "./Games";
+import Leaderboard from "./Leaderboard";
 
-import useSWR from '../../../hooks/useSWR'
+import useSWR from "../../../hooks/useSWR";
 
 export type PlayerObj = {
-  [x: string]: string
-}
+  [x: string]: string;
+};
 
 export type Game = {
-  month: number
-  day: number
-  players: PlayerObj
-  winner?: string
-}
+  month: number;
+  day: number;
+  players: PlayerObj;
+  winner?: string;
+};
 
 export interface Season {
-  name: string
-  year: number
-  games: Game[]
-  rules: string[]
+  name: string;
+  year: number;
+  games: Game[];
+  rules: string[];
 }
 
 const meme = `
@@ -47,25 +47,25 @@ const meme = `
 ⠀⠀⠀⡟⡾⣿⢿⢿⢵⣽⣾⣼⣘⢸⢸⣞⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠁⠇⠡⠩⡫⢿⣝⡻⡮⣒⢽⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ——————————————————————————————————
-`
+`;
 
 const Page = () => {
-  const { data: seasons, isLoading } = useSWR<Season[]>('competitive')
+  const { data: seasons, isLoading } = useSWR<Season[]>("competitive");
 
-  const [season, setSeason] = React.useState<Season | null>(null)
-  const [game, setGame] = React.useState<Game | null>(null)
+  const [season, setSeason] = React.useState<Season | null>(null);
+  const [game, setGame] = React.useState<Game | null>(null);
 
   const selectGame = React.useCallback((newVal: Game | null) => {
-    setGame(old => (isEqual(old, newVal) ? null : newVal))
-  }, [])
+    setGame((old) => (isEqual(old, newVal) ? null : newVal));
+  }, []);
 
   if (isLoading) {
-    return null
+    return null;
   }
 
   return (
     <Container>
-      <ContainerBackButton to='mtg' />
+      <ContainerBackButton to="mtg" />
 
       <ContainerTitle>Competitive</ContainerTitle>
 
@@ -75,20 +75,20 @@ const Page = () => {
         <>
           <HorizontalList>
             {(seasons ?? []).map((s, i) => {
-              const selected = isEqual(s, season)
+              const selected = isEqual(s, season);
 
               return (
                 <HorizontalListButton
                   key={i}
                   active={selected}
                   onClick={() => {
-                    setSeason(selected ? null : s)
-                    setGame(null)
+                    setSeason(selected ? null : s);
+                    setGame(null);
                   }}
                 >
                   {s.name ?? `Season ${i + 1}`}
                 </HorizontalListButton>
-              )
+              );
             })}
           </HorizontalList>
 
@@ -115,7 +115,7 @@ const Page = () => {
                 </>
               ) : (
                 <div>
-                  <pre className='w-fit mx-auto mt-[-1rem]'>{meme}</pre>
+                  <pre className="w-fit mx-auto mt-[-1rem]">{meme}</pre>
                 </div>
               )}
             </>
@@ -123,7 +123,7 @@ const Page = () => {
         </>
       )}
     </Container>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

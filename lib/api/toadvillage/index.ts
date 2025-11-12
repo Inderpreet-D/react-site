@@ -1,17 +1,17 @@
-import { ReqCard } from '../../../shared/toadvillage'
-import { QueueType } from '../../../pages/api/toadvillage/types'
+import { ReqCard } from "../../../shared/toadvillage";
+import { QueueType } from "../../../pages/api/toadvillage/types";
 
-import { wrapCall } from '..'
+import { wrapCall } from "..";
 
-type ParamsType = { cards?: ReqCard[] }
+type ParamsType = { cards?: ReqCard[] };
 
 const toadvillage = async (data: ParamsType) => {
   const res = await wrapCall<QueueType>({
-    method: 'POST',
-    uri: '/toadvillage',
-    data
-  })
-  return { data: res }
-}
+    method: "POST",
+    uri: "/toadvillage",
+    data,
+  });
+  return { data: res };
+};
 
-export default toadvillage
+export default toadvillage;

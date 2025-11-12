@@ -1,43 +1,43 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { JoinVal } from './types'
+import { JoinVal } from "./types";
 
-import { getRooms, saveRooms } from './helpers/storage'
-import { generateUniqueCode } from './helpers'
+import { getRooms, saveRooms } from "./helpers/storage";
+import { generateUniqueCode } from "./helpers";
 
 const api = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { roomCode, id } = req.body as { roomCode: string; id?: string }
-  const rooms = await getRooms()
+  const { roomCode, id } = req.body as { roomCode: string; id?: string };
+  const rooms = await getRooms();
 
   if (!(roomCode in rooms)) {
-    res.send({ error: 'Room not found' })
-    return
+    res.send({ error: "Room not found" });
+    return;
   }
 
-  const ids = rooms[roomCode].ids
+  const ids = rooms[roomCode].ids;
   const returnVal: JoinVal = {
     roomCode,
-    id: id ?? '',
+    id: id ?? "",
     currentPlayers: 0,
-    numPlayers: 0
-  }
+    numPlayers: 0,
+  };
 
   if (!id || !(id in ids)) {
-    const newId = generateUniqueCode(Object.keys(ids))
+    const newId = generateUniqueCode(Object.keys(ids));
 
-    rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX
-    rooms[roomCode].nextIDX++
-    rooms[roomCode].currentPlayers++
+    rooms[roomCode].ids[newId] = rooms[roomCode].nextIDX;
+    rooms[roomCode].nextIDX++;
+    rooms[roomCode].currentPlayers++;
 
-    await saveRooms(rooms)
+    await saveRooms(rooms);
 
-    returnVal.id = newId
+    returnVal.id = newId;
   }
 
-  returnVal.currentPlayers = rooms[roomCode].currentPlayers
-  returnVal.numPlayers = rooms[roomCode].numPlayers
+  returnVal.currentPlayers = rooms[roomCode].currentPlayers;
+  returnVal.numPlayers = rooms[roomCode].numPlayers;
 
-  res.send(returnVal)
-}
+  res.send(returnVal);
+};
 
-export default api
+export default api;

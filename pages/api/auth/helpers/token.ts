@@ -1,37 +1,37 @@
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from "uuid";
 
 import {
   getTokensForUser,
   saveTokensForUser,
   getTokens,
-  saveTokens
-} from './storage'
+  saveTokens,
+} from "./storage";
 
 export const createToken = async (userID: string) => {
-  const existingTokens = (await getTokensForUser(userID)) ?? []
+  const existingTokens = (await getTokensForUser(userID)) ?? [];
 
-  let id = uuidv4()
+  let id = uuidv4();
   while (existingTokens.includes(id)) {
-    id = uuidv4()
+    id = uuidv4();
   }
-  existingTokens.push(id)
+  existingTokens.push(id);
 
-  await saveTokensForUser(userID, existingTokens)
+  await saveTokensForUser(userID, existingTokens);
 
-  return id
-}
+  return id;
+};
 
 export const deleteToken = async (token: string) => {
-  const tokens = await getTokens()
+  const tokens = await getTokens();
 
   if (!tokens) {
-    return
+    return;
   }
 
   const updated = Object.entries(tokens).reduce((acc, [userID, tokens]) => {
-    acc[userID] = tokens.filter(t => t !== token)
-    return acc
-  }, {} as TokensTable)
+    acc[userID] = tokens.filter((t) => t !== token);
+    return acc;
+  }, {} as TokensTable);
 
-  await saveTokens(updated)
-}
+  await saveTokens(updated);
+};

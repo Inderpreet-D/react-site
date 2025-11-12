@@ -1,24 +1,24 @@
-import { FormattedCard } from '../../../../shared/toadvillage'
+import { FormattedCard } from "../../../../shared/toadvillage";
 
-import Select from '../../../atoms/Select'
+import Select from "../../../atoms/Select";
 
 import {
   nameSort,
   reverseNameSort,
   costSort,
-  reverseCostSort
-} from '../../../../utilities/helpers/toadvillage'
-import { titleClassName, useCardState } from '../providers/CardStateProvider'
+  reverseCostSort,
+} from "../../../../utilities/helpers/toadvillage";
+import { titleClassName, useCardState } from "../providers/CardStateProvider";
 // import useSWR from '../../../../hooks/useSWR'
 
 const sortMap: {
-  [x: string]: (a: FormattedCard, b: FormattedCard) => number
+  [x: string]: (a: FormattedCard, b: FormattedCard) => number;
 } = {
-  'Alphabetical (a-z)': nameSort,
-  'Alphabetical (z-a)': reverseNameSort,
-  'Cost (ascending)': costSort,
-  'Cost (descending)': reverseCostSort
-}
+  "Alphabetical (a-z)": nameSort,
+  "Alphabetical (z-a)": reverseNameSort,
+  "Cost (ascending)": costSort,
+  "Cost (descending)": reverseCostSort,
+};
 
 const SectionControls: React.FC = () => {
   const {
@@ -26,18 +26,18 @@ const SectionControls: React.FC = () => {
     setSelectedSort,
     combinedCards,
     commanderCount,
-    otherCount
-  } = useCardState()
+    otherCount,
+  } = useCardState();
 
   const totalPrice = React.useMemo(() => {
-    let total = 0
+    let total = 0;
 
-    combinedCards.forEach(card => {
-      total += card.amount * +card.card.prices.usd
-    })
+    combinedCards.forEach((card) => {
+      total += card.amount * +card.card.prices.usd;
+    });
 
-    return total
-  }, [combinedCards])
+    return total;
+  }, [combinedCards]);
 
   // const { data: price, isLoading: isLoadingMoney } = useSWR<number>(() =>
   //   totalPrice > 0 ? `/money?amount=${totalPrice}` : null
@@ -45,28 +45,28 @@ const SectionControls: React.FC = () => {
 
   return (
     <div className={titleClassName}>
-      <div className='underline'>
+      <div className="underline">
         Total Cards ({commanderCount + otherCount})
       </div>
 
       {/* {!isLoadingMoney && ( */}
-      <div className='ml-4 underline'>
+      <div className="ml-4 underline">
         Total Price: ${(totalPrice ?? 0).toFixed(2)} USD
       </div>
       {/* )} */}
 
       <Select
-        label='Sort'
-        labelClass='text-3xl'
+        label="Sort"
+        labelClass="text-3xl"
         options={Object.keys(sortMap)}
         value={selectedSort.name}
-        onChange={val =>
+        onChange={(val) =>
           setSelectedSort({ name: val as string, sort: sortMap[val as string] })
         }
-        className='flex-1 justify-end'
+        className="flex-1 justify-end"
       />
     </div>
-  )
-}
+  );
+};
 
-export default SectionControls
+export default SectionControls;

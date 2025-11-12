@@ -1,13 +1,13 @@
-import { AppProps } from 'next/app'
-import { Provider } from 'react-redux'
-import { DefaultSeo } from 'next-seo'
+import { AppProps } from "next/app";
+import { Provider } from "react-redux";
+import { DefaultSeo } from "next-seo";
 
-import SEO from '../next-seo.config'
-import { store } from '../store'
-import '../styles/index.css'
+import SEO from "../next-seo.config";
+import { store } from "../store";
+import "../styles/index.css";
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const AppComponent = Component as any
+  const AppComponent = Component as any;
 
   return (
     <Provider store={store}>
@@ -15,7 +15,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
 
       <AppComponent {...pageProps} />
     </Provider>
-  )
-}
+  );
+};
 
-export default MyApp
+export default MyApp;

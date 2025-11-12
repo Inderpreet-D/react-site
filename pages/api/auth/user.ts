@@ -1,21 +1,21 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { buildFullUser } from './helpers'
+import { buildFullUser } from "./helpers";
 
 const api = async (_: NextApiRequest, res: NextApiResponse & Locals) => {
   try {
-    const user = await buildFullUser(res.locals.user)
+    const user = await buildFullUser(res.locals.user);
 
-    if (typeof user === 'string') {
-      res.status(400).send(user)
-      return
+    if (typeof user === "string") {
+      res.status(400).send(user);
+      return;
     }
 
-    res.send({ user })
+    res.send({ user });
   } catch (err) {
-    console.error('Error getting user: ', err)
-    res.status(500).send((err as Error).message)
+    console.error("Error getting user: ", err);
+    res.status(500).send((err as Error).message);
   }
-}
+};
 
-export default api
+export default api;

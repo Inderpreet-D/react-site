@@ -3,12 +3,12 @@ const useDocumentListener = <K extends keyof DocumentEventMap>(
   listener: (e: DocumentEventMap[K]) => any
 ) => {
   React.useEffect(() => {
-    document.addEventListener(type, listener)
+    document.addEventListener(type, listener);
 
     return () => {
-      document.removeEventListener(type, listener)
-    }
-  }, [type, listener])
-}
+      document.removeEventListener(type, listener);
+    };
+  }, [type, listener]);
+};
 
-export default useDocumentListener
+export default useDocumentListener;

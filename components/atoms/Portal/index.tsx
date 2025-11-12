@@ -1,21 +1,21 @@
-import { createPortal } from 'react-dom'
+import { createPortal } from "react-dom";
 
-import { PORTAL_ID } from '../../../pages/_document'
-import useMounted from '../../../hooks/useMounted'
+import { PORTAL_ID } from "../../../pages/_document";
+import useMounted from "../../../hooks/useMounted";
 
 type Props = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 const Portal: React.FC<Props> = ({ children }) => {
-  const mounted = useMounted()
+  const mounted = useMounted();
 
   if (!mounted) {
-    return null
+    return null;
   }
 
-  const portal = document.querySelector(`#${PORTAL_ID}`)!
-  return createPortal(<>{children}</>, portal)
-}
+  const portal = document.querySelector(`#${PORTAL_ID}`)!;
+  return createPortal(<>{children}</>, portal);
+};
 
-export default Portal
+export default Portal;

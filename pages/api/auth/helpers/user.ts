@@ -1,167 +1,167 @@
-import { randomBytes, pbkdf2Sync, timingSafeEqual } from 'crypto'
-import { v4 as uuidv4 } from 'uuid'
+import { randomBytes, pbkdf2Sync, timingSafeEqual } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
-import { createProfile } from './profile'
+import { createProfile } from "./profile";
 import {
   saveUser,
   getTokens,
   getUserByID,
   getProfileByID,
-  getUsers
-} from './storage'
-import { createToken } from './token'
+  getUsers,
+} from "./storage";
+import { createToken } from "./token";
 
 //* Password operations
 
-const KEYLEN = 64
-const DIGEST = 'sha512'
+const KEYLEN = 64;
+const DIGEST = "sha512";
 
 const hashPassword = (password: string) => {
-  const salt = randomBytes(128).toString('base64')
-  const iterations = 100000
+  const salt = randomBytes(128).toString("base64");
+  const iterations = 100000;
 
-  const hash = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST)
+  const hash = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST);
 
   return {
     salt,
     iterations,
-    hashedPassword: hash.toString('hex')
-  }
-}
+    hashedPassword: hash.toString("hex"),
+  };
+};
 
 export const changePassword = async (password: string, user: User | null) => {
   if (!user) {
-    return 'User could not be found.'
+    return "User could not be found.";
   }
 
-  const passwordHash = hashPassword(password)
+  const passwordHash = hashPassword(password);
 
   const newUser: User = {
     ...user,
-    ...passwordHash
-  }
+    ...passwordHash,
+  };
 
-  await saveUser(newUser)
+  await saveUser(newUser);
 
-  return true
-}
+  return true;
+};
 
 //* User operations
 
 export const createUser = async (username: string, password: string) => {
-  const passwordHash = hashPassword(password)
-  const profile = await createProfile()
+  const passwordHash = hashPassword(password);
+  const profile = await createProfile();
 
   const user: User = {
     id: uuidv4(),
     name: username,
-    permissions: ['user'],
+    permissions: ["user"],
     profile,
-    ...passwordHash
-  }
+    ...passwordHash,
+  };
 
-  await saveUser(user)
+  await saveUser(user);
 
-  return await createToken(user.id)
-}
+  return await createToken(user.id);
+};
 
 export const findUserByToken = async (token: string) => {
-  const tokens = await getTokens()
+  const tokens = await getTokens();
 
   if (!tokens) {
-    return null
+    return null;
   }
 
   const findResult = Object.entries(tokens).find(([_, inUse]) => {
-    return inUse.includes(token)
-  })
+    return inUse.includes(token);
+  });
 
   if (!findResult) {
-    return null
+    return null;
   }
 
-  const user = await getUserByID(findResult[0])
+  const user = await getUserByID(findResult[0]);
 
   if (!user) {
-    return null
+    return null;
   }
 
   return {
     ...user,
-    permissions: user.permissions ?? ['user']
-  } as User
-}
+    permissions: user.permissions ?? ["user"],
+  } as User;
+};
 
 export const getUserByName = async (username: string) => {
-  const users = await getUsers()
+  const users = await getUsers();
 
   if (!users) {
-    return null
+    return null;
   }
 
-  const user = Object.values(users).find(u => u.name === username)
-  return user
-}
+  const user = Object.values(users).find((u) => u.name === username);
+  return user;
+};
 
 export const validateUser = async (username: string, password: string) => {
-  const user = await getUserByName(username)
+  const user = await getUserByName(username);
 
   if (!user) {
-    return false
+    return false;
   }
 
-  const { hashedPassword, iterations, salt } = user
-  const toTest = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST)
-  const stored = Buffer.from(hashedPassword, 'hex')
+  const { hashedPassword, iterations, salt } = user;
+  const toTest = pbkdf2Sync(password, salt, iterations, KEYLEN, DIGEST);
+  const stored = Buffer.from(hashedPassword, "hex");
 
-  return timingSafeEqual(stored, toTest)
-}
+  return timingSafeEqual(stored, toTest);
+};
 
 export const doesUserExist = async (username: string) => {
-  return Boolean(await getUserByName(username))
-}
+  return Boolean(await getUserByName(username));
+};
 
 export const buildFullUser = async (user: User | null) => {
   if (!user) {
-    return 'User could not be found.'
+    return "User could not be found.";
   }
 
-  const profileInfo = await getProfileByID(user.profile)
+  const profileInfo = await getProfileByID(user.profile);
 
   if (!profileInfo) {
-    return 'User profile could not be found.'
+    return "User profile could not be found.";
   }
 
-  const { id, ...profile } = profileInfo
+  const { id, ...profile } = profileInfo;
 
   const fullUser: FullUser = {
     id: user.id,
     name: user.name,
     permissions: user.permissions,
-    profile
-  }
+    profile,
+  };
 
-  return fullUser
-}
+  return fullUser;
+};
 
 export const isNameAvailable = async (name: string, id: string) => {
-  const allUsers = await getUsers()
+  const allUsers = await getUsers();
 
   if (!allUsers) {
-    return true
+    return true;
   }
 
   const matchingUsers = Object.values(allUsers).filter(
-    user => user.name === name && user.id !== id
-  )
+    (user) => user.name === name && user.id !== id
+  );
 
-  return matchingUsers.length === 0
-}
+  return matchingUsers.length === 0;
+};
 
 export const changeUsername = async (user: User, name: string) => {
-  const newUser: User = { ...user, name }
+  const newUser: User = { ...user, name };
 
-  await saveUser(newUser)
+  await saveUser(newUser);
 
-  return await buildFullUser(newUser)
-}
+  return await buildFullUser(newUser);
+};

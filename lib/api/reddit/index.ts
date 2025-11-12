@@ -1,10 +1,13 @@
-import { RedditResponse } from '../../../shared/reddit'
+import { RedditResponse } from "../../../shared/reddit";
 
-import { wrapCall } from '..'
+import { wrapCall } from "..";
 
 const reddit = async () => {
-  const data = await wrapCall<RedditResponse>({ method: 'GET', uri: '/reddit' })
-  return { data }
-}
+  const data = await wrapCall<RedditResponse>({
+    method: "GET",
+    uri: "/reddit",
+  });
+  return { data };
+};
 
-export default reddit
+export default reddit;

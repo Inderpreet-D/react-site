@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 
-import Container from '../../atoms/Container'
-import Button from '../../atoms/Button'
-import TextField from '../../atoms/TextField'
-import Canvas from '../../atoms/Canvas'
+import Container from "../../atoms/Container";
+import Button from "../../atoms/Button";
+import TextField from "../../atoms/TextField";
+import Canvas from "../../atoms/Canvas";
 
 import {
   selectLife,
@@ -13,97 +13,101 @@ import {
   reset,
   toggleRunning,
   stopRunning,
-  tick
-} from '../../../slices/life'
+  tick,
+} from "../../../slices/life";
 
-const DELAY = 10
+const DELAY = 10;
 
 const GoL = () => {
-  const dispatch = useAppDispatch()
-  const { board, width, height, running } = useAppSelector(selectLife)
+  const dispatch = useAppDispatch();
+  const { board, width, height, running } = useAppSelector(selectLife);
 
-  const [delay, setDelay] = React.useState(DELAY)
+  const [delay, setDelay] = React.useState(DELAY);
 
   const draw = React.useCallback(
     (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, _: number) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      const cellWidth = canvas.width / width
-      const cellHeight = canvas.height / height
+      const cellWidth = canvas.width / width;
+      const cellHeight = canvas.height / height;
 
       for (let row = 0; row < height; row++) {
         for (let col = 0; col < width; col++) {
-          const x = col * cellWidth
-          const y = row * cellHeight
-          ctx.fillStyle = board[row][col] ? 'white' : '#45a29e'
-          ctx.fillRect(x, y, cellWidth, cellHeight)
+          const x = col * cellWidth;
+          const y = row * cellHeight;
+          ctx.fillStyle = board[row][col] ? "white" : "#45a29e";
+          ctx.fillRect(x, y, cellWidth, cellHeight);
         }
       }
     },
     [width, height, board]
-  )
+  );
 
-  const handleClick: React.MouseEventHandler<HTMLCanvasElement> = React.useCallback(
-    e => {
-      const elem = e.target as HTMLCanvasElement
+  const handleClick: React.MouseEventHandler<HTMLCanvasElement> =
+    React.useCallback(
+      (e) => {
+        const elem = e.target as HTMLCanvasElement;
 
-      const rect = elem.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+        const rect = elem.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-      const cellWidth = elem.width / width
-      const cellHeight = elem.height / height
+        const cellWidth = elem.width / width;
+        const cellHeight = elem.height / height;
 
-      dispatch(
-        toggle({ x: Math.floor(x / cellWidth), y: Math.floor(y / cellHeight) })
-      )
-    },
-    [width, height, dispatch]
-  )
+        dispatch(
+          toggle({
+            x: Math.floor(x / cellWidth),
+            y: Math.floor(y / cellHeight),
+          })
+        );
+      },
+      [width, height, dispatch]
+    );
 
   return (
-    <Container style={{ width: '95%' }}>
-      <div className='flex flex-col items-center justify-center mb-5'>
+    <Container style={{ width: "95%" }}>
+      <div className="flex flex-col items-center justify-center mb-5">
         <div>
           <TextField
-            id='width-input'
+            id="width-input"
             value={width}
-            placeholder='Width'
-            type='number'
-            onChange={e => dispatch(changeWidth(+e.target.value))}
+            placeholder="Width"
+            type="number"
+            onChange={(e) => dispatch(changeWidth(+e.target.value))}
           />
 
           <TextField
-            id='height-input'
+            id="height-input"
             value={height}
-            placeholder='Height'
-            type='number'
-            onChange={e => dispatch(changeHeight(+e.target.value))}
-            className='mx-0 my-3'
+            placeholder="Height"
+            type="number"
+            onChange={(e) => dispatch(changeHeight(+e.target.value))}
+            className="mx-0 my-3"
           />
         </div>
 
         <TextField
-          id='delay-input'
+          id="delay-input"
           value={delay}
-          placeholder='Delay'
-          type='number'
+          placeholder="Delay"
+          type="number"
           min={0}
-          onChange={e => {
-            setDelay(+e.target.value)
-            dispatch(stopRunning())
+          onChange={(e) => {
+            setDelay(+e.target.value);
+            dispatch(stopRunning());
           }}
         />
 
-        <div className='flex my-3'>
+        <div className="flex my-3">
           <Button
             onClick={() => dispatch(toggleRunning(delay))}
-            className='mr-3'
+            className="mr-3"
           >
-            {running ? 'Stop' : 'Start'}
+            {running ? "Stop" : "Start"}
           </Button>
 
-          <Button onClick={() => dispatch(tick())} className='mr-3'>
+          <Button onClick={() => dispatch(tick())} className="mr-3">
             Step
           </Button>
 
@@ -111,21 +115,21 @@ const GoL = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <Canvas
           draw={draw}
           onClick={handleClick}
-          width='1600px'
-          height='470px'
+          width="1600px"
+          height="470px"
           style={{
-            border: '1px solid black',
-            boxSizing: 'border-box',
-            cursor: 'pointer'
+            border: "1px solid black",
+            boxSizing: "border-box",
+            cursor: "pointer",
           }}
         />
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default GoL
+export default GoL;

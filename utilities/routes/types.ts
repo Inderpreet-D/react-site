@@ -1,3 +1,3 @@
 export type Routes = {
-  [x: string]: string
-}
+  [x: string]: string;
+};

@@ -2,38 +2,38 @@ export type DrawType = (
   context: CanvasRenderingContext2D,
   canvas: HTMLCanvasElement,
   frameCount: number
-) => void
+) => void;
 
 const useDrawingCanvas = (draw: DrawType) => {
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   React.useEffect(() => {
-    const canvas = canvasRef.current
+    const canvas = canvasRef.current;
     if (!canvas) {
-      return
+      return;
     }
 
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext("2d");
     if (!context) {
-      return
+      return;
     }
 
-    let frameCount = 0
-    let animationFrameID: number
+    let frameCount = 0;
+    let animationFrameID: number;
 
     const render = () => {
-      frameCount++
-      draw(context, canvas, frameCount)
-      animationFrameID = window.requestAnimationFrame(render)
-    }
-    render()
+      frameCount++;
+      draw(context, canvas, frameCount);
+      animationFrameID = window.requestAnimationFrame(render);
+    };
+    render();
 
     return () => {
-      window.cancelAnimationFrame(animationFrameID)
-    }
-  }, [draw])
+      window.cancelAnimationFrame(animationFrameID);
+    };
+  }, [draw]);
 
-  return canvasRef
-}
+  return canvasRef;
+};
 
-export default useDrawingCanvas
+export default useDrawingCanvas;

@@ -1,14 +1,14 @@
-import { useAppSelector } from '../../../hooks/redux'
+import { useAppSelector } from "../../../hooks/redux";
 
-import NavigationItem from '../NavigationItem'
-import Sidebar from '../Sidebar'
-import routes from '../../../utilities/routes'
-import Spacer from '../Spacer'
+import NavigationItem from "../NavigationItem";
+import Sidebar from "../Sidebar";
+import routes from "../../../utilities/routes";
+import Spacer from "../Spacer";
 
-import { selectAuth } from '../../../slices/auth'
+import { selectAuth } from "../../../slices/auth";
 
 const HeaderItems = () => {
-  const { isLoggedIn } = useAppSelector(selectAuth)
+  const { isLoggedIn } = useAppSelector(selectAuth);
 
   return (
     <>
@@ -20,28 +20,28 @@ const HeaderItems = () => {
 
       <Spacer />
 
-      <NavigationItem link='/account'>
-        {isLoggedIn ? 'Account' : 'Login'}
+      <NavigationItem link="/account">
+        {isLoggedIn ? "Account" : "Login"}
       </NavigationItem>
     </>
-  )
-}
-const className = 'flex border-b border-b-dark-light box-border bg-dark-dark'
+  );
+};
+const className = "flex border-b border-b-dark-light box-border bg-dark-dark";
 
 const Header = () => {
   return (
     <header className={className}>
-      <nav className='hidden overflow-auto w-full lg:flex'>
+      <nav className="hidden overflow-auto w-full lg:flex">
         <HeaderItems />
       </nav>
 
-      <div className='flex lg:hidden'>
+      <div className="flex lg:hidden">
         <Sidebar>
           <HeaderItems />
         </Sidebar>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

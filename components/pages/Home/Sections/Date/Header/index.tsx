@@ -1,12 +1,12 @@
-import { DivProps } from 'react-html-props'
-import clsx from 'clsx'
+import { DivProps } from "react-html-props";
+import clsx from "clsx";
 
 type HeaderProps = DivProps & {
-  title: string
-  subtitle: string
-}
+  title: string;
+  subtitle: string;
+};
 
-const className = 'flex'
+const className = "flex";
 
 const Header: React.FC<HeaderProps> = ({
   title,
@@ -15,10 +15,10 @@ const Header: React.FC<HeaderProps> = ({
   ...props
 }) => (
   <div className={clsx(className, extraClass)} {...props}>
-    <div className='flex-grow mb-2 font-bold'>{title}</div>
+    <div className="flex-grow mb-2 font-bold">{title}</div>
 
-    <div className='italic'>{subtitle}</div>
+    <div className="italic">{subtitle}</div>
   </div>
-)
+);
 
-export default Header
+export default Header;
