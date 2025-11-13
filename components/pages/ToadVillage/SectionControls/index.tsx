@@ -33,7 +33,7 @@ const SectionControls: React.FC = () => {
     let total = 0;
 
     combinedCards.forEach((card) => {
-      total += card.amount * +card.card.prices.usd;
+      total += card.amount * +(card.card.prices.usd ?? 0);
     });
 
     return total;

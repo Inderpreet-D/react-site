@@ -16,12 +16,12 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           start: yarn dev
-          wait-on: 'http://localhost:3000'
+          wait-on: "http://localhost:3000"
           wait-on-timeout: 120
           browser: chrome
           spec: cypress/e2e/**/*.js
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-videos
