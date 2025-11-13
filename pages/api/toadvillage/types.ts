@@ -1,8 +1,9 @@
 import { FormattedCard, TreacheryResponse } from "../../../shared/toadvillage";
 
 export interface ScryfallPart {
-  component: string;
+  component: "token" | "meld_part" | "meld_result" | "combo_piece";
   name: string;
+  type_line: string;
   uri: string;
 }
 export interface BasicImage {
