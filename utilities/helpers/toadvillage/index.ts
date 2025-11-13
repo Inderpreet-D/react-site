@@ -200,10 +200,10 @@ export const reverseNameSort = (
 };
 
 export const costSort = (c1: FormattedCard, c2: FormattedCard): number =>
-  +c1.card.prices.usd - +c2.card.prices.usd;
+  +(c1.card.prices.usd ?? 0) - +(c2.card.prices.usd ?? 0);
 
 export const reverseCostSort = (c1: FormattedCard, c2: FormattedCard): number =>
-  +c2.card.prices.usd - +c1.card.prices.usd;
+  costSort(c2, c1);
 
 export const downloadDecklist = (list: string[], file: File): void => {
   const fullName: string[] = file.name.split(".");
