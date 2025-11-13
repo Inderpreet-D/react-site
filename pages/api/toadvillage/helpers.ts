@@ -64,6 +64,12 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
   const tokens: FormattedCard[] = [];
   const neededTokens: ScryfallPart[] = [];
 
+  const allowedComponents: ScryfallPart["component"][] = [
+    "token",
+    "meld_result",
+    "combo_piece",
+  ];
+
   // Get each card and extra tokens if required
   await Promise.all(
     cards.map(async ({ amount, name }) => {
@@ -71,11 +77,28 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
         const card: ScryfallCard = await fetchCard(name);
         matchedCards.push({ amount, card });
 
-        card.all_parts
-          ?.filter(({ component }) =>
-            ["token", "combo_piece", "meld_result"].includes(component)
-          )
-          .forEach((token) => neededTokens.push(token));
+        const allParts = card.all_parts || [];
+        if (allParts.length === 0) {
+          return;
+        }
+
+        // Find needed tokens from all parts
+        const neededTokensFromParts = allParts.filter(
+          ({ component, type_line }) => {
+            if (!allowedComponents.includes(component)) {
+              return false;
+            }
+
+            if (component !== "combo_piece") {
+              return true;
+            }
+
+            return ["Emblem", "Card"].includes(type_line);
+          }
+        );
+
+        // Add to needed tokens
+        neededTokensFromParts.forEach((token) => neededTokens.push(token));
       } catch (err) {
         console.error("Card Fetch Error: ", (err as Error).message);
         unmatched.push(name);
