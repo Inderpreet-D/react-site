@@ -106,7 +106,7 @@ const fetchCards = async (cards: ReqCard[]): Promise<FetchResponse> => {
           card: {
             name,
             image: token.image_uris.normal,
-            prices: { usd: "0" },
+            prices: {},
           },
         });
       } catch (err) {
@@ -228,6 +228,21 @@ const coalesce = (
   return Object.values(coalesced);
 };
 
+const fixTokens = (
+  tokens: FormattedCard[],
+  commanders: FormattedCard[]
+): FormattedCard[] => {
+  // Prevent tokens that are also commanders from appearing in tokens list, in case of alternative art etc.
+  const filteredTokens: FormattedCard[] = tokens.filter(
+    (card) => !commanders.some((cmd) => cmd.card.name === card.card.name)
+  );
+
+  // Coalesce tokens to combine duplicates
+  const coalescedTokens: FormattedCard[] = coalesce(filteredTokens, true);
+
+  return coalescedTokens;
+};
+
 // Handles incoming request
 const handleRequest = async (cardNames: ReqCard[]): Promise<QueueType> => {
   const { matchedCards, unmatched, tokens } = await fetchCards(cardNames);
@@ -241,7 +256,7 @@ const handleRequest = async (cardNames: ReqCard[]): Promise<QueueType> => {
     status: "DONE",
     commanders: coalesce(commanders),
     others: coalesce(others),
-    tokens: coalesce(tokens, true),
+    tokens: fixTokens(tokens, commanders),
     unmatched: [...new Set(filteredUnmatches)],
   };
 };
