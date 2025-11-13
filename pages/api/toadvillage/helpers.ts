@@ -230,11 +230,14 @@ const coalesce = (
 
 const fixTokens = (
   tokens: FormattedCard[],
-  commanders: FormattedCard[]
+  commanders: FormattedCard[],
+  others: FormattedCard[]
 ): FormattedCard[] => {
   // Prevent tokens that are also commanders from appearing in tokens list, in case of alternative art etc.
   const filteredTokens: FormattedCard[] = tokens.filter(
-    (card) => !commanders.some((cmd) => cmd.card.name === card.card.name)
+    (card) =>
+      !commanders.some((cmd) => cmd.card.name === card.card.name) &&
+      !others.some((oth) => oth.card.name === card.card.name)
   );
 
   // Coalesce tokens to combine duplicates
@@ -256,7 +259,7 @@ const handleRequest = async (cardNames: ReqCard[]): Promise<QueueType> => {
     status: "DONE",
     commanders: coalesce(commanders),
     others: coalesce(others),
-    tokens: fixTokens(tokens, commanders),
+    tokens: fixTokens(tokens, commanders, others),
     unmatched: [...new Set(filteredUnmatches)],
   };
 };
